@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorSeparator">#595959</color>
+    <color name="colorError">#d90000</color>
+    <color name="fontColor">#000</color>
+    <color name="lgn_background">#f4efec</color>
+    <color name="googleColor">#bf0000</color>
+    <color name="facebookColor">#0011ff</color>
+    <color name="steamColor">#000</color>
 </resources>
