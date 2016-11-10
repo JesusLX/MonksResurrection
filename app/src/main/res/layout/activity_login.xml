@@ -24,6 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/lgn_title"
         app:errorTextAppearance="@color/colorError"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:textColorHint="@color/fontColor">
 
         <EditText
@@ -37,6 +39,8 @@
         android:id="@+id/lgn_tilPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:layout_below="@+id/lgn_tilUser"
         app:errorTextAppearance="@color/colorError"
         android:textColorHint="@color/fontColor">

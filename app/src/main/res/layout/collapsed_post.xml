@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="39dp"
+        android:id="@+id/cpiVProfile"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/cpiVProfile"
+        android:layout_toEndOf="@+id/cpiVProfile"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:id="@+id/cp_txvUserName" />
+
+    <TextView
+        android:text="Description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cpiVProfile"
+        android:layout_alignStart="@+id/cpiVProfile"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:id="@+id/cp_txvDescription" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="?android:attr/floatingToolbarOpenDrawable"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/imageButton3" />
+</RelativeLayout>

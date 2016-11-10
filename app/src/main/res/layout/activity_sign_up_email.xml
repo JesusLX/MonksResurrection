@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_sign_up"
     android:layout_width="match_parent"
@@ -10,35 +11,61 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.limox.jesus.monksresurrection.SignUpEmail_Activity">
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="67dp"
-        android:layout_marginTop="36dp"
-        android:textSize="50dp"
-        android:id="@+id/textView" />
+        android:layout_marginTop="9dp"
+        android:padding="5dp"
+        android:id="@+id/sue_flEmail">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="24dp"
-        android:id="@+id/editText"
-        />
+        <EditText
+            android:id="@+id/calc_txt_Prise"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="20dp"
+            android:textSize="25dp"
+            android:textColor="@color/fontColor"
+            android:hint="Email address" />
 
-    <TextView
-        android:text="TextView"
+
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="right|center_vertical"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+            android:id="@+id/imageButton"
+            android:background="@android:color/transparent"/>
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sue_flEmail"
+        android:gravity="center">
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText"
-        android:layout_alignStart="@+id/editText"
-        android:layout_marginTop="26dp"
-        android:id="@+id/textView2" />
+        android:id="@+id/sue_btnNext"
+        android:text="@string/sue_btnnext"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/ssu_txvSignIn"
+        android:background="@color/colorSeparator"
+     />
+    <TextView
+        android:id="@+id/ssu_txvSignIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="@dimen/lgn_pddingTop"
+        android:text="@string/ssu_txvSignIn"
+        android:textColor="@color/fontColor"
+        android:textAlignment="center" />
+
 </RelativeLayout>

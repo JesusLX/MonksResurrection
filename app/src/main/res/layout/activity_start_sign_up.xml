@@ -111,20 +111,16 @@
         android:text="@string/ssu_txvSignUp"
         android:textColor="@color/fontColor"
         android:textAlignment="center" />
-    <!--View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorSeparator"
-        android:id="@+id/ssu_vwSimpleSeparator"
-        android:paddingBottom="100dp"/-->
+
+
 
     <TextView
-        android:id="@+id/ssu_txvSignIn"
+        android:id="@+id/ssu_txvPolitics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:paddingTop="@dimen/lgn_pddingTop"
-        android:text="@string/ssu_txvSignIn"
+        android:text="I agree the terms of conditions and uses"
         android:textColor="@color/fontColor"
         android:textAlignment="center" />
 </RelativeLayout>

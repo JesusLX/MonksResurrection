@@ -24,9 +24,7 @@ public class StartSignUp_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 switch (view.getId()){
-                    case R.id.ssu_txvSignIn:
-                        startActivity(new Intent(StartSignUp_Activity.this,Login_Activity.class));
-                        break;
+
                     case R.id.ssu_txvSignUp:
                         startActivity(new Intent(StartSignUp_Activity.this,SignUpEmail_Activity.class));
                         break;
