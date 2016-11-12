@@ -23,7 +23,8 @@
         <activity
             android:name=".StartSignUp_Activity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".PostView_Activity"></activity>
+        <activity android:name=".PostView_Activity" />
+        <activity android:name=".FixedPostsList_Activity"></activity>
     </application>
 
 </manifest>

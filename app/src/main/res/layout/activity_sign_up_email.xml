@@ -11,40 +11,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.limox.jesus.monksresurrection.SignUpEmail_Activity">
 
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
-        android:padding="5dp"
-        android:id="@+id/sue_flEmail">
+
 
         <EditText
-            android:id="@+id/calc_txt_Prise"
+            android:id="@+id/sue_edtEmail"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:layout_marginTop="20dp"
             android:textSize="25dp"
+            android:drawableEnd="@android:drawable/ic_menu_close_clear_cancel"
             android:textColor="@color/fontColor"
             android:hint="Email address" />
 
 
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="right|center_vertical"
-            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
-            android:id="@+id/imageButton"
-            android:background="@android:color/transparent"/>
-
-    </FrameLayout>
 
     <RelativeLayout
+        android:layout_below="@+id/sue_edtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sue_flEmail"
         android:gravity="center">
     <Button
         android:layout_width="wrap_content"
@@ -55,11 +41,11 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_above="@+id/ssu_txvSignIn"
+        android:layout_above="@+id/sue_txvSignIn"
         android:background="@color/colorSeparator"
      />
     <TextView
-        android:id="@+id/ssu_txvSignIn"
+        android:id="@+id/sue_txvSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -67,5 +53,7 @@
         android:text="@string/ssu_txvSignIn"
         android:textColor="@color/fontColor"
         android:textAlignment="center" />
+
+
 
 </RelativeLayout>

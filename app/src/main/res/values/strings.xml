@@ -99,4 +99,6 @@
     <string name="ssu_txvSignUp">Sign up with an email address</string>
     <string name="ssu_txvSignIn">You have jet a acount? Sign in</string>
     <string name="sue_btnnext">Next</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
