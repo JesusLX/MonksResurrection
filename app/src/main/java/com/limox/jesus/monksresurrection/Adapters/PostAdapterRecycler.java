@@ -1,7 +1,10 @@
 package com.limox.jesus.monksresurrection.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
+import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.limox.jesus.monksresurrection.Model.Post;
+import com.limox.jesus.monksresurrection.PostView_Activity;
 import com.limox.jesus.monksresurrection.R;
 import com.limox.jesus.monksresurrection.Singleton.Posts_Singleton;
 import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
@@ -53,32 +57,44 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
     }
 
     @Override
-    public void onBindViewHolder(PostViewHolder holder, int position) {
+    public void onBindViewHolder(PostViewHolder holder, final int position) {
         // Initializing the components of the holder created above
         // If it will host a type of list of other we need to put in
         holder.mIvProfile_item.setImageResource(Users_Singleton.getUsers_Singleton().getUserById(mPosts.get(position).getIdUser()).getProfilePicture());
         holder.mTxvUserName_item.setText(Users_Singleton.getUsers_Singleton().getUserById(mPosts.get(position).getIdUser()).getNick());
-        holder.mTxvPostTitle_item.setText(mPosts.get(position).getDescription());
+        holder.mTxvPostTitle_item.setText(mPosts.get(position).getTitle());
         holder.mPost = mPosts.get(position);//TODO Poner que lo de arriba se rellene por este
+        holder.mCvContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("idPost",mPosts.get(position).getIdPost());
+                Intent intent = new Intent(mContext, PostView_Activity.class);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
+            }
+        });
 
 
     }
 
     @Override
     public int getItemCount() {
-        int itemCount = 0;
-
-        itemCount = mPosts.size();
-
-        return itemCount;
+        return mPosts.size();
     }
 
     public void getAllPosts() {
+        // Clear the list
         mPosts.clear();
+        // if it will be a list of posts published
         if (mTypeOfList == AllConstants.FOR_PUBLISHED) {
             mPosts.addAll(Posts_Singleton.getPosts_Singleton().getPostsPublished());
+
+            // or a list of posts fixes
         } else if (mTypeOfList == AllConstants.FOR_FIXES) {
             mPosts.addAll(Posts_Singleton.getPosts_Singleton().getPostsPublished());
+
+            // Or a simple list of all the posts
         } else
             mPosts.addAll(Posts_Singleton.getPosts_Singleton().getPostsNotPublished());
     }
@@ -91,6 +107,7 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
         ImageView mIvProfile_item;
         TextView mTxvUserName_item;
         TextView mTxvPostTitle_item;
+        CardView mCvContainer;
         public Post mPost;
 
         PostViewHolder(View itemView) {
@@ -98,6 +115,7 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
             mIvProfile_item = (ImageView) itemView.findViewById(R.id.cp_iVProfile);
             mTxvUserName_item = (TextView) itemView.findViewById(R.id.cp_txvUserName);
             mTxvPostTitle_item = (TextView) itemView.findViewById(R.id.cp_txvPostTitle);
+            mCvContainer = (CardView) itemView.findViewById(R.id.cp_CvContainer);
         }
     }
 }

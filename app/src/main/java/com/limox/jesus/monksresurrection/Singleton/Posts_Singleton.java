@@ -41,7 +41,24 @@ public class Posts_Singleton {
         mPosts.add(new Post("Error3", 1, "Se ha rotoblablalbalablablablalbablablalba", "prueba,pj,fallo", 2));
         mPosts.add(new Post("Error4", 2, "Se ha rotoblablalbalablablablalbablablalba", "prueba,error,noche", 3));
         mPosts.add(new Post("Error5", 0, "Se ha castillo jajajalalba", "prueba,castillo,fallo", 4));
-        mPosts.add(new Post("Error6", 3, "Se ha rotoblablalbalablablablalbablablalba", "pruebas,errores,fallo", 5));
+        mPosts.add(new Post("Error6", 1, "Se ha rotoblablalbalablablablalbablablalba", "pruebas,errores,fallo", 5));
+        mPosts.add(new Post(6, "Error7", 1, "Se me ha cerrado a tope", true, false, "salto,apagado,pff"));
+        mPosts.add(new Post(7, "Error8", 1, "No me puedo pasar la parte x", true, true, "dragon,noche,fuego"));
+        mPosts.add(new Post(8, "Error9", 2, "Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
+                " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
+                " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
+                " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
+                " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
+                " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
+                " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
+                " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
+                " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
+                " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
+                " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla "
+                , true, false, "salto,apagado,pff"));
+        mPosts.add(new Post(9, "Error10", 0, "Se me ha cerrado a tope", true, true, "salto,apagado,pff"));
+        mPosts.add(new Post(10, "Error11", 0, "Se me ha cerrado a tope", true, false, "salto,apagado,pff"));
+        mPosts.add(new Post(11, "Error12", 1, "Se me ha cerrado a tope", true, true, "salto,apagado,pff"));
     }
 
     private boolean addPost(Post post) {
@@ -50,27 +67,35 @@ public class Posts_Singleton {
             mPosts.add(post);
             mPostsNotPublished.add(post);
             allFine = true;
+            sortLists();
         }
         return allFine;
     }
-    public boolean toPublicPost(Post post){
+
+    public boolean toPublicPost(int idPost) {
         boolean allFine = false;
+        Post post = new Post(idPost);
         if (mPosts.contains(post)) {
-            if (mPostsNotPublished.contains(post)){
+            if (mPostsNotPublished.contains(post)) {
                 mPostsNotPublished.remove(mPostsNotPublished.indexOf(post));
                 mPostsPublished.add(post);
                 allFine = true;
+                sortLists();
             }
         }
         return allFine;
     }
-    public boolean toFixPost(Post fixedPost){
+
+    public boolean toFixPost(int idFixedPost) {
         boolean allFine = false;
+        Post fixedPost = getPost(idFixedPost);
         if (mPosts.contains(fixedPost)) {
-            if (mPostsPublished.contains(fixedPost)){
+            if (mPostsPublished.contains(fixedPost)) {
                 mPostsPublished.remove(mPostsPublished.indexOf(fixedPost));
                 mPostsFixed.add(fixedPost);
                 allFine = true;
+                sortLists();
+
             }
         }
         return allFine;
@@ -91,20 +116,43 @@ public class Posts_Singleton {
     public List<Post> getPostsFixed() {
         return mPostsFixed;
     }
-    private void sortLists(){
+
+    private void sortLists() {
         clearLists();
-        for (Post post:mPosts) {
-            if (post.isFixed()){
+        for (Post post : mPosts) {
+            if (post.isFixed()) {
                 mPostsFixed.add(post);
-            }else if (post.isPublicate()){
+            } else if (post.isPublicate()) {
                 mPostsPublished.add(post);
-            }else {
+            } else {
                 mPostsNotPublished.add(post);
             }
 
         }
     }
-    private void clearLists(){
+
+    public boolean deletePost(int idPost) {
+        boolean allFine = false;
+        Post post = new Post(idPost);
+        if (mPosts.contains(post)) {
+            mPosts.remove(post);
+            allFine = true;
+            sortLists();
+        }
+        return allFine;
+    }
+
+    /**
+     * get a post by his id
+     *
+     * @param idPost id of the post you want to get
+     * @return a post who coincide with the id intrude
+     */
+    public Post getPost(int idPost) {
+        return mPosts.get(mPosts.indexOf(new Post(idPost)));
+    }
+
+    private void clearLists() {
         mPostsFixed.clear();
         mPostsNotPublished.clear();
         mPostsPublished.clear();

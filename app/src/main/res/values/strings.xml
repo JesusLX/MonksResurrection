@@ -101,4 +101,16 @@
     <string name="sue_btnnext">Next</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_dash_posts_">DashPosts_Activity</string>
+    <string name="action_to_fixes">To fixes</string>
+    <string name="action_to_published">To published</string>
+    <string name="action_send_message">Send Message</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="dialogAlertTitle">Caution!</string>
+    <string name="btnOk">Ok</string>
+    <string name="btnCancel">Cancel</string>
+    <string name="dat_MessageAlert_ToFixes">Are you sure of send this post to fixes?</string>
+    <string name="dat_MessageAlert_ToPublished">Are you sure of send this post to published?</string>
+    <string name="dat_MessageAlert_Delete">Are you sure of delete this post?</string>
 </resources>

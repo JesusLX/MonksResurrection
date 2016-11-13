@@ -35,7 +35,7 @@ public class Users_Singleton {
      */
     private void addExampleUsers(){
         if (mUsers != null){
-            mUsers.add(new User(0,0,"Admin1","ejemplo1@gmail.com","123", R.drawable.monje,0));
+            mUsers.add(new User(0,0,"Admin1","ejemplo1@gmail.com","123", R.drawable.nino,0));
             mUsers.add(new User(1,1,"User1","ejemplo2@gmail.com","123", R.drawable.monje,1));
             mUsers.add(new User(2,2,"User2","ejemplo3@gmail.com","123", R.drawable.monje,1));
         }

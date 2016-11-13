@@ -25,6 +25,22 @@ public class Post {
         this.mTags = mTags;
         this.mIdPost = mIdPost;
         this.mFixed = false;
+        this.mDeleted = false;
+    }
+    public Post(int mIdPost, String mTitle, int mIdUser, String mDescription, boolean publicate, boolean mFixed, String mTags) {
+        this.mIdPost = mIdPost;
+        this.mTitle = mTitle;
+        this.mIdUser = mIdUser;
+        this.mDescription = mDescription;
+        this.mPublicate = publicate;
+        this.mFixed = mFixed;
+        this.mTags = mTags;
+        this.mCreationDate = new Date();
+        this.mDeleted = false;
+    }
+
+    public Post(int mIdPost) {
+        this.mIdPost = mIdPost;
     }
 
     public int getIdPost() {

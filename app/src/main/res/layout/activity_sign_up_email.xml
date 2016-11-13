@@ -20,7 +20,7 @@
             android:inputType="textEmailAddress"
             android:layout_marginTop="20dp"
             android:textSize="25dp"
-            android:drawableEnd="@android:drawable/ic_menu_close_clear_cancel"
+            android:drawableEnd="@drawable/ic_clear_black_24dp"
             android:textColor="@color/fontColor"
             android:hint="Email address" />
 

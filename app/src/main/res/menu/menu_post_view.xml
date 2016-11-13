@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="@string/action_to_fixes"
+        android:id="@+id/action_ToFixes"
+        app:showAsAction="never"/>
+    <item
+        android:title="@string/action_to_published"
+        android:id="@+id/action_ToPublished"
+        app:showAsAction="never"/>
+    <item
+        android:title="@string/action_send_message"
+        android:id="@+id/action_SendMessage"
+        app:showAsAction="never"/>
+    <item
+        android:title="@string/action_edit"
+        android:id="@+id/action_Edit"
+        app:showAsAction="never"/>
+    <item
+        android:title="@string/action_delete"
+        android:id="@+id/action_Delete"
+        app:showAsAction="never"/>
+</menu>

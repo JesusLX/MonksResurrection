@@ -33,7 +33,7 @@ public class Login_Activity extends AppCompatActivity {
                         startActivity(new Intent(Login_Activity.this,StartSignUp_Activity.class));
                         break;
                     case R.id.lgn_btnSignIn:
-                        startActivity(new Intent(Login_Activity.this,FixedPostsList_Activity.class));
+                        startActivity(new Intent(Login_Activity.this,Index_Activity.class));
                         break;
                 }
             }

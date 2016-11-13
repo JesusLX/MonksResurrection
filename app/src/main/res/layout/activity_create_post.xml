@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_create_post"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:theme="@style/AppTheme.NoActionBar"
+    tools:context="com.limox.jesus.monksresurrection.CreatePost_Activity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/crp_tbTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:srcCompat="?attr/actionModeCloseDrawable" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/fab_margin"
+            android:text="Create Post"
+            android:textSize="@dimen/cp_titleSize"
+            />
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/crp_tbTitle"
+        android:background="@color/lgn_background"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <EditText
+            android:id="@+id/crp_EdtPostTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLength="60"
+            android:hint="Title"
+            android:textColorHint="@android:color/darker_gray"
+            android:textColorHighlight="@android:color/darker_gray" />
+
+        <EditText
+            android:id="@+id/crp_EdtPostDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/crp_EdtPostTitle"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:maxLength="255"
+            android:textColorHighlight="@android:color/darker_gray"
+            android:textColorHint="@android:color/darker_gray" />
+
+        <EditText
+            android:id="@+id/crp_EdtPostTags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:drawableStart="@drawable/ic_loyalty_black_24px"
+            android:hint="Tagls,separated,by,comma"
+            android:maxLength="255"
+            android:textColorHighlight="@android:color/darker_gray"
+            android:textColorHint="@android:color/darker_gray" />
+
+    </RelativeLayout>
+</RelativeLayout>

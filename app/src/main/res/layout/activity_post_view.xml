@@ -1,32 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_post_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    app:theme="@style/AppTheme.NoActionBar"
+    android:fitsSystemWindows="true"
     tools:context="com.limox.jesus.monksresurrection.PostView_Activity">
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="26dp"
-        android:id="@+id/textView" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:layout_marginTop="23dp"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true" />
-</RelativeLayout>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/pv_tbTitleBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+
+            >
+
+            <ImageView
+                android:id="@+id/pv_ivUserPicture"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+
+            <TextView
+                android:id="@+id/pv_txvUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/pv_tbTitleBar"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
+
+            <TextView
+                android:id="@+id/pv_txvPostTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="Title"
+                android:textSize="@dimen/cp_titleSize" />
+
+            <View
+                android:id="@+id/pv_vwSeparator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/pv_txvPostTitle"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/pv_txvPostDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/pv_vwSeparator"
+                android:layout_marginTop="23dp"
+                android:text="Description" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
