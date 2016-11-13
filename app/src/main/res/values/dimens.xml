@@ -10,4 +10,5 @@
     <dimen name="marginStart">16dp</dimen>
     <dimen name="cp_titleSize">20sp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="fab_marginx2">24dp</dimen>
 </resources>

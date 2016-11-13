@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.limox.jesus.monksresurrection.AboutMe_Activity;
 import com.limox.jesus.monksresurrection.DashPosts_Activity;
 import com.limox.jesus.monksresurrection.Index_Activity;
 import com.limox.jesus.monksresurrection.R;
@@ -81,7 +82,7 @@ public class StartButtonsAdapter extends BaseAdapter {
                 btnToActivity.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        context.startActivity(new Intent(context, AboutMe_Activity.class));
                     }
                 });
                 break;

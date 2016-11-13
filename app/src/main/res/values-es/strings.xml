@@ -50,4 +50,8 @@
     <string name="title">Titulo</string>
     <string name="title_activity_account_settings_">Ajustes de la cuenta</string>
     <string name="title_activity_dash_posts_">Publicaciones</string>
+    <string name="text_about_application">"Esta aplicación es una aplicación de soporte para el juego Monk's Resurrection de esta misma empresa, aquí puedes ayudarnos a mejorar y también podras leer sobre la historia del juego y conocer más sobre su mundo. "</string>
+    <string name="business">Empresa:</string>
+    <string name="business_name"></string>
+    <string name="about_me">Acerca de:</string>
 </resources>

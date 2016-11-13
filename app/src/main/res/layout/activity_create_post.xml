@@ -26,8 +26,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/fab_margin"
             android:text="Create Post"
-            android:textSize="@dimen/cp_titleSize"
-            />
+            android:textSize="@dimen/cp_titleSize" />
     </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
@@ -44,11 +43,11 @@
             android:id="@+id/crp_EdtPostTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/title"
             android:inputType="text"
             android:maxLength="60"
-            android:hint="@string/title"
-            android:textColorHint="@android:color/darker_gray"
-            android:textColorHighlight="@android:color/darker_gray" />
+            android:textColorHighlight="@android:color/darker_gray"
+            android:textColorHint="@android:color/darker_gray" />
 
         <EditText
             android:id="@+id/crp_EdtPostDescription"
@@ -65,18 +64,19 @@
             android:id="@+id/crp_EdtPostTags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/crp_btnEnviar"
             android:drawableStart="@drawable/ic_loyalty_black_24px"
             android:hint="@string/tagls_separated_by_comma"
             android:maxLength="255"
-            android:layout_above="@+id/crp_btnEnviar"
             android:textColorHighlight="@android:color/darker_gray"
             android:textColorHint="@android:color/darker_gray" />
+
         <Button
-            android:layout_width="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_height="wrap_content"
             android:id="@+id/crp_btnEnviar"
-            android:text="@string/btn_create_post"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/btn_create_post" />
 
     </RelativeLayout>
 </RelativeLayout>

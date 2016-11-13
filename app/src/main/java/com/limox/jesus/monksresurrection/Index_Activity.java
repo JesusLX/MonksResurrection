@@ -20,6 +20,7 @@ public class Index_Activity extends AppCompatActivity {
         ArrayList<String> starButtons = new ArrayList<>();
         starButtons.add("Dash index");
         starButtons.add("Settings");
+        starButtons.add("Acerca de");
         mAdapter = new StartButtonsAdapter(this,starButtons);
         mLvStartButtons = (ListView) findViewById(R.id.i_lvStartButtons);
         mLvStartButtons.setAdapter(mAdapter);

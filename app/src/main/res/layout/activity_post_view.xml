@@ -5,9 +5,9 @@
     android:id="@+id/activity_post_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lgn_background"
     android:fitsSystemWindows="true"
     android:theme="@style/AppTheme.NoActionBar"
-    android:background="@color/lgn_background"
     tools:context="com.limox.jesus.monksresurrection.PostView_Activity">
 
     <RelativeLayout

@@ -12,38 +12,37 @@
     tools:context="com.limox.jesus.monksresurrection.SignUpEmail_Activity">
 
 
-
-        <EditText
-            android:id="@+id/sue_edtEmail"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:layout_marginTop="20dp"
-            android:textSize="25dp"
-            android:drawableEnd="@drawable/ic_clear_black_24dp"
-            android:textColor="@color/fontColor"
-            android:hint="Email address" />
-
-
+    <EditText
+        android:id="@+id/sue_edtEmail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:drawableEnd="@drawable/ic_clear_black_24dp"
+        android:hint="Email address"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/fontColor"
+        android:textSize="25dp" />
 
 
     <RelativeLayout
-        android:layout_below="@+id/sue_edtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/sue_edtEmail"
         android:gravity="center">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sue_btnNext"
-        android:text="@string/sue_btnnext"/>
+
+        <Button
+            android:id="@+id/sue_btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sue_btnnext" />
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_above="@+id/sue_txvSignIn"
-        android:background="@color/colorSeparator"
-     />
+        android:background="@color/colorSeparator" />
+
     <TextView
         android:id="@+id/sue_txvSignIn"
         android:layout_width="match_parent"
@@ -51,9 +50,8 @@
         android:layout_alignParentBottom="true"
         android:paddingTop="@dimen/lgn_pddingTop"
         android:text="@string/ssu_txvSignIn"
-        android:textColor="@color/fontColor"
-        android:textAlignment="center" />
-
+        android:textAlignment="center"
+        android:textColor="@color/fontColor" />
 
 
 </RelativeLayout>

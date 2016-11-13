@@ -101,7 +101,7 @@
     <string name="sue_btnnext">Next</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="title_activity_dash_posts_">DashPosts_Activity</string>
+    <string name="title_activity_dash_posts_">Dash Posts</string>
     <string name="action_to_fixes">To fixes</string>
     <string name="action_to_published">To published</string>
     <string name="action_send_message">Send Message</string>
@@ -132,4 +132,9 @@
     <string name="description">Description</string>
     <string name="title">Title</string>
     <string name="message_error_post_wrongcreate">You need to fill all the parametters</string>
+    <string name="text_about_application">This application is a support application for the game Mon\'s Resurrection of this business, here you can help us to update our game, you also can read the story of the game and know more about his world.</string>
+    <string name="business_web" translatable="false">https://www.ellimonerox.tumblr.com</string>
+    <string name="business_name" translatable="false">Three Lemon X</string>
+    <string name="business">Business:</string>
+    <string name="about_me">About me:</string>
 </resources>
