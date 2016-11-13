@@ -40,6 +40,9 @@ public class User {
         this.mProfileBlocked = false;
         this.mUserDeleted = false;
     }
+    public User(String nick){
+        this.mNick = nick;
+    }
 
     /**
      * This is just fot find a user by is id at the lists

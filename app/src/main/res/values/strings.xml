@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Monk\'s Resurrection</string>
-    <string name="lgn_usr_name">User name or email</string>
+    <string name="lgn_usr_name">User name</string>
     <string name="title_activity_scrolling_">Scrolling_Activity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -113,4 +113,23 @@
     <string name="dat_MessageAlert_ToFixes">Are you sure of send this post to fixes?</string>
     <string name="dat_MessageAlert_ToPublished">Are you sure of send this post to published?</string>
     <string name="dat_MessageAlert_Delete">Are you sure of delete this post?</string>
+    <string name="message_all_ok" translatable="false" />
+    <string name="message_error_username_tooLong">The user name is too long</string>
+    <string name="message_error_username_tooShort">The user name is too short</string>
+    <string name="message_error_email_wrong">Introduce a valid email address</string>
+    <string name="message_error_password_tooLong">The password introducced is too long</string>
+    <string name="message_error_password_tooShort">The password introducced is too short</string>
+    <string name="message_error_password_case">The password need to have one number at least</string>
+    <string name="message_error_password_digit">The passsword need to have one letter at least</string>
+    <string name="text_repeat_password">Repeat password</string>
+    <string name="text_password">Password</string>
+    <string name="text_create_account">Create account</string>
+    <string name="message_error_password_match">Passwords do not match</string>
+    <string name="message_error_nonexistent">Error with the password or the user name</string>
+    <string name="title_activity_account_settings_">Account Settings</string>
+    <string name="btn_create_post">Create Post</string>
+    <string name="tagls_separated_by_comma">Tagls,separated,by,comma</string>
+    <string name="description">Description</string>
+    <string name="title">Title</string>
+    <string name="message_error_post_wrongcreate">You need to fill all the parametters</string>
 </resources>

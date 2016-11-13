@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:maxLength="60"
-            android:hint="Title"
+            android:hint="@string/title"
             android:textColorHint="@android:color/darker_gray"
             android:textColorHighlight="@android:color/darker_gray" />
 
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/crp_EdtPostTitle"
-            android:hint="Description"
+            android:hint="@string/description"
             android:inputType="textMultiLine"
             android:maxLength="255"
             android:textColorHighlight="@android:color/darker_gray"
@@ -65,12 +65,18 @@
             android:id="@+id/crp_EdtPostTags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:drawableStart="@drawable/ic_loyalty_black_24px"
-            android:hint="Tagls,separated,by,comma"
+            android:hint="@string/tagls_separated_by_comma"
             android:maxLength="255"
+            android:layout_above="@+id/crp_btnEnviar"
             android:textColorHighlight="@android:color/darker_gray"
             android:textColorHint="@android:color/darker_gray" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content"
+            android:id="@+id/crp_btnEnviar"
+            android:text="@string/btn_create_post"/>
 
     </RelativeLayout>
 </RelativeLayout>

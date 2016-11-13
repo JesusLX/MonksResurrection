@@ -157,4 +157,12 @@ public class Posts_Singleton {
         mPostsNotPublished.clear();
         mPostsPublished.clear();
     }
+
+    public void createPost(String title, String description, String tags){
+        mPosts.add(new Post(title,Users_Singleton.getUsers_Singleton().getCurrentUser().getIdUser(),description,tags,mPosts.size()));
+    }
+    public void createPostPublished(String title, String description, String tags){
+        mPosts.add(new Post(mPosts.size(),title,Users_Singleton.getUsers_Singleton().getCurrentUser().getIdUser(),description,true,false,tags));
+        sortLists();
+    }
 }

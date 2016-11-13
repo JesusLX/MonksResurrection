@@ -69,7 +69,11 @@ public class DashPosts_Activity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // With the floating buttons open a activity for create a post
                 startActivity(new Intent(DashPosts_Activity.this,CreatePost_Activity.class));
+                //TODO Ahora cierra la lista para poder actualizar los posts
+                // TODO Hay que cambiarlo para que actualice
+                finish();
             }
         });
 
@@ -129,6 +133,7 @@ public class DashPosts_Activity extends AppCompatActivity {
             rootView = inflater.inflate(R.layout.fragment_posts_list, container, false);
             RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.fpp_rvPosts);
             PostAdapterRecycler par = null;
+            //depending of the page show a list of other
             if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
 
                 par = new PostAdapterRecycler(this.getContext(), AllConstants.FOR_PUBLISHED);

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="pref_user_title">User</string>
+    <string name="pref_user_summary">Name of the user at the app</string>
+    <string name="pref_rememberuser_title">Remember user</string>
+    <string name="pref_rememberuser_summary">If you want enter automatically</string>
+    <string name="pref_password_title">Password</string>
+    <string name="pref_password_summary">Remember password</string>
+</resources>

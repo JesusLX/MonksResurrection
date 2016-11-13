@@ -22,9 +22,9 @@ public class StartSignUp_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 switch (view.getId()){
-
                     case R.id.ssu_txvSignUp:
                         startActivity(new Intent(StartSignUp_Activity.this,SignUpEmail_Activity.class));
+                        finish();
                         break;
                 }
             }
