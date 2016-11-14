@@ -64,14 +64,21 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
         holder.mTxvUserName_item.setText(Users_Singleton.getUsers_Singleton().getUserById(mPosts.get(position).getIdUser()).getNick());
         holder.mTxvPostTitle_item.setText(mPosts.get(position).getTitle());
         holder.mPost = mPosts.get(position);//TODO Poner que lo de arriba se rellene por este
+
+        //TODO ON CLICK OF THE POST
         holder.mCvContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Create a bundle with the id of the post
                 Bundle bundle = new Bundle();
                 bundle.putInt("idPost",mPosts.get(position).getIdPost());
+                // Create the intent
                 Intent intent = new Intent(mContext, PostView_Activity.class);
+                // put the bundle
                 intent.putExtras(bundle);
+                // Start the activity
                 mContext.startActivity(intent);
+
             }
         });
 

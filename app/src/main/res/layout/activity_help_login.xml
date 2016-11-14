@@ -12,7 +12,32 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="IN WORKING PROGRESS" />
+        android:layout_height="wrap_content"
+        android:text="Recover password"
+        android:id="@+id/hl_txvTitle"
+        android:textSize="@dimen/cp_titleSize"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/hl_txvTitle"
+        android:background="@color/colorSeparator"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="With user name or email addres"
+        android:id="@+id/hl_txvRecoverUser"
+        android:layout_below="@+id/hl_txvTitle"
+        android:padding="5dp"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/hl_txvRecoverUser"
+        android:background="@android:color/darker_gray"
+        />
+
 
 </RelativeLayout>
