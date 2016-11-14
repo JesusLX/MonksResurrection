@@ -91,9 +91,12 @@ public class Posts_Singleton {
         Post fixedPost = getPost(idFixedPost);
         if (mPosts.contains(fixedPost)) {
             if (mPostsPublished.contains(fixedPost)) {
-                mPostsPublished.remove(mPostsPublished.indexOf(fixedPost));
-                mPostsFixed.add(fixedPost);
+                // Put the post like is fixed
+                fixedPost.setFixed(true);
+                // Add the post at the list of all
+                mPosts.add(fixedPost);
                 allFine = true;
+                // Sort the list to send all posts to his own list
                 sortLists();
 
             }
@@ -117,12 +120,15 @@ public class Posts_Singleton {
         return mPostsFixed;
     }
 
+    /**
+     * Sort all the lists of the class
+     */
     private void sortLists() {
         clearLists();
         for (Post post : mPosts) {
             if (post.isFixed()) {
                 mPostsFixed.add(post);
-            } else if (post.isPublicate()) {
+            } else if (post.isPublicate() && post.isFixed() == false) {
                 mPostsPublished.add(post);
             } else {
                 mPostsNotPublished.add(post);
