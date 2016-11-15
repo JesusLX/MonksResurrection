@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login_help_final"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.limox.jesus.monksresurrection.HelpLoginFinal_Activity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/lhf_ivProfilePicture"
+        app:srcCompat="@drawable/nino" />
+    <TextView
+        android:paddingTop="@dimen/fab_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_user_name"
+        android:id="@+id/lhf_txvTitleName"
+        android:layout_below="@+id/lhf_ivProfilePicture"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="NombreUsuario"
+        android:textSize="@dimen/cp_titleSize"
+        android:textAlignment="center"
+        android:id="@+id/lhf_txvUserName"
+        android:layout_below="@+id/lhf_txvTitleName"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_user_password"
+        android:id="@+id/lhf_txvTitleUserPassword"
+        android:layout_below="@+id/lhf_txvUserName"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:textSize="@dimen/cp_titleSize"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Contraseña de usuario"
+        android:id="@+id/lhf_txvUserPassword"
+        android:layout_below="@+id/lhf_txvTitleUserPassword"/>
+
+    <TextView
+        android:paddingTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lhf_txvUserPassword"
+        android:text="Ahora mismo se muestra aquí la contraseña pero en un futuro se mandará un correo para conseguirla"/>
+</RelativeLayout>

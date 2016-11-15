@@ -137,4 +137,8 @@
     <string name="business_name" translatable="false">Three Lemon X</string>
     <string name="business">Business:</string>
     <string name="about_me">About me:</string>
+    <string name="recover_password">Recover password</string>
+    <string name="recover_account">Recover account</string>
+    <string name="title_user_name">User name:</string>
+    <string name="title_user_password">User Password:</string>
 </resources>

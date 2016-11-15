@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Recover password"
+        android:text="@string/recover_account"
         android:id="@+id/hl_txvTitle"
         android:textSize="@dimen/cp_titleSize"/>
     <View
@@ -25,7 +25,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="With user name or email addres"
+        android:text="With email addres"
         android:id="@+id/hl_txvRecoverUser"
         android:layout_below="@+id/hl_txvTitle"
         android:padding="5dp"

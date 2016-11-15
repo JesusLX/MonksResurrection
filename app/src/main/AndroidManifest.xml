@@ -51,6 +51,8 @@
         <activity
             android:name=".AboutMe_Activity"
             android:screenOrientation="locked" />
+        <activity android:name=".HelpLoginPassword_Activity" />
+        <activity android:name=".HelpLoginFinal_Activity"></activity>
     </application>
 
 </manifest>
