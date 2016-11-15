@@ -141,4 +141,5 @@
     <string name="recover_account">Recover account</string>
     <string name="title_user_name">User name:</string>
     <string name="title_user_password">User Password:</string>
+    <string name="message_error_email_not_registred">That email is not registred</string>
 </resources>

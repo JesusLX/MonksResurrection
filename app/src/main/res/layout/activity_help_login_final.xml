@@ -13,15 +13,15 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:id="@+id/lhf_ivProfilePicture"
+        android:id="@+id/hlf_ivProfilePicture"
         app:srcCompat="@drawable/nino" />
     <TextView
         android:paddingTop="@dimen/fab_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/title_user_name"
-        android:id="@+id/lhf_txvTitleName"
-        android:layout_below="@+id/lhf_ivProfilePicture"/>
+        android:id="@+id/hlf_txvTitleName"
+        android:layout_below="@+id/hlf_ivProfilePicture"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -29,27 +29,27 @@
         android:text="NombreUsuario"
         android:textSize="@dimen/cp_titleSize"
         android:textAlignment="center"
-        android:id="@+id/lhf_txvUserName"
-        android:layout_below="@+id/lhf_txvTitleName"/>
+        android:id="@+id/hlf_txvUserName"
+        android:layout_below="@+id/hlf_txvTitleName"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/title_user_password"
-        android:id="@+id/lhf_txvTitleUserPassword"
-        android:layout_below="@+id/lhf_txvUserName"/>
+        android:id="@+id/hlf_txvTitleUserPassword"
+        android:layout_below="@+id/hlf_txvUserName"/>
     <TextView
         android:layout_width="match_parent"
         android:textSize="@dimen/cp_titleSize"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="Contraseña de usuario"
-        android:id="@+id/lhf_txvUserPassword"
-        android:layout_below="@+id/lhf_txvTitleUserPassword"/>
+        android:id="@+id/hlf_txvUserPassword"
+        android:layout_below="@+id/hlf_txvTitleUserPassword"/>
 
     <TextView
         android:paddingTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lhf_txvUserPassword"
+        android:layout_below="@+id/hlf_txvUserPassword"
         android:text="Ahora mismo se muestra aquí la contraseña pero en un futuro se mandará un correo para conseguirla"/>
 </RelativeLayout>
