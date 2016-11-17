@@ -37,7 +37,7 @@ public class HelpLoginPassword_Activity extends AppCompatActivity {
                 // Get the email introducced
                 mEmail = mEdtEmail.getText().toString();
                 User tmpUer;
-                if ((tmpUer = Users_Singleton.getUsers_Singleton().getUserByEmail(mEmail)) != null){
+                if ((tmpUer = Users_Singleton.get().getUserByEmail(mEmail)) != null){
                     Bundle bundle = new Bundle();
                     bundle.putString("email",mEmail);
                     Intent intent = new Intent(HelpLoginPassword_Activity.this,HelpLoginFinal_Activity.class);

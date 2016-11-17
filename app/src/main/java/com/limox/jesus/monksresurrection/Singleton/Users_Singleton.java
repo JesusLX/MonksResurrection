@@ -4,7 +4,6 @@ package com.limox.jesus.monksresurrection.Singleton;
 import com.limox.jesus.monksresurrection.Model.User;
 import com.limox.jesus.monksresurrection.R;
 
-import java.net.UnknownServiceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class Users_Singleton {
     private static Users_Singleton mUsers_Singleton;
     List<User> mUsers;
 
-    public static Users_Singleton getUsers_Singleton() {
+    public static Users_Singleton get() {
         if (mUsers_Singleton == null) {
             mUsers_Singleton = new Users_Singleton();
         }
@@ -110,7 +109,7 @@ public class Users_Singleton {
         //TODO No funciona el equals
         // if (mUsers.contains(new User(userName)))
         for (User tmpUser : mUsers) {
-            if (tmpUser.getNick().equals(userName))
+            if (tmpUser.getName().equals(userName))
                 return tmpUser;
 
         }

@@ -1,6 +1,5 @@
 package com.limox.jesus.monksresurrection;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,7 +31,7 @@ public class PostView_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_post_view);
         Bundle bundle = this.getIntent().getExtras();
 
-        this.mPost = Posts_Singleton.getPosts_Singleton().getPost(bundle.getInt("idPost"));
+        this.mPost = Posts_Singleton.get().getPost(bundle.getInt("idPost"));
         mToolBar = (Toolbar) findViewById(R.id.pv_tbTitleBar);
         mToolBar.inflateMenu(R.menu.menu_post_view);
 
@@ -47,8 +45,8 @@ public class PostView_Activity extends AppCompatActivity {
         fillWidgets();
     }
     private void fillWidgets(){
-        mIvUserPicture.setImageResource(Users_Singleton.getUsers_Singleton().getUserById(mPost.getIdUser()).getProfilePicture());
-        mTxvUserName.setText(Users_Singleton.getUsers_Singleton().getUserById(mPost.getIdUser()).getNick());
+        mIvUserPicture.setImageResource(Users_Singleton.get().getUserById(mPost.getIdUser()).getProfilePicture());
+        mTxvUserName.setText(Users_Singleton.get().getUserById(mPost.getIdUser()).getName());
         mTxvPostTitle.setText(mPost.getTitle());
         mTxvPostDescription.setText(mPost.getDescription());
     }
@@ -114,15 +112,15 @@ public class PostView_Activity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (typeAction){
                                     case 0:
-                                        Posts_Singleton.getPosts_Singleton().toFixPost(idPost);
+                                        Posts_Singleton.get().toFixPost(idPost);
                                         finish();
                                         break;
                                     case 1:
-                                        Posts_Singleton.getPosts_Singleton().toPublicPost(idPost);
+                                        Posts_Singleton.get().toPublicPost(idPost);
                                         finish();
                                         break;
                                     case 2:
-                                        Posts_Singleton.getPosts_Singleton().deletePost(idPost);
+                                        Posts_Singleton.get().deletePost(idPost);
                                         finish();
                                         break;
                             }}

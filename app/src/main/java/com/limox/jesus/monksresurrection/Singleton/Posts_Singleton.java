@@ -2,7 +2,6 @@ package com.limox.jesus.monksresurrection.Singleton;
 
 import com.limox.jesus.monksresurrection.Model.Post;
 
-import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class Posts_Singleton {
     private List<Post> mPostsNotPublished;
     private List<Post> mPostsFixed;
 
-    public static Posts_Singleton getPosts_Singleton() {
+    public static Posts_Singleton get() {
         if (mPosts_Singleton == null) {
             mPosts_Singleton = new Posts_Singleton();
         }
@@ -165,10 +164,10 @@ public class Posts_Singleton {
     }
 
     public void createPost(String title, String description, String tags){
-        mPosts.add(new Post(title,Users_Singleton.getUsers_Singleton().getCurrentUser().getIdUser(),description,tags,mPosts.size()));
+        mPosts.add(new Post(title,Users_Singleton.get().getCurrentUser().getIdUser(),description,tags,mPosts.size()));
     }
     public void createPostPublished(String title, String description, String tags){
-        mPosts.add(new Post(mPosts.size(),title,Users_Singleton.getUsers_Singleton().getCurrentUser().getIdUser(),description,true,false,tags));
+        mPosts.add(new Post(mPosts.size(),title,Users_Singleton.get().getCurrentUser().getIdUser(),description,true,false,tags));
         sortLists();
     }
 }

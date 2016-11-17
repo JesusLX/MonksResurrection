@@ -2,7 +2,6 @@ package com.limox.jesus.monksresurrection.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -40,11 +39,11 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
     public PostAdapterRecycler(Context context, int typeOfList) {
         this.mContext = context;
         if (typeOfList == AllConstants.FOR_FIXES) {
-            mPosts = new ArrayList<>(Posts_Singleton.getPosts_Singleton().getPostsFixed());
+            mPosts = new ArrayList<>(Posts_Singleton.get().getPostsFixed());
         } else if (typeOfList == AllConstants.FOR_PUBLISHED) {
-            mPosts = new ArrayList<>(Posts_Singleton.getPosts_Singleton().getPostsPublished());
+            mPosts = new ArrayList<>(Posts_Singleton.get().getPostsPublished());
         } else {
-            mPosts = new ArrayList<>(Posts_Singleton.getPosts_Singleton().getPostsNotPublished());
+            mPosts = new ArrayList<>(Posts_Singleton.get().getPostsNotPublished());
         }
         this.mTypeOfList = typeOfList;
     }
@@ -60,8 +59,8 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
     public void onBindViewHolder(PostViewHolder holder, final int position) {
         // Initializing the components of the holder created above
         // If it will host a type of list of other we need to put in
-        holder.mIvProfile_item.setImageResource(Users_Singleton.getUsers_Singleton().getUserById(mPosts.get(position).getIdUser()).getProfilePicture());
-        holder.mTxvUserName_item.setText(Users_Singleton.getUsers_Singleton().getUserById(mPosts.get(position).getIdUser()).getNick());
+        holder.mIvProfile_item.setImageResource(Users_Singleton.get().getUserById(mPosts.get(position).getIdUser()).getProfilePicture());
+        holder.mTxvUserName_item.setText(Users_Singleton.get().getUserById(mPosts.get(position).getIdUser()).getName());
         holder.mTxvPostTitle_item.setText(mPosts.get(position).getTitle());
         holder.mPost = mPosts.get(position);//TODO Poner que lo de arriba se rellene por este
 
@@ -95,15 +94,15 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
         mPosts.clear();
         // if it will be a list of posts published
         if (mTypeOfList == AllConstants.FOR_PUBLISHED) {
-            mPosts.addAll(Posts_Singleton.getPosts_Singleton().getPostsPublished());
+            mPosts.addAll(Posts_Singleton.get().getPostsPublished());
 
             // or a list of posts fixes
         } else if (mTypeOfList == AllConstants.FOR_FIXES) {
-            mPosts.addAll(Posts_Singleton.getPosts_Singleton().getPostsPublished());
+            mPosts.addAll(Posts_Singleton.get().getPostsPublished());
 
             // Or a simple list of all the posts
         } else
-            mPosts.addAll(Posts_Singleton.getPosts_Singleton().getPostsNotPublished());
+            mPosts.addAll(Posts_Singleton.get().getPostsNotPublished());
     }
 
     /**

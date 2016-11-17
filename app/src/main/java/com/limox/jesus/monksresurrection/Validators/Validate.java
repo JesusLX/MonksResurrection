@@ -6,8 +6,6 @@ import com.limox.jesus.monksresurrection.Model.User;
 import com.limox.jesus.monksresurrection.R;
 import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
 
-import java.util.regex.Pattern;
-
 /**
  * Valida con sus metodos estáticos
  * all the returns are strings references
@@ -64,8 +62,8 @@ public class Validate {
     public static int validateAccount(String userName, String password){
         int messageError = R.string.message_error_nonexistent;
         User tmpUser;
-        if ((tmpUser =Users_Singleton.getUsers_Singleton().getUser(userName)) != null){
-            if (tmpUser.getNick().equals(userName) && tmpUser.getPassword().equals(password))
+        if ((tmpUser =Users_Singleton.get().getUser(userName)) != null){
+            if (tmpUser.getName().equals(userName) && tmpUser.getPassword().equals(password))
                 messageError = MESSAGE_OK;
         }
         return messageError;

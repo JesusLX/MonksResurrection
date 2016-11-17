@@ -1,7 +1,5 @@
 package com.limox.jesus.monksresurrection.Model;
 
-import android.media.Image;
-
 /**
  * Created by jesus on 8/11/16.
  */
@@ -9,7 +7,7 @@ import android.media.Image;
 public class User {
     int mGameCode;
     int mIdUser;
-    String mNick;
+    String mName;
     String mEmail;
     String mPassword;
     int mProfilePicture;
@@ -20,7 +18,7 @@ public class User {
     public User(int gameCode, int idUser, String nick, String email, String password, int profilePicture, boolean profileBlocked, boolean userDeleted, int userType) {
         this.mGameCode = gameCode;
         this.mIdUser = idUser;
-        this.mNick = nick;
+        this.mName = nick;
         mEmail = email;
         mPassword = password;
         this.mProfilePicture = profilePicture;
@@ -32,7 +30,7 @@ public class User {
     public User(int gameCode,int mIdUser, String mNick, String mEmail, String mPassword, int mProfilePicture, int mUserType) {
         this.mGameCode = gameCode;
         this.mIdUser = mIdUser;
-        this.mNick = mNick;
+        this.mName = mNick;
         this.mEmail = mEmail;
         this.mPassword = mPassword;
         this.mProfilePicture = mProfilePicture;
@@ -41,7 +39,7 @@ public class User {
         this.mUserDeleted = false;
     }
     public User(String nick){
-        this.mNick = nick;
+        this.mName = nick;
     }
 
     /**
@@ -60,12 +58,12 @@ public class User {
         this.mIdUser = mIdUser;
     }
 
-    public String getNick() {
-        return mNick;
+    public String getName() {
+        return mName;
     }
 
-    public void setNick(String mNick) {
-        this.mNick = mNick;
+    public void setName(String mNick) {
+        this.mName = mNick;
     }
 
     public String getEmail() {

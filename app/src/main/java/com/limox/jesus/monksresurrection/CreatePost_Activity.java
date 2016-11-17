@@ -1,12 +1,10 @@
 package com.limox.jesus.monksresurrection;
 
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.limox.jesus.monksresurrection.Singleton.Posts_Singleton;
 
@@ -34,7 +32,7 @@ public class CreatePost_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 if (validate()){
                     //TODO Cambiar esto, ahora crea directamente uno publicado
-                    Posts_Singleton.getPosts_Singleton().createPostPublished(mTitle,mDescriptions,mTags);
+                    Posts_Singleton.get().createPostPublished(mTitle,mDescriptions,mTags);
                     finish();
                 }
 

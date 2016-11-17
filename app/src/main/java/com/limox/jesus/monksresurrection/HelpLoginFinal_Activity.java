@@ -31,10 +31,10 @@ public class HelpLoginFinal_Activity extends AppCompatActivity {
     private void fill()
     {
         mEmail = getIntent().getStringExtra("email");
-        mUser = Users_Singleton.getUsers_Singleton().getUserByEmail(mEmail);
+        mUser = Users_Singleton.get().getUserByEmail(mEmail);
 
         mIvImageProfile.setImageResource( mUser.getProfilePicture());
-        mTxvUserName.setText(mUser.getNick());
+        mTxvUserName.setText(mUser.getName());
         mTxvUserPassword.setText(mUser.getPassword());
     }
 }

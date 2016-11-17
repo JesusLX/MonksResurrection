@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.limox.jesus.monksresurrection.Model.User;
-import com.limox.jesus.monksresurrection.R;
 import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
 import com.limox.jesus.monksresurrection.Validators.Validate;
 
@@ -41,8 +39,8 @@ public class SignUpUser_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 if (validateParams()){
                     // if all right create user and use it like current user of the app
-                    Users_Singleton.getUsers_Singleton().addUser(name,password,email);
-                    Users_Singleton.getUsers_Singleton().setCurrentUser(Users_Singleton.getUsers_Singleton().getUser(name));
+                    Users_Singleton.get().addUser(name,password,email);
+                    Users_Singleton.get().setCurrentUser(Users_Singleton.get().getUser(name));
                     //TODO añadir que se ponga aqui el usuario en los settings
                     startActivity(new Intent(SignUpUser_Activity.this,Index_Activity.class));
                     finish();
