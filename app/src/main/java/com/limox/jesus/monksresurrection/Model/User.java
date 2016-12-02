@@ -1,5 +1,7 @@
 package com.limox.jesus.monksresurrection.Model;
 
+import com.limox.jesus.monksresurrection.Utils.AllConstants;
+
 /**
  * Created by jesus on 8/11/16.
  */
@@ -27,7 +29,7 @@ public class User {
         this.mUserType = userType;
     }
 
-    public User(int gameCode,int mIdUser, String mNick, String mEmail, String mPassword, int mProfilePicture, int mUserType) {
+    public User(int gameCode, int mIdUser, String mNick, String mEmail, String mPassword, int mProfilePicture, int mUserType) {
         this.mGameCode = gameCode;
         this.mIdUser = mIdUser;
         this.mName = mNick;
@@ -38,13 +40,15 @@ public class User {
         this.mProfileBlocked = false;
         this.mUserDeleted = false;
     }
-    public User(String nick){
+
+    public User(String nick) {
         this.mName = nick;
     }
 
     /**
-     * This is just fot find a user by is id at the lists
-     * @param mIdUser
+     * This is just fot find a user by id at the lists
+     *
+     * @param mIdUser A user's id
      */
     public User(int mIdUser) {
         this.mIdUser = mIdUser;
@@ -112,6 +116,12 @@ public class User {
 
     public void setUserType(int mUserType) {
         this.mUserType = mUserType;
+    }
+
+    public boolean isAdmin() {
+
+        return getUserType() == AllConstants.ADMIN_TYPE_ID;
+
     }
 
     @Override

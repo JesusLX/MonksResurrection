@@ -7,8 +7,10 @@ package com.limox.jesus.monksresurrection.Utils;
  */
 
 public final class AllConstants {
-    public static int FOR_NONPUBLISHED = 0;
-    public static int FOR_PUBLISHED = 1;
-    public static int FOR_FIXES = 2;
-    public static int FOR_ALL = 3;
+    public static final int FOR_NONPUBLISHED = 0;
+    public static final int FOR_PUBLISHED = 1;
+    public static final int FOR_FIXES = 2;
+    public static final int FOR_ALL = 3;
+    public static final int ADMIN_TYPE_ID = 0;
+    public static final int NORMALUSER_TYPE_ID = 1;
 }

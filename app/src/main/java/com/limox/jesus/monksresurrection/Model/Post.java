@@ -27,6 +27,7 @@ public class Post {
         this.mFixed = false;
         this.mDeleted = false;
     }
+
     public Post(int mIdPost, String mTitle, int mIdUser, String mDescription, boolean publicate, boolean mFixed, String mTags) {
         this.mIdPost = mIdPost;
         this.mTitle = mTitle;
@@ -122,6 +123,7 @@ public class Post {
     public void setFixed(boolean mFixed) {
         this.mFixed = mFixed;
     }
+
 
     @Override
     public String toString() {

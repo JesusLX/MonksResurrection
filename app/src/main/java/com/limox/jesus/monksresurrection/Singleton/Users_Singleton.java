@@ -1,8 +1,10 @@
 package com.limox.jesus.monksresurrection.Singleton;
 
 
+import com.limox.jesus.monksresurrection.Model.Post;
 import com.limox.jesus.monksresurrection.Model.User;
 import com.limox.jesus.monksresurrection.R;
+import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +39,9 @@ public class Users_Singleton {
      */
     private void addExampleUsers() {
         if (mUsers != null) {
-            mUsers.add(new User(0, 0, "Admin1", "ejemplo1@gmail.com", "123", R.drawable.nino, 0));
-            mUsers.add(new User(1, 1, "User1", "ejemplo2@gmail.com", "123", R.drawable.monje, 1));
-            mUsers.add(new User(2, 2, "User2", "ejemplo3@gmail.com", "123", R.drawable.icomonge, 1));
+            mUsers.add(new User(0, 0, "Admin1", "ejemplo1@gmail.com", "123", R.drawable.nino, AllConstants.ADMIN_TYPE_ID));
+            mUsers.add(new User(1, 1, "User1", "ejemplo2@gmail.com", "123", R.drawable.monje, AllConstants.NORMALUSER_TYPE_ID));
+            mUsers.add(new User(2, 2, "User2", "ejemplo3@gmail.com", "123", R.drawable.icomonge, AllConstants.NORMALUSER_TYPE_ID));
         }
     }
 
@@ -62,7 +64,7 @@ public class Users_Singleton {
 
     public boolean addUser(String userName, String password, String email) {
         boolean allFine = false;
-        User user = new User(0, mUsers.size(), userName, email, password, R.drawable.monje, 1);
+        User user = new User(0, mUsers.size(), userName, email, password, R.drawable.monje, AllConstants.NORMALUSER_TYPE_ID);
         if (!mUsers.contains(user)) {
             mUsers.add(user);
             allFine = true;
@@ -115,6 +117,14 @@ public class Users_Singleton {
         }
 
         return null;
+
+    }
+    public boolean currentUserIsOwner(Post publicacion){
+        boolean itIs = false;
+        if (getCurrentUser().getIdUser() == publicacion.getIdUser()){
+            itIs =true;
+        }
+        return itIs;
 
     }
 }

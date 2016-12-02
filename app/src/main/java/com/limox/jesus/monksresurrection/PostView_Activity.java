@@ -5,14 +5,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.limox.jesus.monksresurrection.Model.Post;
 import com.limox.jesus.monksresurrection.Singleton.Posts_Singleton;
 import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
+import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
 public class PostView_Activity extends AppCompatActivity {
 
@@ -34,9 +37,9 @@ public class PostView_Activity extends AppCompatActivity {
         this.mPost = Posts_Singleton.get().getPost(bundle.getInt("idPost"));
         mToolBar = (Toolbar) findViewById(R.id.pv_tbTitleBar);
         mToolBar.inflateMenu(R.menu.menu_post_view);
-
-        CreateOnOptionsItemSelected();
+        AdapteMenu(mToolBar.getMenu());
         mToolBar.setOnMenuItemClickListener(mListenerOnMenuClick);
+        CreateOnOptionsItemSelected();
 
         mIvUserPicture = (ImageView) findViewById(R.id.pv_ivUserPicture);
         mTxvUserName = (TextView) findViewById(R.id.pv_txvUserName);
@@ -50,11 +53,38 @@ public class PostView_Activity extends AppCompatActivity {
         mTxvPostTitle.setText(mPost.getTitle());
         mTxvPostDescription.setText(mPost.getDescription());
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_post_view, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+
+
+   private  void AdapteMenu(Menu menu){
+        // getMenuInflater().inflate(R.menu.menu_post_view, menu);
+         switch (Users_Singleton.get().getCurrentUser().getUserType()){
+             case AllConstants.ADMIN_TYPE_ID://Is an admin
+
+                 if (mPost.isPublicate())
+                     menu.findItem(R.id.action_pv_ToPublished).setVisible(false);
+                 if (mPost.isFixed()) {
+                     menu.findItem(R.id.action_pv_ToFixes).setVisible(false);
+                 }
+                 break;
+
+             case AllConstants.NORMALUSER_TYPE_ID: // In a current user
+
+                 menu.findItem(R.id.action_pv_Edit).setVisible(false);
+                 menu.findItem(R.id.action_pv_SendMessage).setVisible(false);
+                 menu.findItem(R.id.action_pv_ToFixes).setVisible(false);
+                 menu.findItem(R.id.action_pv_ToPublished).setVisible(false);
+                 menu.findItem(R.id.action_pv_Delete).setVisible(false);
+                 break;
+         }
+       // If the current user is the owner of the current post
+       if (Users_Singleton.get().currentUserIsOwner(mPost)){
+           if (!mPost.isFixed() && !Users_Singleton.get().getCurrentUser().isAdmin())
+               menu.findItem(R.id.action_pv_Delete).setVisible(true);
+
+           menu.findItem(R.id.action_pv_SendMessage).setVisible(false);
+       }
+     }
+
 
 
     public void CreateOnOptionsItemSelected() {
@@ -62,11 +92,11 @@ public class PostView_Activity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_ToFixes:
+                    case R.id.action_pv_ToFixes:
                         // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
                         createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToFixes, 0).show();
                         break;
-                    case R.id.action_ToPublished:
+                    case R.id.action_pv_ToPublished:
                         // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
                         createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToPublished, 1).show();
                         break;
