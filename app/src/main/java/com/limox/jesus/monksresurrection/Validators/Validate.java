@@ -5,6 +5,7 @@ import android.util.Patterns;
 import com.limox.jesus.monksresurrection.Model.User;
 import com.limox.jesus.monksresurrection.R;
 import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
+import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
 /**
  * Valida con sus metodos estáticos
@@ -13,18 +14,14 @@ import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
 
 public class Validate {
 
-    public static int USERNAME_MAX_LENGTH = 16;
-    public static int USERNAME_MIN_LENGTH = 4;
-    public static int PASSWORD_MIN_LENGTH = 8;
-    public static int PASSWORD_MAX_LENGTH = 255;
     public static int MESSAGE_OK = R.string.message_all_ok;
 
     public static int validateName(String name) {
         int referenceMensaje = R.string.message_all_ok;
-        if (name.length() > USERNAME_MAX_LENGTH) {
+        if (name.length() > AllConstants.USERNAME_MAX_LENGTH) {
             referenceMensaje = R.string.message_error_username_tooLong;
         }
-        if (name.length() < USERNAME_MIN_LENGTH) {
+        if (name.length() < AllConstants.USERNAME_MIN_LENGTH) {
             referenceMensaje = R.string.message_error_username_tooShort;
         }
         return referenceMensaje;
@@ -39,9 +36,9 @@ public class Validate {
 
     public static int validatePassword(String password) {
         int referenceMensaje = R.string.message_all_ok;
-        if (password.length() > PASSWORD_MAX_LENGTH)
+        if (password.length() > AllConstants.PASSWORD_MAX_LENGTH)
             referenceMensaje = R.string.message_error_password_tooLong;
-        if (password.length() < PASSWORD_MIN_LENGTH)
+        if (password.length() < AllConstants.PASSWORD_MIN_LENGTH)
             referenceMensaje = R.string.message_error_password_tooShort;
         if (!password.matches("^.{0,}([0-9])+.{0,}$"))
             referenceMensaje = R.string.message_error_password_case;

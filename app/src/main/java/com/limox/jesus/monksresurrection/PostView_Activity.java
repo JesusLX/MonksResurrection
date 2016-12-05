@@ -106,7 +106,7 @@ public class PostView_Activity extends AppCompatActivity {
             /*case R.id.action_Edit:
                 // Todo Aqui meter para editar
                 break;*/
-                    case R.id.action_Delete:
+                    case R.id.action_pv_Delete:
                         // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
                         createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_Delete, 2).show();
                         break;

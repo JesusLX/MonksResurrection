@@ -12,11 +12,7 @@
             android:name=".Login_Activity"
             android:screenOrientation="locked"
             android:theme="@style/Theme.AppCompat.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".HelpLogin_Activity"
@@ -48,11 +44,16 @@
         <activity
             android:name=".ItemSections_Cardview"
             android:screenOrientation="locked" />
-        <activity
-            android:name=".AboutMe_Activity"
-            android:screenOrientation="locked" />
+
         <activity android:name=".HelpLoginPassword_Activity" />
-        <activity android:name=".HelpLoginFinal_Activity"></activity>
+        <activity android:name=".HelpLoginFinal_Activity" />
+        <activity android:name=".Home_Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

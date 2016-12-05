@@ -18,9 +18,7 @@
             android:id="@+id/pv_tbTitleBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-
-            >
+            android:background="@color/colorPrimary">
 
             <ImageView
                 android:id="@+id/pv_ivUserPicture"
