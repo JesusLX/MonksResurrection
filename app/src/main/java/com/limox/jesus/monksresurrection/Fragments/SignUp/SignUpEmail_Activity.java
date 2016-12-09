@@ -1,34 +1,44 @@
-package com.limox.jesus.monksresurrection;
+package com.limox.jesus.monksresurrection.Fragments.SignUp;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.limox.jesus.monksresurrection.Login_Activity;
 import com.limox.jesus.monksresurrection.R;
 import com.limox.jesus.monksresurrection.Validators.Validate;
 
 
-public class SignUpEmail_Activity extends AppCompatActivity {
-
-
+public class SignUpEmail_Activity extends Fragment {
 
     EditText edtEmail;
     Button btnValidate;
     TextView txvSignIn;
+    private SignUpEmailListener mCallBack;
+
+    public interface SignUpEmailListener{
+        void backToLogin();
+        void startSignUpUser(Bundle args);
+    }
 
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up_email);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View rootView = inflater.inflate(R.layout.activity_sign_up_email,container);
 
-        edtEmail = (EditText) findViewById(R.id.sue_edtEmail);
-        btnValidate = (Button) findViewById(R.id.sue_btnNext);
-        txvSignIn = (TextView) findViewById(R.id.sue_txvSignIn);
+        edtEmail = (EditText) rootView.findViewById(R.id.sue_edtEmail);
+        btnValidate = (Button) rootView.findViewById(R.id.sue_btnNext);
+        txvSignIn = (TextView) rootView.findViewById(R.id.sue_txvSignIn);
 
         btnValidate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,10 +47,8 @@ public class SignUpEmail_Activity extends AppCompatActivity {
                 if ( message == Validate.MESSAGE_OK){
                     Bundle bundle = new Bundle();
                     bundle.putString("email",edtEmail.getText().toString());
-                    Intent intent = new Intent(SignUpEmail_Activity.this,SignUpUser_Activity.class);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    finish();
+                    mCallBack.startSignUpUser(bundle);
+                    //Cerrar fragment
                 }else
                     edtEmail.setError(getResources().getString(Validate.validateEmail(edtEmail.getText().toString())));
             }
@@ -48,9 +56,11 @@ public class SignUpEmail_Activity extends AppCompatActivity {
         txvSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignUpEmail_Activity.this,Login_Activity.class));
-                finish();
+                mCallBack.backToLogin();
             }
         });
+
+        return rootView;
     }
+
 }

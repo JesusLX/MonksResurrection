@@ -1,4 +1,4 @@
-package com.limox.jesus.monksresurrection;
+package com.limox.jesus.monksresurrection.Fragments.SignUp;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
+
+import com.limox.jesus.monksresurrection.R;
 
 public class StartSignUp_Activity extends AppCompatActivity {
 

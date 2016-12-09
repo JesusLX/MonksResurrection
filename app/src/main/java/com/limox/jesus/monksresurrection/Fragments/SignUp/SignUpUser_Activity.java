@@ -1,4 +1,4 @@
-package com.limox.jesus.monksresurrection;
+package com.limox.jesus.monksresurrection.Fragments.SignUp;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.limox.jesus.monksresurrection.Index_Activity;
+import com.limox.jesus.monksresurrection.R;
 import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
 import com.limox.jesus.monksresurrection.Validators.Validate;
 

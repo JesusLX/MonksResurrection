@@ -14,7 +14,7 @@ public class Home_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        OpenLogin();
+      
 
     }
     private void OpenAboutMe(){
@@ -23,10 +23,5 @@ public class Home_Activity extends AppCompatActivity {
         ft.replace(R.id.ah_container,fr);
         ft.commit();
     }
-    private void OpenLogin(){
-        Login_Activity fr = Login_Activity.newInstance();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.ah_container,fr);
-        ft.commit();
-    }
+
 }
