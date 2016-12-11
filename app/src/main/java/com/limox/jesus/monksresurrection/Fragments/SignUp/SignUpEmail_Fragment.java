@@ -17,7 +17,7 @@ import com.limox.jesus.monksresurrection.R;
 import com.limox.jesus.monksresurrection.Validators.Validate;
 
 
-public class SignUpEmail_Activity extends Fragment {
+public class SignUpEmail_Fragment extends Fragment {
 
     EditText edtEmail;
     Button btnValidate;

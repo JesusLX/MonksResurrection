@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.limox.jesus.monksresurrection.Fragments.SignUp.StartSignUp_Activity;
+import com.limox.jesus.monksresurrection.Fragments.SignUp.StartSignUp_Fragment;
 import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
 import com.limox.jesus.monksresurrection.Validators.Validate;
 
@@ -44,7 +44,7 @@ public class Login_Activity extends AppCompatActivity {
                         startActivity(new Intent(Login_Activity.this, HelpLogin_Activity.class));
                         break;
                     case R.id.lgn_txvSignUp:
-                        startActivity(new Intent(Login_Activity.this, StartSignUp_Activity.class));
+                        startActivity(new Intent(Login_Activity.this, SignUp_Activity.class));
                         break;
                     case R.id.lgn_btnSignIn:
                         if (validateAccount()) {
