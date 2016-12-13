@@ -16,18 +16,23 @@ public class SignUp_Activity extends AppCompatActivity implements StartSignUp_Fr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        startSignUpFragment = new StartSignUp_Fragment();
+        startSignUp();
 
-        getSupportFragmentManager().beginTransaction().add(R.id.activity_sign_up,startSignUpFragment).commit();
     }
 
+    public void startSignUp() {
+        startSignUpFragment = new StartSignUp_Fragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.activity_sign_up,startSignUpFragment).commit();
+    }
     @Override
     public void startSignUpEmail() {
-
+        signUpEmailFragment = new SignUpEmail_Fragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.activity_sign_up,signUpEmailFragment).commit();
     }
 
     @Override
     public void startOtherSitesPlatform(int idPlaform) {
 
     }
+
 }

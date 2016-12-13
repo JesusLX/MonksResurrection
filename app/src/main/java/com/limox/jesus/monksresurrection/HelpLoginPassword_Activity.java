@@ -20,7 +20,7 @@ public class HelpLoginPassword_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help_login_password);
+        setContentView(R.layout.fragment_help_login_password);
         // Inicializate
         mEdtEmail = (EditText) findViewById(R.id.hlp_edtEmail);
         mBtnNext = (Button) findViewById(R.id.hlp_btnSend);

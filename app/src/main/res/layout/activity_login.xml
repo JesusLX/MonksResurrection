@@ -33,7 +33,8 @@
             android:id="@+id/lgn_edtUser"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/lgn_usr_name" />
+            android:hint="@string/lgn_usr_name"
+            android:text="Admin1"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -51,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/lgn_usr_passwrd"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:text="123"/>
     </android.support.design.widget.TextInputLayout>
 
     <RelativeLayout
