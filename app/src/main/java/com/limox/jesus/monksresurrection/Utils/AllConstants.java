@@ -22,4 +22,7 @@ public final class AllConstants {
     public static final int PLATFORM_GOOGLE = 1;
     public static final int PLATFORM_FACEBOOK = 2;
     public static final int PLATFORM_STEAM = 3;
+    public static final String SHARED_USER_FILE = "usr_file";
+    public static final String SHARED_USER_NAME = "current_usr_nm";
+    public static final String SHARED_USER_PSWRD = "current_usr_pw";
 }

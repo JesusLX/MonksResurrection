@@ -39,7 +39,7 @@
             android:name=".Fragments.SignUp.SignUpEmail_Fragment"
             android:screenOrientation="locked" />
         <activity
-            android:name=".Fragments.SignUp.SignUpUser_Activity"
+            android:name=".Fragments.SignUp.SignUpUser_Fragment"
             android:screenOrientation="locked" />
         <activity
             android:name=".CreatePost_Activity"

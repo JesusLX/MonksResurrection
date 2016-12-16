@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.limox.jesus.monksresurrection.Fragments.SignUp.StartSignUp_Fragment;
 import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
 import com.limox.jesus.monksresurrection.Validators.Validate;
 
@@ -22,7 +21,7 @@ public class Login_Activity extends AppCompatActivity {
     EditText mEdtPassword;
     String mUserName;
     String mPassword;
-    AdapterView.OnClickListener mCliclListener;
+    AdapterView.OnClickListener mClicKListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +33,17 @@ public class Login_Activity extends AppCompatActivity {
         mEdtUserName = (EditText) findViewById(R.id.lgn_edtUser);
         mEdtPassword = (EditText) findViewById(R.id.lgn_edtPassword);
 
+        initializeClicKListener();
 
-        mCliclListener = new View.OnClickListener() {
+
+        mTxvFP.setOnClickListener(mClicKListener);
+        mTxvSignUp.setOnClickListener(mClicKListener);
+        mBtnLogIn.setOnClickListener(mClicKListener);
+
+    }
+
+    private void initializeClicKListener(){
+        mClicKListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch (view.getId()) {
@@ -59,10 +67,6 @@ public class Login_Activity extends AppCompatActivity {
                 }
             }
         };
-
-        mTxvFP.setOnClickListener(mCliclListener);
-        mTxvSignUp.setOnClickListener(mCliclListener);
-        mBtnLogIn.setOnClickListener(mCliclListener);
     }
 
     private boolean validateAccount() {

@@ -127,4 +127,13 @@ public class Users_Singleton {
         return itIs;
 
     }
+
+    public boolean existUser(String userName) {
+        boolean exist = false;
+        for (User tmpUser : mUsers) {
+            if (tmpUser.getName().equals(userName))
+                exist = true;
+        }
+        return exist;
+    }
 }
