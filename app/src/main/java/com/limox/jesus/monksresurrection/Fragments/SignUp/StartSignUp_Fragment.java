@@ -17,10 +17,10 @@ public class StartSignUp_Fragment extends Fragment {
 
     TextView mTxvSignUp;
     AdapterView.OnClickListener mClickListener;
-    StartSignUpLoginListener mCallback;
+    StartSignUpLoginFragmentListener mCallback;
     View.OnClickListener mOtherPlatformOnClickListener;
 
-    public interface StartSignUpLoginListener {
+    public interface StartSignUpLoginFragmentListener {
         void startSignUpEmail();
 
         void startOtherSitesPlatform(int idPlaform);
@@ -29,11 +29,18 @@ public class StartSignUp_Fragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try {
-            mCallback = (StartSignUpLoginListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(getContext().toString() + " must implement StartSignUp_Fragment");
+        if(context instanceof StartSignUpLoginFragmentListener) {
+            mCallback = (StartSignUpLoginFragmentListener) context;
+        } else {
+            throw new ClassCastException(getContext().toString() + " must implement StartSignUpLoginFragmentListener");
         }
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallback = null;
     }
 
     @Nullable
@@ -74,11 +81,5 @@ public class StartSignUp_Fragment extends Fragment {
             }
         };
         return rootView;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallback = null;
     }
 }

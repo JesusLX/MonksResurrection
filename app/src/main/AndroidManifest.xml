@@ -18,9 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".HelpLogin_Activity"
-            android:screenOrientation="locked" />
+
         <activity
             android:name=".RecoupAccount_Activity"
             android:screenOrientation="locked" />
@@ -31,16 +29,7 @@
             android:name=".DashPosts_Activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Index_Activity" />
-        <activity
-            android:name=".Fragments.SignUp.StartSignUp_Fragment"
-            android:screenOrientation="locked"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".Fragments.SignUp.SignUpEmail_Fragment"
-            android:screenOrientation="locked" />
-        <activity
-            android:name=".Fragments.SignUp.SignUpUser_Fragment"
-            android:screenOrientation="locked" />
+
         <activity
             android:name=".CreatePost_Activity"
             android:screenOrientation="locked"
@@ -48,10 +37,9 @@
         <activity
             android:name=".ItemSections_Cardview"
             android:screenOrientation="locked" />
-        <activity android:name=".HelpLoginPassword_Activity" />
-        <activity android:name=".HelpLoginFinal_Activity" />
-        <activity android:name=".Home_Activity"></activity>
-        <activity android:name=".SignUp_Activity"></activity>
+        <activity android:name=".Home_Activity" />
+        <activity android:name=".SignUp_Activity" />
+        <activity android:name=".HelpLogin_Activity"></activity>
     </application>
 
 </manifest>

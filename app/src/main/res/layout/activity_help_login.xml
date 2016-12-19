@@ -10,34 +10,4 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.limox.jesus.monksresurrection.HelpLogin_Activity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/recover_account"
-        android:id="@+id/hl_txvTitle"
-        android:textSize="@dimen/cp_titleSize"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/hl_txvTitle"
-        android:background="@color/colorSeparator"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="With email addres"
-        android:id="@+id/hl_txvRecoverUser"
-        android:layout_below="@+id/hl_txvTitle"
-        android:padding="5dp"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="18dp"
-        />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/hl_txvRecoverUser"
-        android:background="@android:color/darker_gray"
-        />
-
-
 </RelativeLayout>

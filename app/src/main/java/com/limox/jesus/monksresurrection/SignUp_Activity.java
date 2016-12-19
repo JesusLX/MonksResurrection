@@ -9,7 +9,7 @@ import com.limox.jesus.monksresurrection.Fragments.SignUp.SignUpEmail_Fragment;
 import com.limox.jesus.monksresurrection.Fragments.SignUp.SignUpUser_Fragment;
 import com.limox.jesus.monksresurrection.Fragments.SignUp.StartSignUp_Fragment;
 
-public class SignUp_Activity extends AppCompatActivity implements StartSignUp_Fragment.StartSignUpLoginListener, SignUpEmail_Fragment.SignUpEmailListener,SignUpUser_Fragment.OnSignUpUserFragmentListener{
+public class SignUp_Activity extends AppCompatActivity implements StartSignUp_Fragment.StartSignUpLoginFragmentListener, SignUpEmail_Fragment.SignUpEmailListener,SignUpUser_Fragment.OnSignUpUserFragmentListener{
     private SignUpEmail_Fragment signUpEmailFragment;
     private StartSignUp_Fragment startSignUpFragment;
 
