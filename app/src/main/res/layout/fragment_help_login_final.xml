@@ -16,7 +16,7 @@
         android:id="@+id/hlf_ivProfilePicture"
         app:srcCompat="@drawable/nino" />
     <TextView
-        android:paddingTop="@dimen/fab_margin"
+        android:paddingTop="@dimen/fav_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/title_user_name"

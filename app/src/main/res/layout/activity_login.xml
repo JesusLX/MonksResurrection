@@ -2,31 +2,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:paddingEnd="@dimen/fav_margin"
+    android:paddingStart="@dimen/fav_margin"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lgn_background"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:theme="@style/AppTheme.NoActionBar"
+    style="@style/LoginTheme"
     tools:context="com.limox.jesus.monksresurrection.Login_Activity">
 
-    <android.support.v7.widget.Toolbar
+    <!--android.support.v7.widget.Toolbar
         android:id="@+id/lgn_title"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/title_image_height"
-        android:background="@drawable/login_vectorized" />
+        android:background="@drawable/login_vectorized" /-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lgn_txvTitle"
+        android:text="@string/app_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/fab_marginx2"
+        android:layout_marginBottom="@dimen/fab_marginx2"
+        android:textSize="30sp"/>
 
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/lgn_tilUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lgn_title"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_below="@+id/lgn_txvTitle"
         android:fitsSystemWindows="true"
         android:paddingTop="@dimen/lgn_pddingTop"
-        android:textColorHint="@color/fontColor"
+        android:textColorHint="@color/colorAccent"
+        android:background="@color/colorPrimaryMedium"
         app:errorTextAppearance="@color/colorError">
 
         <EditText
@@ -39,12 +50,12 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/lgn_tilPassword"
+        android:layout_marginTop="@dimen/fav_margin"
         android:layout_width="match_parent"
+        android:background="@color/colorPrimaryMedium"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lgn_tilUser"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginStart="@dimen/fab_margin"
-        android:textColorHint="@color/fontColor"
+        android:textColorHint="@color/colorAccent"
         app:errorTextAppearance="@color/colorError">
 
         <EditText
@@ -56,34 +67,32 @@
             android:text="123"/>
     </android.support.design.widget.TextInputLayout>
 
-    <RelativeLayout
-        android:id="@+id/lgn_llSignIn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/lgn_tilPassword"
-        android:gravity="center"
-        android:paddingTop="@dimen/lgn_pddingTop">
+
 
         <Button
+            android:layout_below="@+id/lgn_tilPassword"
             android:id="@+id/lgn_btnSignIn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/fav_margin"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:text="@string/lgn_sign_in" />
 
         <TextView
             android:id="@+id/lgn_txvFP"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/fav_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/lgn_btnSignIn"
-            android:text="@string/lgn_FP"
-            android:textColor="@color/fontColor" />
-    </RelativeLayout>
+            android:text="@string/lgn_FP"/>
+
 
     <RelativeLayout
         android:id="@+id/lgn_rlSeparator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lgn_llSignIn"
+        android:layout_below="@id/lgn_txvFP"
         android:layout_centerVertical="true"
         android:orientation="horizontal"
         android:paddingTop="@dimen/lgn_pddingTop">
@@ -94,9 +103,8 @@
             android:layout_height="1dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
             android:layout_toStartOf="@+id/lgn_txvMidleText"
-            android:background="@color/colorSeparator" />
+            android:background="@color/colorSeparatorLog" />
 
         <TextView
             android:id="@+id/lgn_txvMidleText"
@@ -105,8 +113,9 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:textColor="@color/colorSeparatorLog"
             android:text="O"
-            android:textColor="@color/colorSeparator" />
+          />
 
         <View
             android:id="@+id/lgn_vwLeftLine"
@@ -114,9 +123,8 @@
             android:layout_height="1dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="16dp"
             android:layout_toEndOf="@+id/lgn_txvMidleText"
-            android:background="@color/colorSeparator" />
+            android:background="@color/colorSeparatorLog" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -134,14 +142,18 @@
             android:text="F"
             android:textColor="#FFF" />
 
-        <Button
+        <!--com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" /-->
+        <!--Button
             android:id="@+id/lgn_btnGg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/lgn_btnFb"
             android:background="@color/googleColor"
             android:text="G"
-            android:textColor="#FFF" />
+            android:textColor="#FFF" /-->
 
         <Button
             android:id="@+id/lgn_btnStm"
@@ -161,6 +173,6 @@
         android:layout_alignParentBottom="true"
         android:text="Sign Up"
         android:textAlignment="center"
-        android:textColor="@color/fontColor" />
+    />
 
 </RelativeLayout>
