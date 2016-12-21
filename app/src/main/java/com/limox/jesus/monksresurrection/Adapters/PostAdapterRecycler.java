@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.limox.jesus.monksresurrection.Model.Post;
+import com.limox.jesus.monksresurrection.Model.User;
 import com.limox.jesus.monksresurrection.PostView_Activity;
 import com.limox.jesus.monksresurrection.R;
 import com.limox.jesus.monksresurrection.Singleton.Posts_Singleton;
@@ -60,12 +62,12 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
         // Initializing the components of the holder created above
         // If it will host a type of list of other we need to put in
         holder.mIvProfile_item.setImageResource(Users_Singleton.get().getUserById(mPosts.get(position).getIdUser()).getProfilePicture());
-        holder.mTxvUserName_item.setText(Users_Singleton.get().getUserById(mPosts.get(position).getIdUser()).getName());
         holder.mTxvPostTitle_item.setText(mPosts.get(position).getTitle());
+        holder.mTxvPostDescription_item.setText(mPosts.get(position).getDescriptionShorted());
         holder.mPost = mPosts.get(position);//TODO Poner que lo de arriba se rellene por este
 
         //TODO ON CLICK OF THE POST
-        holder.mCvContainer.setOnClickListener(new View.OnClickListener() {
+        holder.mRlContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Create a bundle with the id of the post
@@ -111,17 +113,31 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
     static class PostViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mIvProfile_item;
-        TextView mTxvUserName_item;
+        TextView mTxvPostDescription_item;
         TextView mTxvPostTitle_item;
-        CardView mCvContainer;
+        RelativeLayout mRlContainer;
         public Post mPost;
+        OnPostViewHolderListener mCallback;
+
+        public interface OnPostViewHolderListener{
+            void startUserProfile(User user);
+            void startPostView(Post post);
+        }
 
         PostViewHolder(View itemView) {
             super(itemView);
             mIvProfile_item = (ImageView) itemView.findViewById(R.id.cp_iVProfile);
-            mTxvUserName_item = (TextView) itemView.findViewById(R.id.cp_txvUserName);
+            mTxvPostDescription_item = (TextView) itemView.findViewById(R.id.cp_txvPostContent);
             mTxvPostTitle_item = (TextView) itemView.findViewById(R.id.cp_txvPostTitle);
-            mCvContainer = (CardView) itemView.findViewById(R.id.cp_CvContainer);
+            mRlContainer = (RelativeLayout) itemView.findViewById(R.id.cp_rlContainer);
+
+            mIvProfile_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallback.startPostView(mPost);
+                }
+            });
+            //TODO poner aqui el evento del click del item
         }
     }
 }

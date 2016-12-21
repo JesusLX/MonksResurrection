@@ -25,4 +25,6 @@ public final class AllConstants {
     public static final String SHARED_USER_FILE = "usr_file";
     public static final String SHARED_USER_NAME = "current_usr_nm";
     public static final String SHARED_USER_PSWRD = "current_usr_pw";
+    public static final String USER_PARCELABLE_KEY = "user";
+
 }

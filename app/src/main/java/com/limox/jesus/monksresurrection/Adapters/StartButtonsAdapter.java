@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.limox.jesus.monksresurrection.AboutMe_Fragment;
+import com.limox.jesus.monksresurrection.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.monksresurrection.DashPosts_Activity;
 import com.limox.jesus.monksresurrection.R;
 
@@ -44,7 +44,7 @@ public class StartButtonsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, final View convertView, ViewGroup parent) {
         View rowView = convertView;
 
         if (convertView == null) {
@@ -81,6 +81,7 @@ public class StartButtonsAdapter extends BaseAdapter {
                 btnToActivity.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        
                         context.startActivity(new Intent(context, AboutMe_Fragment.class));
                     }
                 });

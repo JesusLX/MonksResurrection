@@ -1,4 +1,4 @@
-package com.limox.jesus.monksresurrection;
+package com.limox.jesus.monksresurrection.Fragments.AboutMe;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.limox.jesus.monksresurrection.R;
 
 public class AboutMe_Fragment extends Fragment {
 

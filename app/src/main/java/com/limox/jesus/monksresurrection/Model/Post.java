@@ -7,6 +7,7 @@ import java.util.Date;
  */
 
 public class Post {
+    private static final int DESCRIPTION_SHORTED_LENGTH = 47;
     int mIdPost;
     String mTitle;
     int mIdUser;
@@ -69,6 +70,12 @@ public class Post {
     }
 
     public String getDescription() {
+        return mDescription;
+    }
+    public String getDescriptionShorted() {
+        if (mDescription.length()>DESCRIPTION_SHORTED_LENGTH){
+            return mDescription.substring(0,DESCRIPTION_SHORTED_LENGTH)+"...";
+        }
         return mDescription;
     }
 

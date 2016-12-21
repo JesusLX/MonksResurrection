@@ -146,14 +146,14 @@
             android:id="@+id/sign_in_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" /-->
-        <!--Button
+        <Button
             android:id="@+id/lgn_btnGg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/lgn_btnFb"
             android:background="@color/googleColor"
             android:text="G"
-            android:textColor="#FFF" /-->
+            android:textColor="#FFF" />
 
         <Button
             android:id="@+id/lgn_btnStm"

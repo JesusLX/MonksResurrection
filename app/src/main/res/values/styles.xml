@@ -23,6 +23,11 @@
         <item name="colorAccent">@color/colorAccent</item>
 
     </style>
+    <style name="ItemPostTheme" parent="Theme.AppCompat.Light">
+        <item name="android:background">@color/collapsed_post_bg</item>
+        <item name="android:backgroundTint">@color/collapsed_post_bg</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
