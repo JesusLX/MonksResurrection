@@ -34,12 +34,20 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
     private Context mContext;
     private int mTypeOfList;
 
+    public interface OnPostViewHolderListener{
+        void startUserProfile(Bundle user);
+        void startPostView(Bundle post);
+    }
+
+    OnPostViewHolderListener mCallback;
+
     /**
      * @param context
      * @param typeOfList Type of list offer by AllConstants with the firs range
      */
     public PostAdapterRecycler(Context context, int typeOfList) {
         this.mContext = context;
+        mCallback = (OnPostViewHolderListener) context;
         if (typeOfList == AllConstants.FOR_FIXES) {
             mPosts = new ArrayList<>(Posts_Singleton.get().getPostsFixed());
         } else if (typeOfList == AllConstants.FOR_PUBLISHED) {
@@ -61,29 +69,26 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
     public void onBindViewHolder(PostViewHolder holder, final int position) {
         // Initializing the components of the holder created above
         // If it will host a type of list of other we need to put in
-        holder.mIvProfile_item.setImageResource(Users_Singleton.get().getUserById(mPosts.get(position).getIdUser()).getProfilePicture());
-        holder.mTxvPostTitle_item.setText(mPosts.get(position).getTitle());
-        holder.mTxvPostDescription_item.setText(mPosts.get(position).getDescriptionShorted());
-        holder.mPost = mPosts.get(position);//TODO Poner que lo de arriba se rellene por este
-
-        //TODO ON CLICK OF THE POST
+        holder.mPost = mPosts.get(position);
+        holder.mIvProfile_item.setImageResource(Users_Singleton.get().getUserById(holder.mPost.getIdUser()).getProfilePicture());
+        holder.mTxvPostTitle_item.setText(holder.mPost.getTitle());
+        holder.mTxvPostDescription_item.setText(holder.mPost.getDescriptionShorted());
+        holder.mIvProfile_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle args = new Bundle();
+                args.putParcelable(AllConstants.USER_PARCELABLE_KEY,Users_Singleton.get().getUserById(mPosts.get(position).getIdUser()));
+                mCallback.startUserProfile(args);
+            }
+        });
         holder.mRlContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create a bundle with the id of the post
-                Bundle bundle = new Bundle();
-                bundle.putInt("idPost",mPosts.get(position).getIdPost());
-                // Create the intent
-                Intent intent = new Intent(mContext, PostView_Activity.class);
-                // put the bundle
-                intent.putExtras(bundle);
-                // Start the activity
-                mContext.startActivity(intent);
-
+                Bundle args = new Bundle();
+                args.putParcelable(AllConstants.POST_PARCELABLE_KEY,mPosts.get(position));
+                mCallback.startPostView(args);
             }
         });
-
-
     }
 
     @Override
@@ -110,19 +115,15 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
     /**
      * This class is de ViewHolder of the Posts of the list
      */
-    static class PostViewHolder extends RecyclerView.ViewHolder {
+    public final static class PostViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mIvProfile_item;
         TextView mTxvPostDescription_item;
         TextView mTxvPostTitle_item;
         RelativeLayout mRlContainer;
         public Post mPost;
-        OnPostViewHolderListener mCallback;
 
-        public interface OnPostViewHolderListener{
-            void startUserProfile(User user);
-            void startPostView(Post post);
-        }
+
 
         PostViewHolder(View itemView) {
             super(itemView);
@@ -131,13 +132,7 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
             mTxvPostTitle_item = (TextView) itemView.findViewById(R.id.cp_txvPostTitle);
             mRlContainer = (RelativeLayout) itemView.findViewById(R.id.cp_rlContainer);
 
-            mIvProfile_item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mCallback.startPostView(mPost);
-                }
-            });
-            //TODO poner aqui el evento del click del item
+
         }
     }
 }

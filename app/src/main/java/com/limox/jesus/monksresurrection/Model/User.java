@@ -1,12 +1,15 @@
 package com.limox.jesus.monksresurrection.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
 /**
  * Created by jesus on 8/11/16.
  */
 
-public class User {
+public class User implements Parcelable{
     int mGameCode;
     int mIdUser;
     String mName;
@@ -53,6 +56,30 @@ public class User {
     public User(int mIdUser) {
         this.mIdUser = mIdUser;
     }
+
+    protected User(Parcel in) {
+        mGameCode = in.readInt();
+        mIdUser = in.readInt();
+        mName = in.readString();
+        mEmail = in.readString();
+        mPassword = in.readString();
+        mProfilePicture = in.readInt();
+        mProfileBlocked = in.readByte() != 0;
+        mUserDeleted = in.readByte() != 0;
+        mUserType = in.readInt();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public int getIdUser() {
         return mIdUser;
@@ -138,5 +165,23 @@ public class User {
     @Override
     public int hashCode() {
         return mIdUser;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mGameCode);
+        dest.writeInt(mIdUser);
+        dest.writeString(mName);
+        dest.writeString(mEmail);
+        dest.writeString(mPassword);
+        dest.writeInt(mProfilePicture);
+        dest.writeByte((byte) (mProfileBlocked ? 1 : 0));
+        dest.writeByte((byte) (mUserDeleted ? 1 : 0));
+        dest.writeInt(mUserType);
     }
 }

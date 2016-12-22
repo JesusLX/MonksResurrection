@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.limox.jesus.monksresurrection.Fragments.AboutMe.AboutMe_Fragment;
-import com.limox.jesus.monksresurrection.DashPosts_Activity;
+import com.limox.jesus.monksresurrection.Fragments.DashPost.HomeDashPosts_Fragment;
 import com.limox.jesus.monksresurrection.R;
 
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class StartButtonsAdapter extends BaseAdapter {
                 btnToActivity.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        context.startActivity(new Intent(context, DashPosts_Activity.class));
+                        context.startActivity(new Intent(context, HomeDashPosts_Fragment.class));
                     }
                 });
                 break;

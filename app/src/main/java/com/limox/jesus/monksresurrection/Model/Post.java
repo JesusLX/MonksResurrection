@@ -1,12 +1,15 @@
 package com.limox.jesus.monksresurrection.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
  * Created by jesus on 10/11/16.
  */
 
-public class Post {
+public class Post implements Parcelable{
     private static final int DESCRIPTION_SHORTED_LENGTH = 47;
     int mIdPost;
     String mTitle;
@@ -44,6 +47,30 @@ public class Post {
     public Post(int mIdPost) {
         this.mIdPost = mIdPost;
     }
+
+    protected Post(Parcel in) {
+        mIdPost = in.readInt();
+        mTitle = in.readString();
+        mIdUser = in.readInt();
+        mDescription = in.readString();
+        mPublicate = in.readByte() != 0;
+        mDeleted = in.readByte() != 0;
+        mFixed = in.readByte() != 0;
+        mTags = in.readString();
+        mScore = in.readInt();
+    }
+
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        @Override
+        public Post createFromParcel(Parcel in) {
+            return new Post(in);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
 
     public int getIdPost() {
         return mIdPost;
@@ -156,5 +183,23 @@ public class Post {
     @Override
     public int hashCode() {
         return mIdPost;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mIdPost);
+        dest.writeString(mTitle);
+        dest.writeInt(mIdUser);
+        dest.writeString(mDescription);
+        dest.writeByte((byte) (mPublicate ? 1 : 0));
+        dest.writeByte((byte) (mDeleted ? 1 : 0));
+        dest.writeByte((byte) (mFixed ? 1 : 0));
+        dest.writeString(mTags);
+        dest.writeInt(mScore);
     }
 }

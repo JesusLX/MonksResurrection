@@ -11,10 +11,10 @@ import java.util.List;
 
 public class Posts_Singleton {
     private static Posts_Singleton mPosts_Singleton;
-    private List<Post> mPosts;
-    private List<Post> mPostsPublished;
-    private List<Post> mPostsNotPublished;
-    private List<Post> mPostsFixed;
+    private ArrayList<Post> mPosts;
+    private ArrayList<Post> mPostsPublished;
+    private ArrayList<Post> mPostsNotPublished;
+    private ArrayList<Post> mPostsFixed;
 
     public static Posts_Singleton get() {
         if (mPosts_Singleton == null) {
@@ -103,19 +103,19 @@ public class Posts_Singleton {
         return allFine;
     }
 
-    public List<Post> getPosts() {
+    public ArrayList<Post> getPosts() {
         return mPosts;
     }
 
-    public List<Post> getPostsPublished() {
+    public ArrayList<Post> getPostsPublished() {
         return mPostsPublished;
     }
 
-    public List<Post> getPostsNotPublished() {
+    public ArrayList<Post> getPostsNotPublished() {
         return mPostsNotPublished;
     }
 
-    public List<Post> getPostsFixed() {
+    public ArrayList<Post> getPostsFixed() {
         return mPostsFixed;
     }
 

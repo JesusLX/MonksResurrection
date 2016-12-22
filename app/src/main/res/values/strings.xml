@@ -47,7 +47,12 @@
     <string name="title_user_name">User name:</string>
     <string name="title_user_password">User Password:</string>
     <string name="message_error_email_not_registred">That email is not registred</string>
+    <array name="dash_post_tabs">
+        <item name="bugs">Bugs</item>
+        <item name="fixes">Fixes</item>
+    </array>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

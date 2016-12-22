@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.limox.jesus.monksresurrection.Fragments.HelpLogin.StartHelpLogin_Fragment;
 import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
 import com.limox.jesus.monksresurrection.Validators.Validate;
 
@@ -57,7 +56,7 @@ public class Login_Activity extends AppCompatActivity {
                         break;
                     case R.id.lgn_btnSignIn:
                         if (validateAccount()) {
-                            startActivity(new Intent(Login_Activity.this, Index_Activity.class));
+                            startActivity(new Intent(Login_Activity.this, Home_Activity.class));
                             // set the current user
                             Users_Singleton.get().setCurrentUser(Users_Singleton.get().getUser(mUserName));
                             //TODO añadir que se ponga aqui el usuario en los settings

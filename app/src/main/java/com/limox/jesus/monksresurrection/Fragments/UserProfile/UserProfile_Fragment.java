@@ -26,7 +26,6 @@ public class UserProfile_Fragment extends Fragment {
 
     public static UserProfile_Fragment newInstance(Bundle args) {
         UserProfile_Fragment fragment = new UserProfile_Fragment();
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -37,13 +36,14 @@ public class UserProfile_Fragment extends Fragment {
         if (getArguments() != null) {
             mUser = getArguments().getParcelable(AllConstants.USER_PARCELABLE_KEY);
         }
+        setHasOptionsMenu(true);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View rootView = inflater.inflate(R.layout.fragment_user_profile, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_user_profile, container);
 
 
         return rootView;
