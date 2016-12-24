@@ -8,7 +8,7 @@
     android:background="@color/lgn_background"
     android:fitsSystemWindows="true"
     android:theme="@style/AppTheme.NoActionBar"
-    tools:context="com.limox.jesus.monksresurrection.PostView_Activity">
+    tools:context="com.limox.jesus.monksresurrection.Fragments.PostView.PostView_Fragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

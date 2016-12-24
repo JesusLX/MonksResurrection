@@ -22,9 +22,6 @@
             android:name=".RecoupAccount_Activity"
             android:screenOrientation="locked" />
         <activity
-            android:name=".PostView_Activity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
             android:name=".CreatePost_Activity"
             android:screenOrientation="locked"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -34,7 +31,6 @@
         <activity android:name=".Home_Activity" />
         <activity android:name=".SignUp_Activity" />
         <activity android:name=".HelpLogin_Activity" />
-        <activity android:name=".Home_Activity$UserProfile_Activity" />
         <activity android:name=".UserProfile_Activity"></activity>
     </application>
 

@@ -5,28 +5,26 @@ package com.limox.jesus.monksresurrection;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.limox.jesus.monksresurrection.Adapters.PostAdapterRecycler;
 import com.limox.jesus.monksresurrection.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.monksresurrection.Fragments.DashPost.HomeDashPosts_Fragment;
+import com.limox.jesus.monksresurrection.Fragments.PostView.PostView_Fragment;
 import com.limox.jesus.monksresurrection.Fragments.UserProfile.UserProfile_Fragment;
-import com.limox.jesus.monksresurrection.Model.Post;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
-public class Home_Activity extends AppCompatActivity implements PostAdapterRecycler.OnPostViewHolderListener,UserProfile_Fragment.OnUserProfileFragmentListener {
-    HomeDashPosts_Fragment hdpf;
-    Index_Fragment inf;
-    AboutMe_Fragment fr;
-    Fragment mCurrentFrament;
+public class Home_Activity extends AppCompatActivity implements PostAdapterRecycler.OnPostViewHolderListener,UserProfile_Fragment.OnUserProfileFragmentListener, PostView_Fragment.OnPostViewFragmentListener {
+
+    Fragment mCurrentFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         if (savedInstanceState != null){
-            startFragment(getSupportFragmentManager().getFragment(savedInstanceState,AllConstants.FRAGMENT_SAVESTATE_KEY));
+            startFragment(getSupportFragmentManager().getFragment(savedInstanceState,AllConstants.FRAGMENT_SAVESTATE_KEY),false);
         }
         startDashPostFragment();
 
@@ -35,31 +33,33 @@ public class Home_Activity extends AppCompatActivity implements PostAdapterRecyc
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, AllConstants.FRAGMENT_SAVESTATE_KEY,mCurrentFrament);
+        getSupportFragmentManager().putFragment(outState, AllConstants.FRAGMENT_SAVESTATE_KEY, mCurrentFragment);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        getSupportFragmentManager().putFragment(savedInstanceState, AllConstants.FRAGMENT_SAVESTATE_KEY,mCurrentFrament);
+        getSupportFragmentManager().putFragment(savedInstanceState, AllConstants.FRAGMENT_SAVESTATE_KEY, mCurrentFragment);
     }
 
-    void startFragment(Fragment fragment){
-        mCurrentFrament = fragment;
+    void startFragment(Fragment fragment,boolean addStack){
+        mCurrentFragment = fragment;
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.ah_container, mCurrentFrament);
+        if (addStack)
+            ft.addToBackStack(null);
+        ft.replace(R.id.ah_container, mCurrentFragment);
         ft.commit();
     }
 
     void startDashPostFragment(){
-        startFragment(new HomeDashPosts_Fragment());
+        startFragment(new HomeDashPosts_Fragment(),true);
     }
 
     private void startIndexFragment(){
-        startFragment(new Index_Fragment());
+        startFragment(new Index_Fragment(),true        );
     }
     private void openAboutMe(){
-        startFragment(AboutMe_Fragment.newInstance());
+        startFragment(AboutMe_Fragment.newInstance(),true);
     }
 
     @Override
@@ -71,12 +71,7 @@ public class Home_Activity extends AppCompatActivity implements PostAdapterRecyc
 
     @Override
     public void startPostView(Bundle post) {
-
-    }
-
-    @Override
-    public void startPostView(Post post) {
-
+        startFragment(PostView_Fragment.newInstance(post),true);
     }
 
 }

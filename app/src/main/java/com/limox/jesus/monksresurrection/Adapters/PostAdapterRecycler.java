@@ -1,9 +1,7 @@
 package com.limox.jesus.monksresurrection.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,15 +11,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.limox.jesus.monksresurrection.Model.Post;
-import com.limox.jesus.monksresurrection.Model.User;
-import com.limox.jesus.monksresurrection.PostView_Activity;
 import com.limox.jesus.monksresurrection.R;
-import com.limox.jesus.monksresurrection.Singleton.Posts_Singleton;
 import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jesus on 11/11/16.

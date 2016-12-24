@@ -6,11 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.limox.jesus.monksresurrection.Adapters.PostAdapterRecycler;
+import com.limox.jesus.monksresurrection.Fragments.PostView.PostView_Fragment;
 import com.limox.jesus.monksresurrection.Fragments.UserProfile.UserProfile_Fragment;
 import com.limox.jesus.monksresurrection.Model.Post;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
-public class UserProfile_Activity extends AppCompatActivity implements UserProfile_Fragment.OnUserProfileFragmentListener, PostAdapterRecycler.OnPostViewHolderListener{
+public class UserProfile_Activity extends AppCompatActivity implements UserProfile_Fragment.OnUserProfileFragmentListener, PostAdapterRecycler.OnPostViewHolderListener, PostView_Fragment.OnPostViewFragmentListener{
     UserProfile_Fragment upf;
     Fragment mCurrentFragment;
 
@@ -34,8 +35,10 @@ public class UserProfile_Activity extends AppCompatActivity implements UserProfi
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if (mCurrentFragment != null)
-            getSupportFragmentManager().putFragment(savedInstanceState, AllConstants.FRAGMENT_SAVESTATE_KEY,mCurrentFragment);
+        if (mCurrentFragment != null){
+            mCurrentFragment = getSupportFragmentManager().getFragment(savedInstanceState, AllConstants.FRAGMENT_SAVESTATE_KEY);
+            startFragment(mCurrentFragment,false);
+        }
     }
 
     /**
@@ -56,17 +59,13 @@ public class UserProfile_Activity extends AppCompatActivity implements UserProfi
     public void startUserProfile(Bundle user) {
         if (mCurrentFragment == null) {
             upf = UserProfile_Fragment.newInstance(user);
-            startFragment(upf, false);
+            startFragment(upf, true);
         }
     }
 
     @Override
     public void startPostView(Bundle post) {
-
+        startFragment(PostView_Fragment.newInstance(post),true);
     }
 
-    @Override
-    public void startPostView(Post post) {
-
-    }
 }

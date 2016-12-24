@@ -116,6 +116,6 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
     }
 
     public interface OnUserProfileFragmentListener {
-        void startPostView(Post post);
+        void startPostView(Bundle post);
     }
 }

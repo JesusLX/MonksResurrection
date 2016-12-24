@@ -1,23 +1,28 @@
-package com.limox.jesus.monksresurrection;
+package com.limox.jesus.monksresurrection.Fragments.PostView;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.limox.jesus.monksresurrection.Model.Post;
+import com.limox.jesus.monksresurrection.R;
 import com.limox.jesus.monksresurrection.Singleton.Posts_Singleton;
 import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
-public class PostView_Activity extends AppCompatActivity {
+public class PostView_Fragment extends Fragment {
 
     Post mPost;
     Toolbar mToolBar;
@@ -25,28 +30,101 @@ public class PostView_Activity extends AppCompatActivity {
     TextView mTxvUserName;
     TextView mTxvPostTitle;
     TextView mTxvPostDescription;
+    private OnPostViewFragmentListener mCallback;
 
     Toolbar.OnMenuItemClickListener mListenerOnMenuClick;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_view);
-        Bundle bundle = this.getIntent().getExtras();
+    public interface OnPostViewFragmentListener{
+        void startUserProfile(Bundle user);
 
-        this.mPost = Posts_Singleton.get().getPost(bundle.getInt("idPost"));
-        mToolBar = (Toolbar) findViewById(R.id.pv_tbTitleBar);
-        mToolBar.inflateMenu(R.menu.menu_post_view);
-        AdapteMenu(mToolBar.getMenu());
-        mToolBar.setOnMenuItemClickListener(mListenerOnMenuClick);
-        CreateOnOptionsItemSelected();
-
-        mIvUserPicture = (ImageView) findViewById(R.id.pv_ivUserPicture);
-        mTxvUserName = (TextView) findViewById(R.id.pv_txvUserName);
-        mTxvPostTitle = (TextView) findViewById(R.id.pv_txvPostTitle);
-        mTxvPostDescription = (TextView) findViewById(R.id.pv_txvPostDescription);
-        fillWidgets();
     }
+
+    public static PostView_Fragment newInstance(Bundle post) {
+
+        PostView_Fragment fragment = new PostView_Fragment();
+        fragment.setArguments(post);
+        return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnPostViewFragmentListener)
+            mCallback = (OnPostViewFragmentListener) context;
+        else
+            throw new ClassCastException(context.toString() +" must implement OnPostViewFragmentListener");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallback = null;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+      //  setHasOptionsMenu(true);
+        mPost = getArguments().getParcelable(AllConstants.POST_PARCELABLE_KEY);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View rootView = inflater.inflate(R.layout.activity_post_view, container,false);
+        mToolBar = (Toolbar) rootView.findViewById(R.id.pv_tbTitleBar);
+        mIvUserPicture = (ImageView) rootView.findViewById(R.id.pv_ivUserPicture);
+        mTxvUserName = (TextView) rootView.findViewById(R.id.pv_txvUserName);
+        mTxvPostTitle = (TextView) rootView.findViewById(R.id.pv_txvPostTitle);
+        mTxvPostDescription = (TextView) rootView.findViewById(R.id.pv_txvPostDescription);
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mToolBar.setOnMenuItemClickListener(mListenerOnMenuClick);
+        fillWidgets();
+        createOnOptionsItemSelected();
+        mToolBar.inflateMenu(R.menu.menu_post_view);
+        adapteMenu(mToolBar.getMenu());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        //inflater.inflate(R.menu.menu_post_view,menu);
+    }
+
+    /*
+                            @Override
+                            protected void onCreate(Bundle savedInstanceState) {
+                                super.onCreate(savedInstanceState);
+                                setContentView(R.layout.activity_post_view);
+                                Bundle bundle = this.getIntent().getExtras();
+
+                                this.mPost = Posts_Singleton.get().getPost(bundle.getInt("idPost"));
+                                mToolBar = (Toolbar) findViewById(R.id.pv_tbTitleBar);
+                                mToolBar.inflateMenu(R.menu.menu_post_view);
+                                adapteMenu(mToolBar.getMenu());
+                                CreateOnOptionsItemSelected();
+
+
+
+                            }*/
     private void fillWidgets(){
         mIvUserPicture.setImageResource(Users_Singleton.get().getUserById(mPost.getIdUser()).getProfilePicture());
         mTxvUserName.setText(Users_Singleton.get().getUserById(mPost.getIdUser()).getName());
@@ -54,8 +132,11 @@ public class PostView_Activity extends AppCompatActivity {
         mTxvPostDescription.setText(mPost.getDescription());
     }
 
-
-   private  void AdapteMenu(Menu menu){
+    /**
+     * Adapt the option menu for the current user
+     * @param menu
+     */
+    private void adapteMenu(Menu menu){
         // getMenuInflater().inflate(R.menu.menu_post_view, menu);
          switch (Users_Singleton.get().getCurrentUser().getUserType()){
              case AllConstants.ADMIN_TYPE_ID://Is an admin
@@ -86,8 +167,10 @@ public class PostView_Activity extends AppCompatActivity {
      }
 
 
-
-    public void CreateOnOptionsItemSelected() {
+    /**
+     * Create a listener for onMenuItemClick and add it to mListenerOnMenuClick
+     */
+    public void createOnOptionsItemSelected() {
         this.mListenerOnMenuClick = new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -132,7 +215,7 @@ public class PostView_Activity extends AppCompatActivity {
      * @return
      */
     public AlertDialog createSimpleDialog(final int idPost, int message, final int typeAction){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         builder.setTitle(R.string.dialogAlertTitle)
                 .setMessage(message)
@@ -143,25 +226,21 @@ public class PostView_Activity extends AppCompatActivity {
                                 switch (typeAction){
                                     case 0:
                                         Posts_Singleton.get().toFixPost(idPost);
-                                        finish();
+                                        getActivity().onBackPressed();
                                         break;
                                     case 1:
                                         Posts_Singleton.get().toPublicPost(idPost);
-                                        finish();
+                                        getActivity().onBackPressed();
+
                                         break;
                                     case 2:
                                         Posts_Singleton.get().deletePost(idPost);
-                                        finish();
+                                        getActivity().onBackPressed();
+
                                         break;
                             }}
                         })
-                .setNegativeButton(R.string.btnCancel,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
+                .setNegativeButton(R.string.btnCancel,null);
 
         return builder.create();
     }
