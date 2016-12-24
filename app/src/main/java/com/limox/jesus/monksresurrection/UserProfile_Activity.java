@@ -18,10 +18,16 @@ public class UserProfile_Activity extends AppCompatActivity implements UserProfi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        if (savedInstanceState != null){
-            startFragment(getSupportFragmentManager().getFragment(savedInstanceState,AllConstants.FRAGMENT_SAVESTATE_KEY),false);
-        }else
+        if (savedInstanceState == null)
             startUserProfile(getIntent().getExtras());
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mCurrentFragment != null){
+            getSupportFragmentManager().putFragment(outState,AllConstants.FRAGMENT_SAVESTATE_KEY,mCurrentFragment);
+        }
 
     }
 
@@ -48,8 +54,10 @@ public class UserProfile_Activity extends AppCompatActivity implements UserProfi
 
     @Override
     public void startUserProfile(Bundle user) {
-        upf = UserProfile_Fragment.newInstance(user);
-        startFragment(upf,false);
+        if (mCurrentFragment == null) {
+            upf = UserProfile_Fragment.newInstance(user);
+            startFragment(upf, false);
+        }
     }
 
     @Override

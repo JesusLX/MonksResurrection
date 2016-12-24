@@ -33,6 +33,12 @@ public class Home_Activity extends AppCompatActivity implements PostAdapterRecyc
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getSupportFragmentManager().putFragment(outState, AllConstants.FRAGMENT_SAVESTATE_KEY,mCurrentFrament);
+    }
+
+    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         getSupportFragmentManager().putFragment(savedInstanceState, AllConstants.FRAGMENT_SAVESTATE_KEY,mCurrentFrament);
