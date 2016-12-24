@@ -1,5 +1,6 @@
 package com.limox.jesus.monksresurrection.Utils;
 
+import com.limox.jesus.monksresurrection.Model.Post;
 import com.limox.jesus.monksresurrection.R;
 
 /**
@@ -11,10 +12,10 @@ import com.limox.jesus.monksresurrection.R;
 public final class AllConstants {
     //region typeList
     public static final String TYPELIST_KEY = "type";
-    public static final int FOR_NONPUBLISHED = 0;
-    public static final int FOR_PUBLISHED = 1;
-    public static final int FOR_FIXES = 2;
-    public static final int FOR_ALL = 3;
+    public static final int FOR_NONPUBLISHED = Post.NOT_PUBLISHED;
+    public static final int FOR_PUBLISHED = Post.PUBLISHED;
+    public static final int FOR_FIXES = Post.FIXED;
+    public static final int FOR_ALL = Post.ALL;
     // endregion
     public static final int ADMIN_TYPE_ID = 0;
     public static final int NORMALUSER_TYPE_ID = 1;
@@ -35,4 +36,8 @@ public final class AllConstants {
     public static final String POST_PARCELABLE_KEY = "posts";
     public static final String ARRAYLIST_POST_PARCELABLE_KEY = "arraPosts";
     //endregion
+    //region save estates keys
+    public static final String FRAGMENT_SAVESTATE_KEY = "fragment";
+    //region
+
 }

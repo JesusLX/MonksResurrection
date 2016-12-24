@@ -1,6 +1,10 @@
 package com.limox.jesus.monksresurrection.Singleton;
 
+import android.os.Parcelable;
+
 import com.limox.jesus.monksresurrection.Model.Post;
+import com.limox.jesus.monksresurrection.Model.User;
+import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +28,10 @@ public class Posts_Singleton {
     }
 
     private Posts_Singleton() {
-        mPosts = new ArrayList<Post>();
-        mPostsPublished = new ArrayList<Post>();
-        mPostsNotPublished = new ArrayList<Post>();
-        mPostsFixed = new ArrayList<Post>();
+        mPosts = new ArrayList<>();
+        mPostsPublished = new ArrayList<>();
+        mPostsNotPublished = new ArrayList<>();
+        mPostsFixed = new ArrayList<>();
 
 
         createExamplePosts();
@@ -41,8 +45,8 @@ public class Posts_Singleton {
         mPosts.add(new Post("Error4", 2, "Se ha rotoblablalbalablablablalbablablalba", "prueba,error,noche", 3));
         mPosts.add(new Post("Error5", 0, "Se ha castillo jajajalalba", "prueba,castillo,fallo", 4));
         mPosts.add(new Post("Error6", 1, "Se ha rotoblablalbalablablablalbablablalba", "pruebas,errores,fallo", 5));
-        mPosts.add(new Post(6, "Error7", 1, "Se me ha cerrado a tope", true, false, "salto,apagado,pff"));
-        mPosts.add(new Post(7, "Error8", 1, "No me puedo pasar la parte x", true, true, "dragon,noche,fuego"));
+        mPosts.add(new Post(6, "Error7", 1, "Se me ha cerrado a tope", Post.FIXED, "salto,apagado,pff"));
+        mPosts.add(new Post(7, "Error8", 1, "No me puedo pasar la parte x", Post.FIXED, "dragon,noche,fuego"));
         mPosts.add(new Post(8, "Error9", 2, "Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
                 " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
                 " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
@@ -54,10 +58,10 @@ public class Posts_Singleton {
                 " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
                 " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
                 " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla "
-                , true, false, "salto,apagado,pff"));
-        mPosts.add(new Post(9, "Error10", 0, "Se me ha cerrado a tope", true, true, "salto,apagado,pff"));
-        mPosts.add(new Post(10, "Error11", 0, "Se me ha cerrado a tope", true, false, "salto,apagado,pff"));
-        mPosts.add(new Post(11, "Error12", 1, "Se me ha cerrado a tope", true, true, "salto,apagado,pff"));
+                , Post.FIXED, "salto,apagado,pff"));
+        mPosts.add(new Post(9, "Error10", 0, "Se me ha cerrado a tope", Post.PUBLISHED, "salto,apagado,pff"));
+        mPosts.add(new Post(10, "Error11", 0, "Se me ha cerrado a tope", Post.FIXED, "salto,apagado,pff"));
+        mPosts.add(new Post(11, "Error12", 1, "Se me ha cerrado a tope", Post.PUBLISHED, "salto,apagado,pff"));
     }
 
     private boolean addPost(Post post) {
@@ -91,7 +95,7 @@ public class Posts_Singleton {
         if (mPosts.contains(fixedPost)) {
             if (mPostsPublished.contains(fixedPost)) {
                 // Put the post like is fixed
-                fixedPost.setFixed(true);
+                fixedPost.setState(Post.FIXED);
                 // Add the post at the list of all
                 mPosts.add(fixedPost);
                 allFine = true;
@@ -127,7 +131,7 @@ public class Posts_Singleton {
         for (Post post : mPosts) {
             if (post.isFixed()) {
                 mPostsFixed.add(post);
-            } else if (post.isPublicate() && post.isFixed() == false) {
+            } else if (post.isPublicate()) {
                 mPostsPublished.add(post);
             } else {
                 mPostsNotPublished.add(post);
@@ -163,11 +167,27 @@ public class Posts_Singleton {
         mPostsPublished.clear();
     }
 
-    public void createPost(String title, String description, String tags){
-        mPosts.add(new Post(title,Users_Singleton.get().getCurrentUser().getIdUser(),description,tags,mPosts.size()));
+    public void createPost(String title, String description, String tags) {
+        mPosts.add(new Post(title, Users_Singleton.get().getCurrentUser().getIdUser(), description, tags, mPosts.size()));
     }
-    public void createPostPublished(String title, String description, String tags){
-        mPosts.add(new Post(mPosts.size(),title,Users_Singleton.get().getCurrentUser().getIdUser(),description,true,false,tags));
+
+    public void createPostPublished(String title, String description, String tags) {
+        mPosts.add(new Post(mPosts.size(), title, Users_Singleton.get().getCurrentUser().getIdUser(), description, Post.PUBLISHED, tags));
         sortLists();
+    }
+
+    public ArrayList<Post> getPostsByUser(int idUser, @Post.STATE int typeList) {
+        ArrayList<Post> postsOfUser = new ArrayList<>();
+
+        for (Post tmp : mPosts) {
+            if (tmp.getIdUser() == idUser) {
+                if (typeList == Post.ALL)
+                    postsOfUser.add(tmp);
+                else if (tmp.getState() == typeList)
+                    postsOfUser.add(tmp);
+            }
+        }
+        return postsOfUser;
+
     }
 }

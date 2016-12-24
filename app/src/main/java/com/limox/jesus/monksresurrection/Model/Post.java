@@ -2,7 +2,10 @@ package com.limox.jesus.monksresurrection.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.IntDef;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Date;
 
 /**
@@ -11,53 +14,16 @@ import java.util.Date;
 
 public class Post implements Parcelable{
     private static final int DESCRIPTION_SHORTED_LENGTH = 47;
-    int mIdPost;
-    String mTitle;
-    int mIdUser;
-    String mDescription;
-    boolean mPublicate;
-    boolean mDeleted;
-    boolean mFixed;
-    String mTags;
-    Date mCreationDate;
-    int mScore;
-
-    public Post(String mTitle, int mIdUser, String mDescription, String mTags, int mIdPost) {
-        this.mTitle = mTitle;
-        this.mIdUser = mIdUser;
-        this.mDescription = mDescription;
-        this.mTags = mTags;
-        this.mIdPost = mIdPost;
-        this.mFixed = false;
-        this.mDeleted = false;
-    }
-
-    public Post(int mIdPost, String mTitle, int mIdUser, String mDescription, boolean publicate, boolean mFixed, String mTags) {
-        this.mIdPost = mIdPost;
-        this.mTitle = mTitle;
-        this.mIdUser = mIdUser;
-        this.mDescription = mDescription;
-        this.mPublicate = publicate;
-        this.mFixed = mFixed;
-        this.mTags = mTags;
-        this.mCreationDate = new Date();
-        this.mDeleted = false;
-    }
-
-    public Post(int mIdPost) {
-        this.mIdPost = mIdPost;
-    }
 
     protected Post(Parcel in) {
         mIdPost = in.readInt();
-        mTitle = in.readString();
         mIdUser = in.readInt();
-        mDescription = in.readString();
-        mPublicate = in.readByte() != 0;
-        mDeleted = in.readByte() != 0;
-        mFixed = in.readByte() != 0;
-        mTags = in.readString();
         mScore = in.readInt();
+        mState = in.readInt();
+        mTitle = in.readString();
+        mDescription = in.readString();
+        mTags = in.readString();
+        mDeleted = in.readByte() != 0;
     }
 
     public static final Creator<Post> CREATOR = new Creator<Post>() {
@@ -72,6 +38,76 @@ public class Post implements Parcelable{
         }
     };
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(mIdPost);
+        parcel.writeInt(mIdUser);
+        parcel.writeInt(mScore);
+        parcel.writeInt(mState);
+        parcel.writeString(mTitle);
+        parcel.writeString(mDescription);
+        parcel.writeString(mTags);
+        parcel.writeByte((byte) (mDeleted ? 1 : 0));
+    }
+
+
+    @IntDef({NOT_PUBLISHED,PUBLISHED,FIXED,ALL})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface STATE{}
+    public static final int NOT_PUBLISHED = 0;
+    public static final int PUBLISHED = 1;
+    public static final int FIXED = 2;
+    public static final int ALL = 3;
+
+    private int mIdPost;
+    private int mIdUser;
+    private int mScore;
+    private int mState;
+    private String mTitle;
+    private String mDescription;
+    private String mTags;
+    private boolean mDeleted;
+    private Date mCreationDate;
+
+    public Post(String mTitle, int mIdUser, String mDescription, String mTags, int mIdPost) {
+        this.mTitle = mTitle;
+        this.mIdUser = mIdUser;
+        this.mDescription = mDescription;
+        this.mTags = mTags;
+        this.mIdPost = mIdPost;
+        this.mState = NOT_PUBLISHED;
+        this.mDeleted = false;
+    }
+
+
+
+    public Post(int mIdPost, String mTitle, int mIdUser, String mDescription, @STATE int state, String mTags) {
+        this.mIdPost = mIdPost;
+        this.mTitle = mTitle;
+        this.mIdUser = mIdUser;
+        this.mDescription = mDescription;
+        this.mState = state;
+        this.mTags = mTags;
+        this.mCreationDate = new Date();
+        this.mDeleted = false;
+    }
+
+    public Post(int mIdPost) {
+        this.mIdPost = mIdPost;
+    }
+
+    public void setState(@STATE int state){
+        this.mState = state;
+    }
+
+    public @STATE int getState() {
+        return mState;
+    }
     public int getIdPost() {
         return mIdPost;
     }
@@ -111,11 +147,7 @@ public class Post implements Parcelable{
     }
 
     public boolean isPublicate() {
-        return mPublicate;
-    }
-
-    public void setPublicate(boolean mPublicate) {
-        this.mPublicate = mPublicate;
+        return mState == PUBLISHED;
     }
 
     public boolean isDeleted() {
@@ -151,13 +183,8 @@ public class Post implements Parcelable{
     }
 
     public boolean isFixed() {
-        return mFixed;
+        return mState == FIXED;
     }
-
-    public void setFixed(boolean mFixed) {
-        this.mFixed = mFixed;
-    }
-
 
     @Override
     public String toString() {
@@ -180,26 +207,4 @@ public class Post implements Parcelable{
 
     }
 
-    @Override
-    public int hashCode() {
-        return mIdPost;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mIdPost);
-        dest.writeString(mTitle);
-        dest.writeInt(mIdUser);
-        dest.writeString(mDescription);
-        dest.writeByte((byte) (mPublicate ? 1 : 0));
-        dest.writeByte((byte) (mDeleted ? 1 : 0));
-        dest.writeByte((byte) (mFixed ? 1 : 0));
-        dest.writeString(mTags);
-        dest.writeInt(mScore);
-    }
 }

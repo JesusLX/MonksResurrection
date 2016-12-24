@@ -30,32 +30,25 @@ import java.util.List;
 public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycler.PostViewHolder> {
 
 
-    private List<Post> mPosts;
+    private ArrayList<Post> mPosts;
     private Context mContext;
-    private int mTypeOfList;
+    private OnPostViewHolderListener mCallback;
 
     public interface OnPostViewHolderListener{
         void startUserProfile(Bundle user);
         void startPostView(Bundle post);
+
     }
 
-    OnPostViewHolderListener mCallback;
-
     /**
-     * @param context
-     * @param typeOfList Type of list offer by AllConstants with the firs range
+     *
+     * @param posts Arrylist of posts to show
+     * @param context context of the app
      */
-    public PostAdapterRecycler(Context context, int typeOfList) {
-        this.mContext = context;
+    public PostAdapterRecycler(ArrayList<Post> posts, Context context) {
+        this.mPosts = posts;
         mCallback = (OnPostViewHolderListener) context;
-        if (typeOfList == AllConstants.FOR_FIXES) {
-            mPosts = new ArrayList<>(Posts_Singleton.get().getPostsFixed());
-        } else if (typeOfList == AllConstants.FOR_PUBLISHED) {
-            mPosts = new ArrayList<>(Posts_Singleton.get().getPostsPublished());
-        } else {
-            mPosts = new ArrayList<>(Posts_Singleton.get().getPostsNotPublished());
-        }
-        this.mTypeOfList = typeOfList;
+        this.mContext = context;
     }
 
     @Override
@@ -73,6 +66,7 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
         holder.mIvProfile_item.setImageResource(Users_Singleton.get().getUserById(holder.mPost.getIdUser()).getProfilePicture());
         holder.mTxvPostTitle_item.setText(holder.mPost.getTitle());
         holder.mTxvPostDescription_item.setText(holder.mPost.getDescriptionShorted());
+
         holder.mIvProfile_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,32 +90,20 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
         return mPosts.size();
     }
 
-    public void getAllPosts() {
-        // Clear the list
-        mPosts.clear();
-        // if it will be a list of posts published
-        if (mTypeOfList == AllConstants.FOR_PUBLISHED) {
-            mPosts.addAll(Posts_Singleton.get().getPostsPublished());
-
-            // or a list of posts fixes
-        } else if (mTypeOfList == AllConstants.FOR_FIXES) {
-            mPosts.addAll(Posts_Singleton.get().getPostsPublished());
-
-            // Or a simple list of all the posts
-        } else
-            mPosts.addAll(Posts_Singleton.get().getPostsNotPublished());
+    public ArrayList<Post> getAllPosts() {
+        return mPosts;
     }
 
     /**
      * This class is de ViewHolder of the Posts of the list
      */
-    public final static class PostViewHolder extends RecyclerView.ViewHolder {
+    final static class PostViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mIvProfile_item;
         TextView mTxvPostDescription_item;
         TextView mTxvPostTitle_item;
         RelativeLayout mRlContainer;
-        public Post mPost;
+        Post mPost;
 
 
 

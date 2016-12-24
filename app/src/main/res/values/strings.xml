@@ -51,7 +51,11 @@
         <item name="bugs">Bugs</item>
         <item name="fixes">Fixes</item>
     </array>
-
+    <array name="uprofile_post_tabs">
+        <item name="sends">Sends</item>
+        <item name="published">Published</item>
+        <item name="messages">Messages</item>
+    </array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

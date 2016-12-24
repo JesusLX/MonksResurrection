@@ -12,10 +12,10 @@ import com.limox.jesus.monksresurrection.Utils.AllConstants;
 /**
  * Created by usuario on 22/12/16.
  */
-public class PostPagerAdapter extends FragmentStatePagerAdapter {
+public class PostTabsAdapter extends FragmentStatePagerAdapter {
 
     String[] mTabsText;
-    public PostPagerAdapter(FragmentManager fm, String[] tabsText) {
+    public PostTabsAdapter(FragmentManager fm, String[] tabsText) {
         super(fm);
         mTabsText = tabsText;
     }
@@ -36,11 +36,16 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
         }
         dpf = DashPost_Fragment.newInstance(args);
 
-        return null;
+        return dpf;
     }
 
     @Override
     public int getCount() {
         return mTabsText.length;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mTabsText[position];
     }
 }
