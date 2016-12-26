@@ -1,21 +1,18 @@
 package com.limox.jesus.monksresurrection.Fragments.UserProfile;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.limox.jesus.monksresurrection.Adapters.ProfilePostTabsAdapter;
-import com.limox.jesus.monksresurrection.Model.Post;
 import com.limox.jesus.monksresurrection.Model.User;
 import com.limox.jesus.monksresurrection.R;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
@@ -24,6 +21,9 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
 
     private OnUserProfileFragmentListener mCallback;
     private ViewPager mVpContainer;
+    TabLayout mTabLayout;
+    ViewPager mViewPager;
+    AppBarLayout mAppbarLayout;
     private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
 	private boolean mIsAvatarShown = true;
 
@@ -58,23 +58,22 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_user_profile, container,false);
 
-        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.up_tlTabs);
-		ViewPager viewPager  = (ViewPager) rootView.findViewById(R.id.up_vpContainer);
-		AppBarLayout appbarLayout = (AppBarLayout) rootView.findViewById(R.id.materialup_appbar);
-		mIvProfileImage = (ImageView) rootView.findViewById(R.id.materialup_profile_image);
+        mAppbarLayout = (AppBarLayout) rootView.findViewById(R.id.materialup_appbar);
+        mIvProfileImage = (ImageView) rootView.findViewById(R.id.materialup_profile_image);
+        mTabLayout = (TabLayout) rootView.findViewById(R.id.up_tlTabs);
+        mViewPager = (ViewPager) rootView.findViewById(R.id.up_vpContainer);
 
-		appbarLayout.addOnOffsetChangedListener(this);
-		mMaxScrollSize = appbarLayout.getTotalScrollRange();
-
-		viewPager.setAdapter(new ProfilePostTabsAdapter(getContext(),getActivity().getSupportFragmentManager(),mUser.getIdUser()));
-		tabLayout.setupWithViewPager(viewPager);
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mViewPager.setAdapter(new ProfilePostTabsAdapter(getContext(),getActivity().getSupportFragmentManager(),mUser.getIdUser()));
+        mTabLayout.setupWithViewPager(mViewPager);
         mIvProfileImage.setImageResource(mUser.getProfilePicture());
+        mMaxScrollSize = mAppbarLayout.getTotalScrollRange();
+        mAppbarLayout.addOnOffsetChangedListener(this);
     }
 
     @Override

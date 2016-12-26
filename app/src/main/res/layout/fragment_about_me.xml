@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/am_txvSubTitleBusiness"
-        android:paddingStart="@dimen/fab_marginx2"
+        android:paddingStart="@dimen/fav_marginx2"
         android:paddingTop="@dimen/fav_margin"
         android:text="@string/business_name" />
 
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/am_txvBusiness"
-        android:paddingStart="@dimen/fab_marginx2"
+        android:paddingStart="@dimen/fav_marginx2"
         android:paddingTop="@dimen/fav_margin"
         android:text="@string/business_web" />
 
@@ -67,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/am_txvSubTitleApplication"
-        android:paddingStart="@dimen/fab_marginx2"
+        android:paddingStart="@dimen/fav_marginx2"
         android:paddingTop="@dimen/fav_margin"
         android:text="@string/text_about_application" />
 </RelativeLayout>

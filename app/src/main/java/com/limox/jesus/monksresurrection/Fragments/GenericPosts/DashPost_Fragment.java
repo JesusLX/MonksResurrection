@@ -41,6 +41,16 @@ public class DashPost_Fragment extends Fragment {
             ArrayList<Post> mPostList = getArguments().getParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY);
             mAdapter = new PostAdapterRecycler(mPostList,getContext());
         }
+        if (savedInstanceState != null){
+            ArrayList<Post> mPostList = savedInstanceState.getParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY);
+            mAdapter = new PostAdapterRecycler(mPostList,getContext());
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY,mAdapter.getAllPosts());
     }
 
     @Override

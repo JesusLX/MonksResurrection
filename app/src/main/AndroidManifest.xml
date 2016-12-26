@@ -31,7 +31,7 @@
         <activity android:name=".Home_Activity" />
         <activity android:name=".SignUp_Activity" />
         <activity android:name=".HelpLogin_Activity" />
-        <activity android:name=".UserProfile_Activity"></activity>
+        <activity android:name=".UserProfile_Activity"/>
     </application>
 
 </manifest>

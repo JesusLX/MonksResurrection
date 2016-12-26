@@ -24,8 +24,8 @@
         android:id="@+id/lgn_txvTitle"
         android:text="@string/app_name"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/fab_marginx2"
-        android:layout_marginBottom="@dimen/fab_marginx2"
+        android:layout_marginTop="@dimen/fav_marginx2"
+        android:layout_marginBottom="@dimen/fav_marginx2"
         android:textSize="30sp"/>
 
 

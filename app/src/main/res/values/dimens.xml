@@ -8,6 +8,7 @@
     <dimen name="marginStart">16dp</dimen>
     <dimen name="cp_titleSize">20sp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
-    <dimen name="fab_marginx2">24dp</dimen>
+    <dimen name="fav_marginx2">24dp</dimen>
     <dimen name="separator_size">1dp</dimen>
+    <dimen name="toolbar_text">20sp</dimen>
 </resources>
