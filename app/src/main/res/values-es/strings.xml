@@ -46,4 +46,7 @@
     <string name="recover_password">Recuperar contraseña</string>
     <string name="title_user_name">Nombre de usuario:</string>
     <string name="title_user_password">Contraseña del usuario:</string>
+    <string name="email_address">Correo electrónico</string>
+    <string name="help_email_address">Introduce la dirección de correo asociada a tu cuenta de usuario</string>
+    <string name="pref_user_summary">Nombre del usuario de la aplicación</string>
 </resources>

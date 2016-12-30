@@ -19,15 +19,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RecoupAccount_Activity"
-            android:screenOrientation="locked" />
-        <activity
             android:name=".CreatePost_Activity"
             android:screenOrientation="locked"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".ItemSections_Cardview"
-            android:screenOrientation="locked" />
         <activity android:name=".Home_Activity" />
         <activity android:name=".SignUp_Activity" />
         <activity android:name=".HelpLogin_Activity" />

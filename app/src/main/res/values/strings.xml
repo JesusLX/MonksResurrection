@@ -57,6 +57,15 @@
         <item name="messages">Messages</item>
     </array>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="email_address">Email address</string>
+    <string name="help_email_address">Introduce your email address associate to your acount</string>
+    <string name="message_error_post_wrongcreate">You must fill all the camps</string>
+    <string name="pref_header_general">General</string>
+    <string name="pref_header_notifications">Notifications</string>
+    <string name="pref_title_add_friends_to_messages">Add friends</string>
+    <string name="title_activity_account_settings_">Acount settings</string>
+    <string name="title_activity_dash_posts_">Posts</string>
+    <string name="pref_ringtone_silent">Mute</string>
 
 </resources>

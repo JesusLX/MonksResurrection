@@ -33,7 +33,7 @@ public class Login_Activity extends AppCompatActivity {
         mEdtUserName = (EditText) findViewById(R.id.lgn_edtUser);
         mEdtPassword = (EditText) findViewById(R.id.lgn_edtPassword);
 
-        initializeClicKListener();
+        initializeClickListener();
 
 
         mTxvFP.setOnClickListener(mClicKListener);
@@ -42,7 +42,7 @@ public class Login_Activity extends AppCompatActivity {
 
     }
 
-    private void initializeClicKListener(){
+    private void initializeClickListener(){
         mClicKListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {

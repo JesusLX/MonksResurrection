@@ -37,7 +37,7 @@ public class HelpLogin_Activity extends AppCompatActivity implements StartHelpLo
     @Override
     public void startHelpLoginFinalFragment(Bundle args) {
         HelpLoginFinal_Fragment hlff = HelpLoginFinal_Fragment.newInstance(args);
-        getSupportFragmentManager().beginTransaction().replace(R.id.activity_sign_up,hlff).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.activity_help_login,hlff).commit();
     }
 
     @Override
