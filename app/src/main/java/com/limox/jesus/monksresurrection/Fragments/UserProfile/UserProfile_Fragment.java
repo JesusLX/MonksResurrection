@@ -24,6 +24,7 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
     TabLayout mTabLayout;
     ViewPager mViewPager;
     AppBarLayout mAppbarLayout;
+    ProfilePostTabsAdapter mAdapter;
     private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
 	private boolean mIsAvatarShown = true;
 
@@ -50,6 +51,14 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
             mUser = getArguments().getParcelable(AllConstants.USER_PARCELABLE_KEY);
         }
         setHasOptionsMenu(true);
+        mAdapter = new ProfilePostTabsAdapter(getContext(),getChildFragmentManager(),mUser.getIdUser());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAdapter = null;
+        mUser = null;
     }
 
     @Nullable
@@ -69,7 +78,7 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mViewPager.setAdapter(new ProfilePostTabsAdapter(getContext(),getActivity().getSupportFragmentManager(),mUser.getIdUser()));
+        mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mIvProfileImage.setImageResource(mUser.getProfilePicture());
         mMaxScrollSize = mAppbarLayout.getTotalScrollRange();

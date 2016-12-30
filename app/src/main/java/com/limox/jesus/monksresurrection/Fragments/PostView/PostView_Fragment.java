@@ -16,13 +16,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.limox.jesus.monksresurrection.Interfaces.PostViewPresenter;
 import com.limox.jesus.monksresurrection.Model.Post;
+import com.limox.jesus.monksresurrection.Presenter.PostViewPresenterImpl;
 import com.limox.jesus.monksresurrection.R;
-import com.limox.jesus.monksresurrection.Singleton.Posts_Singleton;
-import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
+import com.limox.jesus.monksresurrection.Repositories.Posts_Repository;
+import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
-public class PostView_Fragment extends Fragment {
+public class PostView_Fragment extends Fragment implements PostViewPresenter.View{
 
     Post mPost;
     Toolbar mToolBar;
@@ -30,6 +32,8 @@ public class PostView_Fragment extends Fragment {
     TextView mTxvUserName;
     TextView mTxvPostTitle;
     TextView mTxvPostDescription;
+    private PostViewPresenter mPresenter;
+
     private OnPostViewFragmentListener mCallback;
 
     Toolbar.OnMenuItemClickListener mListenerOnMenuClick;
@@ -66,6 +70,7 @@ public class PostView_Fragment extends Fragment {
         super.onCreate(savedInstanceState);
       //  setHasOptionsMenu(true);
         mPost = getArguments().getParcelable(AllConstants.POST_PARCELABLE_KEY);
+        mPresenter = new PostViewPresenterImpl(this);
     }
 
     @Override
@@ -90,11 +95,12 @@ public class PostView_Fragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        createOnOptionsItemSelected();
         mToolBar.setOnMenuItemClickListener(mListenerOnMenuClick);
         fillWidgets();
-        createOnOptionsItemSelected();
         mToolBar.inflateMenu(R.menu.menu_post_view);
         adapteMenu(mToolBar.getMenu());
+
     }
 
     @Override
@@ -109,25 +115,9 @@ public class PostView_Fragment extends Fragment {
         //inflater.inflate(R.menu.menu_post_view,menu);
     }
 
-    /*
-                            @Override
-                            protected void onCreate(Bundle savedInstanceState) {
-                                super.onCreate(savedInstanceState);
-                                setContentView(R.layout.activity_post_view);
-                                Bundle bundle = this.getIntent().getExtras();
-
-                                this.mPost = Posts_Singleton.get().getPost(bundle.getInt("idPost"));
-                                mToolBar = (Toolbar) findViewById(R.id.pv_tbTitleBar);
-                                mToolBar.inflateMenu(R.menu.menu_post_view);
-                                adapteMenu(mToolBar.getMenu());
-                                CreateOnOptionsItemSelected();
-
-
-
-                            }*/
     private void fillWidgets(){
-        mIvUserPicture.setImageResource(Users_Singleton.get().getUserById(mPost.getIdUser()).getProfilePicture());
-        mTxvUserName.setText(Users_Singleton.get().getUserById(mPost.getIdUser()).getName());
+        mIvUserPicture.setImageResource(Users_Repository.get().getUserById(mPost.getIdUser()).getProfilePicture());
+        mTxvUserName.setText(Users_Repository.get().getUserById(mPost.getIdUser()).getName());
         mTxvPostTitle.setText(mPost.getTitle());
         mTxvPostDescription.setText(mPost.getDescription());
     }
@@ -138,7 +128,7 @@ public class PostView_Fragment extends Fragment {
      */
     private void adapteMenu(Menu menu){
         // getMenuInflater().inflate(R.menu.menu_post_view, menu);
-         switch (Users_Singleton.get().getCurrentUser().getUserType()){
+         switch (Users_Repository.get().getCurrentUser().getUserType()){
              case AllConstants.ADMIN_TYPE_ID://Is an admin
 
                  if (mPost.isPublicate())
@@ -158,8 +148,8 @@ public class PostView_Fragment extends Fragment {
                  break;
          }
        // If the current user is the owner of the current post
-       if (Users_Singleton.get().currentUserIsOwner(mPost)){
-           if (!mPost.isFixed() && !Users_Singleton.get().getCurrentUser().isAdmin())
+       if (Users_Repository.get().currentUserIsOwner(mPost)){
+           if (!mPost.isFixed() && !Users_Repository.get().getCurrentUser().isAdmin())
                menu.findItem(R.id.action_pv_Delete).setVisible(true);
 
            menu.findItem(R.id.action_pv_SendMessage).setVisible(false);
@@ -177,11 +167,11 @@ public class PostView_Fragment extends Fragment {
                 switch (item.getItemId()) {
                     case R.id.action_pv_ToFixes:
                         // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
-                        createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToFixes, 0).show();
+                        createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToFixes, TO_FIXED).show();
                         break;
                     case R.id.action_pv_ToPublished:
                         // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
-                        createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToPublished, 1).show();
+                        createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToPublished, TO_PUBLISHED).show();
                         break;
             /*case R.id.action_SendMessage:
                 // Todo Aqui meter para enviar mensaje
@@ -191,7 +181,7 @@ public class PostView_Fragment extends Fragment {
                 break;*/
                     case R.id.action_pv_Delete:
                         // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
-                        createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_Delete, 2).show();
+                        createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_Delete, DELETE).show();
                         break;
                 }
                 return true;
@@ -214,7 +204,7 @@ public class PostView_Fragment extends Fragment {
      * @param typeAction tipo de accion
      * @return
      */
-    public AlertDialog createSimpleDialog(final int idPost, int message, final int typeAction){
+    public AlertDialog createSimpleDialog(final int idPost, int message, @PostViewPresenter.View.ACTION final int typeAction){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         builder.setTitle(R.string.dialogAlertTitle)
@@ -224,21 +214,21 @@ public class PostView_Fragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (typeAction){
-                                    case 0:
-                                        Posts_Singleton.get().toFixPost(idPost);
-                                        getActivity().onBackPressed();
+                                    case TO_NOT_PUBLISHED:
+                                        mPresenter.changePostOfList(mPost.getIdPost(),Post.NOT_PUBLISHED);
                                         break;
-                                    case 1:
-                                        Posts_Singleton.get().toPublicPost(idPost);
-                                        getActivity().onBackPressed();
-
+                                    case TO_PUBLISHED:
+                                        mPresenter.changePostOfList(mPost.getIdPost(),Post.PUBLISHED);
                                         break;
-                                    case 2:
-                                        Posts_Singleton.get().deletePost(idPost);
-                                        getActivity().onBackPressed();
-
+                                    case TO_FIXED:
+                                        mPresenter.changePostOfList(mPost.getIdPost(),Post.FIXED);
                                         break;
-                            }}
+                                    case DELETE:
+                                        Posts_Repository.get().deletePost(idPost);
+                                        break;
+                                }
+                                getActivity().onBackPressed();
+                            }
                         })
                 .setNegativeButton(R.string.btnCancel,null);
 

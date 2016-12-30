@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.limox.jesus.monksresurrection.Singleton.Posts_Singleton;
+import com.limox.jesus.monksresurrection.Repositories.Posts_Repository;
 
 public class CreatePost_Activity extends AppCompatActivity {
     EditText mEdtTitle;
@@ -32,7 +32,7 @@ public class CreatePost_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 if (validate()){
                     //TODO Cambiar esto, ahora crea directamente uno publicado
-                    Posts_Singleton.get().createPostPublished(mTitle,mDescriptions,mTags);
+                    Posts_Repository.get().createPostPublished(mTitle,mDescriptions,mTags);
                     finish();
                 }
 

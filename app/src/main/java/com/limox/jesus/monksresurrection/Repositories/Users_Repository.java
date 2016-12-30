@@ -1,4 +1,4 @@
-package com.limox.jesus.monksresurrection.Singleton;
+package com.limox.jesus.monksresurrection.Repositories;
 
 
 import com.limox.jesus.monksresurrection.Model.Post;
@@ -13,21 +13,21 @@ import java.util.List;
  * Created by jesus on 11/11/16.
  */
 
-public class Users_Singleton {
+public class Users_Repository {
 
     User currentUser;
 
-    private static Users_Singleton mUsers_Singleton;
+    private static Users_Repository mUsers_Repository;
     List<User> mUsers;
 
-    public static Users_Singleton get() {
-        if (mUsers_Singleton == null) {
-            mUsers_Singleton = new Users_Singleton();
+    public static Users_Repository get() {
+        if (mUsers_Repository == null) {
+            mUsers_Repository = new Users_Repository();
         }
-        return mUsers_Singleton;
+        return mUsers_Repository;
     }
 
-    private Users_Singleton() {
+    private Users_Repository() {
         mUsers = new ArrayList<User>();
         //TODO Create example users
         addExampleUsers();

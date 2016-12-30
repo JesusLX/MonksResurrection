@@ -4,7 +4,7 @@ import android.util.Patterns;
 
 import com.limox.jesus.monksresurrection.Model.User;
 import com.limox.jesus.monksresurrection.R;
-import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
+import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
 /**
@@ -59,7 +59,7 @@ public class Validate {
     public static int validateAccount(String userName, String password){
         int messageError = R.string.message_error_nonexistent;
         User tmpUser;
-        if ((tmpUser =Users_Singleton.get().getUser(userName)) != null){
+        if ((tmpUser = Users_Repository.get().getUser(userName)) != null){
             if (tmpUser.getName().equals(userName) && tmpUser.getPassword().equals(password))
                 messageError = MESSAGE_OK;
         }

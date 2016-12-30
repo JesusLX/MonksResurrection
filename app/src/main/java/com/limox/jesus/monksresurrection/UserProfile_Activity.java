@@ -21,24 +21,21 @@ public class UserProfile_Activity extends AppCompatActivity implements UserProfi
         setContentView(R.layout.activity_user_profile);
         if (savedInstanceState == null)
             startUserProfile(getIntent().getExtras());
+        else {
+            startFragment(getSupportFragmentManager().getFragment(savedInstanceState,AllConstants.FRAGMENT_SAVESTATE_KEY),false);
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mCurrentFragment != null){
-            getSupportFragmentManager().putFragment(outState,AllConstants.FRAGMENT_SAVESTATE_KEY,mCurrentFragment);
-        }
-
+        getSupportFragmentManager().putFragment(outState,AllConstants.FRAGMENT_SAVESTATE_KEY,mCurrentFragment);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if (mCurrentFragment != null){
-            mCurrentFragment = getSupportFragmentManager().getFragment(savedInstanceState, AllConstants.FRAGMENT_SAVESTATE_KEY);
-            startFragment(mCurrentFragment,false);
-        }
+
     }
 
     /**
@@ -57,10 +54,7 @@ public class UserProfile_Activity extends AppCompatActivity implements UserProfi
 
     @Override
     public void startUserProfile(Bundle user) {
-        if (mCurrentFragment == null) {
-            upf = UserProfile_Fragment.newInstance(user);
-            startFragment(upf, true);
-        }
+        startFragment(UserProfile_Fragment.newInstance(user), false);
     }
 
     @Override

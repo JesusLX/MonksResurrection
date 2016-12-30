@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.limox.jesus.monksresurrection.Model.Post;
 import com.limox.jesus.monksresurrection.R;
-import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
+import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
         // Initializing the components of the holder created above
         // If it will host a type of list of other we need to put in
         holder.mPost = mPosts.get(position);
-        holder.mIvProfile_item.setImageResource(Users_Singleton.get().getUserById(holder.mPost.getIdUser()).getProfilePicture());
+        holder.mIvProfile_item.setImageResource(Users_Repository.get().getUserById(holder.mPost.getIdUser()).getProfilePicture());
         holder.mTxvPostTitle_item.setText(holder.mPost.getTitle());
         holder.mTxvPostDescription_item.setText(holder.mPost.getDescriptionShorted());
 
@@ -65,7 +65,7 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                args.putParcelable(AllConstants.USER_PARCELABLE_KEY,Users_Singleton.get().getUserById(mPosts.get(position).getIdUser()));
+                args.putParcelable(AllConstants.USER_PARCELABLE_KEY, Users_Repository.get().getUserById(mPosts.get(position).getIdUser()));
                 mCallback.startUserProfile(args);
             }
         });

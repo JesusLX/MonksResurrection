@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4CAF50</color>
-    <color name="colorPrimaryDark">#1B5E20</color>
-    <color name="colorPrimaryMedium">#2E7D32</color>
-    <color name="colorAccent">#00C853</color>
+    <color name="colorPrimary">#303030</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimaryMedium">#3e3e3e</color>
+    <color name="colorAccent">#c2c2c2</color>
     <color name="colorSeparator">#595959</color>
-    <color name="colorPostSeparator">#1B5E20</color>
-    <color name="colorSeparatorLog">#00C853</color>
+    <color name="colorPostSeparator">#5e5e5e</color>
+    <color name="colorSeparatorLog">#c4c4c4</color>
     <color name="collapsed_post_bg">#E8F5E9</color>
     <color name="postlist_bg">#E8F5E9</color>
     <color name="colorError">#d90000</color>
-    <color name="fontColor">#1e1e1e</color>
+    <color name="fontColor">#3d3c3c</color>
     <color name="lgn_background">#f4efec</color>
     <color name="googleColor">#bf0000</color>
     <color name="facebookColor">#0011ff</color>

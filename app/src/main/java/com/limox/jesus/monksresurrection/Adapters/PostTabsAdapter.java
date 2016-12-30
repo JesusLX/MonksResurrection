@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.limox.jesus.monksresurrection.Fragments.GenericPosts.DashPost_Fragment;
-import com.limox.jesus.monksresurrection.Singleton.Posts_Singleton;
+import com.limox.jesus.monksresurrection.Repositories.Posts_Repository;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
 /**
@@ -26,15 +26,16 @@ public class PostTabsAdapter extends FragmentStatePagerAdapter {
         Bundle args = new Bundle();
         switch (position){
             case 0:
-                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Singleton.get().getPostsPublished());
+                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsPublished());
                 args.putInt(AllConstants.TYPELIST_KEY,AllConstants.FOR_PUBLISHED);
                 break;
             case 1:
-                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Singleton.get().getPostsFixed());
+                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsFixed());
                 args.putInt(AllConstants.TYPELIST_KEY,AllConstants.FOR_FIXES);
                 break;
         }
         dpf = DashPost_Fragment.newInstance(args);
+        dpf.setRetainInstance(true);
 
         return dpf;
     }

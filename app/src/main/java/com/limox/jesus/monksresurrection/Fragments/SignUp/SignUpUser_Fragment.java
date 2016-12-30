@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.limox.jesus.monksresurrection.R;
-import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
+import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 import com.limox.jesus.monksresurrection.Utils.Preferences;
 import com.limox.jesus.monksresurrection.Validators.Validate;
 
@@ -73,8 +73,8 @@ public class SignUpUser_Fragment extends Fragment {
             public void onClick(View v) {
                 if (validateParams()){
                     // if all right create user and use it like current user of the app
-                    Users_Singleton.get().addUser(name,password,email);
-                    Users_Singleton.get().setCurrentUser(Users_Singleton.get().getUser(name));
+                    Users_Repository.get().addUser(name,password,email);
+                    Users_Repository.get().setCurrentUser(Users_Repository.get().getUser(name));
                     Preferences.setCurrentUser(name,password,getContext());
 
                     mCallback.startHomeActivity();

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.limox.jesus.monksresurrection.Model.User;
 import com.limox.jesus.monksresurrection.R;
-import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
+import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 
 public class HelpLoginFinal_Fragment extends Fragment {
 
@@ -53,7 +53,7 @@ public class HelpLoginFinal_Fragment extends Fragment {
     private void fill()
     {
         mEmail = getArguments().getString("email");
-        mUser = Users_Singleton.get().getUserByEmail(mEmail);
+        mUser = Users_Repository.get().getUserByEmail(mEmail);
 
         mIvImageProfile.setImageResource( mUser.getProfilePicture());
         mTxvUserName.setText(mUser.getName());

@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
+import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 import com.limox.jesus.monksresurrection.Validators.Validate;
 
 public class Login_Activity extends AppCompatActivity {
@@ -58,7 +58,7 @@ public class Login_Activity extends AppCompatActivity {
                         if (validateAccount()) {
                             startActivity(new Intent(Login_Activity.this, Home_Activity.class));
                             // set the current user
-                            Users_Singleton.get().setCurrentUser(Users_Singleton.get().getUser(mUserName));
+                            Users_Repository.get().setCurrentUser(Users_Repository.get().getUser(mUserName));
                             //TODO añadir que se ponga aqui el usuario en los settings
 
                             finish();
@@ -75,7 +75,7 @@ public class Login_Activity extends AppCompatActivity {
         boolean allrigth = true;
 
         // check if the user introduced exists
-        if (Users_Singleton.get().getUser(mUserName) != null) {
+        if (Users_Repository.get().getUser(mUserName) != null) {
             // If is wrong show a message at the password edt
             if (Validate.validateAccount(mUserName, mPassword) != Validate.MESSAGE_OK) {
                 mEdtPassword.setError(getResources().getString(Validate.validateAccount(mUserName, mPassword)));

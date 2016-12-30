@@ -1,33 +1,28 @@
-package com.limox.jesus.monksresurrection.Singleton;
-
-import android.os.Parcelable;
+package com.limox.jesus.monksresurrection.Repositories;
 
 import com.limox.jesus.monksresurrection.Model.Post;
-import com.limox.jesus.monksresurrection.Model.User;
-import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jesus on 11/11/16.
  */
 
-public class Posts_Singleton {
-    private static Posts_Singleton mPosts_Singleton;
+public class Posts_Repository {
+    private static Posts_Repository mPosts_Repository;
     private ArrayList<Post> mPosts;
     private ArrayList<Post> mPostsPublished;
     private ArrayList<Post> mPostsNotPublished;
     private ArrayList<Post> mPostsFixed;
 
-    public static Posts_Singleton get() {
-        if (mPosts_Singleton == null) {
-            mPosts_Singleton = new Posts_Singleton();
+    public static Posts_Repository get() {
+        if (mPosts_Repository == null) {
+            mPosts_Repository = new Posts_Repository();
         }
-        return mPosts_Singleton;
+        return mPosts_Repository;
     }
 
-    private Posts_Singleton() {
+    private Posts_Repository() {
         mPosts = new ArrayList<>();
         mPostsPublished = new ArrayList<>();
         mPostsNotPublished = new ArrayList<>();
@@ -71,38 +66,6 @@ public class Posts_Singleton {
             mPostsNotPublished.add(post);
             allFine = true;
             sortLists();
-        }
-        return allFine;
-    }
-
-    public boolean toPublicPost(int idPost) {
-        boolean allFine = false;
-        Post post = new Post(idPost);
-        if (mPosts.contains(post)) {
-            if (mPostsNotPublished.contains(post)) {
-                mPostsNotPublished.remove(mPostsNotPublished.indexOf(post));
-                mPostsPublished.add(post);
-                allFine = true;
-                sortLists();
-            }
-        }
-        return allFine;
-    }
-
-    public boolean toFixPost(int idFixedPost) {
-        boolean allFine = false;
-        Post fixedPost = getPost(idFixedPost);
-        if (mPosts.contains(fixedPost)) {
-            if (mPostsPublished.contains(fixedPost)) {
-                // Put the post like is fixed
-                fixedPost.setState(Post.FIXED);
-                // Add the post at the list of all
-                mPosts.add(fixedPost);
-                allFine = true;
-                // Sort the list to send all posts to his own list
-                sortLists();
-
-            }
         }
         return allFine;
     }
@@ -168,11 +131,11 @@ public class Posts_Singleton {
     }
 
     public void createPost(String title, String description, String tags) {
-        mPosts.add(new Post(title, Users_Singleton.get().getCurrentUser().getIdUser(), description, tags, mPosts.size()));
+        mPosts.add(new Post(title, Users_Repository.get().getCurrentUser().getIdUser(), description, tags, mPosts.size()));
     }
 
     public void createPostPublished(String title, String description, String tags) {
-        mPosts.add(new Post(mPosts.size(), title, Users_Singleton.get().getCurrentUser().getIdUser(), description, Post.PUBLISHED, tags));
+        mPosts.add(new Post(mPosts.size(), title, Users_Repository.get().getCurrentUser().getIdUser(), description, Post.PUBLISHED, tags));
         sortLists();
     }
 
@@ -189,5 +152,12 @@ public class Posts_Singleton {
         }
         return postsOfUser;
 
+    }
+
+    public void changePostOfList(int idPost, @Post.STATE int newState) {
+        Post tmpPost;
+        tmpPost = getPost(idPost);
+        tmpPost.setState(newState);
+        sortLists();
     }
 }

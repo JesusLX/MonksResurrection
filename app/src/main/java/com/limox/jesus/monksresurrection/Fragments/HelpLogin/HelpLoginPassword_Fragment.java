@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import com.limox.jesus.monksresurrection.Model.User;
 import com.limox.jesus.monksresurrection.R;
-import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
+import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 
 public class HelpLoginPassword_Fragment extends Fragment {
 
@@ -70,7 +70,7 @@ public class HelpLoginPassword_Fragment extends Fragment {
                 // Get the email introducced
                 mEmail = mEdtEmail.getText().toString();
                 User tmpUer;
-                if ((tmpUer = Users_Singleton.get().getUserByEmail(mEmail)) != null){
+                if ((tmpUer = Users_Repository.get().getUserByEmail(mEmail)) != null){
                     Bundle bundle = new Bundle();
                     bundle.putString("email",mEmail);
                     mCallback.startHelpLoginFinalFragment(bundle);

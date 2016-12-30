@@ -3,7 +3,7 @@ package com.limox.jesus.monksresurrection.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
+import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 
 /**
  * Created by Jesús on 16/12/16.
@@ -33,7 +33,7 @@ public class Preferences {
         boolean hasUser = false;
         SharedPreferences preferences = context.getSharedPreferences(AllConstants.SHARED_USER_FILE,context.MODE_PRIVATE);
         if (preferences.contains(AllConstants.SHARED_USER_NAME)){
-            if (Users_Singleton.get().existUser(preferences.getString(AllConstants.SHARED_USER_NAME,null)))
+            if (Users_Repository.get().existUser(preferences.getString(AllConstants.SHARED_USER_NAME,null)))
                 hasUser = true;
         }
         return hasUser;

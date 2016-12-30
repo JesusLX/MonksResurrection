@@ -11,4 +11,5 @@
         android:id="@+id/dp_rvList"
         android:background="@color/collapsed_post_bg"/>
 
+
 </LinearLayout>

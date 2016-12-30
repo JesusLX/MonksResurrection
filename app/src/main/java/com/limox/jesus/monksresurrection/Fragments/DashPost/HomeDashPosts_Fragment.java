@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.limox.jesus.monksresurrection.Adapters.PostTabsAdapter;
 import com.limox.jesus.monksresurrection.R;
-import com.limox.jesus.monksresurrection.Singleton.Users_Singleton;
+import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -49,7 +49,7 @@ public class HomeDashPosts_Fragment extends Fragment  {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mAdapter = new PostTabsAdapter(getActivity().getSupportFragmentManager(),getResources().getStringArray(R.array.dash_post_tabs));
+        mAdapter = new PostTabsAdapter(getChildFragmentManager(),getResources().getStringArray(R.array.dash_post_tabs));
     }
 
     @Override
@@ -86,8 +86,8 @@ public class HomeDashPosts_Fragment extends Fragment  {
       //  mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
        // mTabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         mTabLayout.setupWithViewPager(mViewPager);
-        mCiProfilePicture.setImageResource(Users_Singleton.get().getCurrentUser().getProfilePicture());
-        mTxvProfileName.setText(Users_Singleton.get().getCurrentUser().getName());
+        mCiProfilePicture.setImageResource(Users_Repository.get().getCurrentUser().getProfilePicture());
+        mTxvProfileName.setText(Users_Repository.get().getCurrentUser().getName());
     }
 
     @Override

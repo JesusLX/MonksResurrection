@@ -23,24 +23,20 @@ public class Home_Activity extends AppCompatActivity implements PostAdapterRecyc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        if (savedInstanceState != null){
-            startFragment(getSupportFragmentManager().getFragment(savedInstanceState,AllConstants.FRAGMENT_SAVESTATE_KEY),false);
-        }
-        startDashPostFragment();
 
+        if (savedInstanceState == null)
+            startDashPostFragment();
+       /* else
+            mCurrentFragment = getSupportFragmentManager().getFragment(savedInstanceState,AllConstants.FRAGMENT_SAVESTATE_KEY);
+    */
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, AllConstants.FRAGMENT_SAVESTATE_KEY, mCurrentFragment);
+    //    getSupportFragmentManager().putFragment(outState, AllConstants.FRAGMENT_SAVESTATE_KEY, mCurrentFragment);
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        getSupportFragmentManager().putFragment(savedInstanceState, AllConstants.FRAGMENT_SAVESTATE_KEY, mCurrentFragment);
-    }
 
     void startFragment(Fragment fragment,boolean addStack){
         mCurrentFragment = fragment;
@@ -56,7 +52,7 @@ public class Home_Activity extends AppCompatActivity implements PostAdapterRecyc
     }
 
     private void startIndexFragment(){
-        startFragment(new Index_Fragment(),true        );
+        startFragment(new Index_Fragment(),true);
     }
     private void openAboutMe(){
         startFragment(AboutMe_Fragment.newInstance(),true);
