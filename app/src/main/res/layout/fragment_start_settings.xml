@@ -1,0 +1,92 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.limox.jesus.monksresurrection.Fragments.Settings.StartSettings_Fragment">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/settingsToolBar_bg">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_keyboard_backspace_black_24px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fav_marginx2"
+            android:text="@string/settings"
+            android:textSize="@dimen/toolbar_text_size" />
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/ss_txvAccountTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolBar"
+        android:layout_marginBottom="@dimen/fav_bottom_margin"
+        android:layout_marginStart="@dimen/fav_margin"
+        android:layout_marginTop="@dimen/fav_margin"
+        android:text="@string/account"
+        android:textSize="@dimen/cp_titleSize" />
+
+    <View
+        android:id="@+id/ss_vwTittleSeparator1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ss_txvAccountTitle"
+        android:background="@color/colorSeparator" />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/ss_vwTittleSeparator1"
+        android:layout_height="wrap_content"
+        android:id="@+id/ss_lvAcountOptions"/>
+
+    <TextView
+        android:id="@+id/ss_txvHelpTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ss_lvAcountOptions"
+        android:layout_marginBottom="@dimen/fav_bottom_margin"
+        android:layout_marginStart="@dimen/fav_margin"
+        android:layout_marginTop="@dimen/fav_margin"
+        android:text="@string/help"
+        android:textSize="@dimen/cp_titleSize" />
+
+    <View
+        android:id="@+id/ss_vwTittleSeparator2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ss_txvHelpTitle"
+        android:background="@color/colorSeparator" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ss_lvHelpOptions"
+        android:layout_below="@+id/ss_vwTittleSeparator2"/>
+    <TextView
+        android:id="@+id/ss_txvOthersTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ss_lvHelpOptions"
+        android:layout_marginBottom="@dimen/fav_bottom_margin"
+        android:layout_marginTop="@dimen/fav_margin"
+       />
+    <View
+        android:id="@+id/ss_vwTittleSeparator3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ss_txvOthersTitle"
+        android:background="@color/colorSeparator" />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ss_lvOtherOptions"
+        android:layout_below="@+id/ss_vwTittleSeparator3"/>
+
+</RelativeLayout>

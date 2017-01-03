@@ -44,15 +44,23 @@ public class NavListViewAdapter extends ArrayAdapter<NavItem> {
         } else
             holder = (NavItemHolder) view.getTag();
 
-        holder.mIcon.setImageResource(navItem.getIcon());
-        holder.mTitle.setText(navItem.getTitle());
-        if (navItem.isAdmin() == true) {
-            if (!Users_Repository.get().getCurrentUser().isAdmin()) {
-                view.setVisibility(View.INVISIBLE);
-            } else {
-                view.setVisibility(View.VISIBLE);
-            }
+        if (navItem.getIcon() == NavItem.NO_ICON)
+            holder.mIcon.setVisibility(View.GONE);
+        else {
+            holder.mIcon.setVisibility(View.VISIBLE);
+            holder.mIcon.setImageResource(navItem.getIcon());
         }
+        holder.mTitle.setText(navItem.getTitle());
+        boolean isAdmin =navItem.isAdmin();
+        if (isAdmin) {
+            if (Users_Repository.get().getCurrentUser().isAdmin()) {
+                view.setVisibility(View.VISIBLE);
+            } else {
+                view.setVisibility(View.INVISIBLE);
+            }
+        }else
+            view.setVisibility(View.VISIBLE);
+
         return view;
     }
 

@@ -1,5 +1,6 @@
 package com.limox.jesus.monksresurrection;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,9 +8,10 @@ import android.os.Bundle;
 import com.limox.jesus.monksresurrection.Fragments.HelpLogin.HelpLoginFinal_Fragment;
 import com.limox.jesus.monksresurrection.Fragments.HelpLogin.HelpLoginPassword_Fragment;
 import com.limox.jesus.monksresurrection.Fragments.HelpLogin.StartHelpLogin_Fragment;
+import com.limox.jesus.monksresurrection.Interfaces.HomeOfFragments;
 
-public class HelpLogin_Activity extends AppCompatActivity implements StartHelpLogin_Fragment.OnStartHelpLoginFragmentListener, HelpLoginPassword_Fragment.OnHelpLoginPasswordFragmentListener {
-
+public class HelpLogin_Activity extends AppCompatActivity implements HomeOfFragments, StartHelpLogin_Fragment.OnStartHelpLoginFragmentListener, HelpLoginPassword_Fragment.OnHelpLoginPasswordFragmentListener {
+    Fragment mCurrentFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,23 +30,27 @@ public class HelpLogin_Activity extends AppCompatActivity implements StartHelpLo
      * Start the fragment StartSignUp_Fragmetn, adding it to the backStack
      */
     public void startHelpLogin(){
-        StartHelpLogin_Fragment shlf = new StartHelpLogin_Fragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.addToBackStack(null);
-        ft.replace(R.id.activity_help_login,shlf).commit();
+        startFragment(new StartHelpLogin_Fragment(),true);
     }
 
     @Override
     public void startHelpLoginFinalFragment(Bundle args) {
-        HelpLoginFinal_Fragment hlff = HelpLoginFinal_Fragment.newInstance(args);
-        getSupportFragmentManager().beginTransaction().replace(R.id.activity_help_login,hlff).commit();
+        startFragment(HelpLoginFinal_Fragment.newInstance(args),false);
     }
 
     @Override
     public void startHelpLoginPasswordFragment() {
-        HelpLoginPassword_Fragment hlpf = new HelpLoginPassword_Fragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.addToBackStack(null);
-        ft.replace(R.id.activity_help_login,hlpf).commit();
+       startFragment(new HelpLoginPassword_Fragment(),true);
+
+    }
+
+    @Override
+    public void startFragment(Fragment fragment, boolean addStack) {
+        mCurrentFragment = fragment;
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (addStack)
+            ft.addToBackStack(null);
+        ft.replace(R.id.activity_help_login, mCurrentFragment);
+        ft.commit();
     }
 }

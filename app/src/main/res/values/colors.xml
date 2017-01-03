@@ -15,5 +15,6 @@
     <color name="googleColor">#bf0000</color>
     <color name="facebookColor">#0011ff</color>
     <color name="steamColor">#000</color>
+    <color name="settingsToolBar_bg">#bfbfbf</color>
 
 </resources>

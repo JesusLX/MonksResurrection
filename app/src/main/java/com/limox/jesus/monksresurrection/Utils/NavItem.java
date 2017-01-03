@@ -8,9 +8,15 @@ public class NavItem {
     private boolean mIsAdmin;
     private int mIcon;
     private String mTitle;
+    public static final int NO_ICON = -1;
 
     public NavItem(int icon, String title) {
         this.mIcon = icon;
+        this.mTitle = title;
+        this.mIsAdmin = false;
+    }
+    public NavItem(String title) {
+        this.mIcon = NO_ICON;
         this.mTitle = title;
         this.mIsAdmin = false;
     }

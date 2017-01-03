@@ -82,7 +82,7 @@ public class DashPost_Fragment extends Fragment {
             mCallback = (OnDashPostFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnStartSettingsListener");
         }*/
     }
 

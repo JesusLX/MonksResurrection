@@ -12,4 +12,7 @@
     <dimen name="separator_size">1dp</dimen>
     <dimen name="toolbar_text">20sp</dimen>
     <dimen name="title_margin">10dp</dimen>
+    <dimen name="toolbar_text_size">25sp</dimen>
+    <dimen name="fav_bottom_margin">10dp</dimen>
+    <dimen name="option_size">20sp</dimen>
 </resources>

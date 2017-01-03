@@ -8,10 +8,11 @@ import android.os.Bundle;
 import com.limox.jesus.monksresurrection.Adapters.PostAdapterRecycler;
 import com.limox.jesus.monksresurrection.Fragments.PostView.PostView_Fragment;
 import com.limox.jesus.monksresurrection.Fragments.UserProfile.UserProfile_Fragment;
+import com.limox.jesus.monksresurrection.Interfaces.HomeOfFragments;
 import com.limox.jesus.monksresurrection.Model.Post;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
-public class UserProfile_Activity extends AppCompatActivity implements UserProfile_Fragment.OnUserProfileFragmentListener, PostAdapterRecycler.OnPostViewHolderListener, PostView_Fragment.OnPostViewFragmentListener{
+public class UserProfile_Activity extends AppCompatActivity implements HomeOfFragments, UserProfile_Fragment.OnUserProfileFragmentListener, PostAdapterRecycler.OnPostViewHolderListener, PostView_Fragment.OnPostViewFragmentListener {
     UserProfile_Fragment upf;
     Fragment mCurrentFragment;
 
@@ -22,14 +23,14 @@ public class UserProfile_Activity extends AppCompatActivity implements UserProfi
         if (savedInstanceState == null)
             startUserProfile(getIntent().getExtras());
         else {
-            startFragment(getSupportFragmentManager().getFragment(savedInstanceState,AllConstants.FRAGMENT_SAVESTATE_KEY),false);
+            startFragment(getSupportFragmentManager().getFragment(savedInstanceState, AllConstants.FRAGMENT_SAVESTATE_KEY), false);
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState,AllConstants.FRAGMENT_SAVESTATE_KEY,mCurrentFragment);
+        getSupportFragmentManager().putFragment(outState, AllConstants.FRAGMENT_SAVESTATE_KEY, mCurrentFragment);
     }
 
     @Override
@@ -38,19 +39,6 @@ public class UserProfile_Activity extends AppCompatActivity implements UserProfi
 
     }
 
-    /**
-     * Replace the current view for the fragment introduced
-     * This method put the @param fragment like the curren fragment
-     * @param fragment fragment to start
-     * @param addStack if add to the backStack
-     */
-    void startFragment(Fragment fragment,boolean addStack){
-        mCurrentFragment = fragment;
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (addStack)
-            ft.addToBackStack(null);
-        ft.replace(R.id.activity_user_profile, mCurrentFragment).commit();
-    }
 
     @Override
     public void startUserProfile(Bundle user) {
@@ -59,7 +47,15 @@ public class UserProfile_Activity extends AppCompatActivity implements UserProfi
 
     @Override
     public void startPostView(Bundle post) {
-        startFragment(PostView_Fragment.newInstance(post),true);
+        startFragment(PostView_Fragment.newInstance(post), true);
     }
 
+    @Override
+    public void startFragment(Fragment fragment, boolean addStack) {
+        mCurrentFragment = fragment;
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (addStack)
+            ft.addToBackStack(null);
+        ft.replace(R.id.activity_user_profile, mCurrentFragment).commit();
+    }
 }

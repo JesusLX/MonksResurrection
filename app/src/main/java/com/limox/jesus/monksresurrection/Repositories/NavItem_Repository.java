@@ -19,8 +19,8 @@ public class NavItem_Repository {
         addItem(new NavItem(R.drawable.ic_add_black_24dp,mContext.getString(R.string.profile)));
         addItem(new NavItem(R.drawable.ic_add_black_24dp,mContext.getString(R.string.forum_bugs)));
         addItem(new NavItem(R.drawable.ic_add_black_24dp,mContext.getString(R.string.admins),true));
-        addItem(new NavItem(R.drawable.ic_add_black_24dp,mContext.getString(R.string.settings)));
-        addItem(new NavItem(R.drawable.ic_add_black_24dp,mContext.getString(R.string.help)));
+        addItem(new NavItem(mContext.getString(R.string.settings)));
+        addItem(new NavItem(mContext.getString(R.string.help)));
     }
 
     public void addItem(NavItem newItem){
