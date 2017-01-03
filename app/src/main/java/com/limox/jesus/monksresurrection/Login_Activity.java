@@ -57,6 +57,8 @@ public class Login_Activity extends AppCompatActivity {
                     case R.id.lgn_btnSignIn:
                         if (validateAccount()) {
                             startActivity(new Intent(Login_Activity.this, Home_Activity.class));
+                            //startActivity(new Intent(Login_Activity.this, Navigator_Activity.class));
+
                             // set the current user
                             Users_Repository.get().setCurrentUser(Users_Repository.get().getUser(mUserName));
                             //TODO añadir que se ponga aqui el usuario en los settings

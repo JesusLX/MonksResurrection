@@ -64,8 +64,18 @@
     <string name="pref_header_general">General</string>
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_title_add_friends_to_messages">Add friends</string>
-    <string name="title_activity_account_settings_">Acount settings</string>
+    <string name="title_activity_account_settings_">Account settings</string>
     <string name="title_activity_dash_posts_">Posts</string>
     <string name="pref_ringtone_silent">Mute</string>
+    <string name="with_email">With email addres</string>
+    <string name="with_Gg">With Google account</string>
+    <string name="with_St" >With Steam account</string>
+    <string name="with_Fb" >With Facebook account</string>
+    <string name="pref_user_summary">Name of the application\'s user</string>
+    <string name="profile">Profile</string>
+    <string name="forum_bugs">Forum Bugs</string>
+    <string name="admins">Admins</string>
+    <string name="settings">Settings</string>
+    <string name="help">Help</string>
 
 </resources>

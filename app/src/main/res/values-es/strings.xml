@@ -49,4 +49,15 @@
     <string name="email_address">Correo electrónico</string>
     <string name="help_email_address">Introduce la dirección de correo asociada a tu cuenta de usuario</string>
     <string name="pref_user_summary">Nombre del usuario de la aplicación</string>
+    <string name="pref_ringtone_silent">Mutear</string>
+    <string name="pref_header_notifications">Notificaciones</string>
+    <string name="pref_header_general">General</string>
+    <string name="pref_title_add_friends_to_messages">Añadir amigos</string>
+    <string name="message_error_post_wrongcreate">Tienes que rellenar todos los campos</string>
+    <string name="title_activity_account_settings_">Configuración de la cuenta</string>
+    <string name="title_activity_dash_posts_">Publicaciones</string>
+    <string name="with_Fb">Con tu cuenta de Facebook</string>
+    <string name="with_Gg">Con tu cuenta de Google</string>
+    <string name="with_St">Con tu cuenta de Steam</string>
+    <string name="with_email">Con tu cuenta de correo electrónico</string>
 </resources>

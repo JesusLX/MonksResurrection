@@ -1,10 +1,8 @@
 package com.limox.jesus.monksresurrection.Fragments.HelpLogin;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +42,7 @@ public class StartHelpLogin_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_start_help_login,null,false);
-        mTxvToHelpEmail = (TextView) rootView.findViewById(R.id.hl_txvRecoverUser);
+        mTxvToHelpEmail = (TextView) rootView.findViewById(R.id.hl_txvRecoverWithEmail);
         return rootView;
     }
 

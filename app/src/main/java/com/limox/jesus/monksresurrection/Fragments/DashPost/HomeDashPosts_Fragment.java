@@ -32,12 +32,16 @@ public class HomeDashPosts_Fragment extends Fragment  {
   
 
     public interface OnHomeDashPostFragmentListener {
-
+        void onOpenNavigatorDrawer();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof OnHomeDashPostFragmentListener)
+            mCallback = (OnHomeDashPostFragmentListener) context;
+        else
+            throw new ClassCastException(context.toString()+" must implement OnHomeDashPostFragmentListener");
     }
 
     @Override
@@ -88,6 +92,12 @@ public class HomeDashPosts_Fragment extends Fragment  {
         mTabLayout.setupWithViewPager(mViewPager);
         mCiProfilePicture.setImageResource(Users_Repository.get().getCurrentUser().getProfilePicture());
         mTxvProfileName.setText(Users_Repository.get().getCurrentUser().getName());
+        mCiProfilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCallback.onOpenNavigatorDrawer();
+            }
+        });
     }
 
     @Override
