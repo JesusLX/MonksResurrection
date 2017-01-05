@@ -85,7 +85,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.activity_post_view, container,false);
         mToolBar = (Toolbar) rootView.findViewById(R.id.pv_tbTitleBar);
-        mIvUserPicture = (ImageView) rootView.findViewById(R.id.pv_ivUserPicture);
+        mIvUserPicture = (ImageView) rootView.findViewById(R.id.pv_ivProfilePicture);
         mTxvUserName = (TextView) rootView.findViewById(R.id.pv_txvUserName);
         mTxvPostTitle = (TextView) rootView.findViewById(R.id.pv_txvPostTitle);
         mTxvPostDescription = (TextView) rootView.findViewById(R.id.pv_txvPostDescription);
@@ -124,7 +124,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
 
     /**
      * Adapt the option menu for the current user
-     * @param menu
+     * @param menu menu inflated
      */
     private void adapteMenu(Menu menu){
         // getMenuInflater().inflate(R.menu.menu_post_view, menu);
@@ -202,7 +202,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
      * @param idPost identificador de la publicacion
      * @param message Mensaje que se va a mostrar en el dialog
      * @param typeAction tipo de accion
-     * @return
+     * @return return a dialog of this
      */
     public AlertDialog createSimpleDialog(final int idPost, int message, @PostViewPresenter.View.ACTION final int typeAction){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

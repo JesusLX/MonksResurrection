@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/about_me"
-        android:textSize="@dimen/cp_titleSize" />
+        android:textSize="@dimen/fav_titleSize" />
 
     <View
         android:id="@+id/am_vwSeparator"
@@ -30,9 +30,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/am_vwSeparator"
         android:paddingStart="@dimen/fav_margin"
+        android:paddingEnd="@dimen/fav_margin"
         android:paddingTop="@dimen/fav_margin"
         android:text="@string/business"
-        android:textSize="@dimen/cp_titleSize" />
+        android:textSize="@dimen/fav_titleSize" />
 
     <TextView
         android:id="@+id/am_txvBusiness"
@@ -40,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/am_txvSubTitleBusiness"
         android:paddingStart="@dimen/fav_marginx2"
+        android:paddingEnd="@dimen/fav_margin"
         android:paddingTop="@dimen/fav_margin"
         android:text="@string/business_name" />
 
@@ -49,6 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/am_txvBusiness"
         android:paddingStart="@dimen/fav_marginx2"
+        android:paddingEnd="@dimen/fav_margin"
         android:paddingTop="@dimen/fav_margin"
         android:text="@string/business_web" />
 
@@ -58,9 +61,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/am_txvWeb"
         android:paddingStart="@dimen/fav_margin"
+        android:paddingEnd="@dimen/fav_margin"
         android:paddingTop="@dimen/fav_margin"
         android:text="@string/app_name"
-        android:textSize="@dimen/cp_titleSize" />
+        android:textSize="@dimen/fav_titleSize" />
 
     <TextView
         android:id="@+id/am_txvAboutApplication"
@@ -68,6 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/am_txvSubTitleApplication"
         android:paddingStart="@dimen/fav_marginx2"
+        android:paddingEnd="@dimen/fav_margin"
         android:paddingTop="@dimen/fav_margin"
         android:text="@string/text_about_application" />
 </RelativeLayout>

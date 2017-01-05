@@ -1,6 +1,7 @@
 package com.limox.jesus.monksresurrection.Utils;
 
 /**
+ * This is a class for the items of navigation who can be used for lists
  * Created by jesus on 3/01/17.
  */
 
@@ -9,6 +10,7 @@ public class NavItem {
     private int mIcon;
     private String mTitle;
     public static final int NO_ICON = -1;
+    private boolean mIsTitle;
 
     public NavItem(int icon, String title) {
         this.mIcon = icon;
@@ -49,5 +51,13 @@ public class NavItem {
 
     public void setIsAdmin(boolean isAdmin) {
         this.mIsAdmin = isAdmin;
+    }
+
+    public boolean ismIsTitle() {
+        return mIsTitle;
+    }
+
+    public void setmIsTitle(boolean mIsTitle) {
+        this.mIsTitle = mIsTitle;
     }
 }

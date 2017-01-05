@@ -17,7 +17,7 @@
         android:text="@string/recover_account"
         android:layout_margin="@dimen/title_margin"
         android:id="@+id/hl_txvTitle"
-        android:textSize="@dimen/cp_titleSize"/>
+        android:textSize="@dimen/fav_titleSize"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

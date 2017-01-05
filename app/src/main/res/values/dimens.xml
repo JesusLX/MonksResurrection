@@ -6,7 +6,7 @@
     <dimen name="lgn_pddingTop">10dp</dimen>
     <dimen name="title_image_height">200dp</dimen>
     <dimen name="marginStart">16dp</dimen>
-    <dimen name="cp_titleSize">25sp</dimen>
+    <dimen name="fav_titleSize">25sp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="fav_marginx2">24dp</dimen>
     <dimen name="separator_size">1dp</dimen>

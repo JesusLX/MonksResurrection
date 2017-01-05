@@ -19,7 +19,7 @@ public class Preferences {
      * @param context Context of the application to access to sharedPreferences
      */
     public static void setCurrentUser(String name, String passwrd, Context context){
-        SharedPreferences preferences = context.getSharedPreferences(AllConstants.SHARED_USER_FILE,context.MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences(AllConstants.SHARED_USER_FILE,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         if (preferences.contains(AllConstants.SHARED_USER_NAME))
             editor.remove(AllConstants.SHARED_USER_NAME);
@@ -28,10 +28,22 @@ public class Preferences {
 
         editor.putString(AllConstants.SHARED_USER_NAME,name);
         editor.putString(AllConstants.SHARED_USER_PSWRD,passwrd);
+
+        editor.apply();
+    }
+    public static void removeCurrentUser(Context context){
+        SharedPreferences preferences = context.getSharedPreferences(AllConstants.SHARED_USER_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        if (preferences.contains(AllConstants.SHARED_USER_NAME))
+            editor.remove(AllConstants.SHARED_USER_NAME);
+        if (preferences.contains(AllConstants.SHARED_USER_PSWRD))
+            editor.remove(AllConstants.SHARED_USER_PSWRD);
+
+        editor.apply();
     }
     public static boolean hasACurrentUser(Context context){
         boolean hasUser = false;
-        SharedPreferences preferences = context.getSharedPreferences(AllConstants.SHARED_USER_FILE,context.MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences(AllConstants.SHARED_USER_FILE,Context.MODE_PRIVATE);
         if (preferences.contains(AllConstants.SHARED_USER_NAME)){
             if (Users_Repository.get().existUser(preferences.getString(AllConstants.SHARED_USER_NAME,null)))
                 hasUser = true;

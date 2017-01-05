@@ -18,6 +18,7 @@ import com.limox.jesus.monksresurrection.Fragments.DashPost.HomeDashPosts_Fragme
 import com.limox.jesus.monksresurrection.Fragments.PostView.PostView_Fragment;
 import com.limox.jesus.monksresurrection.Fragments.UserProfile.UserProfile_Fragment;
 import com.limox.jesus.monksresurrection.Interfaces.HomeOfFragments;
+import com.limox.jesus.monksresurrection.Repositories.NavItem_Repository;
 import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
@@ -40,7 +41,7 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
         mCIVProfileImage = (CircleImageView) findViewById(R.id.cd_civUserProfile);
         mTxvUserName = (TextView) findViewById(R.id.cd_txvUserName);
 
-        mDrawerList.setAdapter(new NavListViewAdapter(this));
+        mDrawerList.setAdapter(new NavListViewAdapter(this,new NavItem_Repository(this).getNavDrawerItems()));
         mDrawerList.setOnItemClickListener(new DrawerListListener(this));
 
         mCIVProfileImage.setImageResource(Users_Repository.get().getCurrentUser().getProfilePicture());

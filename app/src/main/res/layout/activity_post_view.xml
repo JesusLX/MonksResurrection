@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_post_view"
     android:layout_width="match_parent"
@@ -12,7 +11,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/pv_tbTitleBar"
@@ -21,13 +20,18 @@
             android:background="@color/colorPrimary">
 
             <ImageView
-                android:id="@+id/pv_ivUserPicture"
+                android:id="@+id/pv_ivProfilePicture"
                 android:layout_width="50dp"
-                android:layout_height="50dp" />
+                android:layout_height="50dp"
+                android:contentDescription="@string/ivProfilePicture_description" />
 
             <TextView
                 android:id="@+id/pv_txvUserName"
                 android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/fav_marginx2"
+                android:layout_marginEnd="@dimen/fav_margin"
+                android:textSize="@dimen/fav_titleSize"
+                android:textColor="@android:color/darker_gray"
                 android:layout_height="match_parent" />
 
 
@@ -49,8 +53,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:text="Title"
-                android:textSize="@dimen/cp_titleSize" />
+                android:text="@string/title"
+                android:textSize="@dimen/fav_titleSize" />
 
             <View
                 android:id="@+id/pv_vwSeparator"
@@ -66,7 +70,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/pv_vwSeparator"
                 android:layout_marginTop="23dp"
-                android:text="Description" />
+                android:text="@string/description" />
 
         </RelativeLayout>
     </RelativeLayout>

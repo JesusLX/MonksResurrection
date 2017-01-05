@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:id="@+id/hlf_ivProfilePicture"
-        app:srcCompat="@drawable/nino" />
+        app:srcCompat="@drawable/nino"
+        android:contentDescription="@string/ivProfilePicture_description" />
     <TextView
         android:paddingTop="@dimen/fav_margin"
         android:layout_width="match_parent"
@@ -27,8 +28,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="NombreUsuario"
-        android:textSize="@dimen/cp_titleSize"
+        android:textSize="@dimen/fav_titleSize"
         android:textAlignment="center"
         android:id="@+id/hlf_txvUserName"
         android:layout_below="@+id/hlf_txvTitleName"/>
@@ -40,10 +40,9 @@
         android:layout_below="@+id/hlf_txvUserName"/>
     <TextView
         android:layout_width="match_parent"
-        android:textSize="@dimen/cp_titleSize"
+        android:textSize="@dimen/fav_titleSize"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="Contraseña de usuario"
         android:id="@+id/hlf_txvUserPassword"
         android:layout_below="@+id/hlf_txvTitleUserPassword"/>
 

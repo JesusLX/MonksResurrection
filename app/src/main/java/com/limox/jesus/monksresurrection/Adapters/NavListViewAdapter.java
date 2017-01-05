@@ -2,7 +2,6 @@ package com.limox.jesus.monksresurrection.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,8 @@ import com.limox.jesus.monksresurrection.Repositories.NavItem_Repository;
 import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 import com.limox.jesus.monksresurrection.Utils.NavItem;
 
+import java.util.ArrayList;
+
 /**
  * Created by jesus on 3/01/17.
  * This class is an array adapter for the Navigator Drawer.
@@ -22,18 +23,18 @@ import com.limox.jesus.monksresurrection.Utils.NavItem;
  */
 public class NavListViewAdapter extends ArrayAdapter<NavItem> {
 
-    public NavListViewAdapter(Context context) {
-        super(context, R.layout.nav_item, new NavItem_Repository(context).getItems());
+    public NavListViewAdapter(Context context, ArrayList<NavItem> navItems) {
+        super(context, R.layout.nav_item, navItems);
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
-        NavItemHolder holder = null;
+        NavItemHolder holder;
         NavItem navItem = getItem(position);
         if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(getContext().LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.nav_item, parent, false);
             holder = new NavItemHolder();
 
@@ -44,14 +45,21 @@ public class NavListViewAdapter extends ArrayAdapter<NavItem> {
         } else
             holder = (NavItemHolder) view.getTag();
 
-        if (navItem.getIcon() == NavItem.NO_ICON)
-            holder.mIcon.setVisibility(View.GONE);
-        else {
-            holder.mIcon.setVisibility(View.VISIBLE);
-            holder.mIcon.setImageResource(navItem.getIcon());
+        if (navItem != null) {
+            if (navItem.getIcon() == NavItem.NO_ICON)
+                holder.mIcon.setVisibility(View.GONE);
+            else {
+                holder.mIcon.setVisibility(View.VISIBLE);
+                holder.mIcon.setImageResource(navItem.getIcon());
+            }
         }
-        holder.mTitle.setText(navItem.getTitle());
-        boolean isAdmin =navItem.isAdmin();
+        if (navItem != null) {
+            holder.mTitle.setText(navItem.getTitle());
+        }
+        boolean isAdmin = false;
+        if (navItem != null) {
+            isAdmin = navItem.isAdmin();
+        }
         if (isAdmin) {
             if (Users_Repository.get().getCurrentUser().isAdmin()) {
                 view.setVisibility(View.VISIBLE);

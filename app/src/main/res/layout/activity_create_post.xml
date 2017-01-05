@@ -18,15 +18,18 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/cp_btnBack"
             android:background="@android:color/transparent"
-            app:srcCompat="?attr/actionModeCloseDrawable" />
+            app:srcCompat="@drawable/ic_keyboard_backspace_white_24px"
+            android:contentDescription="@string/btnback_description" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/fav_margin"
-            android:text="Create Post"
-            android:textSize="@dimen/cp_titleSize" />
+            android:paddingEnd="@dimen/fav_margin"
+            android:text="@string/create_post"
+            android:textSize="@dimen/fav_titleSize" />
     </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
@@ -66,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/crp_btnEnviar"
             android:drawableStart="@drawable/ic_loyalty_black_24px"
-            android:hint="@string/tagls_separated_by_comma"
+            android:hint="@string/tags_separated_by_comma"
             android:maxLength="255"
             android:textColorHighlight="@android:color/darker_gray"
             android:textColorHint="@android:color/darker_gray" />

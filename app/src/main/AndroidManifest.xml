@@ -26,7 +26,8 @@
         <activity android:name=".SignUp_Activity" />
         <activity android:name=".HelpLogin_Activity" />
         <activity android:name=".UserProfile_Activity" />
-        <activity android:name=".Settings_Activity"></activity>
+        <activity android:name=".Settings_Activity" />
+
     </application>
 
 </manifest>

@@ -1,21 +1,20 @@
 <resources>
     <string name="app_name">Monk\'s Resurrection</string>
     <string name="lgn_usr_name">User name</string>
-    <string name="action_settings">Settings</string>
-    <string name="lgn_usr_passwrd">Password</string>
-    <string name="lgn_sign_in">Sign In</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
     <string name="lgn_FP">Forgot Password</string>
     <string name="ssu_txvStartWith">Start with:</string>
     <string name="ssu_txvSignUp">Sign up with an email address</string>
-    <string name="ssu_txvSignIn">You have jet a acount? Sign in</string>
-    <string name="sue_btnnext">Next</string>
+    <string name="ssu_txvSignIn">You have jet a account? Sign in</string>
+    <string name="next">Next</string>
     <string name="action_to_fixes">To fixes</string>
     <string name="action_to_published">To published</string>
     <string name="action_send_message">Send Message</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="dialogAlertTitle">Caution!</string>
-    <string name="btnOk">Ok</string>
+    <string name="btnOk">OK</string>
     <string name="btnCancel">Cancel</string>
     <string name="dat_MessageAlert_ToFixes">Are you sure of send this post to fixes?</string>
     <string name="dat_MessageAlert_ToPublished">Are you sure of send this post to published?</string>
@@ -34,19 +33,19 @@
     <string name="message_error_password_match">Passwords do not match</string>
     <string name="message_error_nonexistent">Error with the password or the user name</string>
     <string name="btn_create_post">Create Post</string>
-    <string name="tagls_separated_by_comma">Tagls,separated,by,comma</string>
+    <string name="tags_separated_by_comma">Tagls,separated,by,comma</string>
     <string name="description">Description</string>
     <string name="title">Title</string>
     <string name="text_about_application">This application is a support application for the game Mon\'s Resurrection of this business, here you can help us to update our game, you also can read the story of the game and know more about his world.</string>
     <string name="business_web" translatable="false">https://www.ellimonerox.tumblr.com</string>
-    <string name="business_name" translatable="false">Three Lemon X</string>
+    <string name="business_name" translatable="false">Lemon Three X</string>
     <string name="business">Business:</string>
     <string name="about_me">About me:</string>
     <string name="recover_password">Recover password</string>
     <string name="recover_account">Recover account</string>
     <string name="title_user_name">User name:</string>
     <string name="title_user_password">User Password:</string>
-    <string name="message_error_email_not_registred">That email is not registred</string>
+    <string name="message_error_email_not_registered">That email is not registered</string>
     <array name="dash_post_tabs">
         <item name="bugs">Bugs</item>
         <item name="fixes">Fixes</item>
@@ -59,15 +58,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="email_address">Email address</string>
-    <string name="help_email_address">Introduce your email address associate to your acount</string>
+    <string name="help_email_address">Introduce your email address associate to your account</string>
     <string name="message_error_post_wrongcreate">You must fill all the camps</string>
     <string name="pref_header_general">General</string>
-    <string name="pref_header_notifications">Notifications</string>
+    <string name="notifications">Notifications</string>
     <string name="pref_title_add_friends_to_messages">Add friends</string>
     <string name="title_activity_account_settings_">Account settings</string>
     <string name="title_activity_dash_posts_">Posts</string>
     <string name="pref_ringtone_silent">Mute</string>
-    <string name="with_email">With email addres</string>
+    <string name="with_email">With email address</string>
     <string name="with_Gg">With Google account</string>
     <string name="with_St">With Steam account</string>
     <string name="with_Fb">With Facebook account</string>
@@ -79,5 +78,84 @@
     <string name="help">Help</string>
     <string name="account">Account</string>
     <string name="edit_profile">Edit profile</string>
+    <string name="reset_password">Reset password</string>
+    <string name="posts_liked">Posts You\'ve Liked</string>
+    <string name="language">Language</string>
+    <string name="monks_help_center">Monk\'s Help Center</string>
+    <string name="report_problem">Report a Problem</string>
+    <string name="log_out">Log Out</string>
+    <string name="log_out_of">Log Out of</string>
+    <string name="support">Support</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Entry 1</item>
+        <item>Entry 2</item>
+        <item>Entry 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value" />
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="ivProfilePicture_description">Is the user profile image</string>
+    <string name="btnback_description">Is a image to set click to go back at stack</string>
+    <string name="create_post">Create Post</string>
+    <string name="o_separator" translatable="false">O</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="userprofilebg_description">Background for the user profile picture</string>
+    <string name="action_settings"></string>
 
 </resources>

@@ -1,46 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    style="@style/ItemPostTheme"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cp_rlContainer"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    style="@style/ItemPostTheme"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
 
-            <ImageView
+    <ImageView
+        android:id="@+id/cp_iVProfile"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:contentDescription="@string/ivProfilePicture_description" />
 
-                android:id="@+id/cp_iVProfile"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="10dp"
-                app:srcCompat="@mipmap/ic_launcher" />
 
+    <TextView
+        android:id="@+id/cp_txvPostTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fav_margin"
+        android:layout_toEndOf="@+id/cp_iVProfile"
+        android:text="@string/title"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="@dimen/fav_titleSize" />
 
-            <TextView
-                android:id="@+id/cp_txvPostTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/fav_margin"
-                android:layout_toEndOf="@+id/cp_iVProfile"
-                android:text="Title"
-                android:textSize="@dimen/cp_titleSize" />
-            <TextView
-                android:id="@+id/cp_txvPostContent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cp_txvPostTitle"
-                android:layout_toEndOf="@+id/cp_iVProfile"
-                android:layout_marginStart="@dimen/fav_margin"
-                android:layout_marginBottom="@dimen/fav_margin"
-                android:layout_marginEnd="@dimen/fav_margin"
-                android:text="Description"
-         />
+    <TextView
+        android:id="@+id/cp_txvPostContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cp_txvPostTitle"
+        android:layout_marginBottom="@dimen/fav_margin"
+        android:layout_marginEnd="@dimen/fav_margin"
+        android:layout_marginStart="@dimen/fav_margin"
+        android:layout_toEndOf="@+id/cp_iVProfile"
+        android:text="@string/description"
+        android:textColor="@android:color/darker_gray" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator_size"
-        android:background="@color/colorPostSeparator"
-        android:layout_alignParentBottom="true"/>
-        </RelativeLayout>
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPostSeparator" />
+</RelativeLayout>
 

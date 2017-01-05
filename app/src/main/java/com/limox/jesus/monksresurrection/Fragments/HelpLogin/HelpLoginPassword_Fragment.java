@@ -47,7 +47,7 @@ public class HelpLoginPassword_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View rootView = inflater.inflate(R.layout.fragment_help_login_password,null,false);
+        View rootView = inflater.inflate(R.layout.fragment_help_login_password,container,false);
         // Inicializate
         mEdtEmail = (EditText) rootView.findViewById(R.id.hlp_edtEmail);
         mBtnNext = (Button) rootView.findViewById(R.id.hlp_btnSend);
@@ -69,15 +69,14 @@ public class HelpLoginPassword_Fragment extends Fragment {
             public void onClick(View v) {
                 // Get the email introducced
                 mEmail = mEdtEmail.getText().toString();
-                User tmpUer;
-                if ((tmpUer = Users_Repository.get().getUserByEmail(mEmail)) != null){
+
+                if (Users_Repository.get().getUserByEmail(mEmail) != null){
                     Bundle bundle = new Bundle();
                     bundle.putString("email",mEmail);
                     mCallback.startHelpLoginFinalFragment(bundle);
                 }else{
-                    mEdtEmail.setError(getString(R.string.message_error_email_not_registred));
+                    mEdtEmail.setError(getString(R.string.message_error_email_not_registered));
                 }
-
             }
         };
     }
