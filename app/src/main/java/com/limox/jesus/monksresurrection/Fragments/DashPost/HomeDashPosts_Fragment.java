@@ -23,7 +23,7 @@ public class HomeDashPosts_Fragment extends Fragment  {
 
     private Toolbar mToolbar;
     private CircleImageView mCiProfilePicture;
-    private TextView mTxvProfileName;
+    private TextView mTxvCurrentTab;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private PostTabsAdapter mAdapter;
@@ -72,7 +72,7 @@ public class HomeDashPosts_Fragment extends Fragment  {
         mTabLayout= (TabLayout) rootView.findViewById(R.id.hdp_tabLayout);
         mViewPager = (ViewPager) rootView.findViewById(R.id.hdp_vpContainer);
         mCiProfilePicture = (CircleImageView) rootView.findViewById(R.id.hdp_civProfilePicture);
-        mTxvProfileName = (TextView) rootView.findViewById(R.id.hdp_txvProfileName);
+        mTxvCurrentTab = (TextView) rootView.findViewById(R.id.hdp_txvProfileName);
         return rootView;
     }
 
@@ -89,9 +89,25 @@ public class HomeDashPosts_Fragment extends Fragment  {
         mViewPager.setAdapter(mAdapter);
       //  mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
        // mTabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mTxvCurrentTab.setText(tab.getText());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         mTabLayout.setupWithViewPager(mViewPager);
         mCiProfilePicture.setImageResource(Users_Repository.get().getCurrentUser().getProfilePicture());
-        mTxvProfileName.setText(Users_Repository.get().getCurrentUser().getName());
+        mTxvCurrentTab.setText(mAdapter.getPageTitle(0));
         mCiProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

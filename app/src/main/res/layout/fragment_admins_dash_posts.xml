@@ -1,12 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_dash_post"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.limox.jesus.monksresurrection.Fragments.DashPost.HomeDashPosts_Fragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.limox.jesus.monksresurrection.Fragments.Admins.AdminsDashPosts_Fragment">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -16,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/hdp_tbTitle"
+            android:id="@+id/adp_tbTitle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -24,7 +21,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="35dp"
-                android:id="@+id/hdp_civProfilePicture"
+                android:id="@+id/adp_civProfilePicture"
                 android:layout_height="match_parent"
                 android:src="@drawable/monje"/>
             <TextView
@@ -34,29 +31,19 @@
                 android:paddingStart="@dimen/fav_marginx2"
                 android:paddingEnd="@dimen/fav_marginx2"
                 android:textSize="@dimen/toolbar_text"
-                android:id="@+id/hdp_txvProfileName"/>
+                android:id="@+id/adp_txvProfileName"/>
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
-            android:id="@+id/hdp_tabLayout"
+            android:id="@+id/adp_tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/hdp_vpContainer"
+        android:id="@+id/adp_vpContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/hdp_fabAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fav_margin"
-        app:backgroundTint="?attr/colorPrimary"
-        app:srcCompat="@drawable/ic_add_white_24px" />
-
-</android.support.design.widget.CoordinatorLayout>
+</FrameLayout>

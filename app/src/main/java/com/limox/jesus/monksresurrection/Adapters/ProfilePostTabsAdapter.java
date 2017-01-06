@@ -22,7 +22,7 @@ public class ProfilePostTabsAdapter extends FragmentStatePagerAdapter {
     int mIdUser;
     public ProfilePostTabsAdapter(Context context, FragmentManager supportFragmentManager, int idUser) {
         super(supportFragmentManager);
-        mTabNames = context.getResources().getStringArray(R.array.uprofile_post_tabs);
+        mTabNames = context.getResources().getStringArray(R.array.profile_post_tabs);
         mIdUser = idUser;
     }
 
@@ -37,7 +37,7 @@ public class ProfilePostTabsAdapter extends FragmentStatePagerAdapter {
         Bundle args = new Bundle();
         switch (position){
             case 0:
-                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsByUser(mIdUser, Post.ALL));
+                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsByUser(mIdUser, Post.NOT_PUBLISHED));
                 fragment = DashPost_Fragment.newInstance(args);
                 break;
             case 1:
@@ -45,7 +45,7 @@ public class ProfilePostTabsAdapter extends FragmentStatePagerAdapter {
                 fragment = DashPost_Fragment.newInstance(args);
                 break;
             case 2:
-                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsByUser(Users_Repository.get().getCurrentUser().getIdUser(), Post.PUBLISHED));
+                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsByUser(mIdUser, Post.FIXED));
                 fragment = DashPost_Fragment.newInstance(args);
                 break;
         }

@@ -50,13 +50,17 @@
         <item name="bugs">Bugs</item>
         <item name="fixes">Fixes</item>
     </array>
-    <array name="uprofile_post_tabs">
+    <array name="profile_post_tabs">
         <item name="sends">Sends</item>
         <item name="published">Published</item>
         <item name="messages">Messages</item>
     </array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <array name="admin_post_tabs">
+        <item name="sends">Sends</item>
+        <item name="published">Published</item>
+        <item name="messages">Messages</item>
+    </array>
+
     <string name="email_address">Email address</string>
     <string name="help_email_address">Introduce your email address associate to your account</string>
     <string name="message_error_post_wrongcreate">You must fill all the camps</string>
@@ -86,76 +90,11 @@
     <string name="log_out">Log Out</string>
     <string name="log_out_of">Log Out of</string>
     <string name="support">Support</string>
-
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
-
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
-
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
-    </string-array>
-
-    <string-array name="list_preference_entries">
-        <item>Entry 1</item>
-        <item>Entry 2</item>
-        <item>Entry 3</item>
-    </string-array>
-
-    <string-array name="list_preference_entry_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-    <string-array name="multi_select_list_preference_default_value" />
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
-
-    <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
-
-    <string name="pref_title_new_message_notifications">New message notifications</string>
-
-    <string name="pref_title_ringtone">Ringtone</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
     <string name="ivProfilePicture_description">Is the user profile image</string>
     <string name="btnback_description">Is a image to set click to go back at stack</string>
     <string name="create_post">Create Post</string>
     <string name="o_separator" translatable="false">O</string>
     <string name="sign_up">Sign Up</string>
     <string name="userprofilebg_description">Background for the user profile picture</string>
-    <string name="action_settings"></string>
 
 </resources>
