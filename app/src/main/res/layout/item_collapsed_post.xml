@@ -25,7 +25,7 @@
         android:layout_margin="@dimen/fav_margin"
         android:layout_toEndOf="@+id/cp_iVProfile"
         android:text="@string/title"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/fontColorLight"
         android:textSize="@dimen/fav_titleSize" />
 
     <TextView
@@ -38,7 +38,8 @@
         android:layout_marginStart="@dimen/fav_margin"
         android:layout_toEndOf="@+id/cp_iVProfile"
         android:text="@string/description"
-        android:textColor="@android:color/darker_gray" />
+        android:textColor="@color/fontColorLight"
+ />
 
     <View
         android:layout_width="match_parent"

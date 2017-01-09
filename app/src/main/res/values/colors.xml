@@ -2,15 +2,17 @@
 <resources>
     <color name="colorPrimary">#303030</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorPrimaryMedium">#292929</color>
+    <color name="colorPrimaryMedium">#202020</color>
     <color name="colorAccent">#c2c2c2</color>
     <color name="colorSeparator">#595959</color>
-    <color name="colorPostSeparator">#5e5e5e</color>
-    <color name="colorSeparatorLog">#c4c4c4</color>
-    <color name="collapsed_post_bg">#292929</color>
-    <color name="postlist_bg">#292929</color>
+    <color name="colorPostSeparator">#13141d</color>
+    <color name="colorSeparatorLog">#24222b</color>
+    <color name="collapsed_post_bg">#292936</color>
+    <color name="postlist_bg">#313143</color>
+    <color name="tabs_bg">#343445</color>
     <color name="colorError">#d90000</color>
     <color name="fontColor">#3d3c3c</color>
+    <color name="fontColorLight">#e1e0e0</color>
     <color name="lgn_background">#f4efec</color>
     <color name="googleColor">#bf0000</color>
     <color name="facebookColor">#0011ff</color>
