@@ -32,7 +32,7 @@ public class CreatePost_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 if (validate()){
                     //TODO Cambiar esto, ahora crea directamente uno publicado
-                    Posts_Repository.get().createPostPublished(mTitle,mDescriptions,mTags);
+                    Posts_Repository.get().createPost(mTitle,mDescriptions,mTags);
                     finish();
                 }
 

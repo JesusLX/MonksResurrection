@@ -100,6 +100,11 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
     }
 
     @Override
+    public void startAddPost() {
+        startActivity(new Intent(Home_Activity.this,CreatePost_Activity.class));
+    }
+
+    @Override
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);

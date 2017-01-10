@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.limox.jesus.monksresurrection.Adapters.PostAdapterRecycler;
 import com.limox.jesus.monksresurrection.Model.Post;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 public class DashPost_Fragment extends Fragment {
 
     private PostAdapterRecycler mAdapter;
-    private RecyclerView rvList;
+    private RecyclerView rvPosts;
 
    /* public interface OnDashPostFragmentListener{
 
@@ -59,15 +58,15 @@ public class DashPost_Fragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_dash_post, container, false);
-        rvList = (RecyclerView) rootView.findViewById(R.id.dp_rvList);
+        rvPosts = (RecyclerView) rootView.findViewById(R.id.dp_rvList);
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rvList.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvList.setAdapter(mAdapter);
+        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvPosts.setAdapter(mAdapter);
     }
 
     @Override

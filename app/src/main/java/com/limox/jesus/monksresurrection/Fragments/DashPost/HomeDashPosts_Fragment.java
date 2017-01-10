@@ -2,6 +2,7 @@ package com.limox.jesus.monksresurrection.Fragments.DashPost;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.Toolbar;
 
@@ -28,11 +29,13 @@ public class HomeDashPosts_Fragment extends Fragment  {
     private ViewPager mViewPager;
     private PostTabsAdapter mAdapter;
     private OnHomeDashPostFragmentListener mCallback;
+    private FloatingActionButton mfabAddPost;
 
   
 
     public interface OnHomeDashPostFragmentListener {
         void onOpenNavigatorDrawer();
+        void startAddPost();
     }
 
     @Override
@@ -73,6 +76,7 @@ public class HomeDashPosts_Fragment extends Fragment  {
         mViewPager = (ViewPager) rootView.findViewById(R.id.hdp_vpContainer);
         mCiProfilePicture = (CircleImageView) rootView.findViewById(R.id.hdp_civProfilePicture);
         mTxvCurrentTab = (TextView) rootView.findViewById(R.id.hdp_txvProfileName);
+        mfabAddPost = (FloatingActionButton) rootView.findViewById(R.id.hdp_fabAdd);
         return rootView;
     }
 
@@ -87,8 +91,7 @@ public class HomeDashPosts_Fragment extends Fragment  {
             }
         });*/
         mViewPager.setAdapter(mAdapter);
-      //  mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-       // mTabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -112,6 +115,12 @@ public class HomeDashPosts_Fragment extends Fragment  {
             @Override
             public void onClick(View view) {
                 mCallback.onOpenNavigatorDrawer();
+            }
+        });
+        mfabAddPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCallback.startAddPost();
             }
         });
     }

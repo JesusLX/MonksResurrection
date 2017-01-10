@@ -16,8 +16,8 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/pv_tbTitleBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
+            android:theme="@style/TabsLayoutTheme"
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/pv_ivProfilePicture"
@@ -31,7 +31,6 @@
                 android:layout_marginStart="@dimen/fav_marginx2"
                 android:layout_marginEnd="@dimen/fav_margin"
                 android:textSize="@dimen/fav_titleSize"
-                android:textColor="@android:color/darker_gray"
                 android:layout_height="match_parent" />
 
 
