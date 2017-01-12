@@ -17,24 +17,14 @@
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
+        app:headerLayout="@layout/header_drawer"
         android:layout_width="wrap_content"
+        app:menu="@menu/menu_nav"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        >
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        android:fitsSystemWindows="true">
 
-            <include layout="@layout/cabecera_drawer"/>
-            <ListView
-                android:id="@+id/nav_lvList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-        </LinearLayout>
-
+        <include layout="@layout/header_drawer"/>
 
     </android.support.design.widget.NavigationView>
 

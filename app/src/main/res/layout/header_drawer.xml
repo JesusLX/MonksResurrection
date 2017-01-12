@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="289dp"
-    android:orientation="vertical">
+    android:layout_height="@dimen/header_heigth"
+    android:orientation="vertical"
+    android:background="@drawable/userprofilebg">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/userprofilebg"
-        android:contentDescription="@string/userprofilebg_description" />
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/image_prf"
+        android:layout_height="@dimen/image_prf"
         android:src="@drawable/nino"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/cd_txvUserName"

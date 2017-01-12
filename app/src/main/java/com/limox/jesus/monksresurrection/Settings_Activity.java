@@ -2,12 +2,9 @@ package com.limox.jesus.monksresurrection;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.limox.jesus.monksresurrection.Fragments.Settings.Settings.LanguageFragment;
 import com.limox.jesus.monksresurrection.Fragments.Settings.StartSettings_Fragment;
 import com.limox.jesus.monksresurrection.Interfaces.HomeOfFragments;
 import com.limox.jesus.monksresurrection.Utils.Preferences;
@@ -58,10 +55,7 @@ public class Settings_Activity extends AppCompatActivity implements HomeOfFragme
 
     }
 
-    @Override
-    public void startLanguageFragment() {
-        startFragment(new LanguageFragment(),false);
-    }
+
 
     @Override
     public void startMonksHelpCenter() {

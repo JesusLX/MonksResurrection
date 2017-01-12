@@ -149,20 +149,12 @@
                     android:layout_below="@id/ss_txvNotifications"
                     android:background="@android:color/darker_gray" />
 
-                <TextView
-                    android:id="@+id/ss_txvLanguage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ss_separator6"
-                    android:padding="@dimen/fav_margin"
-                    android:text="@string/language"
-                     />
+
 
                 <View
                     android:id="@+id/ss_separator7"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@id/ss_txvLanguage"
                     android:background="@android:color/darker_gray" />
 
             </RelativeLayout>

@@ -2,6 +2,7 @@ package com.limox.jesus.monksresurrection;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,25 +11,23 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.limox.jesus.monksresurrection.Adapters.NavListViewAdapter;
 import com.limox.jesus.monksresurrection.Adapters.PostAdapterRecycler;
 import com.limox.jesus.monksresurrection.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.monksresurrection.Fragments.Admins.AdminsDashPosts_Fragment;
 import com.limox.jesus.monksresurrection.Fragments.PostView.PostView_Fragment;
 import com.limox.jesus.monksresurrection.Fragments.UserProfile.UserProfile_Fragment;
 import com.limox.jesus.monksresurrection.Interfaces.HomeOfFragments;
-import com.limox.jesus.monksresurrection.Listeners.DrawerListListener;
-import com.limox.jesus.monksresurrection.Repositories.NavItem_Repository;
 import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
+import com.limox.jesus.monksresurrection.Utils.NavDrawerUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Admins_Activity extends AppCompatActivity implements HomeOfFragments, DrawerListListener.onDrawerListListenerCallbacks, UserProfile_Fragment.OnUserProfileFragmentListener, PostView_Fragment.OnPostViewFragmentListener, AdminsDashPosts_Fragment.OnAdminDashPostFragmentListener, PostAdapterRecycler.OnPostViewHolderListener {
+public class Admins_Activity extends AppCompatActivity implements HomeOfFragments, NavDrawerUtils.OnNavDrawerListener, UserProfile_Fragment.OnUserProfileFragmentListener, PostView_Fragment.OnPostViewFragmentListener, AdminsDashPosts_Fragment.OnAdminDashPostFragmentListener, PostAdapterRecycler.OnPostViewHolderListener {
     Fragment mCurrentFragment;
     DrawerLayout mDrawerLayout;
-    ListView mDrawerList;
     CircleImageView mCIVProfileImage;
+    NavigationView mNavView;
     TextView mTxvUserName;
 
     @Override
@@ -36,12 +35,14 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admins);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_admins);
-        mDrawerList = (ListView) findViewById(R.id.nav_lvList);
         mCIVProfileImage = (CircleImageView) findViewById(R.id.cd_civUserProfile);
         mTxvUserName = (TextView) findViewById(R.id.cd_txvUserName);
+        mNavView = (NavigationView) findViewById(R.id.nav_view);
 
-        mDrawerList.setAdapter(new NavListViewAdapter(this, new NavItem_Repository(this).getNavDrawerItems()));
-        mDrawerList.setOnItemClickListener(new DrawerListListener(this));
+        NavDrawerUtils navUtils = new NavDrawerUtils(Admins_Activity.this, mDrawerLayout);
+
+        mNavView.inflateMenu(navUtils.getMenu());
+        mNavView.setNavigationItemSelectedListener(navUtils.getNavListener());
 
         mCIVProfileImage.setImageResource(Users_Repository.get().getCurrentUser().getProfilePicture());
         mCIVProfileImage.setOnClickListener(new View.OnClickListener() {

@@ -48,7 +48,6 @@ public class StartSettings_Fragment extends Fragment {
         txvResetPassord = (TextView) rootView.findViewById(R.id.ss_txvResetePass);
         txvPostsLiked = (TextView) rootView.findViewById(R.id.ss_txvPostLiked);
         txvNotifications = (TextView) rootView.findViewById(R.id.ss_txvNotifications);
-        txvLanguage = (TextView) rootView.findViewById(R.id.ss_txvLanguage);
         txvMonskHelperCenter = (TextView) rootView.findViewById(R.id.ss_txvMonkHelper);
         txvReportProblem = (TextView) rootView.findViewById(R.id.ss_txvReportProblem);
         txvLogOut = (TextView) rootView.findViewById(R.id.ss_txvLogOut);
@@ -66,7 +65,6 @@ public class StartSettings_Fragment extends Fragment {
         txvResetPassord.setOnClickListener(mOnClickListener);
         txvPostsLiked.setOnClickListener(mOnClickListener);
         txvNotifications.setOnClickListener(mOnClickListener);
-        txvLanguage.setOnClickListener(mOnClickListener);
         txvMonskHelperCenter.setOnClickListener(mOnClickListener);
         txvReportProblem.setOnClickListener(mOnClickListener);
         txvLogOut.setOnClickListener(mOnClickListener);
@@ -89,9 +87,6 @@ public class StartSettings_Fragment extends Fragment {
                         break;
                     case R.id.ss_txvNotifications:
                         mCallback.startNotificationsFragment();
-                        break;
-                    case R.id.ss_txvLanguage:
-                        mCallback.startLanguageFragment();
                         break;
                     case R.id.ss_txvMonkHelper:
                         mCallback.startMonksHelpCenter();
@@ -136,7 +131,6 @@ public class StartSettings_Fragment extends Fragment {
         void startPostsLikedFragment();
 
         void startNotificationsFragment();
-        void startLanguageFragment();
 
         void startMonksHelpCenter();
         void startReportProblemFragmentDialog();

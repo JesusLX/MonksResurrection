@@ -15,4 +15,6 @@
     <dimen name="toolbar_text_size">25sp</dimen>
     <dimen name="fav_bottom_margin">10dp</dimen>
     <dimen name="option_size">20sp</dimen>
+    <dimen name="header_heigth">192dp</dimen>
+    <dimen name="image_prf">96dp</dimen>
 </resources>

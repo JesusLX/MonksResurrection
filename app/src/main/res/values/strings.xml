@@ -96,5 +96,6 @@
     <string name="o_separator" translatable="false">O</string>
     <string name="sign_up">Sign Up</string>
     <string name="userprofilebg_description">Background for the user profile picture</string>
+    <string name="empty" />
 
 </resources>
