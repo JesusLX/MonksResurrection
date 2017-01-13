@@ -40,7 +40,7 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
         mNavView = (NavigationView) findViewById(R.id.nav_view);
 
         NavDrawerUtils navUtils = new NavDrawerUtils(Admins_Activity.this, mDrawerLayout);
-
+        mNavView.getMenu().clear();
         mNavView.inflateMenu(navUtils.getMenu());
         mNavView.setNavigationItemSelectedListener(navUtils.getNavListener());
 

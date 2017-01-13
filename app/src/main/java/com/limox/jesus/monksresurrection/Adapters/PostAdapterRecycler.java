@@ -60,7 +60,8 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
         holder.mIvProfile_item.setImageResource(Users_Repository.get().getUserById(holder.mPost.getIdUser()).getProfilePicture());
         holder.mTxvPostTitle_item.setText(holder.mPost.getTitle());
         holder.mTxvPostDescription_item.setText(holder.mPost.getDescriptionShorted());
-
+        // TODO Poner que se vea solo si el usuario le ha dado like
+        holder.mIvwPoints_item.setVisibility(View.VISIBLE);
         holder.mIvProfile_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,6 +97,7 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
         ImageView mIvProfile_item;
         TextView mTxvPostDescription_item;
         TextView mTxvPostTitle_item;
+        ImageView mIvwPoints_item;
         RelativeLayout mRlContainer;
         Post mPost;
 
@@ -106,9 +108,8 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
             mIvProfile_item = (ImageView) itemView.findViewById(R.id.cp_iVProfile);
             mTxvPostDescription_item = (TextView) itemView.findViewById(R.id.cp_txvPostContent);
             mTxvPostTitle_item = (TextView) itemView.findViewById(R.id.cp_txvPostTitle);
+            mIvwPoints_item = (ImageView) itemView.findViewById(R.id.cp_icstar);
             mRlContainer = (RelativeLayout) itemView.findViewById(R.id.cp_rlContainer);
-
-
         }
     }
 }
