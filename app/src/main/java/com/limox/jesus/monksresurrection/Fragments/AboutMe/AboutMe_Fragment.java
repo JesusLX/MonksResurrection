@@ -1,5 +1,6 @@
 package com.limox.jesus.monksresurrection.Fragments.AboutMe;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -18,8 +19,8 @@ public class AboutMe_Fragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
     }
 
     @Nullable

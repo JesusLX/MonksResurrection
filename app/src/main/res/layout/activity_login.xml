@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/lgn_usr_name"
-            android:text="Admin1"/>
+            />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -64,7 +64,7 @@
             android:layout_height="match_parent"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:text="123"/>
+            />
     </android.support.design.widget.TextInputLayout>
 
 

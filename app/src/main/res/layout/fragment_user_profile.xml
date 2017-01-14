@@ -2,12 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.limox.jesus.monksresurrection.Fragments.UserProfile.UserProfile_Fragment">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/materialup.appbar"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:theme="@style/TabsLayoutTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <android.support.design.widget.CollapsingToolbarLayout
@@ -34,6 +35,7 @@
             android:layout_gravity="center_horizontal"
             android:src="@drawable/nino"
             android:elevation="8dp"
+            android:background="@android:color/transparent"
             app:border_width="2dp"
             app:border_color="#FFF"
             app:layout_scrollFlags="scroll"
@@ -43,14 +45,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            android:background="?colorPrimary"
             android:layout_marginTop="-48dp"
             app:theme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            />
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnBack"
+                android:background="@drawable/ic_action_back"
+                android:contentDescription="@string/btnback_description" />
+            </android.support.v7.widget.Toolbar>
         <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabTextColor="@color/fontColorDark"
+            app:tabSelectedTextColor="@color/fontColorDark"
+            app:tabIndicatorColor="@color/tabIndicatorColor"
             android:id="@+id/up_tlTabs"/>
     </android.support.design.widget.AppBarLayout>
     <android.support.v4.view.ViewPager

@@ -7,10 +7,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.limox.jesus.monksresurrection.Fragments.GenericPosts.DashPost_Fragment;
+import com.limox.jesus.monksresurrection.Fragments.Messages.MessagesList_Fragment;
 import com.limox.jesus.monksresurrection.Model.Post;
 import com.limox.jesus.monksresurrection.R;
 import com.limox.jesus.monksresurrection.Repositories.Posts_Repository;
-import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
 /**
@@ -45,8 +45,7 @@ public class ProfilePostTabsAdapter extends FragmentStatePagerAdapter {
                 fragment = DashPost_Fragment.newInstance(args);
                 break;
             case 2:
-                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsByUser(mIdUser, Post.FIXED));
-                fragment = DashPost_Fragment.newInstance(args);
+                fragment = new MessagesList_Fragment();
                 break;
         }
         return fragment;

@@ -61,7 +61,7 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
         holder.mTxvPostTitle_item.setText(holder.mPost.getTitle());
         holder.mTxvPostDescription_item.setText(holder.mPost.getDescriptionShorted());
         // TODO Poner que se vea solo si el usuario le ha dado like
-        holder.mIvwPoints_item.setVisibility(View.VISIBLE);
+       // holder.mIvwPoints_item.setVisibility(View.VISIBLE);
         holder.mIvProfile_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

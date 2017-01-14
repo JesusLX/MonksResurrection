@@ -1,5 +1,6 @@
 package com.limox.jesus.monksresurrection.Fragments.Admins;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -38,6 +39,7 @@ public class AdminsDashPosts_Fragment extends Fragment {
        // setHasOptionsMenu(true);
         mTabTitles = getResources().getStringArray(R.array.admin_post_tabs);
         mAdapter = new AdminPostTabsAdapter(getChildFragmentManager(),mTabTitles);
+        setRetainInstance(true);
 
     }
 
@@ -93,12 +95,12 @@ public class AdminsDashPosts_Fragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnAdminDashPostFragmentListener) {
-            mCallback = (OnAdminDashPostFragmentListener) context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof OnAdminDashPostFragmentListener) {
+            mCallback = (OnAdminDashPostFragmentListener) activity;
         } else {
-            throw new ClassCastException(context.toString()
+            throw new ClassCastException(activity.toString()
                     + " must implement OnAdminDashPostFragmentListener");
         }
     }

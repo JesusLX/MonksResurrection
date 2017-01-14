@@ -1,8 +1,10 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
     tools:context="com.limox.jesus.monksresurrection.Fragments.Admins.AdminsDashPosts_Fragment">
 
     <android.support.design.widget.AppBarLayout
@@ -16,29 +18,32 @@
             android:id="@+id/adp_tbTitle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/TabsLayoutTheme">
+
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="35dp"
                 android:id="@+id/adp_civProfilePicture"
+                android:layout_width="35dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/monje"/>
+                android:src="@drawable/monje" />
+
             <TextView
+                android:id="@+id/adp_txvProfileName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_user_name"
-                android:paddingStart="@dimen/fav_marginx2"
                 android:paddingEnd="@dimen/fav_marginx2"
-                android:textSize="@dimen/toolbar_text"
-                android:id="@+id/adp_txvProfileName"/>
+                android:paddingStart="@dimen/fav_marginx2"
+                android:text="@string/title_user_name"
+                android:textSize="@dimen/toolbar_text" />
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/adp_tabLayout"
-            android:theme="@style/TabsLayoutTheme"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="@color/tabIndicatorColor"
+            app:tabSelectedTextColor="@color/fontColorDark"
+            app:tabTextColor="@color/fontColorDark" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -47,4 +52,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

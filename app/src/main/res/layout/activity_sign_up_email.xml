@@ -4,14 +4,23 @@
     android:id="@+id/activity_sign_up"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/AppTheme"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.limox.jesus.monksresurrection.Fragments.SignUp.SignUpEmail_Fragment">
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/who_you_are"
+        android:textSize="@dimen/fav_titleSize"
+        android:id="@+id/title"
+        android:textStyle="bold"
+        android:layout_margin="@dimen/fav_margin"/>
     <EditText
+        android:layout_below="@+id/title"
         android:id="@+id/sue_edtEmail"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -23,18 +32,13 @@
         android:textSize="@dimen/fav_titleSize" />
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sue_edtEmail"
-        android:gravity="center">
-
         <Button
+            android:layout_below="@+id/sue_edtEmail"
             android:id="@+id/sue_btnNext"
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/next" />
-    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"

@@ -7,9 +7,9 @@
     <color name="colorSeparator">#595959</color>
     <color name="colorPostSeparator">#13141d</color>
     <color name="colorSeparatorLog">#24222b</color>
-    <color name="collapsed_post_bg">#292936</color>
-    <color name="postlist_bg">#313143</color>
-    <color name="tabs_bg">#343445</color>
+    <color name="collapsed_post_bg">#e1e1e1</color>
+    <color name="postlist_bg">#e1e1e1</color>
+    <color name="tabs_bg">#dadada</color>
     <color name="colorError">#d90000</color>
     <color name="fontColor">#3d3c3c</color>
     <color name="fontColorLight">#e1e0e0</color>
@@ -18,5 +18,8 @@
     <color name="facebookColor">#0011ff</color>
     <color name="steamColor">#000</color>
     <color name="settingsToolBar_bg">#bfbfbf</color>
+    <color name="fontColorDark">#000</color>
+    <color name="tabIndicatorColor" >#00d204</color>
+
 
 </resources>

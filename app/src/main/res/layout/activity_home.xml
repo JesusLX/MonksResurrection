@@ -5,26 +5,23 @@
     android:id="@+id/activity_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context="com.limox.jesus.monksresurrection.Home_Activity">
 
     <RelativeLayout
         android:id="@+id/ah_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </RelativeLayout>
+        android:layout_height="match_parent" />
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        app:headerLayout="@layout/header_drawer"
+        android:id="@+id/nav_view_admins"
         android:layout_width="wrap_content"
-        app:menu="@menu/menu_nav"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/header_drawer"
+        app:menu="@menu/menu_nav">
 
-        <include layout="@layout/header_drawer"/>
+        <include layout="@layout/header_drawer" />
 
     </android.support.design.widget.NavigationView>
 

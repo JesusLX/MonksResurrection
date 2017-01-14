@@ -51,11 +51,22 @@ public class UserProfile_Activity extends AppCompatActivity implements HomeOfFra
     }
 
     @Override
+    public void backPressed() {
+        onBackPressed();
+    }
+
+    @Override
     public void startFragment(Fragment fragment, boolean addStack) {
         mCurrentFragment = fragment;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (addStack)
             ft.addToBackStack(null);
-        ft.replace(R.id.activity_user_profile, mCurrentFragment).commit();
+        try {
+            ft.replace(R.id.activity_user_profile, mCurrentFragment).commit();
+        }catch (Exception e)
+        {
+            ft.replace(R.id.activity_user_profile, mCurrentFragment).commitNow();
+
+        }
     }
 }

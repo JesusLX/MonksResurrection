@@ -53,4 +53,12 @@ public class HelpLogin_Activity extends AppCompatActivity implements HomeOfFragm
         ft.replace(R.id.activity_help_login, mCurrentFragment);
         ft.commit();
     }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount()<= 1)
+            finish();
+        else
+            super.onBackPressed();
+    }
 }

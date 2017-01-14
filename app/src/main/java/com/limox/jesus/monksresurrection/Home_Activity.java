@@ -9,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.limox.jesus.monksresurrection.Adapters.PostAdapterRecycler;
@@ -24,7 +23,7 @@ import com.limox.jesus.monksresurrection.Utils.NavDrawerUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Home_Activity extends AppCompatActivity implements HomeOfFragments, PostAdapterRecycler.OnPostViewHolderListener, UserProfile_Fragment.OnUserProfileFragmentListener, PostView_Fragment.OnPostViewFragmentListener, HomeDashPosts_Fragment.OnHomeDashPostFragmentListener, NavDrawerUtils.OnNavDrawerListener {
+public class Home_Activity extends AppCompatActivity implements HomeOfFragments, PostAdapterRecycler.OnPostViewHolderListener, PostView_Fragment.OnPostViewFragmentListener, HomeDashPosts_Fragment.OnHomeDashPostFragmentListener, NavDrawerUtils.OnNavDrawerListener {
 
     Fragment mCurrentFragment;
     DrawerLayout mDrawerLayout;
@@ -39,7 +38,7 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_home);
         mCIVProfileImage = (CircleImageView) findViewById(R.id.cd_civUserProfile);
         mTxvUserName = (TextView) findViewById(R.id.cd_txvUserName);
-        mNavView = (NavigationView) findViewById(R.id.nav_view);
+        mNavView = (NavigationView) findViewById(R.id.nav_view_admins);
         NavDrawerUtils navUtils = new NavDrawerUtils(Home_Activity.this, mDrawerLayout);
         mNavView.getMenu().clear();
         mNavView.inflateMenu(navUtils.getMenu());
@@ -60,6 +59,10 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
             startBugForum();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public void startUserProfile(Bundle user) {
@@ -108,8 +111,12 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
-        } else
-            super.onBackPressed();
+        } else {
+            if (getSupportFragmentManager().getBackStackEntryCount()<= 1)
+                finish();
+            else
+                super.onBackPressed();
+        }
     }
 
     @Override

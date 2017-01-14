@@ -99,7 +99,6 @@ public class Posts_Repository {
             } else {
                 mPostsNotPublished.add(post);
             }
-
         }
     }
 
@@ -132,6 +131,7 @@ public class Posts_Repository {
 
     public void createPost(String title, String description, String tags) {
         mPosts.add(new Post(title, Users_Repository.get().getCurrentUser().getIdUser(), description, tags, mPosts.size()));
+        sortLists();
     }
 
     public void createPostPublished(String title, String description, String tags) {

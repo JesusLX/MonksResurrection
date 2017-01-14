@@ -1,5 +1,7 @@
 package com.limox.jesus.monksresurrection.Fragments.SignUp;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,12 +31,26 @@ public class SignUpEmail_Fragment extends Fragment {
         void startSignUpUser(Bundle args);
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof SignUpEmailListener)
+            mCallBack = (SignUpEmailListener) activity;
+        else
+            throw new ClassCastException(activity.toString()+ "must implement SignUpEmailListener");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallBack = null;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View rootView = inflater.inflate(R.layout.activity_sign_up_email,null);
+        View rootView = inflater.inflate(R.layout.activity_sign_up_email,container,false);
 
         edtEmail = (EditText) rootView.findViewById(R.id.sue_edtEmail);
         btnValidate = (Button) rootView.findViewById(R.id.sue_btnNext);

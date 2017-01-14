@@ -1,5 +1,6 @@
 package com.limox.jesus.monksresurrection.Fragments.Settings;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -107,12 +108,12 @@ public class StartSettings_Fragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnStartSettingsListener) {
-            mCallback = (OnStartSettingsListener) context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof OnStartSettingsListener) {
+            mCallback = (OnStartSettingsListener) activity;
         } else {
-            throw new ClassCastException(context.toString()
+            throw new ClassCastException(activity.toString()
                     + " must implement OnStartSettingsListener");
         }
     }

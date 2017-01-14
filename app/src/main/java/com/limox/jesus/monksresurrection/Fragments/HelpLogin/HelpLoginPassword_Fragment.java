@@ -1,5 +1,6 @@
 package com.limox.jesus.monksresurrection.Fragments.HelpLogin;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,12 +29,12 @@ public class HelpLoginPassword_Fragment extends Fragment {
 
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnHelpLoginPasswordFragmentListener)
-            mCallback = (OnHelpLoginPasswordFragmentListener) context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof OnHelpLoginPasswordFragmentListener)
+            mCallback = (OnHelpLoginPasswordFragmentListener) activity;
         else {
-            throw new ClassCastException(context.toString() + " must implements OnHelpLoginPasswordFragmentListener");
+            throw new ClassCastException(activity.toString() + " must implements OnHelpLoginPasswordFragmentListener");
         }
     }
 

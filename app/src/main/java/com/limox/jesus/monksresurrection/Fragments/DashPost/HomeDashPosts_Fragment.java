@@ -1,5 +1,6 @@
 package com.limox.jesus.monksresurrection.Fragments.DashPost;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -39,12 +40,12 @@ public class HomeDashPosts_Fragment extends Fragment  {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnHomeDashPostFragmentListener)
-            mCallback = (OnHomeDashPostFragmentListener) context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof OnHomeDashPostFragmentListener)
+            mCallback = (OnHomeDashPostFragmentListener) activity;
         else
-            throw new ClassCastException(context.toString()+" must implement OnHomeDashPostFragmentListener");
+            throw new ClassCastException(activity.toString()+" must implement OnHomeDashPostFragmentListener");
     }
 
     @Override
@@ -56,6 +57,7 @@ public class HomeDashPosts_Fragment extends Fragment  {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
         mAdapter = new PostTabsAdapter(getChildFragmentManager(),getResources().getStringArray(R.array.dash_post_tabs));
     }
 

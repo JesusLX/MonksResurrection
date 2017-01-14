@@ -12,9 +12,19 @@
     app:theme="@style/AppTheme.NoActionBar"
     tools:context="com.limox.jesus.monksresurrection.Fragments.SignUp.SignUpUser_Fragment">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tell_us_about_you"
+        android:textSize="@dimen/fav_titleSize"
+        android:layout_margin="@dimen/fav_margin"
+        android:textStyle="bold"
+        android:id="@+id/title"/>
+
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/suu_tilName"
+        android:layout_below="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

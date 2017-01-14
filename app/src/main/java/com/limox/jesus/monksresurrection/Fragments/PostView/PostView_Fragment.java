@@ -1,5 +1,6 @@
 package com.limox.jesus.monksresurrection.Fragments.PostView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
@@ -51,12 +52,12 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnPostViewFragmentListener)
-            mCallback = (OnPostViewFragmentListener) context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof OnPostViewFragmentListener)
+            mCallback = (OnPostViewFragmentListener) activity;
         else
-            throw new ClassCastException(context.toString() +" must implement OnPostViewFragmentListener");
+            throw new ClassCastException(activity.toString() +" must implement OnPostViewFragmentListener");
     }
 
     @Override

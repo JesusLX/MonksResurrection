@@ -1,5 +1,6 @@
 package com.limox.jesus.monksresurrection.Fragments.SignUp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,12 +34,12 @@ public class SignUpUser_Fragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnSignUpUserFragmentListener)
-            mCallback = (OnSignUpUserFragmentListener) context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof OnSignUpUserFragmentListener)
+            mCallback = (OnSignUpUserFragmentListener) activity;
         else
-            throw new ClassCastException(context.toString()+" must implement OnSignUpUserFragmentListener");
+            throw new ClassCastException(activity.toString()+" must implement OnSignUpUserFragmentListener");
     }
 
     @Override

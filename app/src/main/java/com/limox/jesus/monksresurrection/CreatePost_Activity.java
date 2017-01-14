@@ -1,10 +1,13 @@
 package com.limox.jesus.monksresurrection;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.limox.jesus.monksresurrection.Repositories.Posts_Repository;
 
@@ -12,10 +15,11 @@ public class CreatePost_Activity extends AppCompatActivity {
     EditText mEdtTitle;
     EditText mEdtDescription;
     EditText mEdtTags;
-    Button mBtnCrear;
     String mTitle;
     String mDescriptions;
+    Toolbar mToolbar;
     String mTags;
+    RelativeLayout mRlContainer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,21 +27,13 @@ public class CreatePost_Activity extends AppCompatActivity {
         mEdtTitle = (EditText) findViewById(R.id.crp_EdtPostTitle);
         mEdtDescription = (EditText) findViewById(R.id.crp_EdtPostDescription);
         mEdtTags = (EditText) findViewById(R.id.crp_EdtPostTags);
-        mBtnCrear = (Button) findViewById(R.id.crp_btnEnviar);
+        mToolbar = (Toolbar) findViewById(R.id.acp_toolbar);
+        mRlContainer = (RelativeLayout) findViewById(R.id.activity_create_post);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle(getString(R.string.create_post));
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_back);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
-        mBtnCrear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validate()){
-                    //TODO Cambiar esto, ahora crea directamente uno publicado
-                    Posts_Repository.get().createPost(mTitle,mDescriptions,mTags);
-                    finish();
-                }
-
-            }
-        });
 
     }
 
@@ -51,5 +47,35 @@ public class CreatePost_Activity extends AppCompatActivity {
         if (mTitle.length() > 0 && mDescriptions.length() > 0 && mTags.length() > 0)
             allRigth = true;
         return allRigth;
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        menu.clear();
+        getMenuInflater().inflate(R.menu.menu_create_post, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_send:
+                sendPost();
+                break;
+
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
+    private void sendPost() {
+        if (validate()){
+            //TODO Cambiar esto, ahora crea directamente uno publicado
+            Posts_Repository.get().createPost(mTitle,mDescriptions,mTags);
+            finish();
+        }else
+            Snackbar.make(mRlContainer,R.string.message_error_must_fill,Snackbar.LENGTH_LONG).show();
+
     }
 }

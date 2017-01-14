@@ -8,15 +8,9 @@
     android:background="@color/lgn_background"
     android:fitsSystemWindows="true"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    style="@style/LoginTheme"
+    style="@style/AppTheme"
 
     tools:context="com.limox.jesus.monksresurrection.Fragments.SignUp.StartSignUp_Fragment">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/ssu_title"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/title_image_height"
-        android:background="@drawable/login_vectorized" />
 
     <TextView
         android:id="@+id/ssu_txvStartWith"
@@ -41,14 +35,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/facebookColor"
-            android:text="F"
+            android:text="@string/conect_with_facebook"
+            android:drawableStart="@drawable/ic_facebook"
             android:textColor="#FFF" />
 
         <Button
             android:id="@+id/ssu_btnGg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ssu_btnFb"
+            android:layout_below="@+id/ssu_btnFb"
             android:background="@color/googleColor"
             android:text="G"
             android:textColor="#FFF" />
@@ -57,9 +52,10 @@
             android:id="@+id/ssu_btnStm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ssu_btnGg"
+            android:layout_below="@+id/ssu_btnGg"
             android:background="@color/steamColor"
-            android:text="S"
+            android:text="@string/conect_with_steam"
+            android:drawableLeft="@drawable/ic_action_write"
             android:textColor="#FFF" />
 
     </RelativeLayout>

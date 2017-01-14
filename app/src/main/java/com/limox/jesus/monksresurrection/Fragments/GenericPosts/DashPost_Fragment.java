@@ -1,5 +1,6 @@
 package com.limox.jesus.monksresurrection.Fragments.GenericPosts;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -44,6 +45,8 @@ public class DashPost_Fragment extends Fragment {
             ArrayList<Post> mPostList = savedInstanceState.getParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY);
             mAdapter = new PostAdapterRecycler(mPostList,getContext());
         }
+        setRetainInstance(true);
+
     }
 
     @Override
@@ -75,8 +78,8 @@ public class DashPost_Fragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
        /* if (context instanceof OnDashPostFragmentListener) {
             mCallback = (OnDashPostFragmentListener) context;
         } else {

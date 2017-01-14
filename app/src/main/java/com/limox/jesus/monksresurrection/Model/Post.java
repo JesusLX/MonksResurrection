@@ -6,6 +6,7 @@ import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -25,6 +26,12 @@ public class Post implements Parcelable{
         mTags = in.readString();
         mDeleted = in.readByte() != 0;
     }
+    public static final Comparator<Post> LAST_FIRST = new Comparator<Post>() {
+        @Override
+        public int compare(Post post, Post t1) {
+            return post.getCreationDate().compareTo(t1.getCreationDate());
+        }
+    };
 
     public static final Creator<Post> CREATOR = new Creator<Post>() {
         @Override

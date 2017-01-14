@@ -20,7 +20,7 @@ public class SignUp_Activity extends AppCompatActivity implements HomeOfFragment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        startSignUp();
+        startSignUpEmail();
 
     }
 
@@ -64,5 +64,13 @@ public class SignUp_Activity extends AppCompatActivity implements HomeOfFragment
             ft.addToBackStack(null);
         ft.replace(R.id.activity_sign_up, mCurrentFragment);
         ft.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount()<= 1)
+            finish();
+        else
+            super.onBackPressed();
     }
 }

@@ -1,5 +1,6 @@
 package com.limox.jesus.monksresurrection.Fragments.UserProfile;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
     ViewPager mViewPager;
     AppBarLayout mAppbarLayout;
     ProfilePostTabsAdapter mAdapter;
+    ImageView mIvwBack;
     private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
 	private boolean mIsAvatarShown = true;
 
@@ -71,6 +73,7 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
         mIvProfileImage = (ImageView) rootView.findViewById(R.id.materialup_profile_image);
         mTabLayout = (TabLayout) rootView.findViewById(R.id.up_tlTabs);
         mViewPager = (ViewPager) rootView.findViewById(R.id.up_vpContainer);
+        mIvwBack = (ImageView) rootView.findViewById(R.id.btnBack);
 
         return rootView;
     }
@@ -83,15 +86,21 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
         mIvProfileImage.setImageResource(mUser.getProfilePicture());
         mMaxScrollSize = mAppbarLayout.getTotalScrollRange();
         mAppbarLayout.addOnOffsetChangedListener(this);
+        mIvwBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCallback.backPressed();
+            }
+        });
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnUserProfileFragmentListener) {
-            mCallback = (OnUserProfileFragmentListener) context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof OnUserProfileFragmentListener) {
+            mCallback = (OnUserProfileFragmentListener) activity;
         } else {
-            throw new RuntimeException(context.toString()
+            throw new RuntimeException(activity.toString()
                     + " must implement OnUserProfileFragmentListener");
         }
     }
@@ -125,5 +134,6 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
 
     public interface OnUserProfileFragmentListener {
         void startPostView(Bundle post);
+        void backPressed();
     }
 }
