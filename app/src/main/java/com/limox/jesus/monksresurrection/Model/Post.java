@@ -29,7 +29,17 @@ public class Post implements Parcelable{
     public static final Comparator<Post> LAST_FIRST = new Comparator<Post>() {
         @Override
         public int compare(Post post, Post t1) {
-            return post.getCreationDate().compareTo(t1.getCreationDate());
+            int comp =post.getCreationDate().compareTo(t1.getCreationDate());
+            int result = 0;
+            switch (comp){
+                case -1:
+                    result = 1;
+                    break;
+                case 1:
+                    result = -1;
+                    break;
+            }
+            return result;
         }
     };
 
@@ -89,6 +99,7 @@ public class Post implements Parcelable{
         this.mIdPost = mIdPost;
         this.mState = NOT_PUBLISHED;
         this.mDeleted = false;
+        this.mCreationDate = new Date();
     }
 
 

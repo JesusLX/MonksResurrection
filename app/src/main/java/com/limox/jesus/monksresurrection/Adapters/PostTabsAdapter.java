@@ -6,8 +6,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.limox.jesus.monksresurrection.Fragments.GenericPosts.DashPost_Fragment;
+import com.limox.jesus.monksresurrection.Model.Post;
 import com.limox.jesus.monksresurrection.Repositories.Posts_Repository;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
+
+import java.util.Collections;
 
 /**
  * Created by usuario on 22/12/16.
@@ -26,11 +29,11 @@ public class PostTabsAdapter extends FragmentStatePagerAdapter {
         Bundle args = new Bundle();
         switch (position){
             case 0:
-                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsPublished());
+                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsPublished(Post.LAST_FIRST));
                 args.putInt(AllConstants.TYPELIST_KEY,AllConstants.FOR_PUBLISHED);
                 break;
             case 1:
-                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsFixed());
+                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsFixed(Post.LAST_FIRST));
                 args.putInt(AllConstants.TYPELIST_KEY,AllConstants.FOR_FIXES);
                 break;
         }

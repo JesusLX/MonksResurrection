@@ -3,6 +3,8 @@ package com.limox.jesus.monksresurrection.Repositories;
 import com.limox.jesus.monksresurrection.Model.Post;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by jesus on 11/11/16.
@@ -74,15 +76,22 @@ public class Posts_Repository {
         return mPosts;
     }
 
-    public ArrayList<Post> getPostsPublished() {
+    public ArrayList<Post> getPostsPublished(Comparator comparator) {
+        if (comparator != null)
+            Collections.sort(mPostsPublished,comparator);
         return mPostsPublished;
     }
 
-    public ArrayList<Post> getPostsNotPublished() {
-        return mPostsNotPublished;
+    public ArrayList<Post> getPostsNotPublished(Comparator comparator) {
+        if (comparator != null)
+            Collections.sort(mPostsPublished,comparator);
+
+            return mPostsNotPublished;
     }
 
-    public ArrayList<Post> getPostsFixed() {
+    public ArrayList<Post> getPostsFixed(Comparator comparator) {
+        if (comparator != null)
+            Collections.sort(mPostsPublished,comparator);
         return mPostsFixed;
     }
 
@@ -129,11 +138,23 @@ public class Posts_Repository {
         mPostsPublished.clear();
     }
 
+    /**
+     * Create a new post who is send to the admins
+     * @param title tilte of the post
+     * @param description description of the post
+     * @param tags tags separated by "," who identify the post
+     */
     public void createPost(String title, String description, String tags) {
         mPosts.add(new Post(title, Users_Repository.get().getCurrentUser().getIdUser(), description, tags, mPosts.size()));
         sortLists();
     }
 
+    /**
+     * Create a new post already published
+     * @param title tilte of the post
+     * @param description description of the post
+     * @param tags tags separated by "," who identify the post
+     */
     public void createPostPublished(String title, String description, String tags) {
         mPosts.add(new Post(mPosts.size(), title, Users_Repository.get().getCurrentUser().getIdUser(), description, Post.PUBLISHED, tags));
         sortLists();
@@ -150,6 +171,7 @@ public class Posts_Repository {
                     postsOfUser.add(tmp);
             }
         }
+        Collections.sort(postsOfUser,Post.LAST_FIRST);
         return postsOfUser;
 
     }
