@@ -45,8 +45,11 @@ public class Preferences {
         boolean hasUser = false;
         SharedPreferences preferences = context.getSharedPreferences(AllConstants.SHARED_USER_FILE,Context.MODE_PRIVATE);
         if (preferences.contains(AllConstants.SHARED_USER_NAME)){
-            if (Users_Repository.get().existUser(preferences.getString(AllConstants.SHARED_USER_NAME,null)))
+            if (Users_Repository.get().existUser(preferences.getString(AllConstants.SHARED_USER_NAME,null))) {
                 hasUser = true;
+                if (Users_Repository.get().getCurrentUser() == null)
+                    Users_Repository.get().setCurrentUser(Users_Repository.get().getUser(preferences.getString(AllConstants.SHARED_USER_NAME,null)));
+            }
         }
         return hasUser;
     }

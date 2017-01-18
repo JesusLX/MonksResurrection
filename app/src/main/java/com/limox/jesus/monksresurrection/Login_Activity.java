@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
+import com.limox.jesus.monksresurrection.Utils.Preferences;
 import com.limox.jesus.monksresurrection.Validators.Validate;
 
 public class Login_Activity extends AppCompatActivity {
@@ -62,6 +63,7 @@ public class Login_Activity extends AppCompatActivity {
                             // set the current user
                             Users_Repository.get().setCurrentUser(Users_Repository.get().getUser(mUserName));
                             //TODO añadir que se ponga aqui el usuario en los settings
+                            Preferences.setCurrentUser(mUserName,mPassword,Login_Activity.this);
 
                             finish();
                         }

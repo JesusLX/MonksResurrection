@@ -12,11 +12,6 @@
             android:name=".Login_Activity"
             android:screenOrientation="locked"
             android:theme="@style/Theme.AppCompat.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".CreatePost_Activity"
@@ -27,7 +22,14 @@
         <activity android:name=".HelpLogin_Activity" />
         <activity android:name=".UserProfile_Activity" />
         <activity android:name=".Settings_Activity" />
-        <activity android:name=".Admins_Activity"></activity>
+        <activity android:name=".Admins_Activity" />
+        <activity android:name=".Start_Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
