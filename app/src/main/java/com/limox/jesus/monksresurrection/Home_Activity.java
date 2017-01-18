@@ -13,9 +13,8 @@ import android.widget.TextView;
 
 import com.limox.jesus.monksresurrection.Adapters.PostAdapterRecycler;
 import com.limox.jesus.monksresurrection.Fragments.AboutMe.AboutMe_Fragment;
-import com.limox.jesus.monksresurrection.Fragments.DashPost.HomeDashPosts_Fragment;
+import com.limox.jesus.monksresurrection.Fragments.Home.HomeDashPosts_Fragment;
 import com.limox.jesus.monksresurrection.Fragments.PostView.PostView_Fragment;
-import com.limox.jesus.monksresurrection.Fragments.UserProfile.UserProfile_Fragment;
 import com.limox.jesus.monksresurrection.Interfaces.HomeOfFragments;
 import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;

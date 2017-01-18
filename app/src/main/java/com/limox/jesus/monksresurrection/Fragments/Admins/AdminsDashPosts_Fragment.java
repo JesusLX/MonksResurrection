@@ -1,20 +1,17 @@
 package com.limox.jesus.monksresurrection.Fragments.Admins;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.limox.jesus.monksresurrection.Adapters.AdminPostTabsAdapter;
-import com.limox.jesus.monksresurrection.Adapters.PostTabsAdapter;
 import com.limox.jesus.monksresurrection.R;
 import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 

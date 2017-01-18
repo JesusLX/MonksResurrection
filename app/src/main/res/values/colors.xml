@@ -20,6 +20,7 @@
     <color name="settingsToolBar_bg">#bfbfbf</color>
     <color name="fontColorDark">#000</color>
     <color name="tabIndicatorColor" >#00d204</color>
+    <color name="tabUnSelectColor" >#535353</color>
 
 
 </resources>

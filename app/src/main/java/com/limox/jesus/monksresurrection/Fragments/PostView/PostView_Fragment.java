@@ -1,7 +1,6 @@
 package com.limox.jesus.monksresurrection.Fragments.PostView;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,9 +29,13 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
     Post mPost;
     Toolbar mToolBar;
     ImageView mIvUserPicture;
+    ImageView mIvLike;
+    ImageView mIvDislike;
+    ImageView mIvComments;
     TextView mTxvUserName;
     TextView mTxvPostTitle;
     TextView mTxvPostDescription;
+    TextView mTxvPostScore;
     private PostViewPresenter mPresenter;
 
     private OnPostViewFragmentListener mCallback;
@@ -87,9 +90,13 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         View rootView = inflater.inflate(R.layout.activity_post_view, container,false);
         mToolBar = (Toolbar) rootView.findViewById(R.id.pv_tbTitleBar);
         mIvUserPicture = (ImageView) rootView.findViewById(R.id.pv_ivProfilePicture);
+        mIvLike = (ImageView) rootView.findViewById(R.id.pv_ivlike);
+        mIvDislike = (ImageView) rootView.findViewById(R.id.pv_ivdislike);
+        mIvComments = (ImageView) rootView.findViewById(R.id.pv_ivComments);
         mTxvUserName = (TextView) rootView.findViewById(R.id.pv_txvUserName);
         mTxvPostTitle = (TextView) rootView.findViewById(R.id.pv_txvPostTitle);
         mTxvPostDescription = (TextView) rootView.findViewById(R.id.pv_txvPostDescription);
+        mTxvPostScore = (TextView) rootView.findViewById(R.id.pv_txvPostScore);
         return rootView;
     }
 

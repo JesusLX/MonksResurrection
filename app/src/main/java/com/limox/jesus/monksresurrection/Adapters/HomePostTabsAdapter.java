@@ -10,17 +10,17 @@ import com.limox.jesus.monksresurrection.Model.Post;
 import com.limox.jesus.monksresurrection.Repositories.Posts_Repository;
 import com.limox.jesus.monksresurrection.Utils.AllConstants;
 
-import java.util.Collections;
-
 /**
- * Created by usuario on 22/12/16.
+ * An StatePagerAdapter with tho tabs, one for post published and other for posts fixes
+ * Created by JesusLX on 22/12/16.
  */
-public class PostTabsAdapter extends FragmentStatePagerAdapter {
+public class HomePostTabsAdapter extends FragmentStatePagerAdapter {
 
-    String[] mTabsText;
-    public PostTabsAdapter(FragmentManager fm, String[] tabsText) {
+    private String currentTitle;
+    private String[] mTabsTitles;
+    public HomePostTabsAdapter(FragmentManager fm, String[] tabsText) {
         super(fm);
-        mTabsText = tabsText;
+        mTabsTitles = tabsText;
     }
 
     @Override
@@ -45,11 +45,18 @@ public class PostTabsAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return mTabsText.length;
+        return mTabsTitles.length;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mTabsText[position];
+        currentTitle = mTabsTitles[position];
+        return "";
+    }
+    public String getCurrentTitle(){
+        return currentTitle;
+    }
+    public String[] getTitles(){
+        return mTabsTitles;
     }
 }

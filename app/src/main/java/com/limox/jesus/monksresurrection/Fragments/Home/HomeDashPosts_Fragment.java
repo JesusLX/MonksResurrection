@@ -1,10 +1,12 @@
-package com.limox.jesus.monksresurrection.Fragments.DashPost;
+package com.limox.jesus.monksresurrection.Fragments.Home;
 
 import android.app.Activity;
-import android.content.Context;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -15,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.limox.jesus.monksresurrection.Adapters.PostTabsAdapter;
+import com.limox.jesus.monksresurrection.Adapters.HomePostTabsAdapter;
 import com.limox.jesus.monksresurrection.R;
 import com.limox.jesus.monksresurrection.Repositories.Users_Repository;
 
@@ -28,10 +30,10 @@ public class HomeDashPosts_Fragment extends Fragment  {
     private TextView mTxvCurrentTab;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private PostTabsAdapter mAdapter;
+    private HomePostTabsAdapter mAdapter;
     private OnHomeDashPostFragmentListener mCallback;
     private FloatingActionButton mfabAddPost;
-
+    private ColorFilter mDefTabIconColor;
   
 
     public interface OnHomeDashPostFragmentListener {
@@ -58,7 +60,7 @@ public class HomeDashPosts_Fragment extends Fragment  {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        mAdapter = new PostTabsAdapter(getChildFragmentManager(),getResources().getStringArray(R.array.dash_post_tabs));
+        mAdapter = new HomePostTabsAdapter(getChildFragmentManager(),getResources().getStringArray(R.array.dash_post_tabs));
     }
 
     @Override
@@ -94,22 +96,7 @@ public class HomeDashPosts_Fragment extends Fragment  {
         });*/
         mViewPager.setAdapter(mAdapter);
 
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mTxvCurrentTab.setText(tab.getText());
-            }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
         mTabLayout.setupWithViewPager(mViewPager);
         mCiProfilePicture.setImageResource(Users_Repository.get().getCurrentUser().getProfilePicture());
         mTxvCurrentTab.setText(mAdapter.getPageTitle(0));
@@ -125,6 +112,35 @@ public class HomeDashPosts_Fragment extends Fragment  {
                 mCallback.startAddPost();
             }
         });
+        int[] icons = {R.drawable.ic_action_bug,R.drawable.ic_action_fix};
+        mTabLayout.setupWithViewPager(mViewPager);
+        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+            mTabLayout.getTabAt(i).setIcon(icons[i]);
+        }
+
+        mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager) {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                super.onTabSelected(tab);
+                mTxvCurrentTab.setText(mAdapter.getTitles()[tab.getPosition()]);
+
+                //mTxvCurrentTab.setText(mAdapter.getPageTitle(mAdapter.getItemPosition(tab)));
+                tab.getIcon().setColorFilter(getContext().getResources().getColor(R.color.tabIndicatorColor), PorterDuff.Mode.SRC_IN);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                super.onTabUnselected(tab);
+                tab.getIcon().setColorFilter(getContext().getResources().getColor(R.color.tabUnSelectColor), PorterDuff.Mode.SRC_IN);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        mTxvCurrentTab.setText(mAdapter.getTitles()[0]);
+        mTabLayout.getTabAt(mTabLayout.getSelectedTabPosition()).getIcon().setColorFilter(getContext().getResources().getColor(R.color.tabIndicatorColor), PorterDuff.Mode.SRC_IN);
     }
 
     @Override
