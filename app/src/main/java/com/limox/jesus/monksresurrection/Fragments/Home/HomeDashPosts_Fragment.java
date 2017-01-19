@@ -53,6 +53,7 @@ public class HomeDashPosts_Fragment extends Fragment  {
     @Override
     public void onDetach() {
         super.onDetach();
+        mCallback = null;
     }
 
     @Override

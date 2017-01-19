@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
     public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Here whe create the viewHolder, we take the collapsed post card
         View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_collapsed_post, parent, false);
+
         return new PostViewHolder(item);
     }
 
@@ -111,5 +113,6 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
             mIvwPoints_item = (ImageView) itemView.findViewById(R.id.cp_icstar);
             mRlContainer = (RelativeLayout) itemView.findViewById(R.id.cp_rlContainer);
         }
+
     }
 }

@@ -5,14 +5,12 @@
     android:id="@+id/activity_dash_post"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context="com.limox.jesus.monksresurrection.Fragments.Home.HomeDashPosts_Fragment">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/appbar_padding_top"
         android:theme="@style/TabsLayoutTheme">
 
         <android.support.v7.widget.Toolbar
