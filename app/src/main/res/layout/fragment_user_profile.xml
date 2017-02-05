@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.limox.jesus.monksresurrection.Fragments.UserProfile.UserProfile_Fragment">
+    tools:context="com.limox.jesus.teambeta.Fragments.UserProfile.UserProfile_Fragment">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/materialup.appbar"

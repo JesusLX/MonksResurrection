@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.limox.jesus.monksresurrection">
+    package="com.limox.jesus.teambeta">
 
     <application
         android:allowBackup="true"
@@ -9,21 +9,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Login_Activity"
+            android:name="com.limox.jesus.teambeta.Login_Activity"
             android:screenOrientation="locked"
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
         <activity
-            android:name=".CreatePost_Activity"
+            android:name="com.limox.jesus.teambeta.CreatePost_Activity"
             android:screenOrientation="locked"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".Home_Activity" />
-        <activity android:name=".SignUp_Activity" />
-        <activity android:name=".HelpLogin_Activity" />
-        <activity android:name=".UserProfile_Activity" />
-        <activity android:name=".Settings_Activity" />
-        <activity android:name=".Admins_Activity" />
-        <activity android:name=".Start_Activity">
+        <activity android:name="com.limox.jesus.teambeta.Home_Activity" />
+        <activity android:name="com.limox.jesus.teambeta.SignUp_Activity" />
+        <activity android:name="com.limox.jesus.teambeta.HelpLogin_Activity" />
+        <activity android:name="com.limox.jesus.teambeta.UserProfile_Activity" />
+        <activity android:name="com.limox.jesus.teambeta.Settings_Activity" />
+        <activity android:name="com.limox.jesus.teambeta.Admins_Activity" />
+        <activity android:name="com.limox.jesus.teambeta.Start_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

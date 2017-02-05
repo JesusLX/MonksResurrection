@@ -4,6 +4,6 @@
     android:id="@+id/activity_user_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.limox.jesus.monksresurrection.UserProfile_Activity">
+    tools:context="com.limox.jesus.teambeta.UserProfile_Activity">
 
 </RelativeLayout>

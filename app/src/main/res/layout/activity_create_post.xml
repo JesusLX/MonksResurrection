@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:theme="@style/AppTheme"
-    tools:context="com.limox.jesus.monksresurrection.CreatePost_Activity">
+    tools:context="com.limox.jesus.teambeta.CreatePost_Activity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/acp_toolbar"

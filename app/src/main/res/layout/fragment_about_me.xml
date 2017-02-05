@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.limox.jesus.monksresurrection.Fragments.AboutMe.AboutMe_Fragment">
+    tools:context="com.limox.jesus.teambeta.Fragments.AboutMe.AboutMe_Fragment">
 
     <TextView
         android:id="@+id/am_txvTitle"

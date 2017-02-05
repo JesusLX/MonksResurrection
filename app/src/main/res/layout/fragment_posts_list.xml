@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.limox.jesus.monksresurrection.Fragments.Home.HomeDashPosts_Fragment$PlaceholderFragment">
+    tools:context="com.limox.jesus.teambeta.Fragments.Home.HomeDashPosts_Fragment$PlaceholderFragment">
 
     <TextView
         android:id="@+id/section_label"
