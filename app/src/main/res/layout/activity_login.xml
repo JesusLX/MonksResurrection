@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingEnd="@dimen/fav_margin"
-    android:paddingStart="@dimen/fav_margin"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lgn_background"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    style="@style/LoginTheme"
-    tools:context="com.limox.jesus.teambeta.Login_Activity">
+    android:paddingEnd="@dimen/fav_margin"
+    android:paddingStart="@dimen/fav_margin"
+    tools:context="com.limox.jesus.teambeta.Login_Activity"
+    app:theme="@style/LoginTheme">
 
     <!--android.support.v7.widget.Toolbar
         android:id="@+id/lgn_title"
@@ -18,44 +18,46 @@
         android:layout_height="@dimen/title_image_height"
         android:background="@drawable/login_vectorized" /-->
 
-    <TextView
+
+    <ImageView
+        android:id="@+id/lgn_ivTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lgn_txvTitle"
-        android:text="@string/app_name"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/fav_marginx2"
         android:layout_marginBottom="@dimen/fav_marginx2"
-        android:textSize="30sp"/>
+        android:background="@drawable/logo"
+        android:textSize="30sp" />
 
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/lgn_tilUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lgn_txvTitle"
+        android:layout_below="@+id/lgn_ivTitle"
+        android:background="@color/inputLayoutBg"
         android:fitsSystemWindows="true"
-        android:paddingTop="@dimen/lgn_pddingTop"
-        android:textColorHint="@color/colorAccent"
-        android:background="@color/colorPrimaryMedium"
-        app:errorTextAppearance="@color/colorError">
+        android:layout_marginTop="@dimen/lgn_pddingTop"
+        android:hint="@string/lgn_usr_name"
+        android:textColorHint="@color/textHint"
+        app:errorTextAppearance="@color/colorError"
+        >
 
         <EditText
             android:id="@+id/lgn_edtUser"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/lgn_usr_name"
+            android:inputType="textPersonName"
             />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/lgn_tilPassword"
-        android:layout_marginTop="@dimen/fav_margin"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimaryMedium"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lgn_tilUser"
-        android:textColorHint="@color/colorAccent"
+        android:layout_marginTop="@dimen/fav_margin"
+        android:background="@color/inputLayoutBg"
+        android:textColorHint="@color/textHint"
         app:errorTextAppearance="@color/colorError">
 
         <EditText
@@ -63,36 +65,34 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/password"
-            android:inputType="textPassword"
-            />
+            android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 
 
+    <Button
+        android:id="@+id/lgn_btnSignIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lgn_tilPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/fav_margin"
+        android:text="@string/sign_in" />
 
-        <Button
-            android:layout_below="@+id/lgn_tilPassword"
-            android:id="@+id/lgn_btnSignIn"
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/fav_margin"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/sign_in" />
-
-        <TextView
-            android:id="@+id/lgn_txvFP"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/fav_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lgn_btnSignIn"
-            android:text="@string/lgn_FP"/>
+    <TextView
+        android:id="@+id/lgn_txvFP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lgn_btnSignIn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/fav_margin"
+        android:text="@string/lgn_FP" />
 
 
     <RelativeLayout
         android:id="@+id/lgn_rlSeparator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lgn_txvFP"
+        android:layout_below="@+id/lgn_txvFP"
         android:layout_centerVertical="true"
         android:orientation="horizontal"
         android:paddingTop="@dimen/lgn_pddingTop">
@@ -113,9 +113,8 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textColor="@color/colorSeparatorLog"
             android:text="@string/o_separator"
-          />
+            android:textColor="@color/colorSeparatorLog" />
 
         <View
             android:id="@+id/lgn_vwLeftLine"
@@ -127,52 +126,12 @@
             android:background="@color/colorSeparatorLog" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/lgn_rlSeparator"
-        android:gravity="center"
-        android:paddingTop="@dimen/lgn_pddingTop">
-
-        <Button
-            android:id="@+id/lgn_btnFb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/facebookColor"
-            android:text="F"
-            android:textColor="#FFF" />
-
-        <!--com.google.android.gms.common.SignInButton
-            android:id="@+id/sign_in_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" /-->
-        <Button
-            android:id="@+id/lgn_btnGg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/lgn_btnFb"
-            android:background="@color/googleColor"
-            android:text="G"
-            android:textColor="#FFF" />
-
-        <Button
-            android:id="@+id/lgn_btnStm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/lgn_btnGg"
-            android:background="@color/steamColor"
-            android:text="S"
-            android:textColor="#FFF" />
-
-    </RelativeLayout>
-
     <TextView
         android:id="@+id/lgn_txvSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="@string/sign_up"
-        android:textAlignment="center"
-    />
+        android:textAlignment="center" />
 
 </RelativeLayout>
