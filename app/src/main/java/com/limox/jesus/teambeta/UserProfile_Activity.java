@@ -1,5 +1,6 @@
 package com.limox.jesus.teambeta;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +12,7 @@ import com.limox.jesus.teambeta.Fragments.UserProfile.UserProfile_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 
-public class UserProfile_Activity extends AppCompatActivity implements HomeOfFragments, UserProfile_Fragment.OnUserProfileFragmentListener, PostAdapterRecycler.OnPostViewHolderListener, PostView_Fragment.OnPostViewFragmentListener {
+public class UserProfile_Activity extends AppCompatActivity implements HomeOfFragments, UserProfile_Fragment.OnUserProfileFragmentListener, PostAdapterRecycler.OnPostViewHolderListener {
     UserProfile_Fragment upf;
     Fragment mCurrentFragment;
 
@@ -46,7 +47,9 @@ public class UserProfile_Activity extends AppCompatActivity implements HomeOfFra
 
     @Override
     public void startPostView(Bundle post) {
-        startFragment(PostView_Fragment.newInstance(post), true,AllConstants.PostViewTag);
+        Intent intent = new Intent(UserProfile_Activity.this,PostView_Activity.class);
+        intent.putExtras(post);
+        startActivity(intent);
     }
 
     @Override

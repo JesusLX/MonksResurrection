@@ -16,6 +16,7 @@ public class Start_Activity extends AppCompatActivity {
             startHome();
         }else
             startLogin();
+        finish();
     }
 
     private void startHome() {

@@ -14,6 +14,7 @@
     <color name="fontColor">#3d3c3c</color>
     <color name="fontColorLight">#e1e0e0</color>
     <color name="lgn_background">#eae6e2</color>
+    <color name="postview_background">#eae6e2</color>
     <color name="googleColor">#bf0000</color>
     <color name="facebookColor">#0011ff</color>
     <color name="steamColor">#000</color>

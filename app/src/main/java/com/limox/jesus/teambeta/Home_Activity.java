@@ -22,7 +22,7 @@ import com.limox.jesus.teambeta.Utils.NavDrawerUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Home_Activity extends AppCompatActivity implements HomeOfFragments, PostAdapterRecycler.OnPostViewHolderListener, PostView_Fragment.OnPostViewFragmentListener, HomeDashPosts_Fragment.OnHomeDashPostFragmentListener, NavDrawerUtils.OnNavDrawerListener {
+public class Home_Activity extends AppCompatActivity implements HomeOfFragments, PostAdapterRecycler.OnPostViewHolderListener, HomeDashPosts_Fragment.OnHomeDashPostFragmentListener, NavDrawerUtils.OnNavDrawerListener {
 
     Fragment mCurrentFragment;
     DrawerLayout mDrawerLayout;
@@ -98,7 +98,9 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
 
     @Override
     public void startPostView(Bundle post) {
-        startFragment(PostView_Fragment.newInstance(post), true, AllConstants.PostViewTag);
+        Intent intent = new Intent(Home_Activity.this,PostView_Activity.class);
+        intent.putExtras(post);
+        startActivity(intent);
     }
 
     @Override

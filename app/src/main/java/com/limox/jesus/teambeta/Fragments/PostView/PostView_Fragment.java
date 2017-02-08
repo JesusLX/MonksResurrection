@@ -26,6 +26,7 @@ import com.limox.jesus.teambeta.Utils.AllConstants;
 
 public class PostView_Fragment extends Fragment implements PostViewPresenter.View{
 
+
     Post mPost;
     Toolbar mToolBar;
     ImageView mIvUserPicture;
@@ -44,7 +45,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
 
     public interface OnPostViewFragmentListener{
         void startUserProfile(Bundle user);
-
+        void showPostComments();
     }
 
     public static PostView_Fragment newInstance(Bundle post) {
@@ -73,8 +74,8 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
       //  setHasOptionsMenu(true);
-        mPost = getArguments().getParcelable(AllConstants.POST_PARCELABLE_KEY);
         mPresenter = new PostViewPresenterImpl(this);
+        mPost = getArguments().getParcelable(AllConstants.POST_PARCELABLE_KEY);
     }
 
     @Override
@@ -87,7 +88,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View rootView = inflater.inflate(R.layout.activity_post_view, container,false);
+        View rootView = inflater.inflate(R.layout.fragment_post_view, container,false);
         mToolBar = (Toolbar) rootView.findViewById(R.id.pv_tbTitleBar);
         mIvUserPicture = (ImageView) rootView.findViewById(R.id.pv_ivProfilePicture);
         mIvLike = (ImageView) rootView.findViewById(R.id.pv_ivlike);
@@ -108,6 +109,12 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         fillWidgets();
         mToolBar.inflateMenu(R.menu.menu_post_view);
         adapteMenu(mToolBar.getMenu());
+        mIvComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCallback.showPostComments();
+            }
+        });
 
     }
 
@@ -242,4 +249,5 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
 
         return builder.create();
     }
+
 }

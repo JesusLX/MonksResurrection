@@ -51,6 +51,7 @@ public final class AllConstants {
     public static final String SignUpEmailTag = "sue";
     public static final String SignUpUserTag = "suu";
     public static final String UserProfileTag = "up";
+    public static final String CommentsViewTag = "cv";
     //endregion
 
 }

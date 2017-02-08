@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.limox.jesus.teambeta.Adapters.PostAdapterRecycler;
@@ -21,7 +22,7 @@ import com.limox.jesus.teambeta.Utils.NavDrawerUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Admins_Activity extends AppCompatActivity implements HomeOfFragments, NavDrawerUtils.OnNavDrawerListener, PostView_Fragment.OnPostViewFragmentListener, AdminsDashPosts_Fragment.OnAdminDashPostFragmentListener, PostAdapterRecycler.OnPostViewHolderListener {
+public class Admins_Activity extends AppCompatActivity implements HomeOfFragments, NavDrawerUtils.OnNavDrawerListener, AdminsDashPosts_Fragment.OnAdminDashPostFragmentListener, PostAdapterRecycler.OnPostViewHolderListener {
     Fragment mCurrentFragment;
     DrawerLayout mDrawerLayout;
     CircleImageView mCIVProfileImage;
@@ -93,8 +94,9 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
 
     @Override
     public void startPostView(Bundle post) {
-        startFragment(PostView_Fragment.newInstance(post), true, AllConstants.PostViewTag);
-
+        Intent intent = new Intent(Admins_Activity.this,PostView_Activity.class);
+        intent.putExtras(post);
+        startActivity(intent);
     }
 
     @Override
