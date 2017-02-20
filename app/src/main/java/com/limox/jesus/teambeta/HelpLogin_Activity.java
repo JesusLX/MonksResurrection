@@ -30,17 +30,17 @@ public class HelpLogin_Activity extends AppCompatActivity implements HomeOfFragm
      * Start the fragment StartSignUp_Fragmetn, adding it to the backStack
      */
     public void startHelpLogin(){
-        startFragment(new StartHelpLogin_Fragment(),true,AllConstants.HelpLoginTag);
+        startFragment(new StartHelpLogin_Fragment(),true, AllConstants.FragmentTag.HelpLoginTag);
     }
 
     @Override
     public void startHelpLoginFinalFragment(Bundle args) {
-        startFragment(HelpLoginFinal_Fragment.newInstance(args),false,AllConstants.HelpLoginFinalTag);
+        startFragment(HelpLoginFinal_Fragment.newInstance(args),false, AllConstants.FragmentTag.HelpLoginFinalTag);
     }
 
     @Override
     public void startHelpLoginPasswordFragment() {
-       startFragment(new HelpLoginPassword_Fragment(),true, AllConstants.HelpLoginPassTag);
+       startFragment(new HelpLoginPassword_Fragment(),true, AllConstants.FragmentTag.HelpLoginPassTag);
 
     }
 

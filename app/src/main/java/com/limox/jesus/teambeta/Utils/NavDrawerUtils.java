@@ -57,7 +57,7 @@ public class NavDrawerUtils {
                     case R.id.action_profile:
                         Bundle user = new Bundle();
                         // TODO Poner para que se pase el id del usuario en vez del usuario entero
-                        user.putParcelable(AllConstants.USER_PARCELABLE_KEY,Users_Repository.get().getCurrentUser());
+                        user.putParcelable(AllConstants.Keys.Parcelables.USER_PARCELABLE_KEY,Users_Repository.get().getCurrentUser());
                         mCallback.startUserProfile(user);
                         break;
                     case R.id.action_bugs:

@@ -8,13 +8,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.limox.jesus.teambeta.Adapters.PostAdapterRecycler;
 import com.limox.jesus.teambeta.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.teambeta.Fragments.Admins.AdminsDashPosts_Fragment;
-import com.limox.jesus.teambeta.Fragments.PostView.PostView_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
@@ -48,7 +46,7 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
             @Override
             public void onClick(View view) {
                 Bundle user = new Bundle();
-                user.putParcelable(AllConstants.USER_PARCELABLE_KEY, Users_Repository.get().getCurrentUser());
+                user.putParcelable(AllConstants.Keys.Parcelables.USER_PARCELABLE_KEY, Users_Repository.get().getCurrentUser());
                 startUserProfile(user);
             }
         });
@@ -76,7 +74,7 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
     @Override
     public void startAdminZone() {
 
-        startFragment(new AdminsDashPosts_Fragment(), false, AllConstants.AdminZoneTag);
+        startFragment(new AdminsDashPosts_Fragment(), false, AllConstants.FragmentTag.AdminZoneTag);
 
     }
 
@@ -89,7 +87,7 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
 
     @Override
     public void startHelp() {
-        startFragment(AboutMe_Fragment.newInstance(), true, AllConstants.HelpTag);
+        startFragment(AboutMe_Fragment.newInstance(), true, AllConstants.FragmentTag.HelpTag);
     }
 
     @Override

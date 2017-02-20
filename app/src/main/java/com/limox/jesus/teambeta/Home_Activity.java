@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.limox.jesus.teambeta.Adapters.PostAdapterRecycler;
 import com.limox.jesus.teambeta.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.teambeta.Fragments.Home.HomeDashPosts_Fragment;
-import com.limox.jesus.teambeta.Fragments.PostView.PostView_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
@@ -46,7 +45,7 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
             @Override
             public void onClick(View view) {
                 Bundle user = new Bundle();
-                user.putParcelable(AllConstants.USER_PARCELABLE_KEY, Users_Repository.get().getCurrentUser());
+                user.putParcelable(AllConstants.Keys.Parcelables.USER_PARCELABLE_KEY, Users_Repository.get().getCurrentUser());
                 startUserProfile(user);
             }
         });
@@ -77,7 +76,7 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
 
     @Override
     public void startBugForum() {
-        startFragment(new HomeDashPosts_Fragment(), true,AllConstants.BugForumTag);
+        startFragment(new HomeDashPosts_Fragment(), true, AllConstants.FragmentTag.BugForumTag);
     }
 
     @Override
@@ -93,7 +92,7 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
 
     @Override
     public void startHelp() {
-        startFragment(AboutMe_Fragment.newInstance(), true, AllConstants.HelpTag);
+        startFragment(AboutMe_Fragment.newInstance(), true, AllConstants.FragmentTag.HelpTag);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class Settings_Activity extends AppCompatActivity implements HomeOfFragme
     }
 
     public void startStartSettingsFragment(){
-        startFragment(new StartSettings_Fragment(),false, AllConstants.SettingsTag);
+        startFragment(new StartSettings_Fragment(),false, AllConstants.FragmentTag.SettingsTag);
     }
 
     @Override

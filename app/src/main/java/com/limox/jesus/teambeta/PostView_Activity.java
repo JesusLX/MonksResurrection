@@ -19,6 +19,7 @@ public class PostView_Activity extends AppCompatActivity implements HomeOfFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_view);
         mPost = getIntent().getExtras();
+
         if (savedInstanceState == null){
             startPostViewFragment(mPost);
         }
@@ -26,7 +27,7 @@ public class PostView_Activity extends AppCompatActivity implements HomeOfFragme
 
     void startPostViewFragment(Bundle post){
 
-        startFragment(PostView_Fragment.newInstance(post) , true , AllConstants.PostViewTag );
+        startFragment(PostView_Fragment.newInstance(post) , true , AllConstants.FragmentTag.PostViewTag );
 
     }
 
@@ -48,7 +49,7 @@ public class PostView_Activity extends AppCompatActivity implements HomeOfFragme
 
     @Override
     public void showPostComments() {
-        startFragment(new CommentsList_Fragment(),false,AllConstants.CommentsViewTag);
+        startFragment(new CommentsList_Fragment(),false, AllConstants.FragmentTag.CommentsViewTag);
     }
 
     @Override

@@ -49,7 +49,7 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mUser = getArguments().getParcelable(AllConstants.USER_PARCELABLE_KEY);
+            mUser = getArguments().getParcelable(AllConstants.Keys.Parcelables.USER_PARCELABLE_KEY);
         }
         setHasOptionsMenu(true);
         mAdapter = new ProfilePostTabsAdapter(getContext(),getChildFragmentManager(),mUser.getIdUser());

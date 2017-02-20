@@ -37,11 +37,11 @@ public class ProfilePostTabsAdapter extends FragmentStatePagerAdapter {
         Bundle args = new Bundle();
         switch (position){
             case 0:
-                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsByUser(mIdUser, Post.NOT_PUBLISHED));
+                args.putParcelableArrayList(AllConstants.Keys.Parcelables.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsByUser(mIdUser, Post.NOT_PUBLISHED));
                 fragment = DashPost_Fragment.newInstance(args);
                 break;
             case 1:
-                args.putParcelableArrayList(AllConstants.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsByUser(mIdUser, Post.PUBLISHED));
+                args.putParcelableArrayList(AllConstants.Keys.Parcelables.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsByUser(mIdUser, Post.PUBLISHED));
                 fragment = DashPost_Fragment.newInstance(args);
                 break;
             case 2:

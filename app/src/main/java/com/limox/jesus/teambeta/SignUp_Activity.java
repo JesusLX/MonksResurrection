@@ -25,12 +25,12 @@ public class SignUp_Activity extends AppCompatActivity implements HomeOfFragment
     }
 
     public void startSignUp() {
-        startFragment(new StartSignUp_Fragment(), true, AllConstants.SignUpTag);
+        startFragment(new StartSignUp_Fragment(), true, AllConstants.FragmentTag.SignUpTag);
     }
 
     @Override
     public void startSignUpEmail() {
-        startFragment(new SignUpEmail_Fragment(), true, AllConstants.SignUpEmailTag);
+        startFragment(new SignUpEmail_Fragment(), true, AllConstants.FragmentTag.SignUpEmailTag);
 
     }
 
@@ -47,7 +47,7 @@ public class SignUp_Activity extends AppCompatActivity implements HomeOfFragment
 
     @Override
     public void startSignUpUser(Bundle args) {
-        startFragment(SignUpUser_Fragment.newInstance(args), false, AllConstants.SignUpUserTag);
+        startFragment(SignUpUser_Fragment.newInstance(args), false, AllConstants.FragmentTag.SignUpUserTag);
     }
 
     @Override

@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.limox.jesus.teambeta.Adapters.PostAdapterRecycler;
-import com.limox.jesus.teambeta.Fragments.PostView.PostView_Fragment;
 import com.limox.jesus.teambeta.Fragments.UserProfile.UserProfile_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
 import com.limox.jesus.teambeta.Utils.AllConstants;
@@ -23,14 +22,14 @@ public class UserProfile_Activity extends AppCompatActivity implements HomeOfFra
         if (savedInstanceState == null)
             startUserProfile(getIntent().getExtras());
         else {
-            startFragment(getSupportFragmentManager().getFragment(savedInstanceState, AllConstants.FRAGMENT_SAVESTATE_KEY), false,AllConstants.UserProfileTag);
+            startFragment(getSupportFragmentManager().getFragment(savedInstanceState, AllConstants.Keys.SaveStates.FRAGMENT_SAVESTATE_KEY), false, AllConstants.FragmentTag.UserProfileTag);
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, AllConstants.FRAGMENT_SAVESTATE_KEY, mCurrentFragment);
+        getSupportFragmentManager().putFragment(outState, AllConstants.Keys.SaveStates.FRAGMENT_SAVESTATE_KEY, mCurrentFragment);
     }
 
     @Override
@@ -42,7 +41,7 @@ public class UserProfile_Activity extends AppCompatActivity implements HomeOfFra
 
     @Override
     public void startUserProfile(Bundle user) {
-        startFragment(UserProfile_Fragment.newInstance(user), false,AllConstants.UserProfileTag);
+        startFragment(UserProfile_Fragment.newInstance(user), false, AllConstants.FragmentTag.UserProfileTag);
     }
 
     @Override

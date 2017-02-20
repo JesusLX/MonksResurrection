@@ -69,7 +69,7 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                args.putParcelable(AllConstants.USER_PARCELABLE_KEY, Users_Repository.get().getUserById(mPosts.get(position).getIdUser()));
+                args.putParcelable(AllConstants.Keys.Parcelables.USER_PARCELABLE_KEY, Users_Repository.get().getUserById(mPosts.get(position).getIdUser()));
                 mCallback.startUserProfile(args);
             }
         });
@@ -77,7 +77,7 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                args.putParcelable(AllConstants.POST_PARCELABLE_KEY,mPosts.get(position));
+                args.putParcelable(AllConstants.Keys.Parcelables.POST_PARCELABLE_KEY,mPosts.get(position));
                 mCallback.startPostView(args);
             }
         });

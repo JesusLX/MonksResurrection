@@ -75,7 +75,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         super.onCreate(savedInstanceState);
       //  setHasOptionsMenu(true);
         mPresenter = new PostViewPresenterImpl(this);
-        mPost = getArguments().getParcelable(AllConstants.POST_PARCELABLE_KEY);
+        mPost = getArguments().getParcelable(AllConstants.Keys.Parcelables.POST_PARCELABLE_KEY);
     }
 
     @Override
