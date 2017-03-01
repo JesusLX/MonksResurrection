@@ -7,7 +7,7 @@
     android:background="@color/postview_background"
     android:fitsSystemWindows="true"
     android:theme="@style/AppTheme"
-    tools:context="com.limox.jesus.teambeta.Fragments.PostView.PostView_Fragment">
+    tools:context="com.limox.jesus.teambeta_sqlite.Fragments.PostView.PostView_Fragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

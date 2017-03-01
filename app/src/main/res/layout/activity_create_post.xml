@@ -7,6 +7,6 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     app:theme="@style/Theme.AppCompat.Light.NoActionBar"
-    tools:context="com.limox.jesus.teambeta.CreatePost_Activity"/>
+    tools:context="com.limox.jesus.teambeta_sqlite.CreatePost_Activity"/>
 
 
