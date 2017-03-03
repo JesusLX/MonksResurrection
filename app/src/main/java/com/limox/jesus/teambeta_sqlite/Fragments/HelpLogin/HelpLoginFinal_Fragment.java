@@ -13,6 +13,8 @@ import com.limox.jesus.teambeta_sqlite.Model.User;
 import com.limox.jesus.teambeta_sqlite.R;
 import com.limox.jesus.teambeta_sqlite.Repositories.Users_Repository;
 
+import it.sephiroth.android.library.picasso.Picasso;
+
 public class HelpLoginFinal_Fragment extends Fragment {
 
     String mEmail;
@@ -54,8 +56,8 @@ public class HelpLoginFinal_Fragment extends Fragment {
     {
         mEmail = getArguments().getString("email");
         mUser = Users_Repository.get().getUserByEmail(mEmail);
+        Picasso.with(getContext()).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mIvImageProfile);
 
-        mIvImageProfile.setImageResource( mUser.getProfilePicture());
         mTxvUserName.setText(mUser.getName());
         mTxvUserPassword.setText(mUser.getPassword());
     }

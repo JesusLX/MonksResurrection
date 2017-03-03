@@ -22,6 +22,7 @@ import com.limox.jesus.teambeta_sqlite.Repositories.Users_Repository;
 import java.lang.reflect.Field;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import it.sephiroth.android.library.picasso.Picasso;
 
 public class HomeDashPosts_Fragment extends Fragment  {
 
@@ -100,7 +101,9 @@ public class HomeDashPosts_Fragment extends Fragment  {
 
         mTabLayout.setupWithViewPager(mViewPager);
 
-        mCiProfilePicture.setImageResource(Users_Repository.get().getCurrentUser().getProfilePicture());
+
+        Picasso.with(getContext()).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mCiProfilePicture);
+
         mTxvCurrentTab.setText(mAdapter.getPageTitle(0));
 
         mCiProfilePicture.setOnClickListener(new View.OnClickListener() {

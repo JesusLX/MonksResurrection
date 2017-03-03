@@ -59,7 +59,7 @@ public class PostAdapterRecycler extends RecyclerView.Adapter<PostAdapterRecycle
         // Initializing the components of the holder created above
         // If it will host a type of list of other we need to put in
         holder.mPost = mPosts.get(position);
-        holder.mIvProfile_item.setImageResource(Users_Repository.get().getUserById(holder.mPost.getIdUser()).getProfilePicture());
+     //   holder.mIvProfile_item.setImageResource(Users_Repository.get().getUserById(holder.mPost.getIdUser()).getProfilePicture());
         holder.mTxvPostTitle_item.setText(holder.mPost.getTitle());
         holder.mTxvPostDescription_item.setText(holder.mPost.getDescriptionShorted());
         // TODO Poner que se vea solo si el usuario le ha dado like

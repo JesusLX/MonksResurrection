@@ -15,7 +15,10 @@ import android.widget.ImageView;
 import com.limox.jesus.teambeta_sqlite.Adapters.ProfilePostTabsAdapter;
 import com.limox.jesus.teambeta_sqlite.Model.User;
 import com.limox.jesus.teambeta_sqlite.R;
+import com.limox.jesus.teambeta_sqlite.Repositories.Users_Repository;
 import com.limox.jesus.teambeta_sqlite.Utils.AllConstants;
+
+import it.sephiroth.android.library.picasso.Picasso;
 
 public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOffsetChangedListener{
 
@@ -82,7 +85,7 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
         super.onViewCreated(view, savedInstanceState);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        mIvProfileImage.setImageResource(mUser.getProfilePicture());
+        Picasso.with(getContext()).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mIvProfileImage);
         mMaxScrollSize = mAppbarLayout.getTotalScrollRange();
         mAppbarLayout.addOnOffsetChangedListener(this);
         mIvwBack.setOnClickListener(new View.OnClickListener() {

@@ -3,45 +3,55 @@ package com.limox.jesus.teambeta_sqlite.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.limox.jesus.teambeta_sqlite.Provider.TeamBetaContract;
 import com.limox.jesus.teambeta_sqlite.Utils.AllConstants;
+import com.limox.jesus.teambeta_sqlite.db.DatabaseContract;
 
 /**
  * Created by jesus on 8/11/16.
  */
 
-public class User implements Parcelable{
-    int mGameCode;
-    int mIdUser;
-    String mName;
-    String mEmail;
-    String mPassword;
-    int mProfilePicture;
-    boolean mProfileBlocked;
-    boolean mUserDeleted;
-    int mUserType;
+public class User implements Parcelable {
+    private int mId;
+    private String mName;
+    private String mEmail;
+    private String mPassword;
+    private String mIcon;
+    private boolean mBlocked;
+    private boolean mDeleted;
+    private int mUserType;
+    private String mPostsLiked_URL;
 
-    public User(int gameCode, int idUser, String nick, String email, String password, int profilePicture, boolean profileBlocked, boolean userDeleted, int userType) {
-        this.mGameCode = gameCode;
-        this.mIdUser = idUser;
+    public User(int idUser, String nick, String email, String password, String profilePicture, boolean profileBlocked, boolean userDeleted, int userType) {
+        this.mId = idUser;
         this.mName = nick;
         mEmail = email;
         mPassword = password;
-        this.mProfilePicture = profilePicture;
-        this.mProfileBlocked = profileBlocked;
-        this.mUserDeleted = userDeleted;
+        this.mIcon = profilePicture;
+        this.mBlocked = profileBlocked;
+        this.mDeleted = userDeleted;
         this.mUserType = userType;
     }
 
-    public User(int gameCode, int mIdUser, String mNick, String mEmail, String mPassword, int mProfilePicture, int mUserType) {
-        this.mGameCode = gameCode;
-        this.mIdUser = mIdUser;
+    public User(int mId, String mNick, String mEmail, String mPassword, String mIcon, int mUserType) {
+        this.mId = mId;
         this.mName = mNick;
         this.mEmail = mEmail;
         this.mPassword = mPassword;
-        this.mProfilePicture = mProfilePicture;
+        this.mIcon = mIcon;
         this.mUserType = mUserType;
-        this.mProfileBlocked = false;
-        this.mUserDeleted = false;
+        this.mBlocked = false;
+        this.mDeleted = false;
+    }
+
+    public User(String mName, String mEmail, String mPassword) {
+        this.mName = mName;
+        this.mEmail = mEmail;
+        this.mPassword = mPassword;
+        this.mIcon = DatabaseContract.UserEntry.DEFAULT_ICON;
+        this.mUserType = 0;
+        this.mBlocked = false;
+        this.mDeleted = false;
     }
 
     public User(String nick) {
@@ -51,22 +61,22 @@ public class User implements Parcelable{
     /**
      * This is just fot find a user by id at the lists
      *
-     * @param mIdUser A user's id
+     * @param mId A user's id
      */
-    public User(int mIdUser) {
-        this.mIdUser = mIdUser;
+    public User(int mId) {
+        this.mId = mId;
     }
 
     protected User(Parcel in) {
-        mGameCode = in.readInt();
-        mIdUser = in.readInt();
+        mId = in.readInt();
         mName = in.readString();
         mEmail = in.readString();
         mPassword = in.readString();
-        mProfilePicture = in.readInt();
-        mProfileBlocked = in.readByte() != 0;
-        mUserDeleted = in.readByte() != 0;
+        mIcon = in.readString();
+        mBlocked = in.readByte() != 0;
+        mDeleted = in.readByte() != 0;
         mUserType = in.readInt();
+        mPostsLiked_URL = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -81,12 +91,16 @@ public class User implements Parcelable{
         }
     };
 
+    public User() {
+
+    }
+
     public int getIdUser() {
-        return mIdUser;
+        return mId;
     }
 
     public void setIdUser(int mIdUser) {
-        this.mIdUser = mIdUser;
+        this.mId = mIdUser;
     }
 
     public String getName() {
@@ -113,31 +127,35 @@ public class User implements Parcelable{
         mPassword = password;
     }
 
-    public int getProfilePicture() {
-        return mProfilePicture;
+    public String getProfilePicture() {
+        return mIcon;
     }
 
-    public void setProfilePicture(int mProfilePicture) {
-        this.mProfilePicture = mProfilePicture;
+    public void setIcon(String mProfilePicture) {
+        this.mIcon = mProfilePicture;
     }
 
-    public boolean isProfileBlocked() {
-        return mProfileBlocked;
+    public String getIcon() {
+        return this.mIcon;
     }
 
-    public void setProfileBlocked(boolean mProfileBlocked) {
-        this.mProfileBlocked = mProfileBlocked;
+    public boolean isBlocked() {
+        return mBlocked;
     }
 
-    public boolean isUserDeleted() {
-        return mUserDeleted;
+    public void setBlocked(boolean mProfileBlocked) {
+        this.mBlocked = mProfileBlocked;
     }
 
-    public void setUserDeleted(boolean mUserDeleted) {
-        this.mUserDeleted = mUserDeleted;
+    public boolean isDeleted() {
+        return mDeleted;
     }
 
-    public int getUserType() {
+    public void setDeleted(boolean mUserDeleted) {
+        this.mDeleted = mUserDeleted;
+    }
+
+    public int getTypeUser() {
         return mUserType;
     }
 
@@ -147,7 +165,7 @@ public class User implements Parcelable{
 
     public boolean isAdmin() {
 
-        return getUserType() == AllConstants.ADMIN_TYPE_ID;
+        return getTypeUser() == AllConstants.ADMIN_TYPE_ID;
 
     }
 
@@ -158,13 +176,21 @@ public class User implements Parcelable{
 
         User user = (User) o;
 
-        return mIdUser == user.mIdUser;
+        return mId == user.mId;
 
     }
 
     @Override
     public int hashCode() {
-        return mIdUser;
+        return mId;
+    }
+
+    public String getPostsLiked_URL() {
+        return mPostsLiked_URL;
+    }
+
+    public void setPostsLiked_URL(String postsLiked_URL) {
+        this.mPostsLiked_URL = postsLiked_URL;
     }
 
     @Override
@@ -173,15 +199,15 @@ public class User implements Parcelable{
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mGameCode);
-        dest.writeInt(mIdUser);
-        dest.writeString(mName);
-        dest.writeString(mEmail);
-        dest.writeString(mPassword);
-        dest.writeInt(mProfilePicture);
-        dest.writeByte((byte) (mProfileBlocked ? 1 : 0));
-        dest.writeByte((byte) (mUserDeleted ? 1 : 0));
-        dest.writeInt(mUserType);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(mId);
+        parcel.writeString(mName);
+        parcel.writeString(mEmail);
+        parcel.writeString(mPassword);
+        parcel.writeString(mIcon);
+        parcel.writeByte((byte) (mBlocked ? 1 : 0));
+        parcel.writeByte((byte) (mDeleted ? 1 : 0));
+        parcel.writeInt(mUserType);
+        parcel.writeString(mPostsLiked_URL);
     }
 }

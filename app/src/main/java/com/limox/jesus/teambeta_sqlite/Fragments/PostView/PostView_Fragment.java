@@ -17,16 +17,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.limox.jesus.teambeta_sqlite.Interfaces.PostViewPresenter;
+import com.limox.jesus.teambeta_sqlite.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta_sqlite.Model.Post;
+import com.limox.jesus.teambeta_sqlite.Model.User;
 import com.limox.jesus.teambeta_sqlite.Presenter.PostViewPresenterImpl;
+import com.limox.jesus.teambeta_sqlite.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta_sqlite.R;
 import com.limox.jesus.teambeta_sqlite.Repositories.Posts_Repository;
 import com.limox.jesus.teambeta_sqlite.Repositories.Users_Repository;
 import com.limox.jesus.teambeta_sqlite.Utils.AllConstants;
 
-public class PostView_Fragment extends Fragment implements PostViewPresenter.View{
+import it.sephiroth.android.library.picasso.Picasso;
 
+public class PostView_Fragment extends Fragment implements PostViewPresenter.View, UserManagerPresenter.View{
 
+    private User mUser;
     Post mPost;
     Toolbar mToolBar;
     ImageView mIvUserPicture;
@@ -38,10 +43,27 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
     TextView mTxvPostDescription;
     TextView mTxvPostScore;
     private PostViewPresenter mPresenter;
-
+    private UserManagerPresenter mUserPresenter;
     private OnPostViewFragmentListener mCallback;
 
     Toolbar.OnMenuItemClickListener mListenerOnMenuClick;
+
+    @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void onUserCreated() {
+
+    }
+
+    @Override
+    public void onUserObtained(User tryUser) {
+        mUser = tryUser;
+        fillWidgets();
+
+    }
 
     public interface OnPostViewFragmentListener{
         void startUserProfile(Bundle user);
@@ -76,12 +98,19 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
       //  setHasOptionsMenu(true);
         mPresenter = new PostViewPresenterImpl(this);
         mPost = getArguments().getParcelable(AllConstants.Keys.Parcelables.POST_PARCELABLE_KEY);
+        mUserPresenter = new UserManagerPresenterImpl(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mUserPresenter.getUser(mPost.getIdUser());
     }
 
     @Nullable
@@ -106,7 +135,6 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         super.onViewCreated(view, savedInstanceState);
         createOnOptionsItemSelected();
         mToolBar.setOnMenuItemClickListener(mListenerOnMenuClick);
-        fillWidgets();
         mToolBar.inflateMenu(R.menu.menu_post_view);
         adapteMenu(mToolBar.getMenu());
         mIvComments.setOnClickListener(new View.OnClickListener() {
@@ -131,8 +159,9 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
     }
 
     private void fillWidgets(){
-        mIvUserPicture.setImageResource(Users_Repository.get().getUserById(mPost.getIdUser()).getProfilePicture());
-        mTxvUserName.setText(Users_Repository.get().getUserById(mPost.getIdUser()).getName());
+        Picasso.with(getContext()).load(mUser.getIcon()).into(mIvUserPicture);
+
+        mTxvUserName.setText(mUser.getName());
         mTxvPostTitle.setText(mPost.getTitle());
         mTxvPostDescription.setText(mPost.getDescription());
     }
@@ -143,7 +172,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
      */
     private void adapteMenu(Menu menu){
         // getMenuInflater().inflate(R.menu.menu_post_view, menu);
-         switch (Users_Repository.get().getCurrentUser().getUserType()){
+         switch (Users_Repository.get().getCurrentUser().getTypeUser()){
              case AllConstants.ADMIN_TYPE_ID://Is an admin
 
                  if (mPost.isPublicate())

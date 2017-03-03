@@ -12,10 +12,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.limox.jesus.teambeta_sqlite.Adapters.AdminPostTabsAdapter;
+import com.limox.jesus.teambeta_sqlite.Admins_Activity;
 import com.limox.jesus.teambeta_sqlite.R;
 import com.limox.jesus.teambeta_sqlite.Repositories.Users_Repository;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import it.sephiroth.android.library.picasso.Picasso;
 
 public class AdminsDashPosts_Fragment extends Fragment {
 
@@ -80,7 +82,9 @@ public class AdminsDashPosts_Fragment extends Fragment {
             }
         });
         mTabLayout.setupWithViewPager(mViewPager);
-        mCiProfilePicture.setImageResource(Users_Repository.get().getCurrentUser().getProfilePicture());
+
+        Picasso.with(getContext()).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mCiProfilePicture);
+
 
         mTxvCurrentTab.setText(mTabTitles[0]);
         mCiProfilePicture.setOnClickListener(new View.OnClickListener() {

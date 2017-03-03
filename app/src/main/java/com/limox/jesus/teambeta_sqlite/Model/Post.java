@@ -55,6 +55,8 @@ public class Post implements Parcelable{
         }
     };
 
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -91,6 +93,16 @@ public class Post implements Parcelable{
     private boolean mDeleted;
     private Date mCreationDate;
 
+    public Post(int mIdUser, String mTitle, String mDescriptions, String mTags) {
+        this.mIdUser = mIdUser;
+        this.mTitle = mTitle;
+        this.mDescription = mDescriptions;
+        this.mTags = mTags;
+        this.mState = NOT_PUBLISHED;
+        this.mDeleted = false;
+        this.mCreationDate = new Date();
+    }
+
     public Post(String mTitle, int mIdUser, String mDescription, String mTags, int mIdPost) {
         this.mTitle = mTitle;
         this.mIdUser = mIdUser;
@@ -114,10 +126,10 @@ public class Post implements Parcelable{
         this.mCreationDate = new Date();
         this.mDeleted = false;
     }
-
-    public Post(int mIdPost) {
+    public Post(int mIdPost){
         this.mIdPost = mIdPost;
     }
+
 
     public void setState(@STATE int state){
         this.mState = state;

@@ -15,11 +15,11 @@ import com.limox.jesus.teambeta_sqlite.R;
 import com.limox.jesus.teambeta_sqlite.Validators.Validate;
 
 
-public class SignUpEmail_Fragment extends Fragment {
+public class SignUpEmail_Fragment extends Fragment  {
 
-    EditText edtEmail;
-    Button btnValidate;
-    TextView txvSignIn;
+    private EditText edtEmail;
+    private Button btnValidate;
+    private TextView txvSignIn;
     private SignUpEmailListener mCallBack;
 
     public interface SignUpEmailListener{

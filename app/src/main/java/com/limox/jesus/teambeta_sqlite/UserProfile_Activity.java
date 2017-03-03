@@ -7,11 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.limox.jesus.teambeta_sqlite.Adapters.PostAdapterRecycler;
+import com.limox.jesus.teambeta_sqlite.Adapters.PostCursorAdapter;
 import com.limox.jesus.teambeta_sqlite.Fragments.UserProfile.UserProfile_Fragment;
 import com.limox.jesus.teambeta_sqlite.Interfaces.HomeOfFragments;
 import com.limox.jesus.teambeta_sqlite.Utils.AllConstants;
 
-public class UserProfile_Activity extends AppCompatActivity implements HomeOfFragments, UserProfile_Fragment.OnUserProfileFragmentListener, PostAdapterRecycler.OnPostViewHolderListener {
+public class UserProfile_Activity extends AppCompatActivity implements HomeOfFragments, UserProfile_Fragment.OnUserProfileFragmentListener, PostCursorAdapter.OnPostViewHolderListener {
     UserProfile_Fragment upf;
     Fragment mCurrentFragment;
 

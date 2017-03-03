@@ -5,10 +5,10 @@
     android:id="@+id/fragment_dash_post"
     tools:context="com.limox.jesus.teambeta_sqlite.Fragments.GenericPosts.DashPost_Fragment">
 
-    <android.support.v7.widget.RecyclerView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/dp_rvList"
+        android:id="@+id/dp_lvList"
         android:background="@color/collapsed_post_bg"/>
 
 

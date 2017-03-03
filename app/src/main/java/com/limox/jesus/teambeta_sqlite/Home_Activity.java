@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.limox.jesus.teambeta_sqlite.Adapters.PostAdapterRecycler;
+import com.limox.jesus.teambeta_sqlite.Adapters.PostCursorAdapter;
 import com.limox.jesus.teambeta_sqlite.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.teambeta_sqlite.Fragments.Home.HomeDashPosts_Fragment;
 import com.limox.jesus.teambeta_sqlite.Interfaces.HomeOfFragments;
@@ -20,8 +21,9 @@ import com.limox.jesus.teambeta_sqlite.Utils.AllConstants;
 import com.limox.jesus.teambeta_sqlite.Utils.NavDrawerUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import it.sephiroth.android.library.picasso.Picasso;
 
-public class Home_Activity extends AppCompatActivity implements HomeOfFragments, PostAdapterRecycler.OnPostViewHolderListener, HomeDashPosts_Fragment.OnHomeDashPostFragmentListener, NavDrawerUtils.OnNavDrawerListener {
+public class Home_Activity extends AppCompatActivity implements HomeOfFragments, PostCursorAdapter.OnPostViewHolderListener, HomeDashPosts_Fragment.OnHomeDashPostFragmentListener, NavDrawerUtils.OnNavDrawerListener {
 
     Fragment mCurrentFragment;
     DrawerLayout mDrawerLayout;
@@ -37,10 +39,8 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
         init();
         initNavView();
 
-        //TODO La imagen del usuario se descargará con Picasso de la base de datos
-        //----------------------------------------------------------------------------------------------
-            mCIVProfileImage.setImageResource(Users_Repository.get().getCurrentUser().getProfilePicture());
-        //-----------------------------------------------------------------------------------------------
+        Picasso.with(Home_Activity.this).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mCIVProfileImage);
+
         mCIVProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

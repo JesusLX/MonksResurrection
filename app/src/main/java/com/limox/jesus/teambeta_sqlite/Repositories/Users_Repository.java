@@ -39,9 +39,9 @@ public class Users_Repository {
      */
     private void addExampleUsers() {
         if (mUsers != null) {
-            mUsers.add(new User(0, 0, "Admin1", "ejemplo1@gmail.com", "123", R.drawable.nino, AllConstants.ADMIN_TYPE_ID));
+           /* mUsers.add(new User(0, 0, "Admin1", "ejemplo1@gmail.com", "123", R.drawable.nino, AllConstants.ADMIN_TYPE_ID));
             mUsers.add(new User(1, 1, "User1", "ejemplo2@gmail.com", "123", R.drawable.monje, AllConstants.NORMALUSER_TYPE_ID));
-            mUsers.add(new User(2, 2, "User2", "ejemplo3@gmail.com", "123", R.drawable.icomonge, AllConstants.NORMALUSER_TYPE_ID));
+            mUsers.add(new User(2, 2, "User2", "ejemplo3@gmail.com", "123", R.drawable.icomonge, AllConstants.NORMALUSER_TYPE_ID));*/
         }
     }
 
@@ -62,15 +62,15 @@ public class Users_Repository {
         return allFine;
     }
 
-    public boolean addUser(String userName, String password, String email) {
+    /*public boolean addUser(String userName, String password, String email) {
         boolean allFine = false;
-        User user = new User(0, mUsers.size(), userName, email, password, R.drawable.monje, AllConstants.NORMALUSER_TYPE_ID);
+        //User user = new User(0, mUsers.size(), userName, email, password, R.drawable.monje, AllConstants.NORMALUSER_TYPE_ID);
         if (!mUsers.contains(user)) {
             mUsers.add(user);
             allFine = true;
         }
         return allFine;
-    }
+    }*/
 
     public boolean delUser(User user) {
         boolean allFine = false;

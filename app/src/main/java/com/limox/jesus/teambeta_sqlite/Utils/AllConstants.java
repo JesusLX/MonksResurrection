@@ -50,6 +50,8 @@ public final class AllConstants {
             public static final String USER_PARCELABLE_KEY = "user";
             public static final String POST_PARCELABLE_KEY = "posts";
             public static final String ARRAYLIST_POST_PARCELABLE_KEY = "arraPosts";
+            public static final String USER_NAME_PARCELABLE_KEY = "posts_name";
+            public static final String USER_PASSWORD_PARCELABLE_KEY = "post_password";
         }
 
         /**
@@ -63,6 +65,7 @@ public final class AllConstants {
 
         public class SimpleBundle {
             public static final String ArrayTags = "tagsArrays";
+            public static final String ID_USER_KEY = "id_user";
         }
     }
 

@@ -3,6 +3,7 @@ package com.limox.jesus.teambeta_sqlite.Fragments.SignUp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +11,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.limox.jesus.teambeta_sqlite.Interfaces.UserManagerPresenter;
+import com.limox.jesus.teambeta_sqlite.Model.User;
+import com.limox.jesus.teambeta_sqlite.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta_sqlite.R;
 import com.limox.jesus.teambeta_sqlite.Repositories.Users_Repository;
 import com.limox.jesus.teambeta_sqlite.Utils.Preferences;
 import com.limox.jesus.teambeta_sqlite.Validators.Validate;
 
-public class SignUpUser_Fragment extends Fragment {
+public class SignUpUser_Fragment extends Fragment implements UserManagerPresenter.View{
     EditText edtUserName;
     EditText edtPassword;
     EditText edtRepeatPassword;
@@ -26,7 +30,27 @@ public class SignUpUser_Fragment extends Fragment {
     String password;
     String repeatPassword;
 
+    private UserManagerPresenter mPresenter;
     private OnSignUpUserFragmentListener mCallback;
+
+    @Override
+    public void showMessage(String message) {
+        Snackbar.make(getView(),message,Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onUserCreated() {
+        //Users_Repository.get().addUser(name,password,email);
+
+
+    }
+
+    @Override
+    public void onUserObtained(User tryUser) {
+        Users_Repository.get().setCurrentUser(Users_Repository.get().getUser(name));
+        Preferences.setCurrentUser(name,password,getContext());
+        mCallback.startHomeActivity();
+    }
 
     public interface OnSignUpUserFragmentListener{
         void startHomeActivity();
@@ -73,12 +97,7 @@ public class SignUpUser_Fragment extends Fragment {
             public void onClick(View v) {
                 if (validateParams()){
                     // if all right create user and use it like current user of the app
-                    Users_Repository.get().addUser(name,password,email);
-                    Users_Repository.get().setCurrentUser(Users_Repository.get().getUser(name));
-                    Preferences.setCurrentUser(name,password,getContext());
-
-                    mCallback.startHomeActivity();
-
+                    mPresenter.addUser(new User(name,password,email));
                 }
             }
         });
@@ -89,6 +108,7 @@ public class SignUpUser_Fragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new UserManagerPresenterImpl(this);
     }
 
     private boolean validateParams(){

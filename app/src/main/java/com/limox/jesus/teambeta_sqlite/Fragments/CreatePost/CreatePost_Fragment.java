@@ -13,11 +13,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
+import com.limox.jesus.teambeta_sqlite.Interfaces.PostManagerPresenter;
+import com.limox.jesus.teambeta_sqlite.Model.Post;
+import com.limox.jesus.teambeta_sqlite.Presenter.PostManagerPresenterImpl;
 import com.limox.jesus.teambeta_sqlite.R;
 import com.limox.jesus.teambeta_sqlite.Repositories.Posts_Repository;
+import com.limox.jesus.teambeta_sqlite.Repositories.Users_Repository;
 
 
-public class CreatePost_Fragment extends Fragment {
+public class CreatePost_Fragment extends Fragment implements PostManagerPresenter.View {
 
     private EditText mEdtTitle;
     private EditText mEdtDescription;
@@ -29,12 +33,12 @@ public class CreatePost_Fragment extends Fragment {
     private RelativeLayout mRlContainer;
     private OnCreatePostFragmentListener mCallback;
     private Toolbar.OnMenuItemClickListener mMenuItemListener;
-
+    private PostManagerPresenter mPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mPresenter = new PostManagerPresenterImpl(this);
         /*setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(getString(com.limox.jesus.teambeta_sqlite.R.string.create_post));
         getSupportActionBar().setHomeAsUpIndicator(com.limox.jesus.teambeta_sqlite.R.drawable.ic_action_back);
@@ -59,6 +63,24 @@ public class CreatePost_Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mToolbar.inflateMenu(R.menu.menu_create_post);
         mToolbar.setNavigationIcon(R.drawable.ic_action_back);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+
+                    case R.id.action_send:
+                        sendPost();
+                        break;
+
+                    case android.R.id.home:
+                        getActivity().onBackPressed();
+                        break;
+                }
+                return true;
+            }
+        });
+
+
     }
 
     @Override
@@ -94,24 +116,11 @@ public class CreatePost_Fragment extends Fragment {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
 
-            case com.limox.jesus.teambeta_sqlite.R.id.action_send:
-                sendPost();
-                break;
-
-            case android.R.id.home:
-                getActivity().onBackPressed();
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }
     private void sendPost() {
         if (validate()){
-
-            Posts_Repository.get().createPost(mTitle,mDescriptions,mTags);
+            mPresenter.uploadPost(new Post(Users_Repository.get().getCurrentUser().getIdUser(),mTitle,mDescriptions,mTags));
+            //Posts_Repository.get().createPost(mTitle,mDescriptions,mTags);
             getActivity().onBackPressed();
         }else
             Snackbar.make(mRlContainer, com.limox.jesus.teambeta_sqlite.R.string.message_error_must_fill,Snackbar.LENGTH_LONG).show();

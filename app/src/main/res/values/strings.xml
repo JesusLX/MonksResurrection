@@ -108,5 +108,9 @@
     <string name="conect_with_facebook">Conect with Facebook</string>
     <string name="who_you_are">Who are you?</string>
     <string name="tell_us_about_you">Tell us about you</string>
+    <string name="error_insert">Error at insert a value</string>
+    <string name="error_delete">Error at delete an entry</string>
+    <string name="user_exists">This user already exists</string>
+    <string name="user_error">Error with the user or password</string>
 
 </resources>

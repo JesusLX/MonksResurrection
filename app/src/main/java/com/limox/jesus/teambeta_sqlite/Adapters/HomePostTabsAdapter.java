@@ -29,11 +29,9 @@ public class HomePostTabsAdapter extends FragmentStatePagerAdapter {
         Bundle args = new Bundle();
         switch (position){
             case 0:
-                args.putParcelableArrayList(AllConstants.Keys.Parcelables.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsPublished(Post.LAST_FIRST));
                 args.putInt(AllConstants.TypeLists.TYPELIST_KEY,AllConstants.TypeLists.FOR_PUBLISHED);
                 break;
             case 1:
-                args.putParcelableArrayList(AllConstants.Keys.Parcelables.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsFixed(Post.LAST_FIRST));
                 args.putInt(AllConstants.TypeLists.TYPELIST_KEY,AllConstants.TypeLists.FOR_FIXES);
                 break;
         }

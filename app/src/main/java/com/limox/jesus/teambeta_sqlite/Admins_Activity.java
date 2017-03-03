@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.limox.jesus.teambeta_sqlite.Adapters.PostAdapterRecycler;
+import com.limox.jesus.teambeta_sqlite.Adapters.PostCursorAdapter;
 import com.limox.jesus.teambeta_sqlite.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.teambeta_sqlite.Fragments.Admins.AdminsDashPosts_Fragment;
 import com.limox.jesus.teambeta_sqlite.Interfaces.HomeOfFragments;
@@ -19,8 +20,9 @@ import com.limox.jesus.teambeta_sqlite.Utils.AllConstants;
 import com.limox.jesus.teambeta_sqlite.Utils.NavDrawerUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import it.sephiroth.android.library.picasso.Picasso;
 
-public class Admins_Activity extends AppCompatActivity implements HomeOfFragments, NavDrawerUtils.OnNavDrawerListener, AdminsDashPosts_Fragment.OnAdminDashPostFragmentListener, PostAdapterRecycler.OnPostViewHolderListener {
+public class Admins_Activity extends AppCompatActivity implements HomeOfFragments, NavDrawerUtils.OnNavDrawerListener, AdminsDashPosts_Fragment.OnAdminDashPostFragmentListener, PostCursorAdapter.OnPostViewHolderListener {
     Fragment mCurrentFragment;
     DrawerLayout mDrawerLayout;
     CircleImageView mCIVProfileImage;
@@ -41,7 +43,7 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
         mNavView.inflateMenu(navUtils.getMenu());
         mNavView.setNavigationItemSelectedListener(navUtils.getNavListener());
 
-        mCIVProfileImage.setImageResource(Users_Repository.get().getCurrentUser().getProfilePicture());
+        Picasso.with(Admins_Activity.this).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mCIVProfileImage);
         mCIVProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

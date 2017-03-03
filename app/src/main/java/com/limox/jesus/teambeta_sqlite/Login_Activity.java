@@ -1,5 +1,6 @@
 package com.limox.jesus.teambeta_sqlite;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,11 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.limox.jesus.teambeta_sqlite.Interfaces.UserManagerPresenter;
+import com.limox.jesus.teambeta_sqlite.Model.User;
+import com.limox.jesus.teambeta_sqlite.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta_sqlite.Repositories.Users_Repository;
 import com.limox.jesus.teambeta_sqlite.Utils.Preferences;
-import com.limox.jesus.teambeta_sqlite.Validators.Validate;
 
-public class Login_Activity extends AppCompatActivity {
+public class Login_Activity extends AppCompatActivity implements UserManagerPresenter.View{
 
     TextView mTxvSignUp;
     TextView mTxvFP;
@@ -23,6 +26,7 @@ public class Login_Activity extends AppCompatActivity {
     String mUserName;
     String mPassword;
     AdapterView.OnClickListener mClicKListener;
+    UserManagerPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,8 @@ public class Login_Activity extends AppCompatActivity {
         mBtnLogIn = (Button) findViewById(com.limox.jesus.teambeta_sqlite.R.id.lgn_btnSignIn);
         mEdtUserName = (EditText) findViewById(com.limox.jesus.teambeta_sqlite.R.id.lgn_edtUser);
         mEdtPassword = (EditText) findViewById(com.limox.jesus.teambeta_sqlite.R.id.lgn_edtPassword);
+
+        mPresenter = new UserManagerPresenterImpl(this);
 
         initializeClickListener();
 
@@ -56,39 +62,54 @@ public class Login_Activity extends AppCompatActivity {
                         startActivity(new Intent(Login_Activity.this, SignUp_Activity.class));
                         break;
                     case com.limox.jesus.teambeta_sqlite.R.id.lgn_btnSignIn:
-                        if (validateAccount()) {
-                            startActivity(new Intent(Login_Activity.this, Home_Activity.class));
-                            //startActivity(new Intent(Login_Activity.this, Navigator_Activity.class));
-
-                            // set the current user
-                            Users_Repository.get().setCurrentUser(Users_Repository.get().getUser(mUserName));
-                            //TODO añadir que se ponga aqui el usuario en los settings
-                            Preferences.setCurrentUser(mUserName,mPassword,Login_Activity.this);
-
-                            finish();
-                        }
+                        validateAccount();
                         break;
                 }
             }
         };
     }
 
-    private boolean validateAccount() {
+    private void validateAccount() {
         mUserName = mEdtUserName.getText().toString();
         mPassword = mEdtPassword.getText().toString();
-        boolean allrigth = true;
 
         // check if the user introduced exists
-        if (Users_Repository.get().getUser(mUserName) != null) {
-            // If is wrong show a message at the password edt
-            if (Validate.validateAccount(mUserName, mPassword) != Validate.MESSAGE_OK) {
-                mEdtPassword.setError(getResources().getString(Validate.validateAccount(mUserName, mPassword)));
 
-                allrigth = false;
-            }
-        } else
-            allrigth = false;
-        return allrigth;
+
+
+        mPresenter.getUser(mUserName, mPassword);
+
+
+
     }
+
+    @Override
+    public Context getContext() {
+        return Login_Activity.this;
+    }
+
+    @Override
+    public void showMessage(String message) {
+        mEdtPassword.setError(message);
+    }
+
+    @Override
+    public void onUserCreated() {
+
+    }
+
+    @Override
+    public void onUserObtained(User user) {
+        startActivity(new Intent(Login_Activity.this, Home_Activity.class));
+        //startActivity(new Intent(Login_Activity.this, Navigator_Activity.class));
+
+        // set the current user
+        Users_Repository.get().setCurrentUser(user);
+
+        Preferences.setCurrentUser(mUserName,mPassword,Login_Activity.this);
+
+        finish();
+    }
+
 
 }
