@@ -49,7 +49,7 @@ public class User implements Parcelable {
         this.mEmail = mEmail;
         this.mPassword = mPassword;
         this.mIcon = DatabaseContract.UserEntry.DEFAULT_ICON;
-        this.mUserType = 0;
+        this.mUserType = 1;
         this.mBlocked = false;
         this.mDeleted = false;
     }

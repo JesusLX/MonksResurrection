@@ -13,22 +13,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.limox.jesus.teambeta_sqlite.Adapters.ProfilePostTabsAdapter;
+import com.limox.jesus.teambeta_sqlite.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta_sqlite.Model.User;
+import com.limox.jesus.teambeta_sqlite.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta_sqlite.R;
 import com.limox.jesus.teambeta_sqlite.Repositories.Users_Repository;
 import com.limox.jesus.teambeta_sqlite.Utils.AllConstants;
 
 import it.sephiroth.android.library.picasso.Picasso;
 
-public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOffsetChangedListener{
+public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOffsetChangedListener,UserManagerPresenter.View{
 
     private OnUserProfileFragmentListener mCallback;
     private ViewPager mVpContainer;
-    TabLayout mTabLayout;
-    ViewPager mViewPager;
-    AppBarLayout mAppbarLayout;
-    ProfilePostTabsAdapter mAdapter;
-    ImageView mIvwBack;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
+    private AppBarLayout mAppbarLayout;
+    private ProfilePostTabsAdapter mAdapter;
+    private ImageView mIvwBack;
     private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
 	private boolean mIsAvatarShown = true;
 
@@ -36,6 +38,9 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
 	private int mMaxScrollSize;
 
     private User mUser;
+    private int idUser;
+
+    private UserManagerPresenter mPresenter;
 
     public UserProfile_Fragment() {
         // Required empty public constructor
@@ -52,10 +57,11 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mUser = getArguments().getParcelable(AllConstants.Keys.Parcelables.USER_PARCELABLE_KEY);
+            idUser = getArguments().getInt(AllConstants.Keys.SimpleBundle.ID_USER_KEY);
         }
         setHasOptionsMenu(true);
-        mAdapter = new ProfilePostTabsAdapter(getContext(),getChildFragmentManager(),mUser.getIdUser());
+        mAdapter = new ProfilePostTabsAdapter(getContext(),getChildFragmentManager(),idUser);
+        mPresenter = new UserManagerPresenterImpl(this);
     }
 
     @Override
@@ -85,7 +91,6 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
         super.onViewCreated(view, savedInstanceState);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        Picasso.with(getContext()).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mIvProfileImage);
         mMaxScrollSize = mAppbarLayout.getTotalScrollRange();
         mAppbarLayout.addOnOffsetChangedListener(this);
         mIvwBack.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +119,12 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+   //     mPresenter.getUser(idUser);
+    }
+
+    @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
         if (mMaxScrollSize == 0)
             mMaxScrollSize = appBarLayout.getTotalScrollRange();
@@ -132,6 +143,22 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
                     .scaleY(1).scaleX(1)
                     .start();
         }
+    }
+
+    @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void onUserCreated() {
+
+    }
+
+    @Override
+    public void onUserObtained(User tryUser) {
+        Picasso.with(getContext()).load(tryUser.getIcon()).into(mIvProfileImage);
+
     }
 
     public interface OnUserProfileFragmentListener {

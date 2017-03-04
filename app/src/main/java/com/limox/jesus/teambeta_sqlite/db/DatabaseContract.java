@@ -21,7 +21,7 @@ public class DatabaseContract {
         public static final String COLUMN_EMAIL = "email";
         public static final String COLUMN_ICON = "icon";
         public static final String COLUMN_TYPE_USER = "type_user";
-        public static final String DEFAULT_ICON = "'https://www.ncatz.com/jesuslx/wp-apps/teambeta/user-icons/def_icon.png'";
+        public static final String DEFAULT_ICON = "https://jesuslx.ncatz.com/wp-apps/teambeta/user-icons/def_icon.png";
 
         public static final String SQL_CREATE_ENTRIES = String.format("CREATE TABLE %s (" +
                         "%s INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -31,8 +31,8 @@ public class DatabaseContract {
                         "%s TINYINT DEFAULT 0," +
                         "%s TINYINT DEFAULT 0," +
                         "%s TEXT NOT NULL," +
-                        "%s TEXT DEFAULT %s," +
-                        "%s INTEGER DEFAULT 0)",
+                        "%s TEXT DEFAULT '%s'," +
+                        "%s INTEGER DEFAULT 1)",
                         TABLE_NAME,
                         _ID,
                         COLUMN_NAME,
@@ -47,7 +47,7 @@ public class DatabaseContract {
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE %s ", TABLE_NAME);
 
         public static final String SQL_INSERT_ENTRIES = String.format("INSERT INTO %s (%s,%s,%s,%s) VALUES (%s,%s,%s,%s)", TABLE_NAME,COLUMN_NAME,
-                COLUMN_PASSWORD,COLUMN_EMAIL,COLUMN_TYPE_USER,"'Admin'","'123'","'admin1@ncatz.com'",1
+                COLUMN_PASSWORD,COLUMN_EMAIL,COLUMN_TYPE_USER,"'Admin'","'123'","'admin1@ncatz.com'",0
                 );
 
 
@@ -94,8 +94,22 @@ public class DatabaseContract {
                         COLUMN_CREATION_DATE,
                         COLUMN_DELETED);
 
-        public static final String ASC_SORT = COLUMN_CREATION_DATE + " ASC";
-        public static final String DESC_SORT = COLUMN_CREATION_DATE + " DESC";
+        public static final String SQL_INSERT_ENTRIES = String.format(
+                "INSERT INTO %s " +
+                        "(%s,%s,%s,%s,%s,%s) VALUES " +
+                        "(%s,'%s','%s','%s',%s,'%s')," +
+                        "(%s,'%s','%s','%s',%s,'%s')," +
+                        "(%s,'%s','%s','%s',%s,'%s')",
+                TABLE_NAME,
+                COLUMN_ID_USER,COLUMN_TITLE,COLUMN_TEXT,COLUMN_TAGS,COLUMN_PUBLISHED,COLUMN_CREATION_DATE,
+                1,"No se actualizan las listas","Cuando se hace una acción de CRUD aunque notifique a las listas no se modifican, (YA SI LO HACEN, MANDA ESTO A ARREGLADOS DESDE AHÍ ARRIBA)","error,real",1,"1488636094911",
+                1,"No están listos los comentarios aun","Como he sido muy tonto en vez de hacerte caso y hacer los comentarios con los cursores he hecho todo lo demas, el crear usuarios e iniciar sesión va con la base de datos y todo lo de las publicaciones también","error,real",0,"1488636095911",
+                1,"La foto de usuario no cambia","Cuando intento coger al usuario para pillar su foto cuando te vas a su perfil me utiliza ese cursor por algun motivo para las publicaciones que se hacen a la vez","error,real",0,"1488636195911"
+        );
+
+
+        public static final String ASC_SORT = "p."+COLUMN_CREATION_DATE + " ASC";
+        public static final String DESC_SORT = "p."+COLUMN_CREATION_DATE + " DESC";
 
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE %s ", TABLE_NAME);
 

@@ -12,6 +12,8 @@ import com.limox.jesus.teambeta_sqlite.Model.Post;
 public interface PostsListPresenter {
     void getAllPost(@Post.STATE int typeList);
 
+    void getAllPost(int all, int idUser);
+
     interface View {
 
         Context getContext();

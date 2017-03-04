@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class DatabaseHelper extends SQLiteOpenHelper{
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION =1;
     private static final String DATABASE_NAME = "teambeta.db";
     private static volatile DatabaseHelper mInstance;
     private AtomicInteger mAIOpenCounter;
@@ -62,6 +62,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             db.execSQL(DatabaseContract.UserEntry.SQL_CREATE_ENTRIES);
             db.execSQL(DatabaseContract.UserEntry.SQL_INSERT_ENTRIES);
             db.execSQL(DatabaseContract.PostEntry.SQL_CREATE_ENTRIES);
+            Log.i("post",DatabaseContract.PostEntry.SQL_INSERT_ENTRIES);
+            db.execSQL(DatabaseContract.PostEntry.SQL_INSERT_ENTRIES);
             db.execSQL(DatabaseContract.CommentEntry.SQL_CREATE_ENTRIES);
 
             db.setTransactionSuccessful();
@@ -81,8 +83,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             db.execSQL(DatabaseContract.CommentEntry.SQL_DELETE_ENTRIES);
             onCreate(db);
             db.setTransactionSuccessful();
-        }catch (SQLiteException e){
-            Log.e("Error al actualizar bd","Error al actualizar la base de datos: "+e.getMessage());
+        }catch (SQLiteException e) {
+            Log.e("Error al actualizar bd", "Error al actualizar la base de datos: " + e.getMessage());
+        }
+        catch (Exception e){
+            Log.e("Errooor",e.getMessage());
         }finally {
             db.endTransaction();
         }

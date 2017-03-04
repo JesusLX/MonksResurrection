@@ -30,6 +30,8 @@ public class DashPost_Fragment extends Fragment implements PostsListPresenter.Vi
     private PostsListPresenter mPresenter;
 
     private int typeList;
+    private int idUser;
+
 
    /* public interface OnDashPostFragmentListener{
 
@@ -51,9 +53,10 @@ public class DashPost_Fragment extends Fragment implements PostsListPresenter.Vi
 
         if (getArguments() != null) {
             typeList =getArguments().getInt(AllConstants.TypeLists.TYPELIST_KEY);}
-
+            idUser = getArguments().getInt(AllConstants.Keys.SimpleBundle.ID_USER_KEY,-1);
         if (savedInstanceState != null){
             typeList = savedInstanceState.getInt(AllConstants.TypeLists.TYPELIST_KEY);
+            idUser = savedInstanceState.getInt(AllConstants.Keys.SimpleBundle.ID_USER_KEY,-1);
         }
 
 
@@ -73,16 +76,16 @@ public class DashPost_Fragment extends Fragment implements PostsListPresenter.Vi
         super.onStart();
         switch (typeList){
             case Post.ALL:
-                mPresenter.getAllPost(Post.ALL);
+                mPresenter.getAllPost(Post.ALL,idUser);
                 break;
             case Post.FIXED:
-                mPresenter.getAllPost(Post.FIXED);
+                mPresenter.getAllPost(Post.FIXED,idUser);
                 break;
             case Post.NOT_PUBLISHED:
-                mPresenter.getAllPost(Post.NOT_PUBLISHED);
+                mPresenter.getAllPost(Post.NOT_PUBLISHED,idUser);
                 break;
             case Post.PUBLISHED:
-                mPresenter.getAllPost(Post.PUBLISHED);
+                mPresenter.getAllPost(Post.PUBLISHED,idUser);
                 break;
         }
     }

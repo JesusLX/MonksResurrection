@@ -99,7 +99,7 @@ public class UserManagerPresenterImpl implements UserManagerPresenter,LoaderMana
 
         switch (selection){
             case getUserByName:
-                if (cursor.getCount()== 0){
+                if (cursor.getCount()<= 0){
                     try {
                         ContentValues contentValues;
                         contentValues = getContentUser(tryUser);
@@ -127,6 +127,7 @@ public class UserManagerPresenterImpl implements UserManagerPresenter,LoaderMana
                 }
                 break;
         }
+        ((Activity)context).getLoaderManager().destroyLoader(0);
     }
 
     @Override

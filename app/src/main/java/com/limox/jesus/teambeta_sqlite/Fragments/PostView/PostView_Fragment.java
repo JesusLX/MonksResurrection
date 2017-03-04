@@ -27,6 +27,8 @@ import com.limox.jesus.teambeta_sqlite.Repositories.Posts_Repository;
 import com.limox.jesus.teambeta_sqlite.Repositories.Users_Repository;
 import com.limox.jesus.teambeta_sqlite.Utils.AllConstants;
 
+import java.util.Date;
+
 import it.sephiroth.android.library.picasso.Picasso;
 
 public class PostView_Fragment extends Fragment implements PostViewPresenter.View, UserManagerPresenter.View{
@@ -98,6 +100,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
       //  setHasOptionsMenu(true);
         mPresenter = new PostViewPresenterImpl(this);
         mPost = getArguments().getParcelable(AllConstants.Keys.Parcelables.POST_PARCELABLE_KEY);
+        mPost.setCreationDate(new Date(getArguments().getLong(AllConstants.Keys.Parcelables.POST_CREATION_DATE)));
         mUserPresenter = new UserManagerPresenterImpl(this);
     }
 
@@ -259,16 +262,16 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (typeAction){
                                     case TO_NOT_PUBLISHED:
-                                        mPresenter.changePostOfList(mPost.getIdPost(),Post.NOT_PUBLISHED);
+                                        mPresenter.changePostOfList(mPost,Post.NOT_PUBLISHED);
                                         break;
                                     case TO_PUBLISHED:
-                                        mPresenter.changePostOfList(mPost.getIdPost(),Post.PUBLISHED);
+                                        mPresenter.changePostOfList(mPost,Post.PUBLISHED);
                                         break;
                                     case TO_FIXED:
-                                        mPresenter.changePostOfList(mPost.getIdPost(),Post.FIXED);
+                                        mPresenter.changePostOfList(mPost,Post.FIXED);
                                         break;
                                     case DELETE:
-                                        Posts_Repository.get().deletePost(idPost);
+                                        mPresenter.deletePost(mPost);
                                         break;
                                 }
                                 getActivity().onBackPressed();

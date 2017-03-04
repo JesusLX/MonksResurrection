@@ -35,6 +35,11 @@ public class CreatePost_Activity extends AppCompatActivity implements HomeOfFrag
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        int count =getSupportFragmentManager().getBackStackEntryCount();
+        if (count>1){
+            super.onBackPressed();
+        }else
+            finish();
+
     }
 }

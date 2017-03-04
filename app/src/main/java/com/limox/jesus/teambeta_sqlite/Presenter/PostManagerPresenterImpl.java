@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.StrictMode;
 
 import com.limox.jesus.teambeta_sqlite.Interfaces.PostManagerPresenter;
 import com.limox.jesus.teambeta_sqlite.Model.Post;
@@ -52,11 +53,11 @@ public class PostManagerPresenterImpl implements PostManagerPresenter,LoaderMana
         ContentValues values = new ContentValues();
 
 
-        values.put(TeamBetaContract.Posts.TITLE,post.getTitle());
-        values.put(TeamBetaContract.Posts.TEXT,post.getDescription());
+        values.put(TeamBetaContract.Posts.TITLE, String.valueOf(post.getTitle()));
+        values.put(TeamBetaContract.Posts.TEXT,String.valueOf(post.getDescription()));
         values.put(TeamBetaContract.Posts.ID_USER,post.getIdUser());
         values.put(TeamBetaContract.Posts.SCORE,post.getScore());
-        values.put(TeamBetaContract.Posts.TAGS,post.getTags());
+        values.put(TeamBetaContract.Posts.TAGS,String.valueOf(post.getTags()));
         values.put(TeamBetaContract.Posts.CREATION_DATE,post.getCreationDate().getTime());
 
         int fixed = 0;
@@ -81,7 +82,7 @@ public class PostManagerPresenterImpl implements PostManagerPresenter,LoaderMana
     }
 
     private void startLoader(int selection,Bundle args){
-        Loader<Cursor> loader = ((Activity)context).getLoaderManager().getLoader(0);
+        Loader<Cursor> loader = ((Activity)context).getLoaderManager().getLoader(2);
 
         if (loader == null){
             ((Activity)context).getLoaderManager().initLoader(selection,args,null);

@@ -15,9 +15,9 @@ import android.widget.RelativeLayout;
 
 import com.limox.jesus.teambeta_sqlite.Interfaces.PostManagerPresenter;
 import com.limox.jesus.teambeta_sqlite.Model.Post;
+import com.limox.jesus.teambeta_sqlite.Notifications.Notifications;
 import com.limox.jesus.teambeta_sqlite.Presenter.PostManagerPresenterImpl;
 import com.limox.jesus.teambeta_sqlite.R;
-import com.limox.jesus.teambeta_sqlite.Repositories.Posts_Repository;
 import com.limox.jesus.teambeta_sqlite.Repositories.Users_Repository;
 
 
@@ -121,6 +121,7 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
         if (validate()){
             mPresenter.uploadPost(new Post(Users_Repository.get().getCurrentUser().getIdUser(),mTitle,mDescriptions,mTags));
             //Posts_Repository.get().createPost(mTitle,mDescriptions,mTags);
+            Notifications.SentPublicationPostSended(getContext());
             getActivity().onBackPressed();
         }else
             Snackbar.make(mRlContainer, com.limox.jesus.teambeta_sqlite.R.string.message_error_must_fill,Snackbar.LENGTH_LONG).show();

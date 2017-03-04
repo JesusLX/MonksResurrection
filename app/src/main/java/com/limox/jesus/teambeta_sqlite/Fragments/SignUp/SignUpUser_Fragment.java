@@ -41,15 +41,17 @@ public class SignUpUser_Fragment extends Fragment implements UserManagerPresente
     @Override
     public void onUserCreated() {
         //Users_Repository.get().addUser(name,password,email);
+        Snackbar.make(getView(),"Usuario creado con exito",Snackbar.LENGTH_LONG).show();
 
 
     }
 
     @Override
     public void onUserObtained(User tryUser) {
-        Users_Repository.get().setCurrentUser(Users_Repository.get().getUser(name));
+        Users_Repository.get().setCurrentUser(tryUser);
         Preferences.setCurrentUser(name,password,getContext());
         mCallback.startHomeActivity();
+
     }
 
     public interface OnSignUpUserFragmentListener{
@@ -97,7 +99,7 @@ public class SignUpUser_Fragment extends Fragment implements UserManagerPresente
             public void onClick(View v) {
                 if (validateParams()){
                     // if all right create user and use it like current user of the app
-                    mPresenter.addUser(new User(name,password,email));
+                    mPresenter.addUser(new User(name,email,password));
                 }
             }
         });

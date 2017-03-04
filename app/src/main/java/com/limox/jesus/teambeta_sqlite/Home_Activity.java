@@ -45,7 +45,7 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
             @Override
             public void onClick(View view) {
                 Bundle user = new Bundle();
-                user.putParcelable(AllConstants.Keys.Parcelables.USER_PARCELABLE_KEY, Users_Repository.get().getCurrentUser());
+                user.putInt(AllConstants.Keys.SimpleBundle.ID_USER_KEY, Users_Repository.get().getCurrentUser().getIdUser());
                 startUserProfile(user);
             }
         });

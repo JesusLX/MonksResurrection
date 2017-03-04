@@ -16,16 +16,6 @@ import java.util.Date;
 public class Post implements Parcelable{
     private static final int DESCRIPTION_SHORTED_LENGTH = 47;
 
-    protected Post(Parcel in) {
-        mIdPost = in.readInt();
-        mIdUser = in.readInt();
-        mScore = in.readInt();
-        mState = in.readInt();
-        mTitle = in.readString();
-        mDescription = in.readString();
-        mTags = in.readString();
-        mDeleted = in.readByte() != 0;
-    }
     public static final Comparator<Post> LAST_FIRST = new Comparator<Post>() {
         @Override
         public int compare(Post post, Post t1) {
@@ -42,37 +32,6 @@ public class Post implements Parcelable{
             return result;
         }
     };
-
-    public static final Creator<Post> CREATOR = new Creator<Post>() {
-        @Override
-        public Post createFromParcel(Parcel in) {
-            return new Post(in);
-        }
-
-        @Override
-        public Post[] newArray(int size) {
-            return new Post[size];
-        }
-    };
-
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(mIdPost);
-        parcel.writeInt(mIdUser);
-        parcel.writeInt(mScore);
-        parcel.writeInt(mState);
-        parcel.writeString(mTitle);
-        parcel.writeString(mDescription);
-        parcel.writeString(mTags);
-        parcel.writeByte((byte) (mDeleted ? 1 : 0));
-    }
 
 
     @IntDef({NOT_PUBLISHED,PUBLISHED,FIXED,ALL})
@@ -130,6 +89,46 @@ public class Post implements Parcelable{
         this.mIdPost = mIdPost;
     }
 
+
+    protected Post(Parcel in) {
+        mIdPost = in.readInt();
+        mIdUser = in.readInt();
+        mScore = in.readInt();
+        mState = in.readInt();
+        mTitle = in.readString();
+        mDescription = in.readString();
+        mTags = in.readString();
+        mDeleted = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mIdPost);
+        dest.writeInt(mIdUser);
+        dest.writeInt(mScore);
+        dest.writeInt(mState);
+        dest.writeString(mTitle);
+        dest.writeString(mDescription);
+        dest.writeString(mTags);
+        dest.writeByte((byte) (mDeleted ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        @Override
+        public Post createFromParcel(Parcel in) {
+            return new Post(in);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
 
     public void setState(@STATE int state){
         this.mState = state;

@@ -45,16 +45,18 @@ public class PostCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        PostViewHolder holder = (PostViewHolder) view.getTag();
+        final PostViewHolder holder = (PostViewHolder) view.getTag();
         Picasso.with(context).load(cursor.getString(TeamBetaContract.Posts.USER_ICON_KEY)).into(holder.mIvProfile_item);
         holder.mTxvPostTitle_item.setText(cursor.getString(TeamBetaContract.Posts.TITLE_KEY));
         holder.mTxvPostDescription_item.setText(cursor.getString(TeamBetaContract.Posts.TEXT_KEY));
-        cursor.getPosition();
+        holder.postition = getCursor().getPosition();
         holder.mRlContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle b = new Bundle();
-                b.putParcelable(AllConstants.Keys.Parcelables.POST_PARCELABLE_KEY,(Post)getItem(getCursor().getPosition()));
+                Post tmpPost = (Post)getItem(holder.postition);
+                b.putParcelable(AllConstants.Keys.Parcelables.POST_PARCELABLE_KEY,tmpPost);
+                b.putLong(AllConstants.Keys.Parcelables.POST_CREATION_DATE,tmpPost.getCreationDate().getTime());
                 mCallback.startPostView(b);
             }
         });
@@ -83,7 +85,7 @@ public class PostCursorAdapter extends CursorAdapter {
         TextView mTxvPostTitle_item;
         ImageView mIvwPoints_item;
         RelativeLayout mRlContainer;
-
+        int postition;
 
 
         PostViewHolder(View itemView) {
@@ -100,7 +102,9 @@ public class PostCursorAdapter extends CursorAdapter {
     @Override
     public Object getItem(int position) {
 
-        getCursor().move(position);
+        /*if (position > 0)
+            position = position-1;*/
+        getCursor().moveToPosition(position);
         Post post = new Post(getCursor().getInt(TeamBetaContract.Posts.ID_KEY));
         post.setIdUser(getCursor().getInt(TeamBetaContract.Posts.USER_ID_KEY));
         post.setDeleted(getCursor().getInt(TeamBetaContract.Posts.DELETED_KEY)==1);

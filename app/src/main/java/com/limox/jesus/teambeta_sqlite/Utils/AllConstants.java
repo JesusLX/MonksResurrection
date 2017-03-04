@@ -52,6 +52,8 @@ public final class AllConstants {
             public static final String ARRAYLIST_POST_PARCELABLE_KEY = "arraPosts";
             public static final String USER_NAME_PARCELABLE_KEY = "posts_name";
             public static final String USER_PASSWORD_PARCELABLE_KEY = "post_password";
+            public static final String CURSOR_POSITION = "position";
+            public static final String POST_CREATION_DATE = "date";
         }
 
         /**
@@ -87,5 +89,9 @@ public final class AllConstants {
         public static final String UserProfileTag = "up";
         public static final String CommentsViewTag = "cv";
         public static final String CreatePostTag = "cp";
+    }
+
+    public class Notifications {
+        public static final int POST_SENDED = 1;
     }
 }

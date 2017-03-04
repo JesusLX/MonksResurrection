@@ -1,6 +1,7 @@
 package com.limox.jesus.teambeta_sqlite.Fragments.Admins;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -13,13 +14,15 @@ import android.widget.TextView;
 
 import com.limox.jesus.teambeta_sqlite.Adapters.AdminPostTabsAdapter;
 import com.limox.jesus.teambeta_sqlite.Admins_Activity;
+import com.limox.jesus.teambeta_sqlite.Interfaces.PostsListPresenter;
 import com.limox.jesus.teambeta_sqlite.R;
 import com.limox.jesus.teambeta_sqlite.Repositories.Users_Repository;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.sephiroth.android.library.picasso.Picasso;
 
-public class AdminsDashPosts_Fragment extends Fragment {
+public class AdminsDashPosts_Fragment extends Fragment
+{
 
     private CircleImageView mCiProfilePicture;
     private TextView mTxvCurrentTab;
@@ -27,6 +30,7 @@ public class AdminsDashPosts_Fragment extends Fragment {
     private ViewPager mViewPager;
     private AdminPostTabsAdapter mAdapter;
     private OnAdminDashPostFragmentListener mCallback;
+    private PostsListPresenter mPresenter;
 
     private String[] mTabTitles;
 
@@ -111,6 +115,8 @@ public class AdminsDashPosts_Fragment extends Fragment {
         super.onDetach();
         mCallback = null;
     }
+
+
 
     public interface OnAdminDashPostFragmentListener {
         void onOpenNavigatorDrawer();

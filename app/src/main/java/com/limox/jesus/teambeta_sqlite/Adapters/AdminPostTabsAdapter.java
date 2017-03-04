@@ -28,12 +28,10 @@ public class AdminPostTabsAdapter extends FragmentStatePagerAdapter {
         Bundle args = new Bundle();
         switch (position){
             case 0:
-                args.putParcelableArrayList(AllConstants.Keys.Parcelables.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsNotPublished(null));
                 args.putInt(AllConstants.TypeLists.TYPELIST_KEY,AllConstants.TypeLists.FOR_NONPUBLISHED);
                 dpf = DashPost_Fragment.newInstance(args);
                 break;
             case 1:
-                args.putParcelableArrayList(AllConstants.Keys.Parcelables.ARRAYLIST_POST_PARCELABLE_KEY, Posts_Repository.get().getPostsPublished(null));
                 args.putInt(AllConstants.TypeLists.TYPELIST_KEY,AllConstants.TypeLists.FOR_PUBLISHED);
                 dpf = DashPost_Fragment.newInstance(args);
                 break;
