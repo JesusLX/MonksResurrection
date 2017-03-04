@@ -37,8 +37,8 @@
     <string name="description">Description</string>
     <string name="title">Title</string>
     <string name="text_about_application">This application is a support application for the game Mon\'s Resurrection of this business, here you can help us to update our game, you also can read the story of the game and know more about his world.</string>
-    <string name="business_web" translatable="false">https://www.ellimonerox.tumblr.com</string>
-    <string name="business_name" translatable="false">Lemon Three X</string>
+    <string name="business_web" translatable="false">https://jesuslx.ncatz.com</string>
+    <string name="business_name" translatable="false">nCatz</string>
     <string name="business">Business:</string>
     <string name="about_me">About me:</string>
     <string name="recover_password">Recover password</string>
@@ -97,14 +97,14 @@
     <string name="sign_up">Sign Up</string>
     <string name="userprofilebg_description">Background for the user profile picture</string>
     <string name="empty" />
-    <string name="points">points</string>
+    <string name="points">Puntos</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="send">Send</string>
     <string name="message_error_must_fill">You must fill all</string>
-    <string name="conect_with_steam">Conect with Stream</string>
+    <string name="conect_with_steam">Conect with Steam</string>
     <string name="conect_with_facebook">Conect with Facebook</string>
     <string name="who_you_are">Who are you?</string>
     <string name="tell_us_about_you">Tell us about you</string>

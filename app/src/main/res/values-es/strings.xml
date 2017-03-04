@@ -79,4 +79,16 @@
     <string name="sign_up">Crear usuario</string>
     <string name="support">Ayuda</string>
     <string name="userprofilebg_description">Fondo para la imagen de perfil del usuario</string>
+    <string name="conect_with_facebook">Contectar con Facebook</string>
+    <string name="conect_with_steam">Conectar con Steam</string>
+    <string name="error_delete">Error al borrar la entrada</string>
+    <string name="error_insert">Error al insertar el valor</string>
+    <string name="message_error_must_fill">Debes rellenar todos los campos</string>
+    <string name="publication_sended_content">Tu publicación va a ser supervisada por administradores.</string>
+    <string name="publication_sended_title">Publicación enviada</string>
+    <string name="send">Enviar</string>
+    <string name="tell_us_about_you">Cuentanos sobre ti</string>
+    <string name="user_error">Error con el usuario o la contraseña</string>
+    <string name="user_exists">Ese usuario ya existe</string>
+    <string name="who_you_are">¿Quién eres?</string>
 </resources>
