@@ -33,7 +33,7 @@
     <string name="message_error_password_match">Passwords do not match</string>
     <string name="message_error_nonexistent">Error with the password or the user name</string>
     <string name="btn_create_post">Create Post</string>
-    <string name="tags_separated_by_comma">Tagls,separated,by,comma</string>
+    <string name="tags_separated_by_comma">Tags,separated,by,comma</string>
     <string name="description">Description</string>
     <string name="title">Title</string>
     <string name="text_about_application">This application is a support application for the game Mon\'s Resurrection of this business, here you can help us to update our game, you also can read the story of the game and know more about his world.</string>

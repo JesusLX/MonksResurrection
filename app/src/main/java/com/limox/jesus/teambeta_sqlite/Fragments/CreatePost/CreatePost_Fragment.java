@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,6 +64,7 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
         super.onViewCreated(view, savedInstanceState);
         mToolbar.inflateMenu(R.menu.menu_create_post);
         mToolbar.setNavigationIcon(R.drawable.ic_action_back);
+        mToolbar.setTitle(R.string.create_post);
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -72,11 +74,14 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
                         sendPost();
                         break;
 
-                    case android.R.id.home:
-                        getActivity().onBackPressed();
-                        break;
                 }
                 return true;
+            }
+        });
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
             }
         });
 
@@ -110,7 +115,7 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
         mDescriptions= mEdtDescription.getText().toString();
         mTags = mEdtTags.getText().toString();
 
-        if (mTitle.length() > 0 && mDescriptions.length() > 0 && mTags.length() > 0)
+        if (!TextUtils.isEmpty(mTitle) && !TextUtils.isEmpty(mDescriptions) && !TextUtils.isEmpty(mTags))
             allRigth = true;
         return allRigth;
     }
@@ -124,7 +129,7 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
             Notifications.SentPublicationPostSended(getContext());
             getActivity().onBackPressed();
         }else
-            Snackbar.make(mRlContainer, com.limox.jesus.teambeta_sqlite.R.string.message_error_must_fill,Snackbar.LENGTH_LONG).show();
+            Snackbar.make(getView(), R.string.message_error_must_fill,Snackbar.LENGTH_LONG).show();
 
     }
 
