@@ -114,5 +114,6 @@
     <string name="user_error">Error with the user or password</string>
     <string name="publication_sended_title">Publication sended</string>
     <string name="publication_sended_content">Your publication is going to be supervised by an admin.</string>
+    <string name="projects">Projects</string>
 
 </resources>

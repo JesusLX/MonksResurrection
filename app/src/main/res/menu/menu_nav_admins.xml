@@ -4,6 +4,9 @@
         <item android:id="@+id/action_profile"
             android:title="@string/profile"
             android:icon="@drawable/ic_action_user"/>
+        <item android:id="@+id/action_projects"
+            android:title="@string/projects"
+            android:icon="@drawable/ic_action_user"/>
         <item android:id="@+id/action_bugs"
             android:title="@string/forum_bugs"
             android:icon="@drawable/ic_action_bug"/>

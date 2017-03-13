@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
+import com.limox.jesus.teambeta.TeamBetaApplication;
+import com.limox.jesus.teambeta.db.DatabaseManager;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -43,14 +45,19 @@ public class Preferences {
 
         editor.apply();
     }
-    public static boolean hasACurrentUser(Context context){
+
+    /**
+     * Check if has a current user at the shared preferences
+     * @return
+     */
+    public static boolean hasACurrentUser(){
         boolean hasUser = false;
-        SharedPreferences preferences = context.getSharedPreferences(AllConstants.Keys.Shared.SHARED_USER_FILE, MODE_PRIVATE);
+        SharedPreferences preferences = TeamBetaApplication.getContext().getSharedPreferences(AllConstants.Keys.Shared.SHARED_USER_FILE, MODE_PRIVATE);
         if (preferences.contains(AllConstants.Keys.Shared.SHARED_USER_NAME)){
-            if (Users_Repository.get().existUser(preferences.getString(AllConstants.Keys.Shared.SHARED_USER_NAME,null))) {
+            if (DatabaseManager.existsUser(preferences.getString(AllConstants.Keys.Shared.SHARED_USER_NAME,null))) {
                 hasUser = true;
                 if (Users_Repository.get().getCurrentUser() == null)
-                    Users_Repository.get().setCurrentUser(Users_Repository.get().getUser(preferences.getString(AllConstants.Keys.Shared.SHARED_USER_NAME,null)));
+                    Users_Repository.get().setCurrentUser(DatabaseManager.getUser(preferences.getString(AllConstants.Keys.Shared.SHARED_USER_NAME,null)));
             }
         }
         return hasUser;

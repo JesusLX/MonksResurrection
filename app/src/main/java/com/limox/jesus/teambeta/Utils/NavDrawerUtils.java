@@ -22,6 +22,7 @@ public class NavDrawerUtils {
 
     public interface OnNavDrawerListener{
         void startUserProfile(Bundle user);
+        void startSelectProject();
         void startBugForum();
         void startAdminZone();
         void startSettings();
@@ -58,6 +59,9 @@ public class NavDrawerUtils {
                         Bundle user = new Bundle();
                         user.putInt(AllConstants.Keys.SimpleBundle.ID_USER_KEY,Users_Repository.get().getCurrentUser().getIdUser());
                         mCallback.startUserProfile(user);
+                        break;
+                    case R.id.action_projects:
+                        mCallback.startSelectProject();
                         break;
                     case R.id.action_bugs:
                         mCallback.startBugForum();

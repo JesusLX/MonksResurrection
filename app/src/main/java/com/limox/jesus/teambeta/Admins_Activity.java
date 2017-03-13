@@ -66,6 +66,13 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
     }
 
     @Override
+    public void startSelectProject() {
+        closeDrawerLayout();
+        startActivity(new Intent(Admins_Activity.this, SelectProject_Activity.class));
+        finish();
+    }
+
+    @Override
     public void startBugForum() {
         closeDrawerLayout();
         startActivity(new Intent(Admins_Activity.this, Home_Activity.class));

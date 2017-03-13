@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DatabaseHelper extends SQLiteOpenHelper{
 
     private static final int DATABASE_VERSION =1;
-    private static final String DATABASE_NAME = "teambeta.db";
+    private static String DATABASE_NAME;
     private static volatile DatabaseHelper mInstance;
     private AtomicInteger mAIOpenCounter;
     private SQLiteDatabase mDatabase;
@@ -32,6 +32,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private DatabaseHelper() {
         super(TeamBetaApplication.getContext(), DATABASE_NAME, null, DATABASE_VERSION);
         mAIOpenCounter = new AtomicInteger();
+    }
+
+    public static void setDatabaseName(String databaseName) {
+        DATABASE_NAME = databaseName;
     }
 
     public synchronized SQLiteDatabase openDatabase(){

@@ -74,6 +74,13 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
     }
 
     @Override
+    public void startSelectProject() {
+        closeDrawerLayout();
+        startActivity(new Intent(Home_Activity.this, SelectProject_Activity.class));
+        finish();
+    }
+
+    @Override
     public void startBugForum() {
         startFragment(new HomeDashPosts_Fragment(), true, AllConstants.FragmentTag.BugForumTag);
     }
@@ -131,5 +138,13 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
             ft.addToBackStack(null);
         ft.replace(com.limox.jesus.teambeta.R.id.ah_container, mCurrentFragment,tag);
         ft.commit();
+    }
+    private boolean closeDrawerLayout() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        } else
+            return false;
+
     }
 }

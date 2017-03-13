@@ -12,7 +12,7 @@ public class Start_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.limox.jesus.teambeta.R.layout.activity_start);
-        if (Preferences.hasACurrentUser(Start_Activity.this)){
+        if (Preferences.hasACurrentUser()){
             startHome();
         }else
             startLogin();

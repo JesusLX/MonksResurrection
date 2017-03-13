@@ -89,6 +89,7 @@ public final class AllConstants {
         public static final String UserProfileTag = "up";
         public static final String CommentsViewTag = "cv";
         public static final String CreatePostTag = "cp";
+        public static final String ProjListTag ="plt";
     }
 
     public class Notifications {
