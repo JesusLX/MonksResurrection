@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:theme="@style/AppTheme"
-    tools:context="com.limox.jesus.teambeta_sqlite.Fragments.CreatePost.CreatePost_Fragment">
+    tools:context="com.limox.jesus.teambeta.Fragments.CreatePost.CreatePost_Fragment">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/acp_toolbar"

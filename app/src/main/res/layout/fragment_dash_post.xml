@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_dash_post"
-    tools:context="com.limox.jesus.teambeta_sqlite.Fragments.GenericPosts.DashPost_Fragment">
+    tools:context="com.limox.jesus.teambeta.Fragments.GenericPosts.DashPost_Fragment">
 
     <ListView
         android:layout_width="match_parent"

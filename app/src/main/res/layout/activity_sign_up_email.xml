@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.limox.jesus.teambeta_sqlite.Fragments.SignUp.SignUpEmail_Fragment">
+    tools:context="com.limox.jesus.teambeta.Fragments.SignUp.SignUpEmail_Fragment">
 
     <TextView
         android:layout_width="wrap_content"

@@ -5,6 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    tools:context="com.limox.jesus.teambeta_sqlite.Settings_Activity">
+    tools:context="com.limox.jesus.teambeta.Settings_Activity">
 
 </RelativeLayout>

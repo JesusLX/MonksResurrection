@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.limox.jesus.teambeta_sqlite">
+    package="com.limox.jesus.teambeta">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission-sdk-23 android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
-        android:name=".TeamBetaApplication"
+        android:name="com.limox.jesus.teambeta.TeamBetaApplication"
         android:icon="@drawable/isologo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
-            android:authorities="com.limox.jesus.teambeta_sqlite"
-            android:name=".Provider.TeamBetaProvider"/>
+            android:authorities="com.limox.jesus.teambeta"
+            android:name="com.limox.jesus.teambeta.Provider.TeamBetaProvider"/>
         <activity
-            android:name="com.limox.jesus.teambeta_sqlite.Login_Activity"
+            android:name="com.limox.jesus.teambeta.Login_Activity"
             android:screenOrientation="locked"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
-            android:name="com.limox.jesus.teambeta_sqlite.CreatePost_Activity"
+            android:name="com.limox.jesus.teambeta.CreatePost_Activity"
             android:screenOrientation="locked"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name="com.limox.jesus.teambeta_sqlite.Home_Activity" />
-        <activity android:name="com.limox.jesus.teambeta_sqlite.SignUp_Activity" />
-        <activity android:name="com.limox.jesus.teambeta_sqlite.HelpLogin_Activity" />
-        <activity android:name="com.limox.jesus.teambeta_sqlite.UserProfile_Activity" />
-        <activity android:name="com.limox.jesus.teambeta_sqlite.Settings_Activity" />
-        <activity android:name="com.limox.jesus.teambeta_sqlite.Admins_Activity" />
-        <activity android:name="com.limox.jesus.teambeta_sqlite.Start_Activity">
+        <activity android:name="com.limox.jesus.teambeta.Home_Activity" />
+        <activity android:name="com.limox.jesus.teambeta.SignUp_Activity" />
+        <activity android:name="com.limox.jesus.teambeta.HelpLogin_Activity" />
+        <activity android:name="com.limox.jesus.teambeta.UserProfile_Activity" />
+        <activity android:name="com.limox.jesus.teambeta.Settings_Activity" />
+        <activity android:name="com.limox.jesus.teambeta.Admins_Activity" />
+        <activity android:name="com.limox.jesus.teambeta.Start_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.limox.jesus.teambeta_sqlite.PostView_Activity"/>
+        <activity android:name="com.limox.jesus.teambeta.PostView_Activity"/>
     </application>
 
 </manifest>
