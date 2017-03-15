@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "423725347237",
+    "firebase_url": "https://team-beta-f34f4.firebaseio.com",
+    "project_id": "team-beta-f34f4",
+    "storage_bucket": "team-beta-f34f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423725347237:android:0528fc293f9ffe2c",
+        "android_client_info": {
+          "package_name": "com.limox.jesus.teambeta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423725347237-f9ahskabdfpqj7vn28p86gkaieu7ggiu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.limox.jesus.teambeta",
+            "certificate_hash": "ff3c92428072656c6f778b3bcbfc924e5742ee05"
+          }
+        },
+        {
+          "client_id": "423725347237-f7g1ue46lg1tolt2mog60em3870fpf59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh4zw74UQX_9dUFdhensXh7oa71k5ydY0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423725347237-f7g1ue46lg1tolt2mog60em3870fpf59.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,7 +1,9 @@
 package com.limox.jesus.teambeta;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,24 +11,33 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta.Model.User;
 import com.limox.jesus.teambeta.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.Preferences;
 
+
 public class Login_Activity extends AppCompatActivity implements UserManagerPresenter.View{
 
-    TextView mTxvSignUp;
-    TextView mTxvFP;
-    Button mBtnLogIn;
-    EditText mEdtUserName;
-    EditText mEdtPassword;
-    String mUserName;
-    String mPassword;
-    AdapterView.OnClickListener mClicKListener;
-    UserManagerPresenter mPresenter;
+    private TextView mTxvSignUp;
+    private TextView mTxvFP;
+    private Button mBtnLogIn;
+    private EditText mEdtUserName;
+    private EditText mEdtPassword;
+    private String mUserName;
+    private String mPassword;
+    private AdapterView.OnClickListener mClickListener;
+    private UserManagerPresenter mPresenter;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private static final int RC_SIGN_IN = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +52,37 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
         mPresenter = new UserManagerPresenterImpl(this);
 
         initializeClickListener();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser fUser =firebaseAuth.getCurrentUser();
+                if (fUser != null){
+                    FirebaseDatabase.getInstance().
+                    //validateAccount();
+                }else{
+                        startActivityForResult(
+                           AuthUI.getInstance()
+                                   .createSignInIntentBuilder()
+                                   .setIsSmartLockEnabled(false)
+                                   .setProviders(
+                                           AuthUI.EMAIL_PROVIDER,
+                                           AuthUI.GOOGLE_PROVIDER)
+                                   .build(),
+                           RC_SIGN_IN);
+                }
+            }
+        };
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
 
-
-        mTxvFP.setOnClickListener(mClicKListener);
-        mTxvSignUp.setOnClickListener(mClicKListener);
-        mBtnLogIn.setOnClickListener(mClicKListener);
+        mTxvFP.setOnClickListener(mClickListener);
+        mTxvSignUp.setOnClickListener(mClickListener);
+        mBtnLogIn.setOnClickListener(mClickListener);
 
     }
 
     private void initializeClickListener(){
-        mClicKListener = new View.OnClickListener() {
+        mClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch (view.getId()) {
@@ -75,12 +107,7 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
 
         // check if the user introduced exists
 
-
-
         mPresenter.getUser(mUserName, mPassword);
-
-
-
     }
 
     @Override
