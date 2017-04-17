@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".PostView_Activity" />
-        <activity android:name=".SelectProject_Activity"></activity>
+        <activity android:name=".SelectProject_Activity" />
     </application>
 
 </manifest>

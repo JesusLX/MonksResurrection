@@ -115,5 +115,6 @@
     <string name="publication_sended_title">Publication sended</string>
     <string name="publication_sended_content">Your publication is going to be supervised by an admin.</string>
     <string name="projects">Projects</string>
+    <string name="auth_failed">Error at auth</string>
 
 </resources>

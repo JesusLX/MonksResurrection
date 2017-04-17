@@ -43,7 +43,7 @@ public class Post implements Parcelable{
     public static final int ALL = 3;
 
     private int mIdPost;
-    private int mIdUser;
+    private String mIdUser;
     private int mScore;
     private int mState;
     private String mTitle;
@@ -52,7 +52,7 @@ public class Post implements Parcelable{
     private boolean mDeleted;
     private Date mCreationDate;
 
-    public Post(int mIdUser, String mTitle, String mDescriptions, String mTags) {
+    public Post(String mIdUser, String mTitle, String mDescriptions, String mTags) {
         this.mIdUser = mIdUser;
         this.mTitle = mTitle;
         this.mDescription = mDescriptions;
@@ -62,7 +62,7 @@ public class Post implements Parcelable{
         this.mCreationDate = new Date();
     }
 
-    public Post(String mTitle, int mIdUser, String mDescription, String mTags, int mIdPost) {
+    public Post(String mTitle, String mIdUser, String mDescription, String mTags, int mIdPost) {
         this.mTitle = mTitle;
         this.mIdUser = mIdUser;
         this.mDescription = mDescription;
@@ -74,8 +74,7 @@ public class Post implements Parcelable{
     }
 
 
-
-    public Post(int mIdPost, String mTitle, int mIdUser, String mDescription, @STATE int state, String mTags) {
+    public Post(int mIdPost, String mTitle, String mIdUser, String mDescription, @STATE int state, String mTags) {
         this.mIdPost = mIdPost;
         this.mTitle = mTitle;
         this.mIdUser = mIdUser;
@@ -92,7 +91,7 @@ public class Post implements Parcelable{
 
     protected Post(Parcel in) {
         mIdPost = in.readInt();
-        mIdUser = in.readInt();
+        mIdUser = in.readString();
         mScore = in.readInt();
         mState = in.readInt();
         mTitle = in.readString();
@@ -104,7 +103,7 @@ public class Post implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mIdPost);
-        dest.writeInt(mIdUser);
+        dest.writeString(mIdUser);
         dest.writeInt(mScore);
         dest.writeInt(mState);
         dest.writeString(mTitle);
@@ -153,11 +152,11 @@ public class Post implements Parcelable{
         this.mTitle = mTitle;
     }
 
-    public int getIdUser() {
+    public String getIdUser() {
         return mIdUser;
     }
 
-    public void setIdUser(int mIdUser) {
+    public void setIdUser(String mIdUser) {
         this.mIdUser = mIdUser;
     }
 

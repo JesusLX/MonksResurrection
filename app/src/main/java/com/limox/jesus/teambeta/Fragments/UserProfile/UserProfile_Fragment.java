@@ -156,7 +156,7 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
 
     @Override
     public void onUserObtained(User tryUser) {
-        Picasso.with(getContext()).load(tryUser.getIcon()).into(mIvProfileImage);
+        Picasso.with(getContext()).load(tryUser.getProfilePicture()).into(mIvProfileImage);
 
     }
 

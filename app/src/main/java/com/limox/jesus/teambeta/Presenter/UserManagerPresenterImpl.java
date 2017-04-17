@@ -1,26 +1,25 @@
 package com.limox.jesus.teambeta.Presenter;
 
-import android.app.Activity;
-import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.os.Bundle;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta.Model.User;
 import com.limox.jesus.teambeta.Provider.TeamBetaContract;
-import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Utils.AllConstants;
+import com.limox.jesus.teambeta.db.FirebaseContract;
 
 /**
  * Created by jesus on 2/03/17.
  */
 
-public class UserManagerPresenterImpl implements UserManagerPresenter,LoaderManager.LoaderCallbacks<Cursor> {
+public class UserManagerPresenterImpl implements UserManagerPresenter {
 
     private UserManagerPresenter.View view;
     private Context context;
@@ -36,65 +35,35 @@ public class UserManagerPresenterImpl implements UserManagerPresenter,LoaderMana
         this.context = view.getContext();
     }
 
-    public void getUser(String user){
 
-        Bundle usr = new Bundle();
-        usr.putString(AllConstants.Keys.Parcelables.USER_NAME_PARCELABLE_KEY,user);
-        selection = getUserByName;
-        loadCursor(selection,usr);
-    }
-    private void loadCursor(int selection, Bundle bundle){
-        Loader<Cursor> loader = ((Activity)context).getLoaderManager().getLoader(0);
-        if(loader == null){
-            ((Activity)context).getLoaderManager().initLoader(selection,bundle,this);
-        }else
-            ((Activity)context).getLoaderManager().restartLoader(selection,bundle,this);
-
-    }
-    public void getUser(String user, String password){
-        Bundle usr = new Bundle();
-        usr.putString(AllConstants.Keys.Parcelables.USER_NAME_PARCELABLE_KEY,user);
-        usr.putString(AllConstants.Keys.Parcelables.USER_PASSWORD_PARCELABLE_KEY,password);
-        selection = getUserByNamAndPass;
-        loadCursor(selection,usr);
-    }
 
     @Override
-    public void getUser(int idUser) {
+    public void getUser(String idUser) {
         selection = getUserById;
         Bundle b = new Bundle();
-        b.putInt(AllConstants.Keys.SimpleBundle.ID_USER_KEY,idUser);
-        loadCursor(selection,b);
+        b.putString(AllConstants.Keys.SimpleBundle.ID_USER_KEY, idUser);
+        FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(idUser).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                FirebaseContract.User.getUser(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //loadCursor(selection,b);
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String where;
-        String[] whereArgs;
-        CursorLoader cursorLoader = null;
-        switch (i){
-            case getUserByName:
-                where= TeamBetaContract.Users.NAME+" = ?";
-                whereArgs = new String[]{bundle.getString(AllConstants.Keys.Parcelables.USER_NAME_PARCELABLE_KEY)};
-                cursorLoader = new CursorLoader(context,TeamBetaContract.Users.CONTENT_URI,TeamBetaContract.Users.PROJECTION_SET,where,whereArgs,null);
-                break;
-            case getUserByNamAndPass:
-                where= TeamBetaContract.Users.NAME+" = ? AND "+TeamBetaContract.Users.PASSWORD+" = ?";
-                whereArgs = new String[]{bundle.getString(AllConstants.Keys.Parcelables.USER_NAME_PARCELABLE_KEY),bundle.getString(AllConstants.Keys.Parcelables.USER_PASSWORD_PARCELABLE_KEY)};
-                cursorLoader = new CursorLoader(context,TeamBetaContract.Users.CONTENT_URI,TeamBetaContract.Users.PROJECTION_GET,where,whereArgs,null);
-                break;
+    public void getUser(String mUserName, String mPassword) {
 
-            case getUserById:
-                where= TeamBetaContract.Users._ID+" = ? ";
-                whereArgs = new String[]{String.valueOf(bundle.getInt(AllConstants.Keys.SimpleBundle.ID_USER_KEY))};
-                cursorLoader = new CursorLoader(context,TeamBetaContract.Users.CONTENT_URI,TeamBetaContract.Users.PROJECTION_GET,where,whereArgs,null);
-                break;
-
-        }
-        return cursorLoader;
     }
 
-    @Override
+
+
+   /* @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
         switch (selection){
@@ -129,10 +98,8 @@ public class UserManagerPresenterImpl implements UserManagerPresenter,LoaderMana
         }
         ((Activity)context).getLoaderManager().destroyLoader(0);
     }
+*/
 
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-    }
     @Override
     public void addUser(User user) {
 
@@ -144,31 +111,5 @@ public class UserManagerPresenterImpl implements UserManagerPresenter,LoaderMana
 
     }
 
-    private ContentValues getContentUser(User user) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(TeamBetaContract.Users.NAME, user.getName());
-        contentValues.put(TeamBetaContract.Users.PASSWORD, user.getPassword());
-        contentValues.put(TeamBetaContract.Users.EMAIL, user.getEmail());
-        contentValues.put(TeamBetaContract.Users.ICON, user.getIcon());
-        contentValues.put(TeamBetaContract.Users.POSTS_LIKED, user.getPostsLiked_URL());
-        contentValues.put(TeamBetaContract.Users.BLOCKED, user.isBlocked());
-        contentValues.put(TeamBetaContract.Users.DELETED, user.isDeleted());
-        contentValues.put(TeamBetaContract.Users.TYPE_USER, user.getTypeUser());
 
-        return contentValues;
-    }
-
-    public void setUser(Cursor cursor) {
-        cursor.moveToFirst();
-        tryUser = new User();
-        tryUser.setIdUser(cursor.getInt(TeamBetaContract.Users.ID_KEY));
-        tryUser.setName(cursor.getString(TeamBetaContract.Users.NAME_KEY));
-        tryUser.setPassword(cursor.getString(TeamBetaContract.Users.PASSWORD_KEY));
-        tryUser.setEmail(cursor.getString(TeamBetaContract.Users.EMAIL_KEY));
-        tryUser.setIcon(cursor.getString(TeamBetaContract.Users.ICON_KEY));
-        tryUser.setPostsLiked_URL(cursor.getString(TeamBetaContract.Users.POSTS_LIKED_KEY));
-        tryUser.setBlocked(cursor.getInt(TeamBetaContract.Users.BLOCKED_KEY)==1);
-        tryUser.setDeleted(cursor.getInt(TeamBetaContract.Users.DELETED_KEY) == 1);
-        tryUser.setUserType(cursor.getInt(TeamBetaContract.Users.TYPE_USER_KEY));
-    }
 }

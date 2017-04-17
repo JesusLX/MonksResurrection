@@ -79,7 +79,7 @@ public class Users_Repository {
         return allFine;
     }
 
-    public User getUserById(int idUser) {
+    public User getUserById(String idUser) {
         User user = null;
         if (this.mUsers.contains(new User(idUser)))
             user = this.mUsers.get(mUsers.indexOf(new User(idUser)));

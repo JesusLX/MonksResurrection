@@ -3,42 +3,43 @@ package com.limox.jesus.teambeta.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.db.DatabaseContract;
+
+import java.util.ArrayList;
 
 /**
  * Created by jesus on 8/11/16.
  */
 
 public class User implements Parcelable {
-    private int mId;
+    private static final String DEF_IMAGE = "https://jesuslx.ncatz.com/wp-apps/teambeta/user-icons/def_icon.png";
+    private String mId;
     private String mName;
     private String mEmail;
     private String mPassword;
-    private String mIcon;
+    private String profilePicture;
     private boolean mBlocked;
     private boolean mDeleted;
-    private int mUserType;
-    private String mPostsLiked_URL;
+    private ArrayList<String> mPostsLiked;
+    private ArrayList<String> mForumsAdmin;
 
-    public User(int idUser, String nick, String email, String password, String profilePicture, boolean profileBlocked, boolean userDeleted, int userType) {
+
+    public User(String idUser, String nick, String email, String password, String profilePicture, boolean profileBlocked, boolean userDeleted) {
         this.mId = idUser;
         this.mName = nick;
         mEmail = email;
         mPassword = password;
-        this.mIcon = profilePicture;
+        this.profilePicture = profilePicture;
         this.mBlocked = profileBlocked;
         this.mDeleted = userDeleted;
-        this.mUserType = userType;
     }
 
-    public User(int mId, String mNick, String mEmail, String mPassword, String mIcon, int mUserType) {
+    public User(String mId, String mNick, String mEmail, String mPassword, String profilePicture) {
         this.mId = mId;
         this.mName = mNick;
         this.mEmail = mEmail;
         this.mPassword = mPassword;
-        this.mIcon = mIcon;
-        this.mUserType = mUserType;
+        this.profilePicture = profilePicture;
         this.mBlocked = false;
         this.mDeleted = false;
     }
@@ -47,35 +48,64 @@ public class User implements Parcelable {
         this.mName = mName;
         this.mEmail = mEmail;
         this.mPassword = mPassword;
-        this.mIcon = DatabaseContract.UserEntry.DEFAULT_ICON;
-        this.mUserType = 1;
+        this.profilePicture = DatabaseContract.UserEntry.DEFAULT_ICON;
         this.mBlocked = false;
         this.mDeleted = false;
     }
 
-    public User(String nick) {
-        this.mName = nick;
-    }
 
     /**
      * This is just fot find a user by id at the lists
      *
      * @param mId A user's id
      */
-    public User(int mId) {
+    public User(String mId) {
         this.mId = mId;
     }
 
+    public User() {
+
+    }
+
+    public User(String name, String email) {
+        this.setName(name);
+        this.setEmail(email);
+        this.setProfilePicture(DEF_IMAGE);
+        this.setBlocked(false);
+        this.setDeleted(false);
+        this.setForumsAdmin(new ArrayList<String>());
+        this.setPostsLiked(new ArrayList<String>());
+    }
+
+
     protected User(Parcel in) {
-        mId = in.readInt();
+        mId = in.readString();
         mName = in.readString();
         mEmail = in.readString();
         mPassword = in.readString();
-        mIcon = in.readString();
+        profilePicture = in.readString();
         mBlocked = in.readByte() != 0;
         mDeleted = in.readByte() != 0;
-        mUserType = in.readInt();
-        mPostsLiked_URL = in.readString();
+        mPostsLiked = in.createStringArrayList();
+        mForumsAdmin = in.createStringArrayList();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mId);
+        dest.writeString(mName);
+        dest.writeString(mEmail);
+        dest.writeString(mPassword);
+        dest.writeString(profilePicture);
+        dest.writeByte((byte) (mBlocked ? 1 : 0));
+        dest.writeByte((byte) (mDeleted ? 1 : 0));
+        dest.writeStringList(mPostsLiked);
+        dest.writeStringList(mForumsAdmin);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -90,15 +120,11 @@ public class User implements Parcelable {
         }
     };
 
-    public User() {
-
-    }
-
-    public int getIdUser() {
+    public String getIdUser() {
         return mId;
     }
 
-    public void setIdUser(int mIdUser) {
+    public void setIdUser(String mIdUser) {
         this.mId = mIdUser;
     }
 
@@ -126,16 +152,12 @@ public class User implements Parcelable {
         mPassword = password;
     }
 
+    public void setProfilePicture(String mProfilePicture) {
+        this.profilePicture = mProfilePicture;
+    }
+
     public String getProfilePicture() {
-        return mIcon;
-    }
-
-    public void setIcon(String mProfilePicture) {
-        this.mIcon = mProfilePicture;
-    }
-
-    public String getIcon() {
-        return this.mIcon;
+        return this.profilePicture;
     }
 
     public boolean isBlocked() {
@@ -154,20 +176,6 @@ public class User implements Parcelable {
         this.mDeleted = mUserDeleted;
     }
 
-    public int getTypeUser() {
-        return mUserType;
-    }
-
-    public void setUserType(int mUserType) {
-        this.mUserType = mUserType;
-    }
-
-    public boolean isAdmin() {
-
-        return getTypeUser() == AllConstants.ADMIN_TYPE_ID;
-
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -179,34 +187,21 @@ public class User implements Parcelable {
 
     }
 
-    @Override
-    public int hashCode() {
-        return mId;
+    public ArrayList<String> getPostsLiked() {
+        return mPostsLiked;
     }
 
-    public String getPostsLiked_URL() {
-        return mPostsLiked_URL;
+    public void setPostsLiked(ArrayList<String> postsLiked_URL) {
+        this.mPostsLiked = postsLiked_URL;
     }
 
-    public void setPostsLiked_URL(String postsLiked_URL) {
-        this.mPostsLiked_URL = postsLiked_URL;
+
+    public ArrayList<String> getForumsAdmin() {
+        return mForumsAdmin;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setForumsAdmin(ArrayList<String> mForumsAdmin) {
+        this.mForumsAdmin = mForumsAdmin;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(mId);
-        parcel.writeString(mName);
-        parcel.writeString(mEmail);
-        parcel.writeString(mPassword);
-        parcel.writeString(mIcon);
-        parcel.writeByte((byte) (mBlocked ? 1 : 0));
-        parcel.writeByte((byte) (mDeleted ? 1 : 0));
-        parcel.writeInt(mUserType);
-        parcel.writeString(mPostsLiked_URL);
-    }
 }

@@ -36,15 +36,15 @@ public class Posts_Repository {
     }
 
     private void createExamplePosts() {
-        mPosts.add(new Post("Error1", 0, "Se ha rotoblablalbalablablablalbablablalba", "prueba,error,fallo", 0));
-        mPosts.add(new Post("Error2", 0, "Se ha rotoblablalbalablablablalbablablalba", "prueba,error,fallo", 1));
-        mPosts.add(new Post("Error3", 1, "Se ha rotoblablalbalablablablalbablablalba", "prueba,pj,fallo", 2));
-        mPosts.add(new Post("Error4", 2, "Se ha rotoblablalbalablablablalbablablalba", "prueba,error,noche", 3));
-        mPosts.add(new Post("Error5", 0, "Se ha castillo jajajalalba", "prueba,castillo,fallo", 4));
-        mPosts.add(new Post("Error6", 1, "Se ha rotoblablalbalablablablalbablablalba", "pruebas,errores,fallo", 5));
-        mPosts.add(new Post(6, "Error7", 1, "Se me ha cerrado a tope", Post.FIXED, "salto,apagado,pff"));
-        mPosts.add(new Post(7, "Error8", 1, "No me puedo pasar la parte x", Post.FIXED, "dragon,noche,fuego"));
-        mPosts.add(new Post(8, "Error9", 2, "Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
+        mPosts.add(new Post("Error1", "0", "Se ha rotoblablalbalablablablalbablablalba", "prueba,error,fallo", 0));
+        mPosts.add(new Post("Error2", "0", "Se ha rotoblablalbalablablablalbablablalba", "prueba,error,fallo", 1));
+        mPosts.add(new Post("Error3", "1", "Se ha rotoblablalbalablablablalbablablalba", "prueba,pj,fallo", 2));
+        mPosts.add(new Post("Error4", "2", "Se ha rotoblablalbalablablablalbablablalba", "prueba,error,noche", 3));
+        mPosts.add(new Post("Error5", "0", "Se ha castillo jajajalalba", "prueba,castillo,fallo", 4));
+        mPosts.add(new Post("Error6", "1", "Se ha rotoblablalbalablablablalbablablalba", "pruebas,errores,fallo", 5));
+        mPosts.add(new Post(6, "Error7", "1", "Se me ha cerrado a tope", Post.FIXED, "salto,apagado,pff"));
+        mPosts.add(new Post(7, "Error8", "1", "No me puedo pasar la parte x", Post.FIXED, "dragon,noche,fuego"));
+        mPosts.add(new Post(8, "Error9", "2", "Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
                 " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
                 " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
                 " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
@@ -56,9 +56,9 @@ public class Posts_Repository {
                 " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla" +
                 " bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla "
                 , Post.FIXED, "salto,apagado,pff"));
-        mPosts.add(new Post(9, "Error10", 0, "Se me ha cerrado a tope", Post.PUBLISHED, "salto,apagado,pff"));
-        mPosts.add(new Post(10, "Error11", 0, "Se me ha cerrado a tope", Post.FIXED, "salto,apagado,pff"));
-        mPosts.add(new Post(11, "Error12", 1, "Se me ha cerrado a tope", Post.PUBLISHED, "salto,apagado,pff"));
+        mPosts.add(new Post(9, "Error10", "0", "Se me ha cerrado a tope", Post.PUBLISHED, "salto,apagado,pff"));
+        mPosts.add(new Post(10, "Error11", "0", "Se me ha cerrado a tope", Post.FIXED, "salto,apagado,pff"));
+        mPosts.add(new Post(11, "Error12", "1", "Se me ha cerrado a tope", Post.PUBLISHED, "salto,apagado,pff"));
     }
 
     private boolean addPost(Post post) {
@@ -160,11 +160,11 @@ public class Posts_Repository {
         sortLists();
     }
 
-    public ArrayList<Post> getPostsByUser(int idUser, @Post.STATE int typeList) {
+    public ArrayList<Post> getPostsByUser(String idUser, @Post.STATE int typeList) {
         ArrayList<Post> postsOfUser = new ArrayList<>();
 
         for (Post tmp : mPosts) {
-            if (tmp.getIdUser() == idUser) {
+            if (tmp.getIdUser().equals(idUser)) {
                 if (typeList == Post.ALL)
                     postsOfUser.add(tmp);
                 else if (tmp.getState() == typeList)

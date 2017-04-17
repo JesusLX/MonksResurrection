@@ -161,7 +161,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
     }
 
     private void fillWidgets(){
-        Picasso.with(getContext()).load(mUser.getIcon()).into(mIvUserPicture);
+        Picasso.with(getContext()).load(mUser.getProfilePicture()).into(mIvUserPicture);
 
         mTxvUserName.setText(mUser.getName());
         mTxvPostTitle.setText(mPost.getTitle());
@@ -174,7 +174,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
      */
     private void adapteMenu(Menu menu){
         // getMenuInflater().inflate(R.menu.menu_post_view, menu);
-         switch (Users_Repository.get().getCurrentUser().getTypeUser()){
+        /* switch (Users_Repository.get().getCurrentUser().getTypeUser()){
              case AllConstants.ADMIN_TYPE_ID://Is an admin
 
                  if (mPost.isPublicate())
@@ -185,17 +185,17 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
                  break;
 
              case AllConstants.NORMALUSER_TYPE_ID: // In a current user
-
+*/
                  menu.findItem(R.id.action_pv_Edit).setVisible(false);
                  menu.findItem(R.id.action_pv_SendMessage).setVisible(false);
                  menu.findItem(R.id.action_pv_ToFixes).setVisible(false);
                  menu.findItem(R.id.action_pv_ToPublished).setVisible(false);
                  menu.findItem(R.id.action_pv_Delete).setVisible(false);
-                 break;
-         }
+        /*         break;
+         }*/
        // If the current user is the owner of the current post
        if (Users_Repository.get().currentUserIsOwner(mPost)){
-           if (!mPost.isFixed() && !Users_Repository.get().getCurrentUser().isAdmin())
+           //  if (!mPost.isFixed() && !Users_Repository.get().getCurrentUser().isAdmin())
                menu.findItem(R.id.action_pv_Delete).setVisible(true);
 
            menu.findItem(R.id.action_pv_SendMessage).setVisible(false);

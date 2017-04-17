@@ -106,7 +106,7 @@ public class PostCursorAdapter extends CursorAdapter {
             position = position-1;*/
         getCursor().moveToPosition(position);
         Post post = new Post(getCursor().getInt(TeamBetaContract.Posts.ID_KEY));
-        post.setIdUser(getCursor().getInt(TeamBetaContract.Posts.USER_ID_KEY));
+        post.setIdUser(getCursor().getString(TeamBetaContract.Posts.USER_ID_KEY));
         post.setDeleted(getCursor().getInt(TeamBetaContract.Posts.DELETED_KEY)==1);
         int state =getCursor().getInt(TeamBetaContract.Posts.FIXED_KEY)+getCursor().getInt(TeamBetaContract.Posts.PUBLISHED_KEY);
         switch (state){

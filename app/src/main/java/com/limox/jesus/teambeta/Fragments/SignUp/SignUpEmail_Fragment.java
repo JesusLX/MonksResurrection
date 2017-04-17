@@ -46,7 +46,7 @@ public class SignUpEmail_Fragment extends Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View rootView = inflater.inflate(R.layout.activity_sign_up_email,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_sign_up_email, container, false);
 
         edtEmail = (EditText) rootView.findViewById(R.id.sue_edtEmail);
         btnValidate = (Button) rootView.findViewById(R.id.sue_btnNext);

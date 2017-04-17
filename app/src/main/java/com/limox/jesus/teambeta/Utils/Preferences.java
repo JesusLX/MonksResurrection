@@ -18,18 +18,22 @@ import static android.content.Context.MODE_PRIVATE;
 public class Preferences {
     /**
      * Set in preferences who is the current user
+     * @param id id user
      * @param name name of the user
      * @param passwrd Password of the user
      * @param context Context of the application to access to sharedPreferences
      */
-    public static void setCurrentUser(String name, String passwrd, Context context){
+    public static void setCurrentUser(String id, String name, String passwrd, Context context) {
         SharedPreferences preferences = context.getSharedPreferences(AllConstants.Keys.Shared.SHARED_USER_FILE,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
+        if (preferences.contains(AllConstants.Keys.Shared.SHARED_USER_ID))
+            editor.remove(AllConstants.Keys.Shared.SHARED_USER_NAME);
         if (preferences.contains(AllConstants.Keys.Shared.SHARED_USER_NAME))
             editor.remove(AllConstants.Keys.Shared.SHARED_USER_NAME);
         if (preferences.contains(AllConstants.Keys.Shared.SHARED_USER_PSWRD))
             editor.remove(AllConstants.Keys.Shared.SHARED_USER_PSWRD);
 
+        editor.putString(AllConstants.Keys.Shared.SHARED_USER_ID, id);
         editor.putString(AllConstants.Keys.Shared.SHARED_USER_NAME,name);
         editor.putString(AllConstants.Keys.Shared.SHARED_USER_PSWRD,passwrd);
 
@@ -38,6 +42,8 @@ public class Preferences {
     public static void removeCurrentUser(Context context){
         SharedPreferences preferences = context.getSharedPreferences(AllConstants.Keys.Shared.SHARED_USER_FILE, MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
+        if (preferences.contains(AllConstants.Keys.Shared.SHARED_USER_ID))
+            editor.remove(AllConstants.Keys.Shared.SHARED_USER_NAME);
         if (preferences.contains(AllConstants.Keys.Shared.SHARED_USER_NAME))
             editor.remove(AllConstants.Keys.Shared.SHARED_USER_NAME);
         if (preferences.contains(AllConstants.Keys.Shared.SHARED_USER_PSWRD))

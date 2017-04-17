@@ -39,9 +39,9 @@ public class NavDrawerUtils {
         createNavListener();
     }
     public int getMenu(){
-        if(Users_Repository.get().getCurrentUser().isAdmin()){
+       /* if(Users_Repository.get().getCurrentUser().isAdmin()){
             return R.menu.menu_nav_admins;
-        }else
+        }else*/
             return R.menu.menu_nav;
     }
 
@@ -57,7 +57,7 @@ public class NavDrawerUtils {
                 switch (item.getItemId()){
                     case R.id.action_profile:
                         Bundle user = new Bundle();
-                        user.putInt(AllConstants.Keys.SimpleBundle.ID_USER_KEY,Users_Repository.get().getCurrentUser().getIdUser());
+                        user.putString(AllConstants.Keys.SimpleBundle.ID_USER_KEY, Users_Repository.get().getCurrentUser().getIdUser());
                         mCallback.startUserProfile(user);
                         break;
                     case R.id.action_projects:

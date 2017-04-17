@@ -1,6 +1,5 @@
 package com.limox.jesus.teambeta;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -11,17 +10,17 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta.Model.User;
 import com.limox.jesus.teambeta.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.Preferences;
+import com.limox.jesus.teambeta.db.FirebaseContract;
 
 
 public class Login_Activity extends AppCompatActivity implements UserManagerPresenter.View{
@@ -42,7 +41,7 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.limox.jesus.teambeta.R.layout.activity_login);
+        setContentView(R.layout.activity_login);
         mTxvSignUp = (TextView) findViewById(com.limox.jesus.teambeta.R.id.lgn_txvSignUp);
         mTxvFP = (TextView) findViewById(com.limox.jesus.teambeta.R.id.lgn_txvFP);
         mBtnLogIn = (Button) findViewById(com.limox.jesus.teambeta.R.id.lgn_btnSignIn);
@@ -53,12 +52,13 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
 
         initializeClickListener();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+
+        /*mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser fUser =firebaseAuth.getCurrentUser();
                 if (fUser != null){
-                    FirebaseDatabase.getInstance().
+              //      FirebaseDatabase.getInstance().
                     //validateAccount();
                 }else{
                         startActivityForResult(
@@ -73,7 +73,7 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
                 }
             }
         };
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);*/
 
         mTxvFP.setOnClickListener(mClickListener);
         mTxvSignUp.setOnClickListener(mClickListener);
@@ -106,8 +106,20 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
         mPassword = mEdtPassword.getText().toString();
 
         // check if the user introduced exists
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(mUserName, mPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    mPresenter.getUser(task.getResult().getUser().getUid());
+                    /*User user = FirebaseContract.User.getUser(task.getResult().getUser());
+                    Users_Repository.get().setCurrentUser(user);
 
-        mPresenter.getUser(mUserName, mPassword);
+                    Preferences.setCurrentUser(user.getIdUser(), mUserName,mPassword,Login_Activity.this);*/
+                }
+            }
+        });
+
+        //mPresenter.getUser(mUserName, mPassword);
     }
 
     @Override
@@ -133,7 +145,7 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
         // set the current user
         Users_Repository.get().setCurrentUser(user);
 
-        Preferences.setCurrentUser(mUserName,mPassword,Login_Activity.this);
+        Preferences.setCurrentUser(user.getIdUser(), mUserName, mPassword, Login_Activity.this);
 
         finish();
     }

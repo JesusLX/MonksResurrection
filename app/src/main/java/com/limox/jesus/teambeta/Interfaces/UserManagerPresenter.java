@@ -13,7 +13,7 @@ public interface UserManagerPresenter {
     void getUser(String mUserName);
     void getUser(String mUserName, String mPassword);
 
-    void getUser(int idUser);
+    //void getUser(String idUser);
 
     public interface View {
         Context getContext();
