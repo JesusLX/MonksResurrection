@@ -5,6 +5,8 @@ import android.database.Cursor;
 
 import com.limox.jesus.teambeta.Model.Post;
 
+import java.util.ArrayList;
+
 /**
  * Created by jesus on 2/03/17.
  */
@@ -18,6 +20,6 @@ public interface PostsListPresenter {
 
         Context getContext();
 
-        void setCursor(Cursor cursor);
+        void setData(ArrayList<Post> posts);
     }
 }

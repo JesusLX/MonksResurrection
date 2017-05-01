@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.limox.jesus.teambeta.Adapters.PostArrayAdapter;
 import com.limox.jesus.teambeta.Adapters.PostCursorAdapter;
 import com.limox.jesus.teambeta.Interfaces.PostsListPresenter;
 import com.limox.jesus.teambeta.Model.Post;
@@ -18,10 +19,11 @@ import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public class DashPost_Fragment extends Fragment implements PostsListPresenter.View {
 
-    private PostCursorAdapter mAdapter;
+    private PostArrayAdapter mAdapter;
     private ListView rvPosts;
     private PostsListPresenter mPresenter;
 
@@ -56,7 +58,7 @@ public class DashPost_Fragment extends Fragment implements PostsListPresenter.Vi
         }
 
 
-        mAdapter = new PostCursorAdapter(getContext(),null,1);
+        mAdapter = new PostArrayAdapter(getContext(), (PostArrayAdapter.OnPostViewHolderListener) getActivity());
 
 
     }
@@ -135,7 +137,7 @@ public class DashPost_Fragment extends Fragment implements PostsListPresenter.Vi
 
 
     @Override
-    public void setCursor(Cursor cursor) {
-        mAdapter.changeCursor(cursor);
+    public void setData(ArrayList<Post> posts) {
+        mAdapter.setData(posts);
     }
 }

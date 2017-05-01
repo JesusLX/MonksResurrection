@@ -61,14 +61,16 @@ public final class AllConstants {
          */
         public class Shared{
             public static final String SHARED_USER_FILE = "usr_file";
-            public static final String SHARED_USER_NAME = "current_usr_nm";
+            public static final String SHARED_USER_EMAIL = "current_usr_email";
             public static final String SHARED_USER_PSWRD = "current_usr_pw";
             public static final String SHARED_USER_ID = "current_usr_id";
+            public static final String SHARED_FORUM_ID = "forum_id";
         }
 
         public class SimpleBundle {
             public static final String ArrayTags = "tagsArrays";
             public static final String ID_USER_KEY = "id_user";
+            public static final String EMAIL = "email";
         }
     }
 
@@ -91,9 +93,11 @@ public final class AllConstants {
         public static final String CommentsViewTag = "cv";
         public static final String CreatePostTag = "cp";
         public static final String ProjListTag ="plt";
+        public static final String CreateForum = "cf";
     }
 
     public class Notifications {
         public static final int POST_SENDED = 1;
     }
+
 }

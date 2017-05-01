@@ -45,7 +45,7 @@ public class UserManagerPresenterImpl implements UserManagerPresenter {
         FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(idUser).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                FirebaseContract.User.getUser(dataSnapshot);
+                view.onUserObtained(FirebaseContract.User.getUser(dataSnapshot));
             }
 
             @Override

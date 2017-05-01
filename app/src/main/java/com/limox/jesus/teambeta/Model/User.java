@@ -20,8 +20,10 @@ public class User implements Parcelable {
     private String profilePicture;
     private boolean mBlocked;
     private boolean mDeleted;
+    private ArrayList<String> mForumsOwn;
     private ArrayList<String> mPostsLiked;
     private ArrayList<String> mForumsAdmin;
+    private ArrayList<String> forumsWIParticipates;
 
 
     public User(String idUser, String nick, String email, String password, String profilePicture, boolean profileBlocked, boolean userDeleted) {
@@ -32,6 +34,7 @@ public class User implements Parcelable {
         this.profilePicture = profilePicture;
         this.mBlocked = profileBlocked;
         this.mDeleted = userDeleted;
+        this.mForumsAdmin = new ArrayList<>();
     }
 
     public User(String mId, String mNick, String mEmail, String mPassword, String profilePicture) {
@@ -42,6 +45,7 @@ public class User implements Parcelable {
         this.profilePicture = profilePicture;
         this.mBlocked = false;
         this.mDeleted = false;
+        this.mForumsAdmin = new ArrayList<>();
     }
 
     public User(String mName, String mEmail, String mPassword) {
@@ -51,6 +55,7 @@ public class User implements Parcelable {
         this.profilePicture = DatabaseContract.UserEntry.DEFAULT_ICON;
         this.mBlocked = false;
         this.mDeleted = false;
+        this.mForumsAdmin = new ArrayList<>();
     }
 
 
@@ -61,10 +66,11 @@ public class User implements Parcelable {
      */
     public User(String mId) {
         this.mId = mId;
+        this.mForumsAdmin = new ArrayList<>();
     }
 
     public User() {
-
+        this.mForumsAdmin = new ArrayList<>();
     }
 
     public User(String name, String email) {
@@ -75,6 +81,7 @@ public class User implements Parcelable {
         this.setDeleted(false);
         this.setForumsAdmin(new ArrayList<String>());
         this.setPostsLiked(new ArrayList<String>());
+        this.mForumsAdmin = new ArrayList<>();
     }
 
 
@@ -88,6 +95,7 @@ public class User implements Parcelable {
         mDeleted = in.readByte() != 0;
         mPostsLiked = in.createStringArrayList();
         mForumsAdmin = in.createStringArrayList();
+        forumsWIParticipates = in.createStringArrayList();
     }
 
     @Override
@@ -101,6 +109,7 @@ public class User implements Parcelable {
         dest.writeByte((byte) (mDeleted ? 1 : 0));
         dest.writeStringList(mPostsLiked);
         dest.writeStringList(mForumsAdmin);
+        dest.writeStringList(forumsWIParticipates);
     }
 
     @Override
@@ -204,4 +213,21 @@ public class User implements Parcelable {
         this.mForumsAdmin = mForumsAdmin;
     }
 
+    public ArrayList<String> getForumsWIParticipates() {
+        return forumsWIParticipates;
+    }
+
+    public void setForumsWIParticipates(ArrayList<String> forumsWIParticipates) {
+        this.forumsWIParticipates = forumsWIParticipates;
+    }
+
+    public ArrayList<String> getmForumsOwn() {
+        if (mForumsOwn == null)
+            mForumsOwn = new ArrayList<>();
+        return mForumsOwn;
+    }
+
+    public void setmForumsOwn(ArrayList<String> mForumsOwn) {
+        this.mForumsOwn = mForumsOwn;
+    }
 }

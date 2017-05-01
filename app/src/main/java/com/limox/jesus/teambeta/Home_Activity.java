@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.limox.jesus.teambeta.Adapters.PostArrayAdapter;
 import com.limox.jesus.teambeta.Adapters.PostCursorAdapter;
 import com.limox.jesus.teambeta.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.teambeta.Fragments.Home.HomeDashPosts_Fragment;
@@ -22,7 +23,7 @@ import com.limox.jesus.teambeta.Utils.NavDrawerUtils;
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.sephiroth.android.library.picasso.Picasso;
 
-public class Home_Activity extends AppCompatActivity implements HomeOfFragments, PostCursorAdapter.OnPostViewHolderListener, HomeDashPosts_Fragment.OnHomeDashPostFragmentListener, NavDrawerUtils.OnNavDrawerListener {
+public class Home_Activity extends AppCompatActivity implements HomeOfFragments, PostArrayAdapter.OnPostViewHolderListener, HomeDashPosts_Fragment.OnHomeDashPostFragmentListener, NavDrawerUtils.OnNavDrawerListener {
 
     Fragment mCurrentFragment;
     DrawerLayout mDrawerLayout;

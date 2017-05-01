@@ -1,0 +1,137 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.limox.jesus.teambeta.Fragments.Forums.CreateForumFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/cf_txvTitleLogo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/toolbar"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/logo" />
+
+            <ImageView
+                android:id="@+id/cf_ivLogo"
+                android:scaleType="fitCenter"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@+id/cf_txvTitleLogo"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_action_add_photo" />
+
+            <TextView
+                android:id="@+id/cf_txvTitleName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cf_ivLogo"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/forums_name" />
+
+            <EditText
+                android:id="@+id/cf_edtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cf_txvTitleName"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp" />
+
+            <TextView
+                android:id="@+id/cf_txvTitleUserKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cf_edtName"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/users_key" />
+
+            <EditText
+                android:id="@+id/cf_edtUserKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cf_txvTitleUserKey"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp" />
+
+            <TextView
+                android:id="@+id/cf_txvTitleAdminKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cf_edtUserKey"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/admins_key" />
+
+            <EditText
+                android:id="@+id/cf_edtAdminKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cf_txvTitleAdminKey"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp" />
+
+            <TextView
+                android:id="@+id/cf_txvTitleDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cf_edtAdminKey"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/description" />
+
+            <EditText
+                android:id="@+id/cf_edtDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cf_txvTitleDescription"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp" />
+
+            <TextView
+                android:id="@+id/cf_txvTitleTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cf_edtDescription"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/tags" />
+
+            <EditText
+                android:id="@+id/cf_edtTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/tags_separated_by_comma"
+                android:layout_below="@+id/cf_txvTitleTags"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp" />
+
+            <Button
+                android:id="@+id/cf_btnCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cf_edtTags"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="@android:string/ok" />
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

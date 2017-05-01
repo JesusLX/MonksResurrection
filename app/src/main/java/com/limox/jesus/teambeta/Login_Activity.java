@@ -102,8 +102,20 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
     }
 
     private void validateAccount() {
-        mUserName = mEdtUserName.getText().toString();
-        mPassword = mEdtPassword.getText().toString();
+        mUserName = mEdtUserName.getText().toString().trim();
+        mPassword = mEdtPassword.getText().toString().trim();
+
+        FirebaseContract.User.loginUser(mUserName, mPassword, Login_Activity.this, this, new FirebaseContract.FirebaseUserCallback() {
+            @Override
+            public void onUserObtained(String idUser) {
+                mPresenter.getUser(idUser);
+            }
+
+            @Override
+            public void onUnsuccessful(Task<AuthResult> task) {
+                mEdtPassword.setError(getString(R.string.wrong_user_or_password));
+            }
+        });
 
         // check if the user introduced exists
         FirebaseAuth.getInstance().signInWithEmailAndPassword(mUserName, mPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

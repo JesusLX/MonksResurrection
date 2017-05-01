@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.limox.jesus.teambeta.Adapters.PostArrayAdapter;
 import com.limox.jesus.teambeta.Adapters.PostCursorAdapter;
 import com.limox.jesus.teambeta.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.teambeta.Fragments.Admins.AdminsDashPosts_Fragment;
@@ -21,7 +22,7 @@ import com.limox.jesus.teambeta.Utils.NavDrawerUtils;
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.sephiroth.android.library.picasso.Picasso;
 
-public class Admins_Activity extends AppCompatActivity implements HomeOfFragments, NavDrawerUtils.OnNavDrawerListener, AdminsDashPosts_Fragment.OnAdminDashPostFragmentListener, PostCursorAdapter.OnPostViewHolderListener {
+public class Admins_Activity extends AppCompatActivity implements HomeOfFragments, NavDrawerUtils.OnNavDrawerListener, AdminsDashPosts_Fragment.OnAdminDashPostFragmentListener, PostArrayAdapter.OnPostViewHolderListener {
     Fragment mCurrentFragment;
     DrawerLayout mDrawerLayout;
     CircleImageView mCIVProfileImage;

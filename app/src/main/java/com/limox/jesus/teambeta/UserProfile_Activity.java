@@ -6,12 +6,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.limox.jesus.teambeta.Adapters.PostArrayAdapter;
 import com.limox.jesus.teambeta.Adapters.PostCursorAdapter;
 import com.limox.jesus.teambeta.Fragments.UserProfile.UserProfile_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 
-public class UserProfile_Activity extends AppCompatActivity implements HomeOfFragments, UserProfile_Fragment.OnUserProfileFragmentListener, PostCursorAdapter.OnPostViewHolderListener {
+public class UserProfile_Activity extends AppCompatActivity implements HomeOfFragments, UserProfile_Fragment.OnUserProfileFragmentListener, PostArrayAdapter.OnPostViewHolderListener {
     UserProfile_Fragment upf;
     Fragment mCurrentFragment;
 

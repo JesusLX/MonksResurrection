@@ -39,10 +39,10 @@ public class NavDrawerUtils {
         createNavListener();
     }
     public int getMenu(){
-       /* if(Users_Repository.get().getCurrentUser().isAdmin()){
+       /*if(Users_Repository.get().getCurrentUser().isAdmin()){*/
             return R.menu.menu_nav_admins;
-        }else*/
-            return R.menu.menu_nav;
+        /*}else
+            return R.menu.menu_nav;*/
     }
 
 

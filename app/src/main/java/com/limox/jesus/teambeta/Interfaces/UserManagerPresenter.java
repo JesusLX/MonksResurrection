@@ -10,7 +10,8 @@ import com.limox.jesus.teambeta.Model.User;
 
 public interface UserManagerPresenter {
     void addUser(User user);
-    void getUser(String mUserName);
+
+    void getUser(String idUser);
     void getUser(String mUserName, String mPassword);
 
     //void getUser(String idUser);

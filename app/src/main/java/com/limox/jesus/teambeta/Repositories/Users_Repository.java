@@ -1,6 +1,8 @@
 package com.limox.jesus.teambeta.Repositories;
 
 
+import com.google.android.gms.common.api.Api;
+import com.limox.jesus.teambeta.Model.Forum;
 import com.limox.jesus.teambeta.Model.Post;
 import com.limox.jesus.teambeta.Model.User;
 
@@ -17,6 +19,7 @@ public class Users_Repository {
 
     private static Users_Repository mUsers_Repository;
     List<User> mUsers;
+    private Forum currentForum;
 
     public static Users_Repository get() {
         if (mUsers_Repository == null) {
@@ -133,5 +136,13 @@ public class Users_Repository {
                 exist = true;
         }
         return exist;
+    }
+
+    public Forum getCurrentForum() {
+        return currentForum;
+    }
+
+    public void setCurrentForum(Forum currentForum) {
+        this.currentForum = currentForum;
     }
 }

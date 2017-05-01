@@ -1,4 +1,4 @@
-package com.limox.jesus.teambeta.Validators;
+package com.limox.jesus.teambeta.Utils;
 
 import android.util.Patterns;
 

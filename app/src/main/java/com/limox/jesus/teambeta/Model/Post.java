@@ -52,6 +52,18 @@ public class Post implements Parcelable{
     private boolean mDeleted;
     private Date mCreationDate;
 
+    public Post() {
+        this.mIdPost = -1;
+        this.mIdUser = "";
+        this.mScore = 0;
+        this.mState = 0;
+        this.mTitle = "";
+        this.mDescription = "";
+        this.mTags = "";
+        this.mDeleted = false;
+        this.mCreationDate = null;
+    }
+
     public Post(String mIdUser, String mTitle, String mDescriptions, String mTags) {
         this.mIdUser = mIdUser;
         this.mTitle = mTitle;
