@@ -1,33 +1,22 @@
-package com.limox.jesus.teambeta.Adapters;
+package com.limox.jesus.teambeta.Adapters.Cursor;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.limox.jesus.teambeta.Model.Post;
 import com.limox.jesus.teambeta.Provider.TeamBetaContract;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Utils.AllConstants;
-import com.limox.jesus.teambeta.db.FirebaseContract;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import it.sephiroth.android.library.picasso.Picasso;
 
@@ -35,87 +24,61 @@ import it.sephiroth.android.library.picasso.Picasso;
  * Created by jesus on 11/11/16.
  */
 
-public class PostArrayAdapter extends ArrayAdapter<Post> {
+public class PostCursorAdapter extends CursorAdapter {
+
 
     private OnPostViewHolderListener mCallback;
 
-/*    public PostArrayAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Post> objects) {
-        super(context, resource, objects);
-    }*/
-
-    public PostArrayAdapter(@NonNull Context context, OnPostViewHolderListener listener) {
-        super(context, R.layout.item_collapsed_post, new ArrayList<Post>());
-        this.mCallback = listener;
+    public PostCursorAdapter(Context context, Cursor c, int flags) {
+        super(context, c, flags);
+        mCallback = (OnPostViewHolderListener) context;
     }
 
-    @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View rootView = convertView;
-        PostViewHolder holder = null;
-        if (rootView == null) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            rootView = inflater.inflate(R.layout.item_collapsed_post, parent, false);
-            holder = new PostViewHolder(rootView);
-            rootView.setTag(holder);
-        } else {
-            holder = (PostViewHolder) rootView.getTag();
-        }
-        final PostViewHolder finalHolder2 = holder;
-        FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(getItem(position).getIdUser()).child(FirebaseContract.User.NODE_PHOTO_URL).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Picasso.with(getContext()).load((String) dataSnapshot.getValue()).into(finalHolder2.mIvProfile_item);
-            }
+    public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View rootView = inflater.inflate(R.layout.item_collapsed_post,viewGroup,false);
+        PostViewHolder holder = new PostViewHolder(rootView);
+        rootView.setTag(holder);
+        return rootView;
+    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        holder.mTxvPostTitle_item.setText(getItem(position).getTitle());
-        holder.mTxvPostDescription_item.setText(getItem(position).getDescriptionShorted());
-        holder.postition = position;
-        final PostViewHolder finalHolder = holder;
+    @Override
+    public void bindView(View view, Context context, Cursor cursor) {
+        final PostViewHolder holder = (PostViewHolder) view.getTag();
+        Picasso.with(context).load(cursor.getString(TeamBetaContract.Posts.USER_ICON_KEY)).into(holder.mIvProfile_item);
+        holder.mTxvPostTitle_item.setText(cursor.getString(TeamBetaContract.Posts.TITLE_KEY));
+        holder.mTxvPostDescription_item.setText(cursor.getString(TeamBetaContract.Posts.TEXT_KEY));
+        holder.postition = getCursor().getPosition();
         holder.mRlContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle b = new Bundle();
-                Post tmpPost = (Post) getItem(finalHolder.postition);
-                b.putParcelable(AllConstants.Keys.Parcelables.POST_PARCELABLE_KEY, tmpPost);
-                b.putLong(AllConstants.Keys.Parcelables.POST_CREATION_DATE, tmpPost.getCreationDate().getTime());
+                Post tmpPost = (Post)getItem(holder.postition);
+                b.putParcelable(AllConstants.Keys.Parcelables.POST_PARCELABLE_KEY,tmpPost);
+                b.putLong(AllConstants.Keys.Parcelables.POST_CREATION_DATE,tmpPost.getCreationDate().getTime());
                 mCallback.startPostView(b);
             }
         });
-        final PostViewHolder finalHolder1 = holder;
         holder.mIvProfile_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle b = new Bundle();
-                b.putString(AllConstants.Keys.SimpleBundle.ID_USER_KEY, getItem(finalHolder1.postition).getIdUser());
+                b.putInt(AllConstants.Keys.SimpleBundle.ID_USER_KEY,getCursor().getInt(TeamBetaContract.Posts.USER_ID_KEY));
                 mCallback.startUserProfile(b);
             }
         });
-        return rootView;
-
     }
 
-    public void setData(ArrayList<Post> data) {
-        clear();
-        addAll(data);
-    }
-
-    public interface OnPostViewHolderListener {
+    public interface OnPostViewHolderListener{
         void startUserProfile(Bundle user);
-
         void startPostView(Bundle post);
     }
 
     /**
      * This class is de ViewHolder of the Posts of the list
      */
-    final static class PostViewHolder {
+    final static class PostViewHolder  {
 
         ImageView mIvProfile_item;
         TextView mTxvPostDescription_item;
@@ -136,14 +99,15 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
 
     }
 
-    /*@Override
+    @Override
     public Object getItem(int position) {
 
-        *//*if (position > 0)
-            position = position-1;*//*
+        /*if (position > 0)
+            position = position-1;*/
         getCursor().moveToPosition(position);
-        Post post = new Post(getCursor().getInt(TeamBetaContract.Posts.ID_KEY));
+        Post post = new Post(getCursor().getString(TeamBetaContract.Posts.ID_KEY));
         post.setIdUser(getCursor().getString(TeamBetaContract.Posts.USER_ID_KEY));
+        post.setIdForum(getCursor().getString(TeamBetaContract.Posts.FORUM_ID_KEY));
         post.setDeleted(getCursor().getInt(TeamBetaContract.Posts.DELETED_KEY)==1);
         int state =getCursor().getInt(TeamBetaContract.Posts.FIXED_KEY)+getCursor().getInt(TeamBetaContract.Posts.PUBLISHED_KEY);
         switch (state){
@@ -165,5 +129,5 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
         post.setScore(getCursor().getInt(TeamBetaContract.Posts.SCORE_KEY));
 
         return post;
-    }*/
+    }
 }

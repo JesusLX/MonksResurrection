@@ -27,8 +27,7 @@ public class PostManagerPresenterImpl implements PostManagerPresenter {
         FirebaseDatabase.getInstance().getReference().
                 child(FirebaseContract.Forums.ROOT_NODE).
                 child(Users_Repository.get().getCurrentForum().getKey()).
-                child(FirebaseContract.Post.ROOT_NODE).
-                child(Users_Repository.get().getCurrentForum().getKey()).
+                child(FirebaseContract.Posts.ROOT_NODE).
                 push().setValue(post);
     }
 

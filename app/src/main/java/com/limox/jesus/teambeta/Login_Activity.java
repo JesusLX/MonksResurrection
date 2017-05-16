@@ -52,29 +52,6 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
 
         initializeClickListener();
         mFirebaseAuth = FirebaseAuth.getInstance();
-
-        /*mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser fUser =firebaseAuth.getCurrentUser();
-                if (fUser != null){
-              //      FirebaseDatabase.getInstance().
-                    //validateAccount();
-                }else{
-                        startActivityForResult(
-                           AuthUI.getInstance()
-                                   .createSignInIntentBuilder()
-                                   .setIsSmartLockEnabled(false)
-                                   .setProviders(
-                                           AuthUI.EMAIL_PROVIDER,
-                                           AuthUI.GOOGLE_PROVIDER)
-                                   .build(),
-                           RC_SIGN_IN);
-                }
-            }
-        };
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);*/
-
         mTxvFP.setOnClickListener(mClickListener);
         mTxvSignUp.setOnClickListener(mClickListener);
         mBtnLogIn.setOnClickListener(mClickListener);
@@ -151,13 +128,14 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
 
     @Override
     public void onUserObtained(User user) {
-        startActivity(new Intent(Login_Activity.this, Home_Activity.class));
         //startActivity(new Intent(Login_Activity.this, Navigator_Activity.class));
 
         // set the current user
         Users_Repository.get().setCurrentUser(user);
 
         Preferences.setCurrentUser(user.getIdUser(), mUserName, mPassword, Login_Activity.this);
+
+        startActivity(new Intent(Login_Activity.this, SelectProject_Activity.class));
 
         finish();
     }

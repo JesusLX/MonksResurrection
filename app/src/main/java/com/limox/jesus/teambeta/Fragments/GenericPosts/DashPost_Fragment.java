@@ -1,7 +1,6 @@
 package com.limox.jesus.teambeta.Fragments.GenericPosts;
 
 import android.app.Activity;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,9 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.limox.jesus.teambeta.Adapters.PostArrayAdapter;
-import com.limox.jesus.teambeta.Adapters.PostCursorAdapter;
+import com.limox.jesus.teambeta.Adapters.ArrayAdapter.PostArrayAdapter;
 import com.limox.jesus.teambeta.Interfaces.PostsListPresenter;
 import com.limox.jesus.teambeta.Model.Post;
 import com.limox.jesus.teambeta.Presenter.PostsListsPresenterImpl;
@@ -25,10 +24,11 @@ public class DashPost_Fragment extends Fragment implements PostsListPresenter.Vi
 
     private PostArrayAdapter mAdapter;
     private ListView rvPosts;
+    private TextView txvEmptyList;
     private PostsListPresenter mPresenter;
 
     private int typeList;
-    private int idUser;
+    private String idUser;
 
 
    /* public interface OnDashPostFragmentListener{
@@ -50,11 +50,12 @@ public class DashPost_Fragment extends Fragment implements PostsListPresenter.Vi
 
 
         if (getArguments() != null) {
-            typeList =getArguments().getInt(AllConstants.TypeLists.TYPELIST_KEY);}
-            idUser = getArguments().getInt(AllConstants.Keys.SimpleBundle.ID_USER_KEY,-1);
+            typeList = getArguments().getInt(AllConstants.TypeLists.TYPELIST_KEY);
+        }
+        idUser = getArguments().getString(AllConstants.Keys.SimpleBundle.ID_USER_KEY, "");
         if (savedInstanceState != null){
             typeList = savedInstanceState.getInt(AllConstants.TypeLists.TYPELIST_KEY);
-            idUser = savedInstanceState.getInt(AllConstants.Keys.SimpleBundle.ID_USER_KEY,-1);
+            idUser = savedInstanceState.getString(AllConstants.Keys.SimpleBundle.ID_USER_KEY, "");
         }
 
 
@@ -94,6 +95,7 @@ public class DashPost_Fragment extends Fragment implements PostsListPresenter.Vi
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_dash_post, container, false);
         rvPosts = (ListView) rootView.findViewById(R.id.dp_lvList);
+        txvEmptyList = (TextView) rootView.findViewById(R.id.txvEmptyList);
         return rootView;
     }
 
@@ -128,9 +130,7 @@ public class DashPost_Fragment extends Fragment implements PostsListPresenter.Vi
             childFragmentManager.setAccessible(true);
             childFragmentManager.set(this, null);
 
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
@@ -138,6 +138,13 @@ public class DashPost_Fragment extends Fragment implements PostsListPresenter.Vi
 
     @Override
     public void setData(ArrayList<Post> posts) {
-        mAdapter.setData(posts);
+        if (posts != null && posts.size() > 0) {
+            mAdapter.setData(posts);
+            rvPosts.setVisibility(View.VISIBLE);
+            txvEmptyList.setVisibility(View.GONE);
+        } else {
+            rvPosts.setVisibility(View.GONE);
+            txvEmptyList.setVisibility(View.VISIBLE);
+        }
     }
 }

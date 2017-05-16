@@ -2,12 +2,10 @@ package com.limox.jesus.teambeta.Presenter;
 
 import android.content.ContentValues;
 
-import com.google.firebase.database.FirebaseDatabase;
 import com.limox.jesus.teambeta.Interfaces.PostViewPresenter;
 import com.limox.jesus.teambeta.Model.Post;
 import com.limox.jesus.teambeta.Provider.TeamBetaContract;
-import com.limox.jesus.teambeta.Repositories.Posts_Repository;
-import com.limox.jesus.teambeta.db.DatabaseContract;
+import com.limox.jesus.teambeta.Repositories.PostsStorage;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
 /**
@@ -17,46 +15,30 @@ import com.limox.jesus.teambeta.db.FirebaseContract;
 public class PostViewPresenterImpl implements PostViewPresenter{
 
     private PostViewPresenter.View mView;
-    private Posts_Repository mPostRep;
+    private PostsStorage mPostRep;
 
 
     public PostViewPresenterImpl(View mView) {
         this.mView = mView;
-        this.mPostRep = Posts_Repository.get();
+        this.mPostRep = PostsStorage.get();
     }
 
     @Override
-    public void deletePost(Post mPost) {
-        String where = TeamBetaContract.Posts._ID +"= ?";
-        String[] whereArgs = new String[] {String.valueOf( mPost.getIdPost())};
-        mView.getContext().getContentResolver().delete(TeamBetaContract.Posts.CONTENT_URI,where,whereArgs);
+    public void deletePost(String idPost) {
+        FirebaseContract.Posts.deletePost(idPost);
+
+    }
+
+    @Override
+    public void likePost(String idPost, Post post) {
+        FirebaseContract.Posts.likePost(idPost, post);
     }
 
     @Override
     public void changePostOfList(Post post, @Post.STATE int newState) {
-        String where;
-        int fixed = 0;
-        int published = 0;
-        switch (post.getState()){
-            case Post.FIXED:
-                fixed = 1;
-                published = 1;
-                break;
 
-            case Post.PUBLISHED:
-                fixed = 0;
-                published = 1;
-                break;
-        }
-
-        FirebaseDatabase.getInstance().getReference().child(FirebaseContract.Post.ROOT_NODE).child(String.valueOf(post.getIdPost())).child(FirebaseContract.Post.NODE_STATE).setValue(fixed + published);
-/*
-        where = TeamBetaContract.Posts._ID +" = ? AND "+ TeamBetaContract.Posts.FIXED + " = ? AND "+TeamBetaContract.Posts.PUBLISHED+" = ?";
-        String[] whereArgs = new String[]{String.valueOf(post.getIdPost()), String.valueOf(fixed),String.valueOf(published)};*/
-
+        FirebaseContract.Posts.changePostsList(post.getIdPost(), newState);
         post.setState(newState);
-
-     /*   mView.getContext().getContentResolver().update(TeamBetaContract.Posts.CONTENT_URI,getContentPost(post),where,whereArgs);*/
     }
     private ContentValues getContentPost(Post post) {
         ContentValues values = new ContentValues();

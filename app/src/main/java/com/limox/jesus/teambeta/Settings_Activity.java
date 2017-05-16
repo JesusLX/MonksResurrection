@@ -70,11 +70,10 @@ public class Settings_Activity extends AppCompatActivity implements HomeOfFragme
 
     @Override
     public void logOut() {
-
-        Preferences.removeCurrentUser(this);
-        Intent intent = new Intent(getApplicationContext(), Login_Activity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
+        Preferences.removeCurrentUser(Settings_Activity.this);
+        Intent i = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
     }
 }

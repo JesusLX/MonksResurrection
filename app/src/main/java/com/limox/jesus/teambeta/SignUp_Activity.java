@@ -51,8 +51,8 @@ public class SignUp_Activity extends AppCompatActivity implements HomeOfFragment
     }
 
     @Override
-    public void startHomeActivity() {
-        startActivity(new Intent(SignUp_Activity.this, Home_Activity.class));
+    public void startSelectProjectActivity() {
+        startActivity(new Intent(SignUp_Activity.this, SelectProject_Activity.class));
         finish();
     }
 

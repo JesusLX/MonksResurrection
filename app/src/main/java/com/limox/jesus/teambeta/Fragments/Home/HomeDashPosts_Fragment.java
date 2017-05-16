@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.limox.jesus.teambeta.Adapters.HomePostTabsAdapter;
+import com.limox.jesus.teambeta.Adapters.TabsAdapter.HomePostTabsAdapter;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 

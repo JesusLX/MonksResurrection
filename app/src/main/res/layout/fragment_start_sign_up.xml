@@ -16,7 +16,6 @@
         android:id="@+id/ssu_txvStartWith"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ssu_title"
         android:paddingStart="@dimen/marginStart"
         android:paddingTop="@dimen/lgn_pddingTop"
         android:text="@string/ssu_txvStartWith"

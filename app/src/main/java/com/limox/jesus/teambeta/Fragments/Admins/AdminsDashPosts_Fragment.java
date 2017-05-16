@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.limox.jesus.teambeta.Adapters.AdminPostTabsAdapter;
+import com.limox.jesus.teambeta.Adapters.TabsAdapter.AdminPostTabsAdapter;
 import com.limox.jesus.teambeta.Interfaces.PostsListPresenter;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;

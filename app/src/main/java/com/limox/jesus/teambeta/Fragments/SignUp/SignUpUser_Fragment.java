@@ -64,7 +64,7 @@ public class SignUpUser_Fragment extends Fragment implements UserManagerPresente
     }
 
     public interface OnSignUpUserFragmentListener{
-        void startHomeActivity();
+        void startSelectProjectActivity();
     }
 
     @Override
@@ -127,7 +127,7 @@ public class SignUpUser_Fragment extends Fragment implements UserManagerPresente
                                     } else {
                                         FirebaseContract.User.postUser(task.getResult().getUser().getUid(), new User(name, email));
                                         Preferences.setCurrentUser(task.getResult().getUser().getUid(), name, password, getContext());
-                                        mCallback.startHomeActivity();
+                                        mCallback.startSelectProjectActivity();
                                     }
 
                                 }

@@ -69,7 +69,7 @@ public class TeamBetaContract{
         public static final int DELETED_KEY = 10;
         public static final int USER_ICON_KEY = 11;
         public static final int USER_NAME_KEY = 12;
-
+        public static final int FORUM_ID_KEY = 13;
     }
     public static class Comments implements BaseColumns {
         public static final String CONTENT_PATH ="comment";

@@ -37,7 +37,7 @@
         android:background="@color/inputLayoutBg"
         android:fitsSystemWindows="true"
         android:layout_marginTop="@dimen/lgn_pddingTop"
-        android:hint="@string/lgn_usr_name"
+        android:hint="@string/email_address"
         android:textColorHint="@color/textHint"
         app:errorTextAppearance="@color/colorError"
         >
@@ -46,7 +46,7 @@
             android:id="@+id/lgn_edtUser"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textPersonName"
+            android:inputType="textEmailAddress"
             />
     </android.support.design.widget.TextInputLayout>
 
@@ -58,6 +58,7 @@
         android:layout_marginTop="@dimen/fav_margin"
         android:background="@color/inputLayoutBg"
         android:textColorHint="@color/textHint"
+        app:passwordToggleEnabled="true"
         app:errorTextAppearance="@color/colorError">
 
         <EditText

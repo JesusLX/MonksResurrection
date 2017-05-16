@@ -32,78 +32,13 @@ public class Post implements Parcelable{
             return result;
         }
     };
-
-
-    @IntDef({NOT_PUBLISHED,PUBLISHED,FIXED,ALL})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface STATE{}
-    public static final int NOT_PUBLISHED = 0;
-    public static final int PUBLISHED = 1;
-    public static final int FIXED = 2;
-    public static final int ALL = 3;
-
-    private int mIdPost;
-    private String mIdUser;
-    private int mScore;
-    private int mState;
-    private String mTitle;
-    private String mDescription;
-    private String mTags;
-    private boolean mDeleted;
-    private Date mCreationDate;
-
-    public Post() {
-        this.mIdPost = -1;
-        this.mIdUser = "";
-        this.mScore = 0;
-        this.mState = 0;
-        this.mTitle = "";
-        this.mDescription = "";
-        this.mTags = "";
-        this.mDeleted = false;
-        this.mCreationDate = null;
-    }
-
-    public Post(String mIdUser, String mTitle, String mDescriptions, String mTags) {
-        this.mIdUser = mIdUser;
-        this.mTitle = mTitle;
-        this.mDescription = mDescriptions;
-        this.mTags = mTags;
-        this.mState = NOT_PUBLISHED;
-        this.mDeleted = false;
-        this.mCreationDate = new Date();
-    }
-
-    public Post(String mTitle, String mIdUser, String mDescription, String mTags, int mIdPost) {
-        this.mTitle = mTitle;
-        this.mIdUser = mIdUser;
-        this.mDescription = mDescription;
-        this.mTags = mTags;
-        this.mIdPost = mIdPost;
-        this.mState = NOT_PUBLISHED;
-        this.mDeleted = false;
-        this.mCreationDate = new Date();
-    }
-
-
-    public Post(int mIdPost, String mTitle, String mIdUser, String mDescription, @STATE int state, String mTags) {
-        this.mIdPost = mIdPost;
-        this.mTitle = mTitle;
-        this.mIdUser = mIdUser;
-        this.mDescription = mDescription;
-        this.mState = state;
-        this.mTags = mTags;
-        this.mCreationDate = new Date();
-        this.mDeleted = false;
-    }
-    public Post(int mIdPost){
-        this.mIdPost = mIdPost;
-    }
-
+    private String mForumsKey;
 
     protected Post(Parcel in) {
-        mIdPost = in.readInt();
+        mForumsKey = in.readString();
+        mIdPost = in.readString();
         mIdUser = in.readString();
+        mIdForum = in.readString();
         mScore = in.readInt();
         mState = in.readInt();
         mTitle = in.readString();
@@ -114,8 +49,10 @@ public class Post implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mIdPost);
+        dest.writeString(mForumsKey);
+        dest.writeString(mIdPost);
         dest.writeString(mIdUser);
+        dest.writeString(mIdForum);
         dest.writeInt(mScore);
         dest.writeInt(mState);
         dest.writeString(mTitle);
@@ -141,6 +78,97 @@ public class Post implements Parcelable{
         }
     };
 
+    public String getForumsKey() {
+        return mForumsKey;
+    }
+
+    public void setForumsKey(String forumsKey) {
+        this.mForumsKey = forumsKey;
+    }
+
+    public String getIdForum() {
+        return mIdForum;
+    }
+
+    public void setIdForum(String idForum) {
+        mIdForum = idForum;
+    }
+
+
+    @IntDef({NOT_PUBLISHED,PUBLISHED,FIXED,ALL})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface STATE{}
+    public static final int NOT_PUBLISHED = 0;
+    public static final int PUBLISHED = 1;
+    public static final int FIXED = 2;
+    public static final int ALL = 3;
+
+    private String mIdPost;
+    private String mIdUser;
+    private String mIdForum;
+    private int mScore;
+    private int mState;
+    private String mTitle;
+    private String mDescription;
+    private String mTags;
+    private boolean mDeleted;
+    private Date mCreationDate;
+
+    public Post() {
+        this.mIdPost = "";
+        this.mIdUser = "";
+        this.mIdForum = "";
+        this.mScore = 0;
+        this.mState = 0;
+        this.mTitle = "";
+        this.mForumsKey = "";
+        this.mDescription = "";
+        this.mTags = "";
+        this.mDeleted = false;
+        this.mCreationDate = null;
+    }
+
+    public Post(String mIdUser, String mIdForum, String mTitle, String mDescriptions, String mTags) {
+        this.mIdUser = mIdUser;
+        this.mIdForum = mIdForum;
+        this.mTitle = mTitle;
+        this.mDescription = mDescriptions;
+        this.mTags = mTags;
+        this.mState = NOT_PUBLISHED;
+        this.mDeleted = false;
+        this.mCreationDate = new Date();
+    }
+
+    public Post(String mTitle, String mIdForum, String mIdUser, String mDescription, String mTags, String mIdPost) {
+        this.mTitle = mTitle;
+        this.mIdForum = mIdForum;
+        this.mIdUser = mIdUser;
+        this.mDescription = mDescription;
+        this.mTags = mTags;
+        this.mIdPost = mIdPost;
+        this.mState = NOT_PUBLISHED;
+        this.mDeleted = false;
+        this.mCreationDate = new Date();
+    }
+
+
+    public Post(String mIdPost, String mIdForum, String mTitle, String mIdUser, String mDescription, @STATE int state, String mTags) {
+        this.mIdPost = mIdPost;
+        this.mIdForum = mIdForum;
+        this.mTitle = mTitle;
+        this.mIdUser = mIdUser;
+        this.mDescription = mDescription;
+        this.mState = state;
+        this.mTags = mTags;
+        this.mCreationDate = new Date();
+        this.mDeleted = false;
+    }
+
+    public Post(String mIdPost) {
+        this.mIdPost = mIdPost;
+    }
+
+
     public void setState(@STATE int state){
         this.mState = state;
     }
@@ -148,11 +176,12 @@ public class Post implements Parcelable{
     public @STATE int getState() {
         return mState;
     }
-    public int getIdPost() {
+
+    public String getIdPost() {
         return mIdPost;
     }
 
-    public void setIdPost(int mIdPost) {
+    public void setIdPost(String mIdPost) {
         this.mIdPost = mIdPost;
     }
 
@@ -228,7 +257,7 @@ public class Post implements Parcelable{
 
     @Override
     public String toString() {
-        return "Post{" +
+        return "Posts{" +
                 "mIdPost=" + mIdPost +
                 ", mTitle='" + mTitle + '\'' +
                 ", mIdUser=" + mIdUser +

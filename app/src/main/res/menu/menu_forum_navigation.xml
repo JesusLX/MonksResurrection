@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="@string/forums"
+        android:id="@+id/action_list"
+        android:icon="@drawable/ic_action_forums" />
+    <item
+        android:title="@string/own"
+        android:id="@+id/action_owned_forums"
+        android:icon="@drawable/ic_action_own" />
+    <item
+        android:title="@string/admins"
+        android:id="@+id/action_owned_admins"
+        android:icon="@drawable/ic_action_admin" />
+    <item
+        android:title="@string/search"
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_action_search" />
+    <item
+        android:title="@string/profile"
+        android:id="@+id/action_profile"
+        android:icon="@drawable/ic_action_user" />
+</menu>

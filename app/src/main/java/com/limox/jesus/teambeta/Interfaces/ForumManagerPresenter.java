@@ -18,7 +18,7 @@ public interface ForumManagerPresenter {
     void existsForum(String forumsName, ValueEventListener valueEventListener);
 
     interface View {
-        void onForumCreated();
+        void onForumCreated(String forumKey);
 
         android.view.View getView();
 

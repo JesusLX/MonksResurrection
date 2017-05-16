@@ -122,7 +122,7 @@ public class Users_Repository {
     }
     public boolean currentUserIsOwner(Post publicacion){
         boolean itIs = false;
-        if (getCurrentUser().getIdUser() == publicacion.getIdUser()){
+        if (getCurrentUser().getIdUser().equals(publicacion.getIdUser())) {
             itIs =true;
         }
         return itIs;
@@ -144,5 +144,14 @@ public class Users_Repository {
 
     public void setCurrentForum(Forum currentForum) {
         this.currentForum = currentForum;
+    }
+
+    public boolean currentUserCanAdmin(Post post) {
+        boolean itIs = false;
+        if (getCurrentUser().getForumsAdmin().contains(post.getForumsKey()) || getCurrentUser().getForumsOwn().contains(post.getForumsKey())) {
+            itIs = true;
+        }
+        return itIs;
+
     }
 }

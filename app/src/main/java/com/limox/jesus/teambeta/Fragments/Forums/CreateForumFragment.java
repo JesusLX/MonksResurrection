@@ -3,12 +3,8 @@ package com.limox.jesus.teambeta.Fragments.Forums;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -28,8 +24,10 @@ import com.limox.jesus.teambeta.Model.Forum;
 import com.limox.jesus.teambeta.Presenter.ForumManagerPresenterImpl;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
+import com.limox.jesus.teambeta.Utils.UIUtils;
+import com.limox.jesus.teambeta.db.FirebaseContract;
 
-import java.io.File;
+import java.util.Arrays;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -40,7 +38,7 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
     private Toolbar mToolbar;
     private ImageView mIvLogo;
     private EditText mEdtName, mEdtUsersKey, mEdtAdminsKey, mEdtDescription, mEdtTags;
-    private Button mBtnCreate;
+    private Button mBtnCreate, mBtnCancel;
 
     private ForumManagerPresenter mPresenter;
 
@@ -48,7 +46,7 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
     private Uri imgSelected;
     private ProgressDialog loading;
 
-    private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener mCallback;
 
     public CreateForumFragment() {
         // Required empty public constructor
@@ -71,6 +69,7 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
         mEdtDescription = (EditText) rootView.findViewById(R.id.cf_edtDescription);
         mEdtTags = (EditText) rootView.findViewById(R.id.cf_edtTags);
         mBtnCreate = (Button) rootView.findViewById(R.id.cf_btnCreate);
+        mBtnCancel = (Button) rootView.findViewById(R.id.cf_btnCancel);
         return rootView;
     }
 
@@ -78,6 +77,14 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mToolbar.setTitle(R.string.create_forum);
+        mToolbar.setNavigationIcon(R.drawable.ic_action_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.startForumsListFragment();
+            }
+        });
+
         mIvLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,54 +99,63 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
                 validate(mEdtName, mEdtAdminsKey, mEdtUsersKey);
             }
         });
+        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.startForumsListFragment();
+            }
+        });
     }
 
     private void validate(final EditText forumsName, final EditText adminsKey, final EditText userskey) {
         loading = new ProgressDialog(getContext());
         loading.setTitle(R.string.loading);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (!userskey.getText().toString().isEmpty()) {
+        if (havImgSelected) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!userskey.getText().toString().isEmpty()) {
 
-                    if (!adminsKey.getText().toString().isEmpty()) {
-                        if (!forumsName.getText().toString().isEmpty()) {
-                            mPresenter.existsForum(forumsName.getText().toString(), new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    if (dataSnapshot.getChildrenCount() == 0) {
-                                        mPresenter.uploadPhoto(imgSelected, Users_Repository.get().getCurrentUser().getIdUser(), String.valueOf(System.currentTimeMillis()));
-                                    } else {
-                                        loading.cancel();
-                                        forumsName.setError(getString(R.string.forums_name_exists));
+                        if (!adminsKey.getText().toString().isEmpty()) {
+                            if (!forumsName.getText().toString().isEmpty()) {
+                                mPresenter.existsForum(forumsName.getText().toString(), new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.getChildrenCount() == 0) {
+                                            mPresenter.uploadPhoto(imgSelected, Users_Repository.get().getCurrentUser().getIdUser(), String.valueOf(System.currentTimeMillis()));
+                                        } else {
+                                            loading.cancel();
+                                            if (isAdded())
+                                                forumsName.setError(getString(R.string.forums_name_exists));
+                                        }
                                     }
-                                }
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                    loading.cancel();
-                                }
-                            });
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        loading.cancel();
+                                    }
+                                });
+                            }
+                        } else {
+                            loading.cancel();
+                            adminsKey.setError(getString(R.string.message_error_must_fill));
                         }
                     } else {
                         loading.cancel();
-                        adminsKey.setError(getString(R.string.message_error_must_fill));
+                        userskey.setError(getString(R.string.message_error_must_fill));
                     }
-                } else {
-                    loading.cancel();
-                    userskey.setError(getString(R.string.message_error_must_fill));
                 }
-
-
-            }
-        }).run();
+            }).run();
+        } else {
+            Snackbar.make(getView(), R.string.must_select_photo, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+            mCallback = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -149,19 +165,24 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        mCallback = null;
     }
 
     @Override
-    public void onForumCreated() {
-        mListener.onForumCreated();
+    public void onForumCreated(String forumKey) {
         loading.cancel();
-
+        Users_Repository.get().getCurrentUser().getForumsOwn().add(forumKey);
+        FirebaseContract.User.addForumOwn(forumKey);
+        mCallback.startForumsListFragment();
     }
 
     @Override
     public void onImageUploaded(Uri downloadUrl) {
-        mPresenter.createForum(new Forum(mEdtName.getText().toString().trim(), downloadUrl.toString(), mEdtUsersKey.getText().toString().trim(), mEdtAdminsKey.getText().toString().trim(), mEdtDescription.getText().toString(), mEdtTags.getText().toString().trim().split(",")));
+        Forum tmpforum = new Forum(mEdtName.getText().toString().trim(), downloadUrl.toString(), Users_Repository.get().getCurrentUser().getIdUser(), mEdtUsersKey.getText().toString().trim(), mEdtAdminsKey.getText().toString().trim(), mEdtDescription.getText().toString(), Arrays.asList(mEdtTags.getText().toString().trim().split(",")));
+        if (!tmpforum.getTags().contains(mEdtName.getText().toString())) {
+            tmpforum.getTags().add(mEdtName.getText().toString());
+        }
+        mPresenter.createForum(tmpforum);
     }
 
     @Override
@@ -178,22 +199,14 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
             case INTENT_SELECT_IMAGE:
                 if (resultCode == RESULT_OK) {
                     imgSelected = imageReturnedIntent.getData();
-                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-                    Cursor cursor = getActivity().getContentResolver().query(imgSelected,
-                            filePathColumn, null, null, null);
-                    cursor.moveToFirst();
-
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
-                    cursor.close();
-
-                    mIvLogo.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                    UIUtils.loadImage(getContext(), imgSelected.toString(), mIvLogo);
+                    havImgSelected = true;
+                    //mIvLogo.setImageBitmap(BitmapFactory.decodeFile(picturePath));
                 }
         }
     }
 
     public interface OnFragmentInteractionListener {
-        void onForumCreated();
+        void startForumsListFragment();
     }
 }

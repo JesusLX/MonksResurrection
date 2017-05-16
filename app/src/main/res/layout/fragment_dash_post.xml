@@ -1,10 +1,20 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_dash_post"
     tools:context="com.limox.jesus.teambeta.Fragments.GenericPosts.DashPost_Fragment">
 
+    <TextView
+        android:id="@+id/txvEmptyList"
+        android:text="@string/empty_list"
+        android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/black"
+        android:layout_height="wrap_content" />
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,4 +22,4 @@
         android:background="@color/collapsed_post_bg"/>
 
 
-</LinearLayout>
+</RelativeLayout>

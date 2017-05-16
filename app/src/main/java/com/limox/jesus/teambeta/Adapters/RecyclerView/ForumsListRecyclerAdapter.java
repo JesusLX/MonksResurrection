@@ -1,4 +1,4 @@
-package com.limox.jesus.teambeta.Adapters;
+package com.limox.jesus.teambeta.Adapters.RecyclerView;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +23,10 @@ public class ForumsListRecyclerAdapter extends RecyclerView.Adapter<ForumsListRe
     private ArrayList<Forum> forums;
     private Context context;
     private ForumsListRecyclerAdapterListener mCallback;
+
+    public boolean contains(Forum forum) {
+        return this.forums.contains(forum);
+    }
 
     public interface ForumsListRecyclerAdapterListener {
         void onItemClicked(Forum forum);

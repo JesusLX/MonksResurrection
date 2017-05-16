@@ -69,7 +69,7 @@ public class SignUpEmail_Fragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<ProviderQueryResult> task) {
                             if (task.isSuccessful()) {
-                                if (task.getResult().getProviders().size() < 0) {
+                                if (task.getResult().getProviders().size() == 0) {
                                     Bundle bundle = new Bundle();
                                     bundle.putString(AllConstants.Keys.SimpleBundle.EMAIL, edtEmail.getText().toString());
                                     mCallBack.startSignUpUser(bundle);

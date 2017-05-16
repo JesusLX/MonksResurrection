@@ -10,7 +10,6 @@ import java.util.ArrayList;
 /**
  * Created by jesus on 8/11/16.
  */
-
 public class User implements Parcelable {
     private static final String DEF_IMAGE = "https://jesuslx.ncatz.com/wp-apps/teambeta/user-icons/def_icon.png";
     private String mId;
@@ -23,7 +22,7 @@ public class User implements Parcelable {
     private ArrayList<String> mForumsOwn;
     private ArrayList<String> mPostsLiked;
     private ArrayList<String> mForumsAdmin;
-    private ArrayList<String> forumsWIParticipates;
+    private ArrayList<String> forumsWIParticipate;
 
 
     public User(String idUser, String nick, String email, String password, String profilePicture, boolean profileBlocked, boolean userDeleted) {
@@ -93,9 +92,10 @@ public class User implements Parcelable {
         profilePicture = in.readString();
         mBlocked = in.readByte() != 0;
         mDeleted = in.readByte() != 0;
+        mForumsOwn = in.createStringArrayList();
         mPostsLiked = in.createStringArrayList();
         mForumsAdmin = in.createStringArrayList();
-        forumsWIParticipates = in.createStringArrayList();
+        forumsWIParticipate = in.createStringArrayList();
     }
 
     @Override
@@ -107,9 +107,10 @@ public class User implements Parcelable {
         dest.writeString(profilePicture);
         dest.writeByte((byte) (mBlocked ? 1 : 0));
         dest.writeByte((byte) (mDeleted ? 1 : 0));
+        dest.writeStringList(mForumsOwn);
         dest.writeStringList(mPostsLiked);
         dest.writeStringList(mForumsAdmin);
-        dest.writeStringList(forumsWIParticipates);
+        dest.writeStringList(forumsWIParticipate);
     }
 
     @Override
@@ -185,18 +186,11 @@ public class User implements Parcelable {
         this.mDeleted = mUserDeleted;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        User user = (User) o;
-
-        return mId == user.mId;
-
-    }
 
     public ArrayList<String> getPostsLiked() {
+        if (mPostsLiked == null)
+            mPostsLiked = new ArrayList<>();
         return mPostsLiked;
     }
 
@@ -206,6 +200,8 @@ public class User implements Parcelable {
 
 
     public ArrayList<String> getForumsAdmin() {
+        if (mForumsAdmin == null)
+            mForumsAdmin = new ArrayList<>();
         return mForumsAdmin;
     }
 
@@ -213,21 +209,34 @@ public class User implements Parcelable {
         this.mForumsAdmin = mForumsAdmin;
     }
 
-    public ArrayList<String> getForumsWIParticipates() {
-        return forumsWIParticipates;
+    public ArrayList<String> getForumsWIParticipate() {
+        if (forumsWIParticipate == null)
+            forumsWIParticipate = new ArrayList<>();
+        return forumsWIParticipate;
     }
 
-    public void setForumsWIParticipates(ArrayList<String> forumsWIParticipates) {
-        this.forumsWIParticipates = forumsWIParticipates;
+    public void setForumsWIParticipate(ArrayList<String> forumsWIParticipate) {
+        this.forumsWIParticipate = forumsWIParticipate;
     }
 
-    public ArrayList<String> getmForumsOwn() {
+    public ArrayList<String> getForumsOwn() {
         if (mForumsOwn == null)
             mForumsOwn = new ArrayList<>();
         return mForumsOwn;
     }
 
-    public void setmForumsOwn(ArrayList<String> mForumsOwn) {
+    public void setForumsOwn(ArrayList<String> mForumsOwn) {
         this.mForumsOwn = mForumsOwn;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return mId.equals(user.mId);
+
     }
 }

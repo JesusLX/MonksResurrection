@@ -8,16 +8,17 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.limox.jesus.teambeta.Adapters.PostArrayAdapter;
-import com.limox.jesus.teambeta.Adapters.PostCursorAdapter;
+import com.limox.jesus.teambeta.Adapters.ArrayAdapter.PostArrayAdapter;
 import com.limox.jesus.teambeta.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.teambeta.Fragments.Admins.AdminsDashPosts_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.Utils.NavDrawerUtils;
+import com.limox.jesus.teambeta.Utils.UIUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.sephiroth.android.library.picasso.Picasso;
@@ -28,7 +29,7 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
     CircleImageView mCIVProfileImage;
     NavigationView mNavView;
     TextView mTxvUserName;
-
+    ImageView ivHeader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,9 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
         mCIVProfileImage = (CircleImageView) findViewById(com.limox.jesus.teambeta.R.id.cd_civUserProfile);
         mTxvUserName = (TextView) findViewById(com.limox.jesus.teambeta.R.id.cd_txvUserName);
         mNavView = (NavigationView) findViewById(com.limox.jesus.teambeta.R.id.nav_view_admins);
+        ivHeader = (ImageView) findViewById(R.id.ivHeader);
+
+        UIUtils.loadImage(Admins_Activity.this, Users_Repository.get().getCurrentForum().getImgUrl(), ivHeader);
 
         NavDrawerUtils navUtils = new NavDrawerUtils(Admins_Activity.this, mDrawerLayout);
         mNavView.getMenu().clear();

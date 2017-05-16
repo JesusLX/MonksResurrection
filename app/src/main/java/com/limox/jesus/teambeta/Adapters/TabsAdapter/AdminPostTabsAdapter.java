@@ -1,4 +1,4 @@
-package com.limox.jesus.teambeta.Adapters;
+package com.limox.jesus.teambeta.Adapters.TabsAdapter;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

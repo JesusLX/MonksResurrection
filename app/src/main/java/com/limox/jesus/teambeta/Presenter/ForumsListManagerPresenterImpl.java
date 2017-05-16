@@ -1,12 +1,14 @@
 package com.limox.jesus.teambeta.Presenter;
 
+import android.app.Activity;
+
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.limox.jesus.teambeta.Interfaces.ForumsListManagerPresenter;
 import com.limox.jesus.teambeta.Model.Forum;
-import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
 import java.util.ArrayList;
@@ -17,9 +19,11 @@ import java.util.ArrayList;
 
 public class ForumsListManagerPresenterImpl implements ForumsListManagerPresenter {
     ForumsListManagerPresenter.View mView;
+    ValueEventListener vel;
 
-    public ForumsListManagerPresenterImpl(View mView) {
+    public ForumsListManagerPresenterImpl(final View mView) {
         this.mView = mView;
+
     }
 
     @Override
@@ -27,20 +31,24 @@ public class ForumsListManagerPresenterImpl implements ForumsListManagerPresente
         if (forumsKey == null || forumsKey.size() == 0) {
             mView.addForum(null);
         } else
+            vel = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Forum tmp = dataSnapshot.getValue(Forum.class);
+                    tmp.setKey(dataSnapshot.getKey());
+                    mView.addForum(tmp);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
             for (String forumKey : forumsKey) {
                 FirebaseDatabase.getInstance().getReference().
-                        child(FirebaseContract.Post.ROOT_NODE).
-                        child(forumKey).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        mView.addForum(dataSnapshot.getValue(Forum.class));
-                    }
+                        child(FirebaseContract.Forums.ROOT_NODE).
+                        child(forumKey).addListenerForSingleValueEvent(vel);
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
             }
     }
 }

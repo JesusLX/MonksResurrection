@@ -13,9 +13,10 @@ import java.lang.annotation.RetentionPolicy;
  */
 
 public interface PostViewPresenter {
-    void deletePost(Post mPost);
+    void deletePost(String idPost);
     void changePostOfList(Post post, @Post.STATE int newState);
 
+    void likePost(String idPost, Post post);
     interface View {
         Context getContext();
 

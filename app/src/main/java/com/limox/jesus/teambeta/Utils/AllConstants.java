@@ -54,6 +54,7 @@ public final class AllConstants {
             public static final String USER_PASSWORD_PARCELABLE_KEY = "post_password";
             public static final String CURSOR_POSITION = "position";
             public static final String POST_CREATION_DATE = "date";
+            public static final String FORUMS_KEY = "fkey";
         }
 
         /**
@@ -94,6 +95,7 @@ public final class AllConstants {
         public static final String CreatePostTag = "cp";
         public static final String ProjListTag ="plt";
         public static final String CreateForum = "cf";
+        public static final String ProjSearchTag = "ps";
     }
 
     public class Notifications {

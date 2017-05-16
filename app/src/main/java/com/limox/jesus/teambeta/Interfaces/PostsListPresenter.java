@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public interface PostsListPresenter {
     void getAllPost(@Post.STATE int typeList);
 
-    void getAllPost(int all, int idUser);
+    void getAllPost(int all, String idUser);
 
     interface View {
 

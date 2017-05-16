@@ -2,6 +2,7 @@ package com.limox.jesus.teambeta.Fragments.PostView;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -30,19 +31,19 @@ import java.util.Date;
 
 import it.sephiroth.android.library.picasso.Picasso;
 
-public class PostView_Fragment extends Fragment implements PostViewPresenter.View, UserManagerPresenter.View{
+public class PostView_Fragment extends Fragment implements PostViewPresenter.View, UserManagerPresenter.View {
 
     private User mUser;
-    Post mPost;
-    Toolbar mToolBar;
-    ImageView mIvUserPicture;
-    ImageView mIvLike;
-    ImageView mIvDislike;
-    ImageView mIvComments;
-    TextView mTxvUserName;
-    TextView mTxvPostTitle;
-    TextView mTxvPostDescription;
-    TextView mTxvPostScore;
+    private Post mPost;
+    private Toolbar mToolBar;
+    private ImageView mIvUserPicture;
+    private ImageView mIvLike;
+    private ImageView mIvDislike;
+    private ImageView mIvComments;
+    private TextView mTxvUserName;
+    private TextView mTxvPostTitle;
+    private TextView mTxvPostDescription;
+    private TextView mTxvPostScore;
     private PostViewPresenter mPresenter;
     private UserManagerPresenter mUserPresenter;
     private OnPostViewFragmentListener mCallback;
@@ -66,8 +67,9 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
 
     }
 
-    public interface OnPostViewFragmentListener{
+    public interface OnPostViewFragmentListener {
         void startUserProfile(Bundle user);
+
         void showPostComments();
     }
 
@@ -84,7 +86,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         if (activity instanceof OnPostViewFragmentListener)
             mCallback = (OnPostViewFragmentListener) activity;
         else
-            throw new ClassCastException(activity.toString() +" must implement OnPostViewFragmentListener");
+            throw new ClassCastException(activity.toString() + " must implement OnPostViewFragmentListener");
     }
 
     @Override
@@ -96,7 +98,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  setHasOptionsMenu(true);
+        //  setHasOptionsMenu(true);
         mPresenter = new PostViewPresenterImpl(this);
         mPost = getArguments().getParcelable(AllConstants.Keys.Parcelables.POST_PARCELABLE_KEY);
         mPost.setCreationDate(new Date(getArguments().getLong(AllConstants.Keys.Parcelables.POST_CREATION_DATE)));
@@ -119,7 +121,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View rootView = inflater.inflate(R.layout.fragment_post_view, container,false);
+        View rootView = inflater.inflate(R.layout.fragment_post_view, container, false);
         mToolBar = (Toolbar) rootView.findViewById(R.id.pv_tbTitleBar);
         mIvUserPicture = (ImageView) rootView.findViewById(R.id.pv_ivProfilePicture);
         mIvLike = (ImageView) rootView.findViewById(R.id.pv_ivlike);
@@ -145,6 +147,19 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
                 mCallback.showPostComments();
             }
         });
+        if (Users_Repository.get().getCurrentUser().getPostsLiked().contains(mPost.getIdPost())) {
+            mIvLike.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+        }
+        mIvLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!Users_Repository.get().getCurrentUser().getPostsLiked().contains(mPost.getIdPost())) {
+                    mPresenter.likePost(mPost.getIdPost(), mPost);
+                    mIvLike.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+                    mTxvPostScore.setText(String.valueOf(Integer.parseInt(mTxvPostScore.getText().toString()) + 1));
+                }
+            }
+        });
 
     }
 
@@ -160,7 +175,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         //inflater.inflate(R.menu.menu_post_view,menu);
     }
 
-    private void fillWidgets(){
+    private void fillWidgets() {
         Picasso.with(getContext()).load(mUser.getProfilePicture()).into(mIvUserPicture);
 
         mTxvUserName.setText(mUser.getName());
@@ -170,37 +185,17 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
 
     /**
      * Adapt the option menu for the current user
+     *
      * @param menu menu inflated
      */
-    private void adapteMenu(Menu menu){
-        // getMenuInflater().inflate(R.menu.menu_post_view, menu);
-        /* switch (Users_Repository.get().getCurrentUser().getTypeUser()){
-             case AllConstants.ADMIN_TYPE_ID://Is an admin
-
-                 if (mPost.isPublicate())
-                     menu.findItem(R.id.action_pv_ToPublished).setVisible(false);
-                 if (mPost.isFixed()) {
-                     menu.findItem(R.id.action_pv_ToFixes).setVisible(false);
-                 }
-                 break;
-
-             case AllConstants.NORMALUSER_TYPE_ID: // In a current user
-*/
-                 menu.findItem(R.id.action_pv_Edit).setVisible(false);
-                 menu.findItem(R.id.action_pv_SendMessage).setVisible(false);
-                 menu.findItem(R.id.action_pv_ToFixes).setVisible(false);
-                 menu.findItem(R.id.action_pv_ToPublished).setVisible(false);
-                 menu.findItem(R.id.action_pv_Delete).setVisible(false);
-        /*         break;
-         }*/
-       // If the current user is the owner of the current post
-       if (Users_Repository.get().currentUserIsOwner(mPost)){
-           //  if (!mPost.isFixed() && !Users_Repository.get().getCurrentUser().isAdmin())
-               menu.findItem(R.id.action_pv_Delete).setVisible(true);
-
-           menu.findItem(R.id.action_pv_SendMessage).setVisible(false);
-       }
-     }
+    private void adapteMenu(Menu menu) {
+        menu.findItem(R.id.action_pv_SendMessage).setVisible(true);
+        menu.findItem(R.id.action_pv_Edit).setVisible(Users_Repository.get().currentUserCanAdmin(mPost) || Users_Repository.get().currentUserIsOwner(mPost));
+        menu.findItem(R.id.action_pv_ToFixes).setVisible(!mPost.isFixed());
+        menu.findItem(R.id.action_pv_ToPublished).setVisible(!mPost.isPublicate());
+        menu.findItem(R.id.action_pv_Delete).setVisible(Users_Repository.get().currentUserIsOwner(mPost));
+        menu.findItem(R.id.action_pv_SendMessage).setVisible(!Users_Repository.get().currentUserIsOwner(mPost));
+    }
 
 
     /**
@@ -240,17 +235,18 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
      * Crea un cuadro de dialogo que hace una acción al darle al Ok
      * Dependiendo del typeAction hace
      * case 0:
-     *  Envía la publicación a la lista de arreglados y cierra la activity
-     *  case 1:
-     *  Envía la publicación a la lista de publicados y cierra la activity
-     *  case 2:
-     *  Borra la publicación
-     * @param idPost identificador de la publicacion
-     * @param message Mensaje que se va a mostrar en el dialog
+     * Envía la publicación a la lista de arreglados y cierra la activity
+     * case 1:
+     * Envía la publicación a la lista de publicados y cierra la activity
+     * case 2:
+     * Borra la publicación
+     *
+     * @param idPost     identificador de la publicacion
+     * @param message    Mensaje que se va a mostrar en el dialog
      * @param typeAction tipo de accion
      * @return return a dialog of this
      */
-    public AlertDialog createSimpleDialog(final int idPost, int message, @PostViewPresenter.View.ACTION final int typeAction){
+    public AlertDialog createSimpleDialog(final String idPost, int message, @PostViewPresenter.View.ACTION final int typeAction) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         builder.setTitle(R.string.dialogAlertTitle)
@@ -259,24 +255,24 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                switch (typeAction){
+                                switch (typeAction) {
                                     case TO_NOT_PUBLISHED:
-                                        mPresenter.changePostOfList(mPost,Post.NOT_PUBLISHED);
+                                        mPresenter.changePostOfList(mPost, Post.NOT_PUBLISHED);
                                         break;
                                     case TO_PUBLISHED:
-                                        mPresenter.changePostOfList(mPost,Post.PUBLISHED);
+                                        mPresenter.changePostOfList(mPost, Post.PUBLISHED);
                                         break;
                                     case TO_FIXED:
-                                        mPresenter.changePostOfList(mPost,Post.FIXED);
+                                        mPresenter.changePostOfList(mPost, Post.FIXED);
                                         break;
                                     case DELETE:
-                                        mPresenter.deletePost(mPost);
+                                        mPresenter.deletePost(mPost.getIdPost());
                                         break;
                                 }
                                 getActivity().onBackPressed();
                             }
                         })
-                .setNegativeButton(R.string.btnCancel,null);
+                .setNegativeButton(R.string.btnCancel, null);
 
         return builder.create();
     }

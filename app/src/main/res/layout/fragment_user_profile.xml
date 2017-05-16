@@ -19,7 +19,7 @@
             app:expandedTitleMarginEnd="64dp"
             app:layout_scrollFlags="scroll|snap">
         <ImageView
-            android:id="@+id/materialup.profile_backdrop"
+            android:id="@+id/ivBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"

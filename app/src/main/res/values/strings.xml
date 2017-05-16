@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Team BETA</string>
+    <string name="app_name" translatable="false">Team BETA</string>
     <string name="lgn_usr_name">User name</string>
     <string name="password">Password</string>
     <string name="sign_in">Sign In</string>
@@ -16,9 +16,9 @@
     <string name="dialogAlertTitle">Caution!</string>
     <string name="btnOk">OK</string>
     <string name="btnCancel">Cancel</string>
-    <string name="dat_MessageAlert_ToFixes">Are you sure of send this post to fixes?</string>
-    <string name="dat_MessageAlert_ToPublished">Are you sure of send this post to published?</string>
-    <string name="dat_MessageAlert_Delete">Are you sure of delete this post?</string>
+    <string name="dat_MessageAlert_ToFixes">Are you sure of send this posts to fixes?</string>
+    <string name="dat_MessageAlert_ToPublished">Are you sure of send this posts to published?</string>
+    <string name="dat_MessageAlert_Delete">Are you sure of delete this posts?</string>
     <string name="message_all_ok" translatable="false" />
     <string name="message_error_username_tooLong">The user name is too long</string>
     <string name="message_error_username_tooShort">The user name is too short</string>
@@ -33,7 +33,7 @@
     <string name="message_error_password_match">Passwords do not match</string>
     <string name="message_error_nonexistent">Error with the password or the user name</string>
     <string name="btn_create_post">Create Post</string>
-    <string name="tags_separated_by_comma">Tags,separated,by,comma</string>
+    <string name="tags_separated_by_comma">Tags, separated, by, comma</string>
     <string name="description">Description</string>
     <string name="title">Title</string>
     <string name="text_about_application">This application is a support application for the game Mon\'s Resurrection of this business, here you can help us to update our game, you also can read the story of the game and know more about his world.</string>
@@ -131,5 +131,10 @@
     <string name="error_upload_img">Error at upload image</string>
     <string name="loading">Loading...</string>
     <string name="forums_name_exists">That forum\'s name allready exists</string>
+    <string name="search">Search</string>
+    <string name="own">Own</string>
+    <string name="must_select_photo">You must select a photo</string>
+    <string name="empty_list">That list is empty</string>
+    <string name="search_forum">Find a forum</string>
 
 </resources>

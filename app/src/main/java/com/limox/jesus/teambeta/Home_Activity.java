@@ -9,16 +9,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.limox.jesus.teambeta.Adapters.PostArrayAdapter;
-import com.limox.jesus.teambeta.Adapters.PostCursorAdapter;
+import com.limox.jesus.teambeta.Adapters.ArrayAdapter.PostArrayAdapter;
 import com.limox.jesus.teambeta.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.teambeta.Fragments.Home.HomeDashPosts_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.Utils.NavDrawerUtils;
+import com.limox.jesus.teambeta.Utils.UIUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.sephiroth.android.library.picasso.Picasso;
@@ -31,6 +32,7 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
     TextView mTxvUserName;
     NavigationView mNavView;
     NavDrawerUtils navUtils;
+    ImageView ivHeader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,10 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
 
         init();
         initNavView();
+
+        ivHeader = (ImageView) findViewById(R.id.ivHeader);
+
+        UIUtils.loadImage(Home_Activity.this, Users_Repository.get().getCurrentForum().getImgUrl(), ivHeader);
 
         Picasso.with(Home_Activity.this).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mCIVProfileImage);
 

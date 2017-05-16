@@ -12,12 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.limox.jesus.teambeta.Adapters.ProfilePostTabsAdapter;
+import com.limox.jesus.teambeta.Adapters.TabsAdapter.ProfilePostTabsAdapter;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta.Model.User;
 import com.limox.jesus.teambeta.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta.R;
+import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
+import com.limox.jesus.teambeta.Utils.UIUtils;
 
 import it.sephiroth.android.library.picasso.Picasso;
 
@@ -30,6 +32,7 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
     private AppBarLayout mAppbarLayout;
     private ProfilePostTabsAdapter mAdapter;
     private ImageView mIvwBack;
+    private ImageView mIvBackground;
     private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
 	private boolean mIsAvatarShown = true;
 
@@ -81,6 +84,7 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
         mTabLayout = (TabLayout) rootView.findViewById(R.id.up_tlTabs);
         mViewPager = (ViewPager) rootView.findViewById(R.id.up_vpContainer);
         mIvwBack = (ImageView) rootView.findViewById(R.id.btnBack);
+        mIvBackground = (ImageView) rootView.findViewById(R.id.ivBackground);
 
         return rootView;
     }
@@ -92,6 +96,10 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
         mTabLayout.setupWithViewPager(mViewPager);
         mMaxScrollSize = mAppbarLayout.getTotalScrollRange();
         mAppbarLayout.addOnOffsetChangedListener(this);
+
+        UIUtils.loadImage(getContext(), Users_Repository.get().getCurrentForum().getImgUrl(), mIvBackground);
+        //  UIUtils.loadImage(getContext(), mUser.getProfilePicture(), mIvProfileImage);
+
         mIvwBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

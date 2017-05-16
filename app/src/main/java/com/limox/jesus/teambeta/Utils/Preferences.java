@@ -54,6 +54,8 @@ public class Preferences {
             editor.remove(AllConstants.Keys.Shared.SHARED_USER_EMAIL);
         if (preferences.contains(AllConstants.Keys.Shared.SHARED_USER_PSWRD))
             editor.remove(AllConstants.Keys.Shared.SHARED_USER_PSWRD);
+        if (preferences.contains(AllConstants.Keys.Shared.SHARED_FORUM_ID))
+            editor.remove(AllConstants.Keys.Shared.SHARED_FORUM_ID);
 
         editor.apply();
     }

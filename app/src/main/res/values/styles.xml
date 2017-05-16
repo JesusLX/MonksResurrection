@@ -32,7 +32,7 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
     <style name="TabsLayoutTheme" parent="AlertDialog.AppCompat">
-        <item name="android:background">@color/tabs_bg</item>
+        <item name="android:background">@color/toolbarColorBg</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="tabSelectedTextColor">@android:color/black</item>
 

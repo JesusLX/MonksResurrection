@@ -10,8 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.limox.jesus.teambeta.Adapters.ForumsListRecyclerAdapter;
+import com.limox.jesus.teambeta.Adapters.RecyclerView.ForumsListRecyclerAdapter;
 import com.limox.jesus.teambeta.Interfaces.ForumsListManagerPresenter;
 import com.limox.jesus.teambeta.Model.Forum;
 import com.limox.jesus.teambeta.Presenter.ForumsListManagerPresenterImpl;
@@ -25,14 +26,25 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
 
     private RecyclerView rvForums;
     private Toolbar mToolbar;
+    private TextView mTxvTtile;
+
+    private static int listType;
 
     private ForumsListRecyclerAdapter mAdapter;
     private ForumsListManagerPresenter mPresenter;
     private OnForumsListFragmentListener mCallback;
 
+    private static ForumsListFragment mInstance;
 
     public ForumsListFragment() {
         // Required empty public constructor
+    }
+
+    public static ForumsListFragment getInstance(int list) {
+        //if(mInstance==null)
+        mInstance = new ForumsListFragment();
+        listType = list;
+        return mInstance;
     }
 
     @Override
@@ -40,7 +52,17 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
         super.onCreate(savedInstanceState);
         mAdapter = new ForumsListRecyclerAdapter(getContext(), new ArrayList<Forum>(), this);
         mPresenter = new ForumsListManagerPresenterImpl(this);
-        mPresenter.searchForums(Users_Repository.get().getCurrentUser().getForumsWIParticipates());
+        switch (listType) {
+            case Forum.PARTAKER:
+                mPresenter.searchForums(Users_Repository.get().getCurrentUser().getForumsWIParticipate());
+                break;
+            case Forum.ADMIN:
+                mPresenter.searchForums(Users_Repository.get().getCurrentUser().getForumsAdmin());
+                break;
+            case Forum.OWN:
+                mPresenter.searchForums(Users_Repository.get().getCurrentUser().getForumsOwn());
+                break;
+        }
     }
 
     @Override
@@ -50,6 +72,7 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
         View rootView = inflater.inflate(R.layout.fragment_forums_list, container, false);
         rvForums = (RecyclerView) rootView.findViewById(R.id.fl_rvForums);
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        mTxvTtile = (TextView) rootView.findViewById(R.id.toolbar_title);
 
         return rootView;
     }
@@ -57,7 +80,7 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mToolbar.setTitle(R.string.select_forum);
+        mTxvTtile.setText(R.string.select_forum);
         rvForums.setAdapter(mAdapter);
         rvForums.setLayoutManager(new GridLayoutManager(getContext(), 2));
     }
@@ -89,6 +112,7 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
         if (forum == null) {
             mAdapter.add(new Forum());
         } else {
+            if (!mAdapter.contains(forum))
             if (mAdapter.getItemCount() >= 1) {
                 mAdapter.add(forum, mAdapter.getItemCount() - 1);
             } else {
