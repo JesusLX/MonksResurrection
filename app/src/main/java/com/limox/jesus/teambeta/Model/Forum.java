@@ -1,5 +1,13 @@
 package com.limox.jesus.teambeta.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.limox.jesus.teambeta.db.APIConstants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Date;
@@ -9,7 +17,7 @@ import java.util.List;
  * Created by Jesus on 26/04/2017.
  */
 
-public class Forum {
+public class Forum implements Parcelable {
 
     public static final int OWN = 1;
     public static final int ADMIN = 2;
@@ -24,6 +32,7 @@ public class Forum {
     private String description;
     private Date creationDate;
     private List<String> tags;
+    private boolean deleted;
 
     public Forum() {
     }
@@ -37,7 +46,32 @@ public class Forum {
         this.description = description;
         this.tags = tags;
         this.creationDate = new Date();
+        this.deleted = false;
     }
+
+    protected Forum(Parcel in) {
+        key = in.readString();
+        name = in.readString();
+        imgUrl = in.readString();
+        ownerId = in.readString();
+        usersKey = in.readString();
+        adminsKey = in.readString();
+        description = in.readString();
+        tags = in.createStringArrayList();
+        deleted = in.readByte() != 0;
+    }
+
+    public static final Creator<Forum> CREATOR = new Creator<Forum>() {
+        @Override
+        public Forum createFromParcel(Parcel in) {
+            return new Forum(in);
+        }
+
+        @Override
+        public Forum[] newArray(int size) {
+            return new Forum[size];
+        }
+    };
 
     public String getKey() {
         return key;
@@ -115,5 +149,65 @@ public class Forum {
     @Override
     public boolean equals(Object obj) {
         return this.getKey().equals(((Forum) obj).getKey());
+    }
+
+    public static Forum fromJSON(String response) {
+        Forum forum = new Forum();
+        try {
+            JSONObject jsonForum = new JSONObject(response);
+            forum = fromJSON(jsonForum);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            forum = null;
+        }
+        return forum;
+    }
+
+    public static Forum fromJSON(JSONObject jsonForum) {
+        Forum forum = new Forum();
+        forum.setKey(jsonForum.optString(APIConstants.Forums.FORUM_KEY));
+        forum.setName(jsonForum.optString(APIConstants.Forums.FORUM_NAME));
+        forum.setAdminsKey(jsonForum.optString(APIConstants.Forums.FORUM_ADM_KEY));
+        forum.setUsersKey(jsonForum.optString(APIConstants.Forums.FORUM_USR_KEY));
+        forum.setCreationDate(new Date(jsonForum.optLong(APIConstants.Forums.FORUM_CREATION_D)));
+        forum.setDeleted(jsonForum.optBoolean(APIConstants.Forums.FORUM_DELETED));
+        forum.setImgUrl(jsonForum.optString(APIConstants.Forums.FORUM_IMG_URL));
+        forum.setOwnerId(jsonForum.optString(APIConstants.Forums.FORUM_OWNER_ID));
+
+        return forum;
+    }
+
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(key);
+        dest.writeString(name);
+        dest.writeString(imgUrl);
+        dest.writeString(ownerId);
+        dest.writeString(usersKey);
+        dest.writeString(adminsKey);
+        dest.writeString(description);
+        dest.writeStringList(tags);
+        dest.writeByte((byte) (deleted ? 1 : 0));
+    }
+
+    public String getShortedDescription() {
+        int maxLength = 30;
+        if (description != null && description.length() > maxLength) {
+            return description.substring(0, maxLength - 30).concat("...");
+        } else
+            return getDescription();
     }
 }

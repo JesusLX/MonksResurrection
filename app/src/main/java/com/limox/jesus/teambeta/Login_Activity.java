@@ -20,10 +20,11 @@ import com.limox.jesus.teambeta.Model.User;
 import com.limox.jesus.teambeta.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.Preferences;
+import com.limox.jesus.teambeta.Utils.UIUtils;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
 
-public class Login_Activity extends AppCompatActivity implements UserManagerPresenter.View{
+public class Login_Activity extends AppCompatActivity implements UserManagerPresenter.View {
 
     private TextView mTxvSignUp;
     private TextView mTxvFP;
@@ -58,7 +59,7 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
 
     }
 
-    private void initializeClickListener(){
+    private void initializeClickListener() {
         mClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,32 +83,35 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
         mUserName = mEdtUserName.getText().toString().trim();
         mPassword = mEdtPassword.getText().toString().trim();
 
-        FirebaseContract.User.loginUser(mUserName, mPassword, Login_Activity.this, this, new FirebaseContract.FirebaseUserCallback() {
-            @Override
-            public void onUserObtained(String idUser) {
-                mPresenter.getUser(idUser);
-            }
+        if (!mUserName.isEmpty() && !mPassword.isEmpty()) {
+            FirebaseContract.User.loginUser(mUserName, mPassword, Login_Activity.this, this, new FirebaseContract.FirebaseUserCallback() {
+                @Override
+                public void onUserObtained(String idUser) {
+                    mPresenter.getUser(idUser);
+                }
 
-            @Override
-            public void onUnsuccessful(Task<AuthResult> task) {
-                mEdtPassword.setError(getString(R.string.wrong_user_or_password));
-            }
-        });
+                @Override
+                public void onUnsuccessful(Task<AuthResult> task) {
+                    mEdtPassword.setError(getString(R.string.wrong_user_or_password));
+                }
+            });
 
-        // check if the user introduced exists
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(mUserName, mPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    mPresenter.getUser(task.getResult().getUser().getUid());
+            // check if the user introduced exists
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(mUserName, mPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        mPresenter.getUser(task.getResult().getUser().getUid());
                     /*User user = FirebaseContract.User.getUser(task.getResult().getUser());
                     Users_Repository.get().setCurrentUser(user);
 
                     Preferences.setCurrentUser(user.getIdUser(), mUserName,mPassword,Login_Activity.this);*/
+                    }
                 }
-            }
-        });
-
+            });
+        } else {
+            UIUtils.snackBar(mEdtPassword, getString(R.string.fill_all));
+        }
         //mPresenter.getUser(mUserName, mPassword);
     }
 

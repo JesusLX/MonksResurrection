@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
     <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -40,7 +41,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".PostView_Activity" />
-        <activity android:name=".SelectProject_Activity" />
+        <activity
+            android:name=".SelectProject_Activity"
+            android:screenOrientation="locked" />
     </application>
 
 </manifest>

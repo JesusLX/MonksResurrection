@@ -1,6 +1,5 @@
 package com.limox.jesus.teambeta.Adapters.RecyclerView;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,13 +33,15 @@ public class TagsRecyclerAdapter extends RecyclerView.Adapter<TagsRecyclerAdapte
     public TagsRecyclerAdapter(ArrayList<String> tags, OnTagsViewHolderListener listener) {
 
         this.mTags = tags;
+        if (tags == null)
+            this.mTags = new ArrayList<>();
         mCallback = listener;
     }
 
     @Override
     public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Here whe create the viewHolder, we take the collapsed post card
-        View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tag, parent, false);
+        View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search, parent, false);
 
         return new PostViewHolder(item);
     }

@@ -7,11 +7,11 @@ import java.util.Date;
  */
 
 public class Commentary {
-    int mIdCommentary;
-    int mIdPost;
-    int mIdUser;
-    boolean mDeleted;
-    Date mCreationDate;
-    String mContent;
+    private int mIdCommentary;
+    private int mIdPost;
+    private int mIdUser;
+    private boolean mDeleted;
+    private Date mCreationDate;
+    private String mContent;
 
 }

@@ -28,8 +28,16 @@ public class ForumsListRecyclerAdapter extends RecyclerView.Adapter<ForumsListRe
         return this.forums.contains(forum);
     }
 
+    public void addAll(ArrayList<Forum> forums) {
+        if (this.forums == null)
+            this.forums = new ArrayList<>();
+        this.forums.clear();
+        this.forums.addAll(forums);
+        notifyDataSetChanged();
+    }
+
     public interface ForumsListRecyclerAdapterListener {
-        void onItemClicked(Forum forum);
+        void onForumClicked(Forum forum);
     }
 
     public ForumsListRecyclerAdapter(Context context, ArrayList<Forum> forums, ForumsListRecyclerAdapterListener listener) {
@@ -51,7 +59,7 @@ public class ForumsListRecyclerAdapter extends RecyclerView.Adapter<ForumsListRe
             holder.txvTitle.setText(forums.get(position).getName());
         } else {
             holder.ivLogo.setImageDrawable(context.getDrawable(R.drawable.ic_action_add));
-            holder.txvTitle.setText(context.getString(R.string.add_new));
+            holder.txvTitle.setText(forums.get(position).getName());
         }
     }
 
@@ -90,7 +98,7 @@ public class ForumsListRecyclerAdapter extends RecyclerView.Adapter<ForumsListRe
             rlContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mCallback.onItemClicked(forum);
+                    mCallback.onForumClicked(forum);
                 }
             });
         }

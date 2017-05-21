@@ -3,6 +3,8 @@ package com.limox.jesus.teambeta.Interfaces;
 import android.content.Context;
 import android.view.View;
 
+import com.limox.jesus.teambeta.Model.Forum;
+
 import java.util.ArrayList;
 
 /**
@@ -15,10 +17,14 @@ public interface SearchManager {
     void searchForums(String tag);
 
     interface View {
-        void onTagsFound(ArrayList<String> tags);
+        void onNamesFound(ArrayList<String> tags);
 
         Context getContext();
 
         android.view.View getView();
+
+        void onError();
+
+        void onForumsFound(ArrayList<Forum> forums);
     }
 }

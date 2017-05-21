@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.limox.jesus.teambeta"
         minSdkVersion 21
-        targetSdkVersion 23
+        targetSdkVersion 25
         vectorDrawables.useSupportLibrary = true
         versionCode 1
         versionName "1.0"
@@ -42,5 +42,7 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:9.6.1'
     compile 'com.firebaseui:firebase-ui-auth:0.6.0'
     compile 'com.google.firebase:firebase-storage:9.6.1'
+    compile 'pub.devrel:easypermissions:0.2.1'
+    compile 'com.android.volley:volley:1.0.0'
     testCompile 'junit:junit:4.12'
 }

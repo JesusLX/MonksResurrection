@@ -4,7 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -12,6 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta.Model.User;
 import com.limox.jesus.teambeta.Provider.TeamBetaContract;
+import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
@@ -35,6 +39,9 @@ public class UserManagerPresenterImpl implements UserManagerPresenter {
         this.context = view.getContext();
     }
 
+    public UserManagerPresenterImpl() {
+    }
+
 
 
     @Override
@@ -42,7 +49,7 @@ public class UserManagerPresenterImpl implements UserManagerPresenter {
         selection = getUserById;
         Bundle b = new Bundle();
         b.putString(AllConstants.Keys.SimpleBundle.ID_USER_KEY, idUser);
-        FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(idUser).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 view.onUserObtained(FirebaseContract.User.getUser(dataSnapshot));
@@ -59,6 +66,21 @@ public class UserManagerPresenterImpl implements UserManagerPresenter {
     @Override
     public void getUser(String mUserName, String mPassword) {
 
+    }
+
+    @Override
+    public void aggregateForum(String forumKey, final boolean admin, final ManagerView managerView) {
+        (admin ? FirebaseContract.User.addForumAdmin(forumKey) : FirebaseContract.User.addForumParticipate(forumKey)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                managerView.onForumAggregated(admin);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                managerView.onError();
+            }
+        });
     }
 
 

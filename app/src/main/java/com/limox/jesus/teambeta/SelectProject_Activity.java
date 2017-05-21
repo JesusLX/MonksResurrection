@@ -10,13 +10,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.limox.jesus.teambeta.Fragments.Forums.CreateForumFragment;
+import com.limox.jesus.teambeta.Fragments.Forums.ForumViewFragment;
 import com.limox.jesus.teambeta.Fragments.Forums.ForumsListFragment;
 import com.limox.jesus.teambeta.Fragments.Forums.SearchFragment;
+import com.limox.jesus.teambeta.Fragments.Settings.StartSettings_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
 import com.limox.jesus.teambeta.Model.Forum;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 
-public class SelectProject_Activity extends AppCompatActivity implements HomeOfFragments, CreateForumFragment.OnFragmentInteractionListener, ForumsListFragment.OnForumsListFragmentListener {
+public class SelectProject_Activity extends AppCompatActivity implements HomeOfFragments, CreateForumFragment.OnFragmentInteractionListener, ForumsListFragment.OnForumsListFragmentListener, ForumViewFragment.OnForumViewFragmentListener {
 
     BottomNavigationView mBottomNav;
 
@@ -25,32 +27,34 @@ public class SelectProject_Activity extends AppCompatActivity implements HomeOfF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_project);
         mBottomNav = (BottomNavigationView) findViewById(R.id.botton_nav);
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             startForumsListFragment(Forum.PARTAKER, String.valueOf(Forum.PARTAKER));
-            mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.action_list:
-                            startForumsListFragment(Forum.PARTAKER, String.valueOf(Forum.PARTAKER));
-                            break;
-                        case R.id.action_owned_forums:
-                            startForumsListFragment(Forum.OWN, String.valueOf(Forum.OWN));
-                            break;
-                        case R.id.action_owned_admins:
-                            startForumsListFragment(Forum.ADMIN, String.valueOf(Forum.ADMIN));
-                            break;
-                        case R.id.action_search:
-                            startSearchFragment();
-                            break;
-                        case R.id.action_profile:
-                            break;
-                    }
-                    return true;
-                }
-            });
         }
+        mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_list:
+                        startForumsListFragment(Forum.PARTAKER, String.valueOf(Forum.PARTAKER));
+                        break;
+                    case R.id.action_owned_forums:
+                        startForumsListFragment(Forum.OWN, String.valueOf(Forum.OWN));
+                        break;
+                    case R.id.action_owned_admins:
+                        startForumsListFragment(Forum.ADMIN, String.valueOf(Forum.ADMIN));
+                        break;
+                    case R.id.action_search:
+                        startSearchFragment();
+                        break;
+                    case R.id.action_profile:
+                        startActivity(new Intent(SelectProject_Activity.this, Settings_Activity.class));
+                        break;
+                }
+                return true;
+            }
+        });
     }
+
 
     @Override
     public void startFragment(Fragment fragment, boolean addStack, String tag) {
@@ -70,6 +74,13 @@ public class SelectProject_Activity extends AppCompatActivity implements HomeOfF
     @Override
     public void startHomeFragment() {
         startActivity(new Intent(SelectProject_Activity.this, Home_Activity.class));
+        finish();
+    }
+
+    @Override
+    public void startViewForum(Bundle forum) {
+        startFragment(ForumViewFragment.newInstance(forum), false, AllConstants.FragmentTag.FragmentView);
+        mBottomNav.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -84,12 +95,13 @@ public class SelectProject_Activity extends AppCompatActivity implements HomeOfF
     }
 
     public void startSearchFragment() {
-        startFragment(SearchFragment.getInstance(), false, AllConstants.FragmentTag.ProjSearchTag);
+        startFragment(SearchFragment.getInstance(), true, AllConstants.FragmentTag.ProjSearchTag);
         mBottomNav.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onBackPressed() {
+        mBottomNav.setVisibility(View.INVISIBLE);
         if (getSupportFragmentManager().getBackStackEntryCount() <= 1)
             finish();
         else

@@ -3,17 +3,21 @@ package com.limox.jesus.teambeta.db;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.limox.jesus.teambeta.Interfaces.ApiCallbacks;
 import com.limox.jesus.teambeta.Model.Post;
+import com.limox.jesus.teambeta.Model.User;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.Preferences;
 
@@ -35,8 +39,8 @@ public class FirebaseContract {
 
         private static final String NODE_FAV_POSTS = "postsLiked";
 
-        public static void postUser(String id, com.limox.jesus.teambeta.Model.User user) {
-            FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(id).setValue(user);
+        public static void postUser(String id, com.limox.jesus.teambeta.Model.User user, OnSuccessListener successListener) {
+            FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(id).setValue(user).addOnSuccessListener(successListener);
         }
 
         public static final String NODE_ID = "id";
@@ -49,12 +53,14 @@ public class FirebaseContract {
         public static final String NODE_DELETED = "deleted";
         public static final String NODE_BLOCKED = "bloqued";
         public static final String NODE_FORUMS_OWN = "forumsOwn";
-        private static final String NODE_FORUMS_PARTICIPATE = "forumsWIParticipate";
+        public static final String NODE_FORUMS_PARTICIPATE = "forumsWIParticipate";
         public static final String NODE_FORUMS_ADMIN = "forumsAdmin";
         public static final String NODE_LIKED_POSTS = "likedPosts";
 
         public static com.limox.jesus.teambeta.Model.User getUser(DataSnapshot user) {
+
             com.limox.jesus.teambeta.Model.User tmp = user.getValue(com.limox.jesus.teambeta.Model.User.class);
+            //com.limox.jesus.teambeta.Model.User.fromJSON(user.getValue().toString());
             tmp.setIdUser(user.getKey());
             //tmp.setIdUser(user.getKey());
           /*  tmp.setEmail(user.getEmail());
@@ -79,16 +85,16 @@ public class FirebaseContract {
             });
         }
 
-        public static void addForumOwn(String forumKey) {
-            FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(Users_Repository.get().getCurrentUser().getIdUser()).child(NODE_FORUMS_OWN).setValue(Users_Repository.get().getCurrentUser().getForumsOwn());
+        public static Task<Void> addForumOwn(String forumKey) {
+            return FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(Users_Repository.get().getCurrentUser().getIdUser()).child(NODE_FORUMS_OWN).setValue(Users_Repository.get().getCurrentUser().getForumsOwn());
         }
 
-        public static void addForumParticipate(String forumKey) {
-            FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(Users_Repository.get().getCurrentUser().getIdUser()).child(NODE_FORUMS_PARTICIPATE).setValue(Users_Repository.get().getCurrentUser().getForumsWIParticipate());
+        public static Task<Void> addForumParticipate(String forumKey) {
+            return FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(Users_Repository.get().getCurrentUser().getIdUser()).child(NODE_FORUMS_PARTICIPATE).setValue(Users_Repository.get().getCurrentUser().getForumsWIParticipate());
         }
 
-        public static void addForumAdmin(String forumKey) {
-            FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(Users_Repository.get().getCurrentUser().getIdUser()).child(NODE_FORUMS_ADMIN).setValue(Users_Repository.get().getCurrentUser().getForumsAdmin());
+        public static Task<Void> addForumAdmin(String forumKey) {
+            return FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(Users_Repository.get().getCurrentUser().getIdUser()).child(NODE_FORUMS_ADMIN).setValue(Users_Repository.get().getCurrentUser().getForumsAdmin());
         }
 
         public static void addFavPost(String idPost) {
@@ -157,26 +163,18 @@ public class FirebaseContract {
 
     public static class Forums {
         public static final String ROOT_NODE = "forum";
-        public static final String NODE_TAGS = "tags";
-        public static final String NODE_NAME = "name";
+        public static final String NODE_DESCRIPTION = "description";
 
         public static void optForum(final String idForum, ValueEventListener valueEventListener) {
             FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(idForum).addValueEventListener(valueEventListener);
         }
 
-        public static void getTags(String tags, ValueEventListener listener) {
+        public static void getDescription(String key, ChildEventListener listener) {
             FirebaseDatabase.getInstance().getReference().
                     child(ROOT_NODE).
-                    orderByChild(NODE_TAGS).
-                    startAt(tags).
-                    addListenerForSingleValueEvent(listener);
-        }
-
-        public static void getForums(String tag, ValueEventListener listener) {
-            FirebaseDatabase.getInstance().getReference().
-                    child(ROOT_NODE).
-                    orderByChild(NODE_TAGS).orderByChild(tag).
-                    addListenerForSingleValueEvent(listener);
+                    child(key).
+                    child(NODE_DESCRIPTION).
+                    addChildEventListener(listener);
         }
     }
 }

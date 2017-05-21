@@ -15,7 +15,7 @@ public class Settings_Activity extends AppCompatActivity implements HomeOfFragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.limox.jesus.teambeta.R.layout.activity_settings);
+        setContentView(R.layout.activity_settings);
 
         if (savedInstanceState == null){
             startStartSettingsFragment();
@@ -32,7 +32,7 @@ public class Settings_Activity extends AppCompatActivity implements HomeOfFragme
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (addStack)
             ft.addToBackStack(null);
-        ft.replace(com.limox.jesus.teambeta.R.id.activity_settings, mCurrentFragment,tag);
+        ft.replace(R.id.activity_settings, mCurrentFragment, tag);
         ft.commit();
     }
 
@@ -70,10 +70,13 @@ public class Settings_Activity extends AppCompatActivity implements HomeOfFragme
 
     @Override
     public void logOut() {
+
         Preferences.removeCurrentUser(Settings_Activity.this);
         Intent i = getBaseContext().getPackageManager()
                 .getLaunchIntentForPackage(getBaseContext().getPackageName());
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        finish();
         startActivity(i);
+
     }
 }

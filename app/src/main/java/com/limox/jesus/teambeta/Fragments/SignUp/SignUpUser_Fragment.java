@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,6 +61,7 @@ public class SignUpUser_Fragment extends Fragment implements UserManagerPresente
     @Override
     public void onUserObtained(User tryUser) {
         Users_Repository.get().setCurrentUser(tryUser);
+        mCallback.startSelectProjectActivity();
 
     }
 
@@ -116,7 +118,7 @@ public class SignUpUser_Fragment extends Fragment implements UserManagerPresente
                     mAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                 @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                public void onComplete(@NonNull final Task<AuthResult> task) {
 
                                     // If sign in fails, display a message to the user. If sign in succeeds
                                     // the auth state listener will be notified and logic to handle the
@@ -125,9 +127,14 @@ public class SignUpUser_Fragment extends Fragment implements UserManagerPresente
                                         Toast.makeText(getContext(), R.string.auth_failed,
                                                 Toast.LENGTH_SHORT).show();
                                     } else {
-                                        FirebaseContract.User.postUser(task.getResult().getUser().getUid(), new User(name, email));
-                                        Preferences.setCurrentUser(task.getResult().getUser().getUid(), name, password, getContext());
-                                        mCallback.startSelectProjectActivity();
+                                        FirebaseContract.User.postUser(task.getResult().getUser().getUid(), new User(name, email), new OnSuccessListener() {
+                                            @Override
+                                            public void onSuccess(Object o) {
+                                                Preferences.setCurrentUser(task.getResult().getUser().getUid(), name, password, getContext());
+                                                mPresenter.getUser(task.getResult().getUser().getUid());
+                                            }
+                                        });
+
                                     }
 
                                 }

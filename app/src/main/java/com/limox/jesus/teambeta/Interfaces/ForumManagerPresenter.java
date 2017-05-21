@@ -3,6 +3,7 @@ package com.limox.jesus.teambeta.Interfaces;
 import android.content.Context;
 import android.net.Uri;
 
+import com.android.volley.Response;
 import com.google.firebase.database.ValueEventListener;
 import com.limox.jesus.teambeta.Model.Forum;
 
@@ -15,7 +16,7 @@ public interface ForumManagerPresenter {
 
     void uploadPhoto(Uri file, String folderName, String fileName);
 
-    void existsForum(String forumsName, ValueEventListener valueEventListener);
+    void existsForum(String forumsName, Response.Listener<String> valueEventListener);
 
     interface View {
         void onForumCreated(String forumKey);
@@ -27,5 +28,8 @@ public interface ForumManagerPresenter {
         void onImageUploaded(Uri downloadUrl);
 
         void onImageFailed();
+
+        void onError();
     }
+
 }

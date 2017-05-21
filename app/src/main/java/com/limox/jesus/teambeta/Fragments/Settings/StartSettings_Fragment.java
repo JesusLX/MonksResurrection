@@ -7,10 +7,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.limox.jesus.teambeta.R;
+import com.limox.jesus.teambeta.Utils.Preferences;
 
 
 public class StartSettings_Fragment extends Fragment {
@@ -28,6 +31,7 @@ public class StartSettings_Fragment extends Fragment {
     private TextView txvMonskHelperCenter;
     private TextView txvReportProblem;
     private TextView txvLogOut;
+    private Switch sNotifications;
 
 
     @Override
@@ -49,6 +53,7 @@ public class StartSettings_Fragment extends Fragment {
         txvMonskHelperCenter = (TextView) rootView.findViewById(R.id.ss_txvMonkHelper);
         txvReportProblem = (TextView) rootView.findViewById(R.id.ss_txvReportProblem);
         txvLogOut = (TextView) rootView.findViewById(R.id.ss_txvLogOut);
+        sNotifications = (Switch) rootView.findViewById(R.id.ss_sNotifications);
         return rootView;
     }
 
@@ -66,6 +71,16 @@ public class StartSettings_Fragment extends Fragment {
         txvMonskHelperCenter.setOnClickListener(mOnClickListener);
         txvReportProblem.setOnClickListener(mOnClickListener);
         txvLogOut.setOnClickListener(mOnClickListener);
+        sNotifications.setChecked(Preferences.getNotifications(getContext()));
+        sNotifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Preferences.activateNotifications(getContext());
+                } else
+                    Preferences.removeNotifications(getContext());
+            }
+        });
 
     }
 

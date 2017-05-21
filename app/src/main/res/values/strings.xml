@@ -36,7 +36,7 @@
     <string name="tags_separated_by_comma">Tags, separated, by, comma</string>
     <string name="description">Description</string>
     <string name="title">Title</string>
-    <string name="text_about_application">This application is a support application for the game Mon\'s Resurrection of this business, here you can help us to update our game, you also can read the story of the game and know more about his world.</string>
+    <string name="text_about_application">TeamBeta is a forum application for developers and testers.</string>
     <string name="business_web" translatable="false">https://jesuslx.ncatz.com</string>
     <string name="business_name" translatable="false">nCatz</string>
     <string name="business">Business:</string>
@@ -85,7 +85,7 @@
     <string name="reset_password">Reset password</string>
     <string name="posts_liked">Posts You\'ve Liked</string>
     <string name="language">Language</string>
-    <string name="monks_help_center">Monk\'s Help Center</string>
+    <string name="monks_help_center">TeamBETA Help Center</string>
     <string name="report_problem">Report a Problem</string>
     <string name="log_out">Log Out</string>
     <string name="log_out_of">Log Out of</string>
@@ -96,11 +96,11 @@
     <string name="o_separator" translatable="false">O</string>
     <string name="sign_up">Sign Up</string>
     <string name="userprofilebg_description">Background for the user profile picture</string>
-    <string name="empty" />
+    <string name="empty" translatable="false" />
     <string name="points">Puntos</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
     <string name="send">Send</string>
     <string name="message_error_must_fill">You must fill all</string>
@@ -118,11 +118,12 @@
     <string name="auth_failed">Error at auth</string>
     <string name="email_already_exits">That email is already registred</string>
     <string name="connection_error">Error with the conexion</string>
-    <string name="wrong_user_or_password">Wrong user or password</string>
+    <string name="wrong_user_or_password">Wrong email or password</string>
     <string name="forums">Forums</string>
-    <string name="add_new">Add new</string>
+    <string name="add_new_f">Create new forum</string>
+    <string name="search_new_f">Add forum</string>
     <string name="create_forum">Create new forum</string>
-    <string name="select_forum">Seleccionar foro</string>
+    <string name="select_forum">Select forum</string>
     <string name="admins_key">Admins Key</string>
     <string name="tags">Tags</string>
     <string name="logo">Logo</string>
@@ -130,11 +131,20 @@
     <string name="users_key">User\'s key</string>
     <string name="error_upload_img">Error at upload image</string>
     <string name="loading">Loading...</string>
-    <string name="forums_name_exists">That forum\'s name allready exists</string>
+    <string name="forums_name_exists">That forum\'s name allready exists.</string>
     <string name="search">Search</string>
-    <string name="own">Own</string>
+    <string name="own">My Forums</string>
     <string name="must_select_photo">You must select a photo</string>
     <string name="empty_list">That list is empty</string>
     <string name="search_forum">Find a forum</string>
+    <string name="access_like_user">Access like User</string>
+    <string name="access_like_admin">Access like Admin</string>
+    <string name="user">User</string>
+    <string name="admin">Admin</string>
+    <string name="access">Access</string>
+    <string name="access_like_msg">You are about to become a member of this forum as % s, you just need to enter the correct password:</string>
+    <string name="internal_error">Internal error</string>
+    <string name="action_settings">Settings</string>
+    <string name="fill_all">Fill all pls</string>
 
 </resources>

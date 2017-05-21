@@ -45,7 +45,6 @@
             android:layout_below="@+id/crp_EdtPostTitle"
             android:hint="@string/description"
             android:inputType="textMultiLine"
-            android:maxLength="255"
             android:background="@android:color/transparent"
             android:textColorHint="@android:color/darker_gray" />
 

@@ -1,0 +1,111 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.limox.jesus.teambeta.Fragments.Forums.ForumViewFragment">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/toolbarColorBg" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <RelativeLayout
+                android:id="@+id/fv_rlLogo"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/darker_gray">
+
+                <ImageView
+                    android:id="@+id/fv_ivLogo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:background="@android:color/white"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_action_add_photo" />
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/fv_txvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fv_rlLogo"
+                android:layout_centerHorizontal="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:lines="1"
+                android:textColor="@android:color/black"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fv_txvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fv_txvName"
+                android:layout_centerHorizontal="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:maxLines="5" />
+
+            <LinearLayout
+                android:id="@+id/llButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fv_txvDescription"
+                android:layout_marginTop="@dimen/fav_margin"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/fv_btnAccLUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/access_like_user" />
+
+                <Button
+                    android:id="@+id/fv_btnAccLAdmin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/access_like_admin" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/fv_btnAcc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fv_txvDescription"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/fav_margin"
+                android:text="@string/access"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/fv_btnEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fv_txvDescription"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/fav_margin"
+                android:text="@string/action_edit"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

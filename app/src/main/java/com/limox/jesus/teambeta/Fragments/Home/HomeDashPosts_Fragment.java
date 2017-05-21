@@ -132,14 +132,14 @@ public class HomeDashPosts_Fragment extends Fragment  {
                 mTxvCurrentTab.setText(mAdapter.getTitles()[tab.getPosition()]);
 
                 //mTxvCurrentTab.setText(mAdapter.getPageTitle(mAdapter.getItemPosition(tab)));
-                tab.getIcon().setColorFilter(getContext().getResources().getColor(R.color.tabIndicatorColor), PorterDuff.Mode.SRC_IN);
+                //   tab.getIcon().setColorFilter(getContext().getResources().getColor(R.color.tabIndicatorColor), PorterDuff.Mode.SRC_IN);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 super.onTabUnselected(tab);
                 tab.getIcon().setColorFilter(getContext().getResources().getColor(R.color.tabUnSelectColor), PorterDuff.Mode.SRC_IN);
-            }
+            }//
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -147,7 +147,7 @@ public class HomeDashPosts_Fragment extends Fragment  {
             }
         });
         mTxvCurrentTab.setText(mAdapter.getTitles()[0]);
-        mTabLayout.getTabAt(mTabLayout.getSelectedTabPosition()).getIcon().setColorFilter(getContext().getResources().getColor(R.color.tabIndicatorColor), PorterDuff.Mode.SRC_IN);
+        // mTabLayout.getTabAt(mTabLayout.getSelectedTabPosition()).getIcon().setColorFilter(getContext().getResources().getColor(R.color.tabIndicatorColor), PorterDuff.Mode.SRC_IN);
     }
 
     @Override

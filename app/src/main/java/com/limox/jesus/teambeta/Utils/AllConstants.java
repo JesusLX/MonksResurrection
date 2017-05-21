@@ -55,6 +55,7 @@ public final class AllConstants {
             public static final String CURSOR_POSITION = "position";
             public static final String POST_CREATION_DATE = "date";
             public static final String FORUMS_KEY = "fkey";
+            public static final String FORUM = "forum";
         }
 
         /**
@@ -62,10 +63,12 @@ public final class AllConstants {
          */
         public class Shared{
             public static final String SHARED_USER_FILE = "usr_file";
+            public static final String SHARED_SETTINGS_FILE = "sett_file";
             public static final String SHARED_USER_EMAIL = "current_usr_email";
             public static final String SHARED_USER_PSWRD = "current_usr_pw";
             public static final String SHARED_USER_ID = "current_usr_id";
             public static final String SHARED_FORUM_ID = "forum_id";
+            public static final String SHARED_NOTIFICATIONS = "notifications_active";
         }
 
         public class SimpleBundle {
@@ -96,6 +99,7 @@ public final class AllConstants {
         public static final String ProjListTag ="plt";
         public static final String CreateForum = "cf";
         public static final String ProjSearchTag = "ps";
+        public static final String FragmentView = "fv";
     }
 
     public class Notifications {

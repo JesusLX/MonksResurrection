@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.limox.jesus.teambeta.Adapters.RecyclerView.ForumsListRecyclerAdapter;
@@ -26,7 +27,8 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
 
     private RecyclerView rvForums;
     private Toolbar mToolbar;
-    private TextView mTxvTtile;
+
+    private ProgressBar mProgressB;
 
     private static int listType;
 
@@ -52,6 +54,9 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
         super.onCreate(savedInstanceState);
         mAdapter = new ForumsListRecyclerAdapter(getContext(), new ArrayList<Forum>(), this);
         mPresenter = new ForumsListManagerPresenterImpl(this);
+    }
+
+    private void search() {
         switch (listType) {
             case Forum.PARTAKER:
                 mPresenter.searchForums(Users_Repository.get().getCurrentUser().getForumsWIParticipate());
@@ -72,7 +77,8 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
         View rootView = inflater.inflate(R.layout.fragment_forums_list, container, false);
         rvForums = (RecyclerView) rootView.findViewById(R.id.fl_rvForums);
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        mTxvTtile = (TextView) rootView.findViewById(R.id.toolbar_title);
+
+        mProgressB = (ProgressBar) rootView.findViewById(R.id.fl_load);
 
         return rootView;
     }
@@ -80,9 +86,23 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mTxvTtile.setText(R.string.select_forum);
+        search();
+
+        mToolbar.setTitle(R.string.select_forum);
+        switch (listType) {
+            case Forum.PARTAKER:
+                mToolbar.setNavigationIcon(R.drawable.ic_action_forums);
+                break;
+            case Forum.ADMIN:
+                mToolbar.setNavigationIcon(R.drawable.ic_action_admin);
+                break;
+            case Forum.OWN:
+                mToolbar.setNavigationIcon(R.drawable.ic_action_own);
+                break;
+        }
         rvForums.setAdapter(mAdapter);
         rvForums.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        //mProgressB.setP
     }
 
     @Override
@@ -109,26 +129,48 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
 
     @Override
     public void addForum(Forum forum) {
-        if (forum == null) {
-            mAdapter.add(new Forum());
-        } else {
-            if (!mAdapter.contains(forum))
-            if (mAdapter.getItemCount() >= 1) {
-                mAdapter.add(forum, mAdapter.getItemCount() - 1);
+        if (isAdded()) {
+            if (forum == null) {
+                Forum tmp = new Forum();
+                if (listType != Forum.OWN) {
+                    tmp.setName(getString(R.string.search_new_f));
+                } else {
+                    tmp.setName(getString(R.string.add_new_f));
+                }
+                mAdapter.add(tmp);
             } else {
-                mAdapter.add(new Forum());
-                mAdapter.add(forum, mAdapter.getItemCount() - 1);
+                if (!mAdapter.contains(forum))
+                    if (mAdapter.getItemCount() >= 1) {
+                        mAdapter.add(forum, mAdapter.getItemCount() - 1);
+                    } else {
+                        Forum tmp = new Forum();
+                        if (listType != Forum.OWN) {
+                            tmp.setName(getString(R.string.search_new_f));
+                        } else {
+                            tmp.setName(getString(R.string.add_new_f));
+                        }
+                        mAdapter.add(tmp);
+                        mAdapter.add(forum, mAdapter.getItemCount() - 1);
+                    }
             }
+            mProgressB.setVisibility(View.GONE);
+
         }
+
     }
 
     @Override
-    public void onItemClicked(Forum forum) {
+    public void onForumClicked(Forum forum) {
         if (forum.getKey() != null) {
             Users_Repository.get().setCurrentForum(forum);
             mCallback.startHomeFragment();
+
         } else {
-            mCallback.startCreateForumFragment();
+            if (listType == Forum.OWN) {
+                mCallback.startCreateForumFragment();
+            } else {
+                mCallback.startSearchFragment();
+            }
         }
     }
 
@@ -136,5 +178,9 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
         void startCreateForumFragment();
 
         void startHomeFragment();
+
+        void startViewForum(Bundle forum);
+
+        void startSearchFragment();
     }
 }

@@ -4,11 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.TeamBetaApplication;
-import com.limox.jesus.teambeta.db.DatabaseManager;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -29,6 +26,7 @@ public class Preferences {
      * @param context  Context of the application to access to sharedPreferences
      */
     public static void setCurrentUser(String id, String email, String password, Context context) {
+        activateNotifications(context);
         SharedPreferences preferences = context.getSharedPreferences(AllConstants.Keys.Shared.SHARED_USER_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         if (preferences.contains(AllConstants.Keys.Shared.SHARED_USER_ID))
@@ -80,5 +78,28 @@ public class Preferences {
     public static String getSelectedForum() {
         SharedPreferences preferences = TeamBetaApplication.getContext().getSharedPreferences(AllConstants.Keys.Shared.SHARED_USER_FILE, MODE_PRIVATE);
         return preferences.getString(AllConstants.Keys.Shared.SHARED_FORUM_ID, null);
+    }
+
+    public static void activateNotifications(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(AllConstants.Keys.Shared.SHARED_SETTINGS_FILE, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        if (!preferences.contains(AllConstants.Keys.Shared.SHARED_NOTIFICATIONS))
+            editor.putString(AllConstants.Keys.Shared.SHARED_NOTIFICATIONS, AllConstants.Keys.Shared.SHARED_NOTIFICATIONS);
+
+        editor.apply();
+    }
+
+    public static void removeNotifications(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(AllConstants.Keys.Shared.SHARED_SETTINGS_FILE, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        if (preferences.contains(AllConstants.Keys.Shared.SHARED_NOTIFICATIONS))
+            editor.remove(AllConstants.Keys.Shared.SHARED_NOTIFICATIONS);
+
+        editor.apply();
+    }
+
+    public static boolean getNotifications(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(AllConstants.Keys.Shared.SHARED_SETTINGS_FILE, MODE_PRIVATE);
+        return preferences.contains(AllConstants.Keys.Shared.SHARED_NOTIFICATIONS);
     }
 }

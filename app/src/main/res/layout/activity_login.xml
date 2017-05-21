@@ -74,6 +74,8 @@
         android:id="@+id/lgn_btnSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/toolbarColorBg"
+        android:textColor="@android:color/black"
         android:layout_below="@+id/lgn_tilPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/fav_margin"
@@ -86,6 +88,7 @@
         android:layout_below="@+id/lgn_btnSignIn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/fav_margin"
+        android:visibility="invisible"
         android:text="@string/lgn_FP" />
 
 

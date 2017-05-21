@@ -12,7 +12,10 @@ public interface UserManagerPresenter {
     void addUser(User user);
 
     void getUser(String idUser);
+
     void getUser(String mUserName, String mPassword);
+
+    void aggregateForum(String forumKey, boolean admin, final ManagerView managerView);
 
     //void getUser(String idUser);
 
@@ -24,5 +27,13 @@ public interface UserManagerPresenter {
         void onUserCreated();
 
         void onUserObtained(User tryUser);
+    }
+
+    public interface ManagerView {
+        Context getContext();
+
+        void onForumAggregated(boolean admin);
+
+        void onError();
     }
 }

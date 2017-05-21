@@ -36,8 +36,8 @@ public class Post implements Parcelable{
 
     protected Post(Parcel in) {
         mForumsKey = in.readString();
-        mIdPost = in.readString();
-        mIdUser = in.readString();
+        mId = in.readString();
+        mIdOwner = in.readString();
         mIdForum = in.readString();
         mScore = in.readInt();
         mState = in.readInt();
@@ -50,8 +50,8 @@ public class Post implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mForumsKey);
-        dest.writeString(mIdPost);
-        dest.writeString(mIdUser);
+        dest.writeString(mId);
+        dest.writeString(mIdOwner);
         dest.writeString(mIdForum);
         dest.writeInt(mScore);
         dest.writeInt(mState);
@@ -103,8 +103,8 @@ public class Post implements Parcelable{
     public static final int FIXED = 2;
     public static final int ALL = 3;
 
-    private String mIdPost;
-    private String mIdUser;
+    private String mId;
+    private String mIdOwner;
     private String mIdForum;
     private int mScore;
     private int mState;
@@ -115,8 +115,8 @@ public class Post implements Parcelable{
     private Date mCreationDate;
 
     public Post() {
-        this.mIdPost = "";
-        this.mIdUser = "";
+        this.mId = "";
+        this.mIdOwner = "";
         this.mIdForum = "";
         this.mScore = 0;
         this.mState = 0;
@@ -128,8 +128,8 @@ public class Post implements Parcelable{
         this.mCreationDate = null;
     }
 
-    public Post(String mIdUser, String mIdForum, String mTitle, String mDescriptions, String mTags) {
-        this.mIdUser = mIdUser;
+    public Post(String idOwner, String mIdForum, String mTitle, String mDescriptions, String mTags) {
+        this.mIdOwner = idOwner;
         this.mIdForum = mIdForum;
         this.mTitle = mTitle;
         this.mDescription = mDescriptions;
@@ -139,24 +139,24 @@ public class Post implements Parcelable{
         this.mCreationDate = new Date();
     }
 
-    public Post(String mTitle, String mIdForum, String mIdUser, String mDescription, String mTags, String mIdPost) {
+    public Post(String mTitle, String mIdForum, String idOwner, String mDescription, String mTags, String id) {
         this.mTitle = mTitle;
         this.mIdForum = mIdForum;
-        this.mIdUser = mIdUser;
+        this.mIdOwner = idOwner;
         this.mDescription = mDescription;
         this.mTags = mTags;
-        this.mIdPost = mIdPost;
+        this.mId = id;
         this.mState = NOT_PUBLISHED;
         this.mDeleted = false;
         this.mCreationDate = new Date();
     }
 
 
-    public Post(String mIdPost, String mIdForum, String mTitle, String mIdUser, String mDescription, @STATE int state, String mTags) {
-        this.mIdPost = mIdPost;
+    public Post(String id, String mIdForum, String mTitle, String idOwner, String mDescription, @STATE int state, String mTags) {
+        this.mId = id;
         this.mIdForum = mIdForum;
         this.mTitle = mTitle;
-        this.mIdUser = mIdUser;
+        this.mIdOwner = idOwner;
         this.mDescription = mDescription;
         this.mState = state;
         this.mTags = mTags;
@@ -164,8 +164,8 @@ public class Post implements Parcelable{
         this.mDeleted = false;
     }
 
-    public Post(String mIdPost) {
-        this.mIdPost = mIdPost;
+    public Post(String id) {
+        this.mId = id;
     }
 
 
@@ -178,11 +178,11 @@ public class Post implements Parcelable{
     }
 
     public String getIdPost() {
-        return mIdPost;
+        return mId;
     }
 
     public void setIdPost(String mIdPost) {
-        this.mIdPost = mIdPost;
+        this.mId = mIdPost;
     }
 
     public String getTitle() {
@@ -194,11 +194,11 @@ public class Post implements Parcelable{
     }
 
     public String getIdUser() {
-        return mIdUser;
+        return mIdOwner;
     }
 
     public void setIdUser(String mIdUser) {
-        this.mIdUser = mIdUser;
+        this.mIdOwner = mIdUser;
     }
 
     public String getDescription() {
@@ -258,9 +258,9 @@ public class Post implements Parcelable{
     @Override
     public String toString() {
         return "Posts{" +
-                "mIdPost=" + mIdPost +
+                "mId=" + mId +
                 ", mTitle='" + mTitle + '\'' +
-                ", mIdUser=" + mIdUser +
+                ", mIdOwner=" + mIdOwner +
                 ", mDescription='" + mDescription + '\'' +
                 '}';
     }
@@ -272,7 +272,7 @@ public class Post implements Parcelable{
 
         Post post = (Post) o;
 
-        return mIdPost == post.mIdPost;
+        return mId == post.mId;
 
     }
 

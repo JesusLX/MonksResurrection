@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.android.volley.Response;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -28,6 +29,7 @@ import com.limox.jesus.teambeta.Utils.UIUtils;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -106,33 +108,27 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
             }
         });
     }
-
     private void validate(final EditText forumsName, final EditText adminsKey, final EditText userskey) {
         loading = new ProgressDialog(getContext());
-        loading.setTitle(R.string.loading);
+        loading.setMessage(getString(R.string.loading));
+        loading.show();
         if (havImgSelected) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     if (!userskey.getText().toString().isEmpty()) {
-
                         if (!adminsKey.getText().toString().isEmpty()) {
                             if (!forumsName.getText().toString().isEmpty()) {
-                                mPresenter.existsForum(forumsName.getText().toString(), new ValueEventListener() {
+                                mPresenter.existsForum(forumsName.getText().toString(), new Response.Listener<String>() {
                                     @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        if (dataSnapshot.getChildrenCount() == 0) {
+                                    public void onResponse(String response) {
+                                        if (!Boolean.valueOf(response)) {
                                             mPresenter.uploadPhoto(imgSelected, Users_Repository.get().getCurrentUser().getIdUser(), String.valueOf(System.currentTimeMillis()));
                                         } else {
-                                            loading.cancel();
+                                            loading.dismiss();
                                             if (isAdded())
                                                 forumsName.setError(getString(R.string.forums_name_exists));
                                         }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                        loading.cancel();
                                     }
                                 });
                             }
@@ -158,7 +154,7 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
             mCallback = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnForumViewFragmentListener");
         }
     }
 
@@ -178,10 +174,19 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
 
     @Override
     public void onImageUploaded(Uri downloadUrl) {
-        Forum tmpforum = new Forum(mEdtName.getText().toString().trim(), downloadUrl.toString(), Users_Repository.get().getCurrentUser().getIdUser(), mEdtUsersKey.getText().toString().trim(), mEdtAdminsKey.getText().toString().trim(), mEdtDescription.getText().toString(), Arrays.asList(mEdtTags.getText().toString().trim().split(",")));
-        if (!tmpforum.getTags().contains(mEdtName.getText().toString())) {
+        Forum tmpforum = new Forum();
+        tmpforum.setName(mEdtName.getText().toString().trim());
+        tmpforum.setImgUrl(downloadUrl.toString());
+        tmpforum.setOwnerId(Users_Repository.get().getCurrentUser().getIdUser());
+        tmpforum.setUsersKey(mEdtUsersKey.getText().toString().trim());
+        tmpforum.setAdminsKey(mEdtAdminsKey.getText().toString().trim());
+        tmpforum.setAdminsKey(mEdtAdminsKey.getText().toString().trim());
+        tmpforum.setDescription(mEdtDescription.getText().toString().trim());
+        tmpforum.setTags(Arrays.asList(mEdtTags.getText().toString().trim().split(",")));
+        tmpforum.setCreationDate(new Date());
+        /*    if (!tmpforum.getTags().contains(mEdtName.getText().toString())) {
             tmpforum.getTags().add(mEdtName.getText().toString());
-        }
+        }*/
         mPresenter.createForum(tmpforum);
     }
 
@@ -189,6 +194,11 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
     public void onImageFailed() {
         loading.cancel();
         Snackbar.make(getView(), R.string.error_upload_img, Snackbar.LENGTH_LONG);
+    }
+
+    @Override
+    public void onError() {
+        loading.cancel();
     }
 
     @Override

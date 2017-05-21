@@ -4,6 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.limox.jesus.teambeta.db.DatabaseContract;
+import com.limox.jesus.teambeta.db.FirebaseContract;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -238,5 +243,27 @@ public class User implements Parcelable {
 
         return mId.equals(user.mId);
 
+    }
+
+    public static User fromJSON(String request) {
+        User tmp = new User();
+
+        try {
+            JSONObject usr = new JSONObject(request);
+            tmp.setProfilePicture(usr.optString(FirebaseContract.User.NODE_PHOTO_URL));
+            JSONArray fa = new JSONArray(usr.optJSONArray(FirebaseContract.User.NODE_FORUMS_ADMIN));
+            for (int i = 0; i < fa.length(); i++) {
+
+            }
+            // tmp.setForumsOwn(usr.optString(FirebaseContract.User.NODE_PHOTO_URL));
+            tmp.setProfilePicture(usr.optString(FirebaseContract.User.NODE_PHOTO_URL));
+            tmp.setProfilePicture(usr.optString(FirebaseContract.User.NODE_PHOTO_URL));
+            tmp.setProfilePicture(usr.optString(FirebaseContract.User.NODE_PHOTO_URL));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return tmp;
     }
 }

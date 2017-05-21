@@ -4,6 +4,10 @@
     android:layout_height="match_parent"
     tools:context="com.limox.jesus.teambeta.Fragments.Settings.StartSettings_Fragment">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:id="@+id/toolbarl"
+        android:layout_height="wrap_content">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -14,8 +18,8 @@
             android:id="@+id/ss_btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_keyboard_backspace_black_24px"
-            android:contentDescription="@string/btnback_description" />
+            android:contentDescription="@string/btnback_description"
+            android:src="@drawable/ic_keyboard_backspace_black_24px" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -24,11 +28,11 @@
             android:text="@string/settings"
             android:textSize="@dimen/toolbar_text_size" />
     </android.support.v7.widget.Toolbar>
-
+    </android.support.design.widget.AppBarLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar">
+        android:layout_below="@+id/toolbarl">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -64,8 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ss_separator"
                     android:padding="@dimen/fav_margin"
-                    android:text="@string/edit_profile"
-                   />
+                    android:text="@string/edit_profile" />
 
                 <View
                     android:id="@+id/ss_separator2"
@@ -80,15 +83,14 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ss_separator2"
                     android:padding="@dimen/fav_margin"
-                    android:text="@string/reset_password"
-                    />
+                    android:text="@string/reset_password" />
 
                 <View
                     android:id="@+id/ss_separator3"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@id/ss_txvResetePass"
-                    android:background="@android:color/darker_gray"  />
+                    android:background="@android:color/darker_gray" />
 
                 <TextView
                     android:id="@+id/ss_txvPostLiked"
@@ -96,8 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ss_separator3"
                     android:padding="@dimen/fav_margin"
-                    android:text="@string/posts_liked"
-                     />
+                    android:text="@string/posts_liked" />
 
                 <View
                     android:id="@+id/ss_separator4"
@@ -133,23 +134,36 @@
                     android:layout_below="@id/ss_txvSettings"
                     android:background="@color/colorSeparator" />
 
-                <TextView
-                    android:id="@+id/ss_txvNotifications"
+                <LinearLayout
+                    android:id="@+id/llNoti"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ss_separator5"
-                    android:padding="@dimen/fav_margin"
-                    android:text="@string/notifications"
-                     />
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/ss_txvNotifications"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="@dimen/fav_margin"
+                        android:text="@string/notifications" />
+
+                    <Switch
+                        android:id="@+id/ss_sNotifications"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true" />
+                </LinearLayout>
 
                 <View
                     android:id="@+id/ss_separator6"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@id/ss_txvNotifications"
+                    android:layout_below="@id/llNoti"
                     android:background="@android:color/darker_gray" />
-
-
 
                 <View
                     android:id="@+id/ss_separator7"
@@ -190,8 +204,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ss_separator8"
                     android:padding="@dimen/fav_margin"
-                    android:text="@string/monks_help_center"
-                     />
+                    android:text="@string/monks_help_center" />
 
                 <View
                     android:id="@+id/ss_separator9"
@@ -206,8 +219,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ss_separator9"
                     android:padding="@dimen/fav_margin"
-                    android:text="@string/report_problem"
-                     />
+                    android:text="@string/report_problem" />
 
                 <View
                     android:id="@+id/ss_separator10"
@@ -248,8 +260,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ss_separator11"
                     android:padding="@dimen/fav_margin"
-                    android:text="@string/log_out"
-                     />
+                    android:text="@string/log_out" />
 
                 <View
                     android:id="@+id/ss_separator12"

@@ -23,7 +23,7 @@
 
 
             <RelativeLayout
-                android:id="@+id/cf_rlLogo"
+                android:id="@+id/fv_rlLogo"
                 android:layout_width="200dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="20dp"
@@ -53,7 +53,7 @@
                 android:textColor="@android:color/black"
                 android:layout_height="wrap_content"
                 android:hint="@string/forums_name"
-                android:layout_below="@+id/cf_rlLogo"
+                android:layout_below="@+id/fv_rlLogo"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
                 android:inputType="textPersonName"
