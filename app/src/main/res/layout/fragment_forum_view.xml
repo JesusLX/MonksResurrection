@@ -67,6 +67,8 @@
                 android:gravity="center">
 
                 <Button
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:background="@drawable/button_background"
                     android:id="@+id/fv_btnAccLUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -76,6 +78,8 @@
                     android:text="@string/access_like_user" />
 
                 <Button
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:background="@drawable/button_background"
                     android:id="@+id/fv_btnAccLAdmin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -85,6 +89,8 @@
             </LinearLayout>
 
             <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:background="@drawable/button_background"
                 android:id="@+id/fv_btnAcc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
