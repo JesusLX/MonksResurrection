@@ -1,11 +1,13 @@
 package com.limox.jesus.teambeta;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +28,7 @@ import com.limox.jesus.teambeta.db.FirebaseContract;
 
 public class Login_Activity extends AppCompatActivity implements UserManagerPresenter.View {
 
+    private ProgressDialog progressDialog;
     private TextView mTxvSignUp;
     private TextView mTxvFP;
     private Button mBtnLogIn;
@@ -63,6 +66,7 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
         mClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                UIUtils.hideKeyboard(getParent(), view);
                 switch (view.getId()) {
                     case com.limox.jesus.teambeta.R.id.lgn_txvFP:
 
@@ -83,7 +87,11 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
         mUserName = mEdtUserName.getText().toString().trim();
         mPassword = mEdtPassword.getText().toString().trim();
 
+        progressDialog = new ProgressDialog(Login_Activity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage(getString(R.string.connecting));
         if (!mUserName.isEmpty() && !mPassword.isEmpty()) {
+            progressDialog.show();
             FirebaseContract.User.loginUser(mUserName, mPassword, Login_Activity.this, this, new FirebaseContract.FirebaseUserCallback() {
                 @Override
                 public void onUserObtained(String idUser) {
@@ -93,6 +101,7 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
                 @Override
                 public void onUnsuccessful(Task<AuthResult> task) {
                     mEdtPassword.setError(getString(R.string.wrong_user_or_password));
+                    progressDialog.dismiss();
                 }
             });
 
@@ -105,7 +114,7 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
                     /*User user = FirebaseContract.User.getUser(task.getResult().getUser());
                     Users_Repository.get().setCurrentUser(user);
 
-                    Preferences.setCurrentUser(user.getIdUser(), mUserName,mPassword,Login_Activity.this);*/
+                    Preferences.setCurrentUser(user.getId(), mUserName,mPassword,Login_Activity.this);*/
                     }
                 }
             });
@@ -122,6 +131,7 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
 
     @Override
     public void showMessage(String message) {
+        progressDialog.dismiss();
         mEdtPassword.setError(message);
     }
 
@@ -133,15 +143,17 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
     @Override
     public void onUserObtained(User user) {
         //startActivity(new Intent(Login_Activity.this, Navigator_Activity.class));
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+            // set the current user
+            Users_Repository.get().setCurrentUser(user);
 
-        // set the current user
-        Users_Repository.get().setCurrentUser(user);
+            Preferences.setCurrentUser(user.getId(), mUserName, mPassword, Login_Activity.this);
 
-        Preferences.setCurrentUser(user.getIdUser(), mUserName, mPassword, Login_Activity.this);
+            startActivity(new Intent(Login_Activity.this, SelectProject_Activity.class));
 
-        startActivity(new Intent(Login_Activity.this, SelectProject_Activity.class));
-
-        finish();
+            finish();
+        }
     }
 
 

@@ -14,17 +14,6 @@
         <RelativeLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/botton_nav" />
-
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/botton_nav"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="start"
-            android:elevation="12dp"
-            app:menu="@menu/menu_forum_navigation" />
-
+            android:layout_height="match_parent" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

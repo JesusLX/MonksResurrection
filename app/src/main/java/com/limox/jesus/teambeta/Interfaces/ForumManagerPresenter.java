@@ -14,6 +14,8 @@ import com.limox.jesus.teambeta.Model.Forum;
 public interface ForumManagerPresenter {
     void createForum(Forum forum);
 
+    void getDescription(Forum forum);
+
     void uploadPhoto(Uri file, String folderName, String fileName);
 
     void existsForum(String forumsName, Response.Listener<String> valueEventListener);
@@ -30,6 +32,8 @@ public interface ForumManagerPresenter {
         void onImageFailed();
 
         void onError();
+
+        void onDescriptionObtained(String description);
     }
 
 }

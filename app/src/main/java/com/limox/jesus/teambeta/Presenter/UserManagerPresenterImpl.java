@@ -1,8 +1,6 @@
 package com.limox.jesus.teambeta.Presenter;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
@@ -14,8 +12,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta.Model.User;
-import com.limox.jesus.teambeta.Provider.TeamBetaContract;
-import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
@@ -83,7 +79,26 @@ public class UserManagerPresenterImpl implements UserManagerPresenter {
         });
     }
 
+    @Override
+    public void getAllUsersOfForum(final String forumKey, final String mListName) {
+        FirebaseContract.User.getUsersOfForum(forumKey, mListName, new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot user : dataSnapshot.getChildren()) {
+                    User tmp = FirebaseContract.User.getUser(user);
+                    if (mListName.equals(FirebaseContract.User.NODE_FORUMS_ADMIN) ? tmp.getForumsAdmin().contains(forumKey) : tmp.getForumsWIParticipate().contains(forumKey)) {
+                        tmp.setIdUser(user.getKey());
+                        view.onUserObtained(tmp);
+                    }
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
    /* @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
@@ -129,8 +144,6 @@ public class UserManagerPresenterImpl implements UserManagerPresenter {
         tryUser = user;
 
         getUser(user.getName());
-
-
     }
 
 

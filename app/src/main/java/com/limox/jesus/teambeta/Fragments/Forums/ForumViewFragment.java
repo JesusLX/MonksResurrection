@@ -2,12 +2,18 @@ package com.limox.jesus.teambeta.Fragments.Forums;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,8 +21,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.limox.jesus.teambeta.Adapters.TabsAdapter.ForumUsersTabsAdapter;
+import com.limox.jesus.teambeta.Adapters.TabsAdapter.ProfileForumsTabsAdapter;
+import com.limox.jesus.teambeta.Interfaces.ForumManagerPresenter;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta.Model.Forum;
+import com.limox.jesus.teambeta.Presenter.ForumManagerPresenterImpl;
 import com.limox.jesus.teambeta.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
@@ -25,16 +35,21 @@ import com.limox.jesus.teambeta.Utils.Preferences;
 import com.limox.jesus.teambeta.Utils.UIUtils;
 
 
-public class ForumViewFragment extends Fragment {
+public class ForumViewFragment extends Fragment implements ForumManagerPresenter.View {
 
     private Forum mForum;
     private Toolbar mToolbar;
     private ImageView mIvLogo;
     private TextView mTxvName, mTxvDescription;
-    private Button mBtnAccesLikeUser, mBtnAccesLikeAdmin, mBtnAcces, mBtnEdit;
+    private Button mBtnAccesLikeUser, mBtnAccesLikeAdmin, mBtnAcces;
     private boolean shortedDesc = false;
     private OnForumViewFragmentListener mCallback;
     private UserManagerPresenterImpl mPresenter;
+    private ForumManagerPresenterImpl mForumPresenter;
+    private ViewPager mVpContainer;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
+    private ForumUsersTabsAdapter mAdapter;
 
     public ForumViewFragment() {
         // Required empty public constructor
@@ -50,9 +65,56 @@ public class ForumViewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = new UserManagerPresenterImpl();
+        mForumPresenter = new ForumManagerPresenterImpl(this);
+        setHasOptionsMenu(true);
+
         if (getArguments() != null) {
             mForum = getArguments().getParcelable(AllConstants.Keys.Parcelables.FORUM);
         }
+        mAdapter = new ForumUsersTabsAdapter(getContext(), getChildFragmentManager(), mForum.getKey());
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (Users_Repository.get().getCurrentUser().getForumsOwn().contains(mForum.getKey()))
+            inflater.inflate(R.menu.menu_forum_view, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        if (Users_Repository.get().getCurrentUser().getForumsOwn().contains(mForum.getKey())) {
+            if (Users_Repository.get().getCurrentUser().getId().equals(mForum.getOwnerId())) {
+                menu.getItem(1).setVisible(false);
+                menu.getItem(2).setVisible(false);
+            } else {
+                menu.getItem(0).setVisible(false);
+            }
+            getActivity().getMenuInflater().inflate(R.menu.menu_forum_view, menu);
+        }
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+
+                break;
+            case R.id.action_see_owner:
+                Bundle user = new Bundle();
+                user.putString(AllConstants.Keys.SimpleBundle.ID_USER_KEY, mForum.getOwnerId());
+                mCallback.startUserProfile(user, true);
+                break;
+            case R.id.action_leave:
+
+                break;
+
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -66,31 +128,28 @@ public class ForumViewFragment extends Fragment {
         mBtnAccesLikeUser = (Button) rootView.findViewById(R.id.fv_btnAccLUser);
         mBtnAccesLikeAdmin = (Button) rootView.findViewById(R.id.fv_btnAccLAdmin);
         mBtnAcces = (Button) rootView.findViewById(R.id.fv_btnAcc);
-        mBtnEdit = (Button) rootView.findViewById(R.id.fv_btnEdit);
+        mTabLayout = (TabLayout) rootView.findViewById(R.id.fv_tlTabs);
+        mViewPager = (ViewPager) rootView.findViewById(R.id.fv_vpLists);
+        mForumPresenter.getDescription(mForum);
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mToolbar.inflateMenu(R.menu.menu_forum_view);
         mToolbar.setTitle(mForum.getName());
         mToolbar.setNavigationIcon(R.drawable.ic_action_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.startForumsListFragment();
+                getActivity().onBackPressed();
             }
         });
         UIUtils.loadImage(getContext(), mForum.getImgUrl(), mIvLogo);
         mTxvName.setText(mForum.getName());
-        mTxvDescription.setText(mForum.getShortedDescription());
-        mTxvDescription.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shortedDesc = !shortedDesc;
-                mTxvDescription.setText(shortedDesc ? mForum.getShortedDescription() : mForum.getDescription());
-            }
-        });
+
         mBtnAccesLikeUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,29 +169,19 @@ public class ForumViewFragment extends Fragment {
                 mCallback.startHomeFragment();
             }
         });
-        mBtnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UIUtils.snackBar(getView(), "In working progress");
-            }
-        });
+        mViewPager.setAdapter(mAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+
         adaptButtons();
     }
 
     public void adaptButtons() {
-        if (Users_Repository.get().getCurrentUser().getForumsAdmin().contains(mForum.getKey()) || Users_Repository.get().getCurrentUser().getForumsWIParticipate().contains(mForum.getKey())) {
+        if (Users_Repository.get().getCurrentUser().getForumsAdmin().contains(mForum.getKey()) || Users_Repository.get().getCurrentUser().getForumsWIParticipate().contains(mForum.getKey()) || Users_Repository.get().getCurrentUser().getForumsOwn().contains(mForum.getKey())) {
             mBtnAcces.setVisibility(View.VISIBLE);
-            mBtnEdit.setVisibility(View.GONE);
-            mBtnAccesLikeUser.setVisibility(View.GONE);
-            mBtnAccesLikeAdmin.setVisibility(View.GONE);
-        } else if (Users_Repository.get().getCurrentUser().getForumsOwn().contains(mForum.getKey())) {
-            mBtnAcces.setVisibility(View.GONE);
-            mBtnEdit.setVisibility(View.VISIBLE);
             mBtnAccesLikeUser.setVisibility(View.GONE);
             mBtnAccesLikeAdmin.setVisibility(View.GONE);
         } else {
             mBtnAcces.setVisibility(View.GONE);
-            mBtnEdit.setVisibility(View.GONE);
             mBtnAccesLikeUser.setVisibility(View.VISIBLE);
             mBtnAccesLikeAdmin.setVisibility(View.VISIBLE);
         }
@@ -208,11 +257,39 @@ public class ForumViewFragment extends Fragment {
 
     }
 
+    @Override
+    public void onForumCreated(String forumKey) {
+
+    }
+
+    @Override
+    public void onImageUploaded(Uri downloadUrl) {
+
+    }
+
+    @Override
+    public void onImageFailed() {
+
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void onDescriptionObtained(String description) {
+        mTxvDescription.setText(description);
+    }
+
 
     public interface OnForumViewFragmentListener {
 
         void startHomeFragment();
 
         void startForumsListFragment();
+
+        void startUserProfile(Bundle user, boolean b);
+
     }
 }

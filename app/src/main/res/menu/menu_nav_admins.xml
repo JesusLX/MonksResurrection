@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
-        <item android:id="@+id/action_profile"
-            android:title="@string/profile"
-            android:icon="@drawable/ic_action_user"/>
-        <item android:id="@+id/action_projects"
-            android:title="@string/projects"
-            android:icon="@drawable/ic_action_user"/>
-        <item android:id="@+id/action_bugs"
-            android:title="@string/forum_bugs"
-            android:icon="@drawable/ic_action_bug"/>
-        <item android:id="@+id/action_admins"
-            android:title="@string/admins"
-            android:icon="@drawable/ic_action_admin"/>
+        <item
+            android:id="@+id/action_profile"
+            android:icon="@drawable/ic_action_user"
+            android:title="@string/profile" />
+        <item
+            android:id="@+id/action_projects"
+            android:icon="@drawable/ic_action_forums"
+            android:title="@string/projects" />
+        <item
+            android:id="@+id/action_bugs"
+            android:icon="@drawable/ic_action_bug"
+            android:title="@string/forum_bugs" />
+        <item
+            android:id="@+id/action_admins"
+            android:icon="@drawable/ic_action_admin"
+            android:title="@string/admins" />
     </group>
-    <item android:id="@+id/navigation_subheader"
+    <item
+        android:id="@+id/navigation_subheader"
         android:title="@string/settings">
         <menu>
-            <item android:id="@+id/action_settings"
-                android:title="@string/settings"
-                android:icon="@drawable/ic_action_settings"/>
-            <item android:id="@+id/action_help"
-                android:title="@string/help"
-                android:icon="@drawable/ic_action_help"/>
+            <item
+                android:id="@+id/action_settings"
+                android:icon="@drawable/ic_action_settings"
+                android:title="@string/settings" />
+            <item
+                android:id="@+id/action_help"
+                android:icon="@drawable/ic_action_help"
+                android:title="@string/help" />
         </menu>
     </item>
 

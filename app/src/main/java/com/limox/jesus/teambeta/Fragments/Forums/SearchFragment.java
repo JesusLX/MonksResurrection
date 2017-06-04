@@ -6,17 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.limox.jesus.teambeta.Adapters.RecyclerView.ForumsListRecyclerAdapter;
@@ -26,6 +22,7 @@ import com.limox.jesus.teambeta.Model.Forum;
 import com.limox.jesus.teambeta.Presenter.SearchManagerImpl;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Utils.AllConstants;
+import com.limox.jesus.teambeta.Utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -55,7 +52,7 @@ public class SearchFragment extends Fragment implements SearchManager.View, Tags
         super.onCreate(savedInstanceState);
         mPresenter = new SearchManagerImpl(this);
         mTagsAdapter = new TagsRecyclerAdapter(new ArrayList<String>(), this);
-        mForumsAdapter = new ForumsListRecyclerAdapter(getContext(), new ArrayList<Forum>(), this);
+        mForumsAdapter = new ForumsListRecyclerAdapter(getContext(), new ArrayList<Forum>(), this, R.layout.item_tiny);
 
     }
 
@@ -87,7 +84,7 @@ public class SearchFragment extends Fragment implements SearchManager.View, Tags
                     if (!event.isShiftPressed()) {
                         // the user is done typing.
                         mPresenter.searchCoincidences(v.getText().toString());
-
+                        UIUtils.hideKeyboard(getActivity(), v);
                         return true; // consume.
                     }
                 }

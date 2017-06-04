@@ -38,11 +38,11 @@ public class Validate {
         int referenceMensaje = R.string.message_all_ok;
         if (password.length() > AllConstants.PASSWORD_MAX_LENGTH)
             referenceMensaje = R.string.message_error_password_tooLong;
-        if (password.length() < AllConstants.PASSWORD_MIN_LENGTH)
+        else if (password.length() <= AllConstants.PASSWORD_MIN_LENGTH)
             referenceMensaje = R.string.message_error_password_tooShort;
-        if (!password.matches("^.{0,}([0-9])+.{0,}$"))
+        else if (!password.matches("^.{0,}([0-9])+.{0,}$"))
             referenceMensaje = R.string.message_error_password_case;
-        if (!password.matches("^.+[a-zA-Z]+.+$"))
+        else if (!password.matches("^.+[a-zA-Z]+.+$"))
             referenceMensaje = R.string.message_error_password_digit;
 
         return referenceMensaje;

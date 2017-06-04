@@ -75,6 +75,12 @@ public final class AllConstants {
             public static final String ArrayTags = "tagsArrays";
             public static final String ID_USER_KEY = "id_user";
             public static final String EMAIL = "email";
+            public static final String ID_FORUM_KEY = "key_forum";
+            public static final String LIST_NAME_KEY = "list_name";
+            public static final String TYPE_LIST = "typelist";
+            public static final String ITEM_STYLE = "itemstyle";
+            public static final String FORUM_LIST_ARG = "listarg";
+            public static final String MESSAGE_LENGTH_KEY = "message_list";
         }
     }
 

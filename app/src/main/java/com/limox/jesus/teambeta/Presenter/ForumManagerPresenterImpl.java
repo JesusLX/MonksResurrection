@@ -8,6 +8,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -78,6 +80,27 @@ public class ForumManagerPresenterImpl implements ForumManagerPresenter {
         });
     }
 
+    @Override
+    public void getDescription(final Forum forum) {
+        if (forum != null) {
+            FirebaseDatabase.getInstance().getReference().
+                    child(FirebaseContract.Forums.ROOT_NODE).
+                    child(forum.getKey()).
+                    child(FirebaseContract.Forums.NODE_DESCRIPTION).
+                    addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            mView.onDescriptionObtained(dataSnapshot.getValue().toString());
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+        }
+
+    }
     @Override
     public void uploadPhoto(Uri file, String folderName, String fileName) {
 

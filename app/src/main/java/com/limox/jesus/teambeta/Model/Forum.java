@@ -23,6 +23,9 @@ public class Forum implements Parcelable {
     public static final int ADMIN = 2;
     public static final int PARTAKER = 3;
 
+    public static final int TYPE_COLLAPSED = 0;
+    public static final int TYPE_TINTY = 1;
+
     private String key;
     private String name;
     private String imgUrl;
@@ -206,7 +209,7 @@ public class Forum implements Parcelable {
     public String getShortedDescription() {
         int maxLength = 30;
         if (description != null && description.length() > maxLength) {
-            return description.substring(0, maxLength - 30).concat("...");
+            return description.substring(0, maxLength - 3).concat("...");
         } else
             return getDescription();
     }

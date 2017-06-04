@@ -105,6 +105,7 @@
     <string name="empty_list">Esta lista está vacía, Por ahora...</string>
     <string name="error_upload_img">Error al subir la imagen</string>
     <string name="forums">Foros</string>
+    <string name="users">Usuarios</string>
     <string name="forums_name">Nombre del foro</string>
     <string name="forums_name_exists">Ese nombre de foro ya existe.</string>
     <string name="internal_error">Error interno</string>

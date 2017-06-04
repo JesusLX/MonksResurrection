@@ -1,75 +1,68 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context="com.limox.jesus.teambeta.Fragments.Forums.ForumViewFragment">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/toolbarColorBg" />
+        android:background="@color/toolbarColorBg"
+        android:elevation="1dp" />
 
-    <ScrollView
+
+    <RelativeLayout
+        android:id="@+id/rlForumView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar">
 
+        <ImageView
+            android:id="@+id/fv_ivLogo"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_margin="5dp"
+            android:background="@android:color/white"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_action_add_photo" />
+
+        <TextView
+            android:id="@+id/fv_txvName"
+            android:layout_width="wrap_content"
+            android:layout_height="85dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_toEndOf="@+id/fv_ivLogo"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fv_txvDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fv_ivLogo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:maxLines="5"
+            android:textAlignment="center" />
+
         <RelativeLayout
+            android:id="@+id/fv_rlButtons"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-            <RelativeLayout
-                android:id="@+id/fv_rlLogo"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:background="@android:color/darker_gray">
-
-                <ImageView
-                    android:id="@+id/fv_ivLogo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="1dp"
-                    android:background="@android:color/white"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_action_add_photo" />
-            </RelativeLayout>
-
-
-            <TextView
-                android:id="@+id/fv_txvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/fv_rlLogo"
-                android:layout_centerHorizontal="true"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center"
-                android:lines="1"
-                android:textColor="@android:color/black"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/fv_txvDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/fv_txvName"
-                android:layout_centerHorizontal="true"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:maxLines="5" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fv_txvDescription">
 
             <LinearLayout
                 android:id="@+id/llButtons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/fv_txvDescription"
                 android:layout_marginTop="@dimen/fav_margin"
                 android:gravity="center">
 
@@ -77,35 +70,55 @@
                     android:id="@+id/fv_btnAccLUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/access_like_user" />
 
                 <Button
                     android:id="@+id/fv_btnAccLAdmin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/access_like_admin" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/fv_btnAcc"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/fv_txvDescription"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/fav_margin"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
                 android:text="@string/access"
                 android:visibility="gone" />
-
-            <Button
-                android:id="@+id/fv_btnEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/fv_txvDescription"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/fav_margin"
-                android:text="@string/action_edit"
-                android:visibility="gone" />
         </RelativeLayout>
-    </ScrollView>
 
+        <View
+            android:id="@+id/fv_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/fv_rlButtons"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorSeparator" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/fv_tlTabs"
+            android:background="@color/toolbarColorBg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fv_separator"
+            app:tabIndicatorColor="@color/tabIndicatorColor"
+            app:tabSelectedTextColor="@color/fontColorDark"
+            app:tabTextColor="@color/fontColorDark" />
+
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/fv_vpLists"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rlForumView" />
 </RelativeLayout>

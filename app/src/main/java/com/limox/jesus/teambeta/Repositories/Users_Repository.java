@@ -1,7 +1,6 @@
 package com.limox.jesus.teambeta.Repositories;
 
 
-import com.google.android.gms.common.api.Api;
 import com.limox.jesus.teambeta.Model.Forum;
 import com.limox.jesus.teambeta.Model.Post;
 import com.limox.jesus.teambeta.Model.User;
@@ -122,7 +121,7 @@ public class Users_Repository {
     }
     public boolean currentUserIsOwner(Post publicacion){
         boolean itIs = false;
-        if (getCurrentUser().getIdUser().equals(publicacion.getIdUser())) {
+        if (getCurrentUser().getId().equals(publicacion.getIdUser())) {
             itIs =true;
         }
         return itIs;

@@ -34,7 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lgn_ivTitle"
-        android:background="@color/inputLayoutBg"
         android:fitsSystemWindows="true"
         android:layout_marginTop="@dimen/lgn_pddingTop"
         android:hint="@string/email_address"
@@ -56,7 +55,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/lgn_tilUser"
         android:layout_marginTop="@dimen/fav_margin"
-        android:background="@color/inputLayoutBg"
         android:textColorHint="@color/textHint"
         app:passwordToggleEnabled="true"
         app:errorTextAppearance="@color/colorError">

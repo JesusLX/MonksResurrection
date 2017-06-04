@@ -1,10 +1,7 @@
 package com.limox.jesus.teambeta.Presenter;
 
-import android.app.Activity;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -16,7 +13,6 @@ import com.limox.jesus.teambeta.db.FirebaseContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -46,25 +42,8 @@ public class ForumsListManagerPresenterImpl implements ForumsListManagerPresente
                             final Forum forum;
                             try {
                                 forum = Forum.fromJSON(response.getJSONObject(i));
+                                mView.addForum(forum);
 
-                                if (forum != null) {
-                                    FirebaseDatabase.getInstance().getReference().
-                                            child(FirebaseContract.Forums.ROOT_NODE).
-                                            child(forumKey).
-                                            child(FirebaseContract.Forums.NODE_DESCRIPTION).
-                                            addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                    forum.setDescription(dataSnapshot.getValue().toString());
-                                                    mView.addForum(forum);
-                                                }
-
-                                                @Override
-                                                public void onCancelled(DatabaseError databaseError) {
-
-                                                }
-                                            });
-                                }
                             } catch (JSONException e) {
 
                             }

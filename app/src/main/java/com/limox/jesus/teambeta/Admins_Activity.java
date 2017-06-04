@@ -52,7 +52,7 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
             @Override
             public void onClick(View view) {
                 Bundle user = new Bundle();
-                user.putString(AllConstants.Keys.SimpleBundle.ID_USER_KEY, Users_Repository.get().getCurrentUser().getIdUser());
+                user.putString(AllConstants.Keys.SimpleBundle.ID_USER_KEY, Users_Repository.get().getCurrentUser().getId());
                 startUserProfile(user);
             }
         });

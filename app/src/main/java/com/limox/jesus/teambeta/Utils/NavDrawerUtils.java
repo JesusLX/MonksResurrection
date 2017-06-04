@@ -57,7 +57,7 @@ public class NavDrawerUtils {
                 switch (item.getItemId()){
                     case R.id.action_profile:
                         Bundle user = new Bundle();
-                        user.putString(AllConstants.Keys.SimpleBundle.ID_USER_KEY, Users_Repository.get().getCurrentUser().getIdUser());
+                        user.putString(AllConstants.Keys.SimpleBundle.ID_USER_KEY, Users_Repository.get().getCurrentUser().getId());
                         mCallback.startUserProfile(user);
                         break;
                     case R.id.action_projects:

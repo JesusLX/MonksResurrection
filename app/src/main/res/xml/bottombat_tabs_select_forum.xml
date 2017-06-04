@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_favorites"
+        title="@string/news" />
+    <tab
+        id="@+id/tab_nearby"
+        icon="@drawable/ic_action_search"
+        title="@string/explore" />
+    <tab
+        id="@+id/tab_friends"
+        icon="@drawable/ic_action_user"
+        title="@string/profile" />
+</tabs>

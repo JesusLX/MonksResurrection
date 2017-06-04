@@ -23,6 +23,7 @@ public class ForumsListRecyclerAdapter extends RecyclerView.Adapter<ForumsListRe
     private ArrayList<Forum> forums;
     private Context context;
     private ForumsListRecyclerAdapterListener mCallback;
+    private int layout;
 
     public boolean contains(Forum forum) {
         return this.forums.contains(forum);
@@ -36,19 +37,24 @@ public class ForumsListRecyclerAdapter extends RecyclerView.Adapter<ForumsListRe
         notifyDataSetChanged();
     }
 
+    public void clear() {
+        forums.clear();
+    }
+
     public interface ForumsListRecyclerAdapterListener {
         void onForumClicked(Forum forum);
     }
 
-    public ForumsListRecyclerAdapter(Context context, ArrayList<Forum> forums, ForumsListRecyclerAdapterListener listener) {
+    public ForumsListRecyclerAdapter(Context context, ArrayList<Forum> forums, ForumsListRecyclerAdapterListener listener, int layout) {
         this.context = context;
         this.forums = forums;
         this.mCallback = listener;
+        this.layout = layout;
     }
 
     @Override
     public ForumsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ForumsHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_forum, parent, false));
+        return new ForumsHolder(LayoutInflater.from(parent.getContext()).inflate(this.layout, parent, false));
     }
 
     @Override

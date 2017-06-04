@@ -124,7 +124,7 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
 
     private void sendPost() {
         if (validate()){
-            mPresenter.uploadPost(new Post(Users_Repository.get().getCurrentUser().getIdUser(), Users_Repository.get().getCurrentForum().getKey(), mTitle, mDescriptions, mTags));
+            mPresenter.uploadPost(new Post(Users_Repository.get().getCurrentUser().getId(), Users_Repository.get().getCurrentForum().getKey(), mTitle, mDescriptions, mTags));
             //PostsStorage.get().createPost(mTitle,mDescriptions,mTags);
             Notifications.SentPublicationPostSent(getContext());
             getActivity().onBackPressed();

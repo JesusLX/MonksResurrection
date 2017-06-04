@@ -103,7 +103,6 @@ public class APIConstants {
             RequestQueue queue = Volley.newRequestQueue(context);
             final HashMap<String, String> params = new HashMap<>();
             params.put(FORUM_KEY, key);
-
             // Request a string response from the provided URL.
             JsonArrayRequest stringRequest = new JsonArrayRequest(Request.Method.GET, API_URL + TABLE_NAME + "/1" + getParams(params), null, listener, errorListener);
             // Add the request to the RequestQueue.

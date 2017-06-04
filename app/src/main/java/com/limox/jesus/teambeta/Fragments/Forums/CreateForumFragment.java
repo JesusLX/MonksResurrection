@@ -17,9 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.android.volley.Response;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 import com.limox.jesus.teambeta.Interfaces.ForumManagerPresenter;
 import com.limox.jesus.teambeta.Model.Forum;
 import com.limox.jesus.teambeta.Presenter.ForumManagerPresenterImpl;
@@ -111,6 +108,7 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
     private void validate(final EditText forumsName, final EditText adminsKey, final EditText userskey) {
         loading = new ProgressDialog(getContext());
         loading.setMessage(getString(R.string.loading));
+        loading.setCancelable(false);
         loading.show();
         if (havImgSelected) {
             new Thread(new Runnable() {
@@ -123,7 +121,7 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
                                     @Override
                                     public void onResponse(String response) {
                                         if (!Boolean.valueOf(response)) {
-                                            mPresenter.uploadPhoto(imgSelected, Users_Repository.get().getCurrentUser().getIdUser(), String.valueOf(System.currentTimeMillis()));
+                                            mPresenter.uploadPhoto(imgSelected, Users_Repository.get().getCurrentUser().getId(), String.valueOf(System.currentTimeMillis()));
                                         } else {
                                             loading.dismiss();
                                             if (isAdded())
@@ -133,11 +131,11 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
                                 });
                             }
                         } else {
-                            loading.cancel();
+                            loading.dismiss();
                             adminsKey.setError(getString(R.string.message_error_must_fill));
                         }
                     } else {
-                        loading.cancel();
+                        loading.dismiss();
                         userskey.setError(getString(R.string.message_error_must_fill));
                     }
                 }
@@ -177,7 +175,7 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
         Forum tmpforum = new Forum();
         tmpforum.setName(mEdtName.getText().toString().trim());
         tmpforum.setImgUrl(downloadUrl.toString());
-        tmpforum.setOwnerId(Users_Repository.get().getCurrentUser().getIdUser());
+        tmpforum.setOwnerId(Users_Repository.get().getCurrentUser().getId());
         tmpforum.setUsersKey(mEdtUsersKey.getText().toString().trim());
         tmpforum.setAdminsKey(mEdtAdminsKey.getText().toString().trim());
         tmpforum.setAdminsKey(mEdtAdminsKey.getText().toString().trim());
@@ -199,6 +197,11 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
     @Override
     public void onError() {
         loading.cancel();
+    }
+
+    @Override
+    public void onDescriptionObtained(String description) {
+
     }
 
     @Override

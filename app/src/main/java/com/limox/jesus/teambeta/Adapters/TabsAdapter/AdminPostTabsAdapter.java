@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.limox.jesus.teambeta.Fragments.GenericPosts.DashPost_Fragment;
-import com.limox.jesus.teambeta.Fragments.Messages.MessagesList_Fragment;
+import com.limox.jesus.teambeta.Fragments.Chats.MessagesList_Fragment;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 
 /**

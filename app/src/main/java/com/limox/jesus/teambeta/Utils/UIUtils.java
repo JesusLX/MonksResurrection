@@ -1,11 +1,13 @@
 package com.limox.jesus.teambeta.Utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -18,6 +20,11 @@ import it.sephiroth.android.library.picasso.Picasso;
  */
 
 public class UIUtils {
+
+    public static void hideKeyboard(Activity activity, View view) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
     public static void loadImage(Context context, String imgUrl, ImageView ivImage) {
         Picasso.with(context).load(imgUrl).into(ivImage);

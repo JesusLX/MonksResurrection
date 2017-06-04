@@ -9,6 +9,8 @@ import com.limox.jesus.teambeta.Model.User;
  */
 
 public interface UserManagerPresenter {
+    void getAllUsersOfForum(String forumId, String mListName);
+
     void addUser(User user);
 
     void getUser(String idUser);

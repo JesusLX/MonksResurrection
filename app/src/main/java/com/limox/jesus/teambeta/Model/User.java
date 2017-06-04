@@ -1,8 +1,10 @@
 package com.limox.jesus.teambeta.Model;
 
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.db.DatabaseContract;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
@@ -135,7 +137,7 @@ public class User implements Parcelable {
         }
     };
 
-    public String getIdUser() {
+    public String getId() {
         return mId;
     }
 
@@ -265,5 +267,11 @@ public class User implements Parcelable {
         }
 
         return tmp;
+    }
+
+    public Bundle optBundle() {
+        Bundle b = new Bundle();
+        b.putParcelable(AllConstants.Keys.Parcelables.USER_PARCELABLE_KEY, this);
+        return b;
     }
 }
