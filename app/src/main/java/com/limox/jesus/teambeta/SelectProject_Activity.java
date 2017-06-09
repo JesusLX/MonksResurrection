@@ -10,7 +10,6 @@ import com.limox.jesus.teambeta.Fragments.Forums.ForumViewFragment;
 import com.limox.jesus.teambeta.Fragments.Forums.ForumsListFragment;
 import com.limox.jesus.teambeta.Fragments.Forums.SearchFragment;
 import com.limox.jesus.teambeta.Fragments.Forums.UsersListFragment;
-import com.limox.jesus.teambeta.Fragments.Chats.MessagesList_Fragment;
 import com.limox.jesus.teambeta.Fragments.UserProfile.UserExternalProfile_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
@@ -23,6 +22,7 @@ public class SelectProject_Activity extends AppCompatActivity implements HomeOfF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_project);
+        //startCreateForumFragment();
         startUserProfile(Users_Repository.get().getCurrentUser().optBundle(), false);
     }
 
@@ -37,7 +37,7 @@ public class SelectProject_Activity extends AppCompatActivity implements HomeOfF
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (addStack)
             ft.addToBackStack(null);
-        ft.replace(com.limox.jesus.teambeta.R.id.fragment_container, fragment, tag);
+        ft.replace(com.limox.jesus.teambeta.R.id.frContainer, fragment, tag);
         ft.commit();
     }
 
@@ -58,7 +58,7 @@ public class SelectProject_Activity extends AppCompatActivity implements HomeOfF
 
     @Override
     public void startForumsListFragment() {
-        startFragment(new ForumsListFragment(), false, AllConstants.FragmentTag.ProjListTag);
+        startUserProfile(Users_Repository.get().getCurrentUser().optBundle(), true);
     }
 
     public void startSearchFragment() {

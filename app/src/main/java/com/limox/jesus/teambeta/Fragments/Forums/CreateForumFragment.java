@@ -36,8 +36,7 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
     private static final int INTENT_SELECT_IMAGE = 1;
     private Toolbar mToolbar;
     private ImageView mIvLogo;
-    private EditText mEdtName, mEdtUsersKey, mEdtAdminsKey, mEdtDescription, mEdtTags;
-    private Button mBtnCreate, mBtnCancel;
+    private EditText mEdtName, mEdtUsersKey, mEdtAdminsKey, mEdtDescription;
 
     private ForumManagerPresenter mPresenter;
 
@@ -63,12 +62,9 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         mIvLogo = (ImageView) rootView.findViewById(R.id.cf_ivLogo);
         mEdtName = (EditText) rootView.findViewById(R.id.cf_edtName);
-        mEdtUsersKey = (EditText) rootView.findViewById(R.id.cf_edtUserKey);
+        mEdtUsersKey = (EditText) rootView.findViewById(R.id.cf_edtname);
         mEdtAdminsKey = (EditText) rootView.findViewById(R.id.cf_edtAdminKey);
         mEdtDescription = (EditText) rootView.findViewById(R.id.cf_edtDescription);
-        mEdtTags = (EditText) rootView.findViewById(R.id.cf_edtTags);
-        mBtnCreate = (Button) rootView.findViewById(R.id.cf_btnCreate);
-        mBtnCancel = (Button) rootView.findViewById(R.id.cf_btnCancel);
         return rootView;
     }
 
@@ -76,6 +72,17 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mToolbar.setTitle(R.string.create_forum);
+        mToolbar.inflateMenu(R.menu.menu_create_forum);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.action_send:
+                        validate(mEdtName, mEdtAdminsKey, mEdtUsersKey);
+                        break;
+                }
+            }
+        });
         mToolbar.setNavigationIcon(R.drawable.ic_action_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,18 +99,7 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
                 startActivityForResult(i, INTENT_SELECT_IMAGE);
             }
         });
-        mBtnCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                validate(mEdtName, mEdtAdminsKey, mEdtUsersKey);
-            }
-        });
-        mBtnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallback.startForumsListFragment();
-            }
-        });
+
     }
     private void validate(final EditText forumsName, final EditText adminsKey, final EditText userskey) {
         loading = new ProgressDialog(getContext());
@@ -180,7 +176,6 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
         tmpforum.setAdminsKey(mEdtAdminsKey.getText().toString().trim());
         tmpforum.setAdminsKey(mEdtAdminsKey.getText().toString().trim());
         tmpforum.setDescription(mEdtDescription.getText().toString().trim());
-        tmpforum.setTags(Arrays.asList(mEdtTags.getText().toString().trim().split(",")));
         tmpforum.setCreationDate(new Date());
         /*    if (!tmpforum.getTags().contains(mEdtName.getText().toString())) {
             tmpforum.getTags().add(mEdtName.getText().toString());

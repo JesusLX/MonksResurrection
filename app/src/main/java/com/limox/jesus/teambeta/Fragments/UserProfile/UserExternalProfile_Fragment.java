@@ -24,6 +24,7 @@ import com.limox.jesus.teambeta.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
+import com.limox.jesus.teambeta.Utils.ExternalUtils;
 import com.limox.jesus.teambeta.Utils.UIUtils;
 
 import org.w3c.dom.Text;
@@ -40,6 +41,7 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
     private ViewPager mViewPager;
     private AppBarLayout mAppbarLayout;
     private TextView mTxvUserName;
+    private TextView mTxvEmail;
     private ProfileForumsTabsAdapter mAdapter;
     private UserManagerPresenterImpl mPresenter;
     private String mIdUser;
@@ -85,6 +87,7 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
         mTabLayout = (TabLayout) rootView.findViewById(R.id.up_tlTabs);
         mViewPager = (ViewPager) rootView.findViewById(R.id.up_vpContainer);
         mTxvUserName = (TextView) rootView.findViewById(R.id.txvUserName);
+        mTxvEmail = (TextView) rootView.findViewById(R.id.txvEmail);
         if (mIdUser != null)
             mPresenter.getUser(mIdUser);
         return rootView;
@@ -96,6 +99,12 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
         // mPresenter.getUser(mIdUser);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+        mTxvEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExternalUtils.sendEmail(getContext(), mTxvEmail.getText().toString());
+            }
+        });
         mIvProfileImage.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -105,12 +114,10 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
                 }
         );
         if (mUser != null) {
-            Picasso.with(getContext()).load(mUser.getProfilePicture()).into(mIvProfileImage);
-            mTxvUserName.setText(mUser.getName());
+
+            fillView();
         }
-        //  UIUtils.loadImage(getContext(), mUser.getProfilePicture(), mIvProfileImage);
-
-
+        //  UIUtils.loadImage(getContext(), mUser.getProfilePicture(), mIvProfileImage)
     }
 
     @Override
@@ -142,13 +149,19 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
 
     @Override
     public void onUserObtained(User tryUser) {
-        Picasso.with(getContext()).load(tryUser.getProfilePicture()).into(mIvProfileImage);
-        mTxvUserName.setText(tryUser.getName());
+        fillView();
 
     }
 
     public interface OnUserExternalProfileFragmentListener {
 
         void startChat(String mIdUser);
+    }
+
+
+    private void fillView() {
+        Picasso.with(getContext()).load(mUser.getProfilePicture()).into(mIvProfileImage);
+        mTxvUserName.setText(mUser.getName());
+        mTxvEmail.setText(mUser.getEmail());
     }
 }

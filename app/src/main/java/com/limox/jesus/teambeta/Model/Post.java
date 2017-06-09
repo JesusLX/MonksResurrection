@@ -78,7 +78,7 @@ public class Post implements Parcelable{
         }
     };
 
-    public String getForumsKey() {
+    public String getForumKey() {
         return mForumsKey;
     }
 

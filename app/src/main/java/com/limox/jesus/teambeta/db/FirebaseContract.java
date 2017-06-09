@@ -16,9 +16,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.limox.jesus.teambeta.Interfaces.ApiCallbacks;
 import com.limox.jesus.teambeta.Model.Post;
+import com.limox.jesus.teambeta.Model.User;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.Preferences;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -34,15 +36,9 @@ public class FirebaseContract {
 
     public static class User {
 
-
         private static final String NODE_FAV_POSTS = "postsLiked";
-
-        public static void postUser(String id, com.limox.jesus.teambeta.Model.User user, OnSuccessListener successListener) {
-            FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(id).setValue(user).addOnSuccessListener(successListener);
-        }
-
+        public static final String NODE_CHATS = "chats";
         public static final String NODE_ID = "id";
-
         public static final String ROOT_NODE = "users";
         public static final String NODE_NAME = "name";
         public static final String NODE_PASSWORD = "password";
@@ -55,10 +51,15 @@ public class FirebaseContract {
         public static final String NODE_FORUMS_ADMIN = "forumsAdmin";
         public static final String NODE_LIKED_POSTS = "likedPosts";
 
+
+        public static void postUser(String id, com.limox.jesus.teambeta.Model.User user, OnSuccessListener successListener) {
+            FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(id).setValue(user).addOnSuccessListener(successListener);
+        }
         public static com.limox.jesus.teambeta.Model.User getUser(DataSnapshot user) {
 
-            com.limox.jesus.teambeta.Model.User tmp = user.getValue(com.limox.jesus.teambeta.Model.User.class);
+            //com.limox.jesus.teambeta.Model.User tmp = user.getValue(com.limox.jesus.teambeta.Model.User.class);
             //com.limox.jesus.teambeta.Model.User.fromJSON(user.getValue().toString());
+            com.limox.jesus.teambeta.Model.User tmp = com.limox.jesus.teambeta.Model.User.fromJSON(user.toString());
             tmp.setIdUser(user.getKey());
             //tmp.setIdUser(user.getKey());
           /*  tmp.setEmail(user.getEmail());
@@ -83,8 +84,40 @@ public class FirebaseContract {
             });
         }
 
+        public static void addChat(final String userKey, final String forumKey, final String chatKey, final OnSuccessListener<Void> successListener) {
+            FirebaseDatabase.getInstance().getReference().
+                    child(ROOT_NODE).
+                    child(userKey).
+                    child(NODE_CHATS).
+                    child(forumKey).
+                    orderByKey().limitToLast(1).
+                    addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            int position;
+                            position = dataSnapshot.getKey() == null ? 0 : Integer.parseInt(dataSnapshot.getKey()) + 1;
+                            FirebaseDatabase.getInstance().getReference().
+                                    child(ROOT_NODE).
+                                    child(userKey).
+                                    child(NODE_CHATS).
+                                    child(forumKey).
+                                    child(String.valueOf(position)).setValue(chatKey).addOnSuccessListener(successListener);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+        }
+
+        public static boolean hasChat(final String forumKey, final String chatKey, DataSnapshot user) {
+            return false;
+        }
+
         public static Task<Void> addForumOwn(String forumKey) {
-            return FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(Users_Repository.get().getCurrentUser().getId()).child(NODE_FORUMS_OWN).setValue(Users_Repository.get().getCurrentUser().getForumsOwn());
+            return FirebaseDatabase.getInstance().getReference().
+                    child(ROOT_NODE).child(Users_Repository.get().getCurrentUser().getId()).child(NODE_FORUMS_OWN).setValue(Users_Repository.get().getCurrentUser().getForumsOwn());
         }
 
         public static Task<Void> addForumParticipate(String forumKey) {
@@ -176,6 +209,55 @@ public class FirebaseContract {
                     child(key).
                     child(NODE_DESCRIPTION).
                     addChildEventListener(listener);
+        }
+    }
+
+    public static class Chats {
+        public static final String ROOT_NODE = "chats";
+        public static final String NODE_PARTICIPANTS = "participants";
+        public static final String NODE_USER_NAME = "userName";
+        public static final String NODE_USER_IMG = "userImgUrl";
+
+
+        public static void createChat(final String forumKey, String[] participantsKeys) {
+            final String chatKey;
+            chatKey = FirebaseDatabase.getInstance().getReference().
+                    child(ROOT_NODE).child(forumKey).push().getKey();
+            for (final String key : participantsKeys) {
+                FirebaseDatabase.getInstance().getReference().
+                        child(FirebaseContract.User.ROOT_NODE).
+                        child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        if (!FirebaseContract.User.hasChat(forumKey, chatKey, dataSnapshot)) {
+                            FirebaseDatabase.getInstance().getReference().
+                                    child(ROOT_NODE).
+                                    child(forumKey).
+                                    child(chatKey).
+                                    child(NODE_PARTICIPANTS).child(dataSnapshot.getKey());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                FirebaseContract.User.addChat(key, forumKey, chatKey, new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        FirebaseDatabase.getInstance().getReference().
+                                child(ROOT_NODE).
+                                child(forumKey).
+                                child(key).
+                                child(NODE_PARTICIPANTS).
+                                addListenerForSingleValueEvent(null);
+                    }
+                });
+
+            }
         }
     }
 }

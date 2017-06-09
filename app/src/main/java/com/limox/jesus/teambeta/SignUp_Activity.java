@@ -18,7 +18,7 @@ public class SignUp_Activity extends AppCompatActivity implements HomeOfFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.limox.jesus.teambeta.R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_up);
 
         startSignUpEmail();
 
@@ -52,7 +52,9 @@ public class SignUp_Activity extends AppCompatActivity implements HomeOfFragment
 
     @Override
     public void startSelectProjectActivity() {
-        startActivity(new Intent(SignUp_Activity.this, SelectProject_Activity.class));
+        Intent intent = new Intent(getApplicationContext(), SelectProject_Activity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         finish();
     }
 
@@ -62,7 +64,7 @@ public class SignUp_Activity extends AppCompatActivity implements HomeOfFragment
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (addStack)
             ft.addToBackStack(null);
-        ft.replace(com.limox.jesus.teambeta.R.id.activity_sign_up, mCurrentFragment,tag);
+        ft.replace(R.id.activity_sign_up, mCurrentFragment, tag);
         ft.commit();
     }
 

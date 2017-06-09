@@ -81,6 +81,7 @@ public final class AllConstants {
             public static final String ITEM_STYLE = "itemstyle";
             public static final String FORUM_LIST_ARG = "listarg";
             public static final String MESSAGE_LENGTH_KEY = "message_list";
+            public static final String CHATS_KEYS = "chats_list";
         }
     }
 

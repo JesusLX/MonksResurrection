@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by jesus on 8/11/16.
@@ -30,6 +31,7 @@ public class User implements Parcelable {
     private ArrayList<String> mPostsLiked;
     private ArrayList<String> mForumsAdmin;
     private ArrayList<String> forumsWIParticipate;
+    private HashMap<String, ArrayList<Chat>> chats;
 
 
     public User(String idUser, String nick, String email, String password, String profilePicture, boolean profileBlocked, boolean userDeleted) {
@@ -273,5 +275,17 @@ public class User implements Parcelable {
         Bundle b = new Bundle();
         b.putParcelable(AllConstants.Keys.Parcelables.USER_PARCELABLE_KEY, this);
         return b;
+    }
+
+    public HashMap<String, ArrayList<Chat>> getChats() {
+        return chats;
+    }
+
+    public ArrayList<Chat> optChats(String forumKey) {
+        return chats.get(forumKey) == null ? new ArrayList<Chat>() : chats.get(forumKey);
+    }
+
+    public void setChats(HashMap<String, ArrayList<Chat>> chats) {
+        this.chats = chats;
     }
 }

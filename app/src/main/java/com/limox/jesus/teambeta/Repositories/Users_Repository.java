@@ -147,10 +147,18 @@ public class Users_Repository {
 
     public boolean currentUserCanAdmin(Post post) {
         boolean itIs = false;
-        if (getCurrentUser().getForumsAdmin().contains(post.getForumsKey()) || getCurrentUser().getForumsOwn().contains(post.getForumsKey())) {
+        if (getCurrentUser().getForumsAdmin().contains(post.getForumKey()) || getCurrentUser().getForumsOwn().contains(post.getForumKey())) {
             itIs = true;
         }
         return itIs;
 
+    }
+
+    public boolean isMyForum(String key) {
+        return getCurrentUser().getForumsOwn().contains(key);
+    }
+
+    public boolean iParticipate(String key) {
+        return getCurrentUser().getForumsAdmin().contains(key) || getCurrentUser().getForumsWIParticipate().contains(key);
     }
 }

@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.limox.jesus.teambeta.Adapters.RecyclerView.ForumsListRecyclerAdapter;
-import com.limox.jesus.teambeta.Adapters.RecyclerView.TagsRecyclerAdapter;
+import com.limox.jesus.teambeta.Adapters.RecyclerView.SearchsRecyclerAdapter;
 import com.limox.jesus.teambeta.Interfaces.SearchManager;
 import com.limox.jesus.teambeta.Model.Forum;
 import com.limox.jesus.teambeta.Presenter.SearchManagerImpl;
@@ -26,11 +26,11 @@ import com.limox.jesus.teambeta.Utils.UIUtils;
 
 import java.util.ArrayList;
 
-public class SearchFragment extends Fragment implements SearchManager.View, TagsRecyclerAdapter.OnTagsViewHolderListener, ForumsListRecyclerAdapter.ForumsListRecyclerAdapterListener {
+public class SearchFragment extends Fragment implements SearchManager.View, SearchsRecyclerAdapter.OnTagsViewHolderListener, ForumsListRecyclerAdapter.ForumsListRecyclerAdapterListener {
 
     private ForumsListFragment.OnForumsListFragmentListener mListener;
     private SearchManagerImpl mPresenter;
-    private TagsRecyclerAdapter mTagsAdapter;
+    private SearchsRecyclerAdapter mTagsAdapter;
     private ForumsListRecyclerAdapter mForumsAdapter;
     private EditText edtSearchBar;
     private RecyclerView rvTags;
@@ -51,7 +51,7 @@ public class SearchFragment extends Fragment implements SearchManager.View, Tags
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = new SearchManagerImpl(this);
-        mTagsAdapter = new TagsRecyclerAdapter(new ArrayList<String>(), this);
+        mTagsAdapter = new SearchsRecyclerAdapter(new ArrayList<String>(), this);
         mForumsAdapter = new ForumsListRecyclerAdapter(getContext(), new ArrayList<Forum>(), this, R.layout.item_tiny);
 
     }

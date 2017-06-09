@@ -34,20 +34,18 @@ public class Forum implements Parcelable {
     private String adminsKey;
     private String description;
     private Date creationDate;
-    private List<String> tags;
     private boolean deleted;
 
     public Forum() {
     }
 
-    public Forum(String name, String imgUrl, String ownerId, String usersKey, String adminsKey, String description, List<String> tags) {
+    public Forum(String name, String imgUrl, String ownerId, String usersKey, String adminsKey, String description) {
         this.name = name;
         this.imgUrl = imgUrl;
         this.ownerId = ownerId;
         this.usersKey = usersKey;
         this.adminsKey = adminsKey;
         this.description = description;
-        this.tags = tags;
         this.creationDate = new Date();
         this.deleted = false;
     }
@@ -60,8 +58,24 @@ public class Forum implements Parcelable {
         usersKey = in.readString();
         adminsKey = in.readString();
         description = in.readString();
-        tags = in.createStringArrayList();
         deleted = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(key);
+        dest.writeString(name);
+        dest.writeString(imgUrl);
+        dest.writeString(ownerId);
+        dest.writeString(usersKey);
+        dest.writeString(adminsKey);
+        dest.writeString(description);
+        dest.writeByte((byte) (deleted ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Forum> CREATOR = new Creator<Forum>() {
@@ -98,14 +112,6 @@ public class Forum implements Parcelable {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
-    }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
     }
 
     public String getImgUrl() {
@@ -186,24 +192,6 @@ public class Forum implements Parcelable {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(key);
-        dest.writeString(name);
-        dest.writeString(imgUrl);
-        dest.writeString(ownerId);
-        dest.writeString(usersKey);
-        dest.writeString(adminsKey);
-        dest.writeString(description);
-        dest.writeStringList(tags);
-        dest.writeByte((byte) (deleted ? 1 : 0));
     }
 
     public String getShortedDescription() {

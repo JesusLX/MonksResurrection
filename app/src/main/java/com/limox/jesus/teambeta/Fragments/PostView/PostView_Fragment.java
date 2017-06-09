@@ -17,21 +17,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.limox.jesus.teambeta.Interfaces.ChatsManagerPresenter;
 import com.limox.jesus.teambeta.Interfaces.PostViewPresenter;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
+import com.limox.jesus.teambeta.Model.Chat;
 import com.limox.jesus.teambeta.Model.Post;
 import com.limox.jesus.teambeta.Model.User;
+import com.limox.jesus.teambeta.Presenter.ChatsManagerPresenterImpl;
 import com.limox.jesus.teambeta.Presenter.PostViewPresenterImpl;
 import com.limox.jesus.teambeta.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import it.sephiroth.android.library.picasso.Picasso;
 
-public class PostView_Fragment extends Fragment implements PostViewPresenter.View, UserManagerPresenter.View {
+public class PostView_Fragment extends Fragment implements PostViewPresenter.View, UserManagerPresenter.View, ChatsManagerPresenter.View.ChatsManager {
 
     private User mUser;
     private Post mPost;
@@ -46,6 +51,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
     private TextView mTxvPostScore;
     private PostViewPresenter mPresenter;
     private UserManagerPresenter mUserPresenter;
+    private ChatsManagerPresenterImpl mChatsPresenter;
     private OnPostViewFragmentListener mCallback;
 
     Toolbar.OnMenuItemClickListener mListenerOnMenuClick;
@@ -64,6 +70,17 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
     public void onUserObtained(User tryUser) {
         mUser = tryUser;
         fillWidgets();
+
+    }
+
+
+    @Override
+    public void onChatsReceived(HashMap<String, ArrayList<Chat>> singleChatData) {
+
+    }
+
+    @Override
+    public void onChatReceived(Chat chat) {
 
     }
 
@@ -103,6 +120,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         mPost = getArguments().getParcelable(AllConstants.Keys.Parcelables.POST_PARCELABLE_KEY);
         mPost.setCreationDate(new Date(getArguments().getLong(AllConstants.Keys.Parcelables.POST_CREATION_DATE)));
         mUserPresenter = new UserManagerPresenterImpl(this);
+        mChatsPresenter = new ChatsManagerPresenterImpl(this);
     }
 
     @Override
@@ -214,9 +232,9 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
                         // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
                         createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToPublished, TO_PUBLISHED).show();
                         break;
-            /*case R.id.action_SendMessage:
-                // Todo Aqui meter para enviar mensaje
-                break;*/
+                    case R.id.action_pv_SendMessage:
+                        mChatsPresenter.optChat(Users_Repository.get().getCurrentForum().getKey(), Users_Repository.get().getCurrentUser().optChats(Users_Repository.get().getCurrentForum().getKey()), new String[]{Users_Repository.get().getCurrentUser().getId(), mPost.getIdUser()}, null);
+                        break;
             /*case R.id.action_Edit:
                 // Todo Aqui meter para editar
                 break;*/

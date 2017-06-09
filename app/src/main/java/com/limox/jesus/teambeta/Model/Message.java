@@ -6,59 +6,59 @@ package com.limox.jesus.teambeta.Model;
 
 public class Message {
 
-    private String id;
-    private String text;
-    private String name;
-    private String photoUrl;
-    private String imageUrl;
+    private String mKey;
+    private String mText;
+    private String mUserKey;
+    private String mPhotoUrl;
+    private long mDate;
 
     public Message() {
     }
 
-    public Message(String text, String name, String photoUrl, String imageUrl) {
-        this.text = text;
-        this.name = name;
-        this.photoUrl = photoUrl;
-        this.imageUrl = imageUrl;
+    public Message(String text, String userKey, String photoUrl, long date) {
+        this.mText = text;
+        this.mUserKey = userKey;
+        this.mPhotoUrl = photoUrl;
+        this.mDate = date;
     }
 
-    public String getId() {
-        return id;
+    public String getKey() {
+        return mKey;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setKey(String key) {
+        this.mKey = key;
     }
 
     public void setText(String text) {
-        this.text = text;
+        this.mText = text;
     }
 
-    public String getName() {
-        return name;
+    public String getUserKey() {
+        return mUserKey;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserKey(String userKay) {
+        this.mUserKey = userKay;
     }
 
     public String getPhotoUrl() {
-        return photoUrl;
+        return mPhotoUrl;
     }
 
     public String getText() {
-        return text;
+        return mText;
     }
 
     public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+        this.mPhotoUrl = photoUrl;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public long getDate() {
+        return mDate;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setDate(long date) {
+        this.mDate = date;
     }
 }

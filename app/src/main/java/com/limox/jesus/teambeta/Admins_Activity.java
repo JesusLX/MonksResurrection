@@ -15,10 +15,13 @@ import com.limox.jesus.teambeta.Adapters.ArrayAdapter.PostArrayAdapter;
 import com.limox.jesus.teambeta.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.teambeta.Fragments.Admins.AdminsDashPosts_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
+import com.limox.jesus.teambeta.Model.Chat;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.Utils.NavDrawerUtils;
 import com.limox.jesus.teambeta.Utils.UIUtils;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.sephiroth.android.library.picasso.Picasso;
@@ -70,6 +73,12 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
         startActivity(intent);
     }
 
+    @Override
+    public void startChats(ArrayList<Chat> user) {
+        Intent i = new Intent(Admins_Activity.this, Chats_Activity.class);
+        i.putExtra(AllConstants.Keys.SimpleBundle.CHATS_KEYS, user);
+        startActivity(i);
+    }
     @Override
     public void startSelectProject() {
         closeDrawerLayout();

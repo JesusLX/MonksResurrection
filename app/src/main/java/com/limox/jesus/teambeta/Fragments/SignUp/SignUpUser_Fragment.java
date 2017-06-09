@@ -1,6 +1,7 @@
 package com.limox.jesus.teambeta.Fragments.SignUp;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,19 +26,22 @@ import com.limox.jesus.teambeta.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.Preferences;
+import com.limox.jesus.teambeta.Utils.UIUtils;
 import com.limox.jesus.teambeta.Utils.Validate;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
 public class SignUpUser_Fragment extends Fragment implements UserManagerPresenter.View{
-    EditText edtUserName;
-    EditText edtPassword;
-    EditText edtRepeatPassword;
-    Button btnCreateAccount;
+    private EditText edtUserName;
+    private EditText edtPassword;
+    private EditText edtRepeatPassword;
+    private Button btnCreateAccount;
 
-    String email;
-    String name;
-    String password;
-    String repeatPassword;
+    private String email;
+    private String name;
+    private String password;
+    private String repeatPassword;
+
+    private ProgressDialog mProgress;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -103,7 +107,7 @@ public class SignUpUser_Fragment extends Fragment implements UserManagerPresente
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
          super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_sign_up_user,null);
-
+        mProgress = new ProgressDialog(getContext());
         email = getArguments().getString("email");
         edtUserName = (EditText) rootView.findViewById(R.id.suu_edtName);
         edtPassword = (EditText) rootView.findViewById(R.id.suu_edtPassword);
@@ -114,11 +118,15 @@ public class SignUpUser_Fragment extends Fragment implements UserManagerPresente
         btnCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UIUtils.hideKeyboard(getActivity(), v);
                 if (validateParams()){
+                    mProgress.setMessage(getString(R.string.loading));
+                    mProgress.show();
                     mAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull final Task<AuthResult> task) {
+                                    mProgress.show();
 
                                     // If sign in fails, display a message to the user. If sign in succeeds
                                     // the auth state listener will be notified and logic to handle the
@@ -126,6 +134,7 @@ public class SignUpUser_Fragment extends Fragment implements UserManagerPresente
                                     if (!task.isSuccessful()) {
                                         // Toast.makeText(getContext(), R.string.auth_failed,
                                         //      Toast.LENGTH_SHORT).show();
+                                        UIUtils.snackBar(getView(), getString(R.string.connection_error));
                                     } else {
                                         FirebaseContract.User.postUser(task.getResult().getUser().getUid(), new User(name, email), new OnSuccessListener() {
                                             @Override

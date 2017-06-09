@@ -28,7 +28,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,6 +50,8 @@ import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 
+import java.util.Date;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -70,7 +71,7 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 165;
     public static final String ANONYMOUS = "anonymous";
     private static final String MESSAGE_SENT_EVENT = "message_sent";
-    private String mUsername;
+    private String mUserKey;
     private String mPhotoUrl;
     private SharedPreferences mSharedPreferences;
     private static final String MESSAGE_URL = "https://team-beta-f34f4.firebaseio.com/message/";
@@ -90,7 +91,7 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         // Set default username is anonymous.
-        mUsername = ANONYMOUS;
+        mUserKey = ANONYMOUS;
     }
 
     @Override
@@ -118,7 +119,7 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
             protected Message parseSnapshot(DataSnapshot snapshot) {
                 Message friendlyMessage = super.parseSnapshot(snapshot);
                 if (friendlyMessage != null) {
-                    friendlyMessage.setId(snapshot.getKey());
+                    friendlyMessage.setKey(snapshot.getKey());
                 }
                 return friendlyMessage;
             }
@@ -130,9 +131,8 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
                 if (friendlyMessage.getText() != null) {
                     viewHolder.messageTextView.setText(friendlyMessage.getText());
                     viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
-                    viewHolder.messageImageView.setVisibility(ImageView.GONE);
                 } else {
-                    String imageUrl = friendlyMessage.getImageUrl();
+                    String imageUrl = friendlyMessage.getPhotoUrl();
                     if (imageUrl.startsWith("gs://")) {
                         StorageReference storageReference = FirebaseStorage.getInstance()
                                 .getReferenceFromUrl(imageUrl);
@@ -153,22 +153,11 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
                                 });
                     } else {
                         Glide.with(viewHolder.messageImageView.getContext())
-                                .load(friendlyMessage.getImageUrl())
+                                .load(friendlyMessage.getDate())
                                 .into(viewHolder.messageImageView);
                     }
                     viewHolder.messageImageView.setVisibility(ImageView.VISIBLE);
                     viewHolder.messageTextView.setVisibility(TextView.GONE);
-                }
-
-
-                viewHolder.messengerTextView.setText(friendlyMessage.getName());
-                if (friendlyMessage.getPhotoUrl() == null) {
-                    viewHolder.messengerImageView.setImageDrawable(ContextCompat.getDrawable(getContext(),
-                            R.drawable.ic_action_add_photo));
-                } else {
-                    Glide.with(getContext())
-                            .load(friendlyMessage.getPhotoUrl())
-                            .into(viewHolder.messengerImageView);
                 }
 
                 if (friendlyMessage.getText() != null) {
@@ -244,9 +233,9 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
             public void onClick(View view) {
                 Message friendlyMessage = new
                         Message(mMessageEditText.getText().toString(),
-                        mUsername,
+                        mUserKey,
                         mPhotoUrl,
-                        null /* no image */);
+                        new Date().getTime() /* no image */);
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD)
                         .push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
@@ -274,8 +263,8 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
                     final Uri uri = data.getData();
                     Log.d(TAG, "Uri: " + uri.toString());
 
-                    Message tempMessage = new Message(null, mUsername, mPhotoUrl,
-                            LOADING_IMAGE_URL);
+                    Message tempMessage = new Message(null, mUserKey, mPhotoUrl,
+                            new Date().getTime());
                     mFirebaseDatabaseReference.child(MESSAGES_CHILD).push()
                             .setValue(tempMessage, new DatabaseReference.CompletionListener() {
                                 @Override
@@ -303,17 +292,17 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
 
     private Indexable getMessageIndexable(Message friendlyMessage) {
         PersonBuilder sender = Indexables.personBuilder()
-                .setIsSelf(mUsername.equals(friendlyMessage.getName()))
-                .setName(friendlyMessage.getName())
-                .setUrl(MESSAGE_URL.concat(friendlyMessage.getId() + "/sender"));
+                .setIsSelf(mUserKey.equals(friendlyMessage.getText()))
+                .setName(friendlyMessage.getText())
+                .setUrl(MESSAGE_URL.concat(friendlyMessage.getKey() + "/sender"));
 
         PersonBuilder recipient = Indexables.personBuilder()
-                .setName(mUsername)
-                .setUrl(MESSAGE_URL.concat(friendlyMessage.getId() + "/recipient"));
+                .setName(mUserKey)
+                .setUrl(MESSAGE_URL.concat(friendlyMessage.getKey() + "/recipient"));
 
         Indexable messageToIndex = Indexables.messageBuilder()
                 .setName(friendlyMessage.getText())
-                .setUrl(MESSAGE_URL.concat(friendlyMessage.getId()))
+                .setUrl(MESSAGE_URL.concat(friendlyMessage.getKey()))
                 .setSender(sender)
                 .setRecipient(recipient)
                 .build();
@@ -323,7 +312,7 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
 
     private Action getMessageViewAction(Message friendlyMessage) {
         return new Action.Builder(Action.Builder.VIEW_ACTION)
-                .setObject(friendlyMessage.getName(), MESSAGE_URL.concat(friendlyMessage.getId()))
+                .setObject(friendlyMessage.getText(), MESSAGE_URL.concat(friendlyMessage.getKey()))
                 .setMetadata(new Action.Metadata.Builder().setUpload(false))
                 .build();
     }
@@ -335,9 +324,9 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if (task.isSuccessful()) {
                             Message friendlyMessage =
-                                    new Message(null, mUsername, mPhotoUrl,
+                                    new Message(mUserKey, mPhotoUrl,
                                             task.getResult().getMetadata().getDownloadUrl()
-                                                    .toString());
+                                                    .toString(), new Date().getTime());
                             mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key)
                                     .setValue(friendlyMessage);
                         } else {
@@ -356,15 +345,11 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         public TextView messageTextView;
         public ImageView messageImageView;
-        public TextView messengerTextView;
-        public CircleImageView messengerImageView;
 
         public MessageViewHolder(View v) {
             super(v);
             messageTextView = (TextView) itemView.findViewById(R.id.messageTextView);
             messageImageView = (ImageView) itemView.findViewById(R.id.messageImageView);
-            messengerTextView = (TextView) itemView.findViewById(R.id.messengerTextView);
-            messengerImageView = (CircleImageView) itemView.findViewById(R.id.messengerImageView);
         }
     }
 }

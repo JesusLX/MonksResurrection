@@ -53,7 +53,7 @@ public class ForumsListManagerPresenterImpl implements ForumsListManagerPresente
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        mView.onError();
                     }
                 });
             }

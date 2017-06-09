@@ -20,5 +20,7 @@ public interface ForumsListManagerPresenter {
         void onForumsObtained(ArrayList<Forum> forums);
 
         void addForum(Forum value);
+
+        void onError();
     }
 }

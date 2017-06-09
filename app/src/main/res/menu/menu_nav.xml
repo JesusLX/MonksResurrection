@@ -4,6 +4,10 @@
         <item android:id="@+id/action_profile"
             android:title="@string/profile"
             android:icon="@drawable/ic_action_user"/>
+        <item
+            android:id="@+id/action_chats"
+            android:title="@string/chats"
+            android:icon="@drawable/ic_action_chat" />
         <item android:id="@+id/action_projects"
             android:title="@string/projects"
             android:icon="@drawable/ic_action_forums" />

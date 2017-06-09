@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by jesus on 11/11/16.
  */
 
-public class TagsRecyclerAdapter extends RecyclerView.Adapter<TagsRecyclerAdapter.PostViewHolder> {
+public class SearchsRecyclerAdapter extends RecyclerView.Adapter<SearchsRecyclerAdapter.PostViewHolder> {
 
 
     private ArrayList<String> mTags;
@@ -30,7 +30,7 @@ public class TagsRecyclerAdapter extends RecyclerView.Adapter<TagsRecyclerAdapte
      * @param tags     Arrylist of tags to show
      * @param listener listener
      */
-    public TagsRecyclerAdapter(ArrayList<String> tags, OnTagsViewHolderListener listener) {
+    public SearchsRecyclerAdapter(ArrayList<String> tags, OnTagsViewHolderListener listener) {
 
         this.mTags = tags;
         if (tags == null)

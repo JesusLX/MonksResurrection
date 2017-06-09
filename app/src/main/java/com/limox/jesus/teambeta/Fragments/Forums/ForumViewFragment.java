@@ -1,5 +1,6 @@
 package com.limox.jesus.teambeta.Fragments.Forums;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
@@ -26,6 +27,7 @@ import com.limox.jesus.teambeta.Adapters.TabsAdapter.ProfileForumsTabsAdapter;
 import com.limox.jesus.teambeta.Interfaces.ForumManagerPresenter;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta.Model.Forum;
+import com.limox.jesus.teambeta.Model.User;
 import com.limox.jesus.teambeta.Presenter.ForumManagerPresenterImpl;
 import com.limox.jesus.teambeta.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta.R;
@@ -35,7 +37,7 @@ import com.limox.jesus.teambeta.Utils.Preferences;
 import com.limox.jesus.teambeta.Utils.UIUtils;
 
 
-public class ForumViewFragment extends Fragment implements ForumManagerPresenter.View {
+public class ForumViewFragment extends Fragment implements ForumManagerPresenter.View, UserManagerPresenter.View {
 
     private Forum mForum;
     private Toolbar mToolbar;
@@ -49,6 +51,8 @@ public class ForumViewFragment extends Fragment implements ForumManagerPresenter
     private ViewPager mVpContainer;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
+    public ProgressDialog mProgress;
+
     private ForumUsersTabsAdapter mAdapter;
 
     public ForumViewFragment() {
@@ -64,7 +68,7 @@ public class ForumViewFragment extends Fragment implements ForumManagerPresenter
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = new UserManagerPresenterImpl();
+        mPresenter = new UserManagerPresenterImpl(this);
         mForumPresenter = new ForumManagerPresenterImpl(this);
         setHasOptionsMenu(true);
 
@@ -96,26 +100,6 @@ public class ForumViewFragment extends Fragment implements ForumManagerPresenter
         super.onPrepareOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_edit:
-
-                break;
-            case R.id.action_see_owner:
-                Bundle user = new Bundle();
-                user.putString(AllConstants.Keys.SimpleBundle.ID_USER_KEY, mForum.getOwnerId());
-                mCallback.startUserProfile(user, true);
-                break;
-            case R.id.action_leave:
-
-                break;
-
-        }
-
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,6 +124,29 @@ public class ForumViewFragment extends Fragment implements ForumManagerPresenter
 
         mToolbar.inflateMenu(R.menu.menu_forum_view);
         mToolbar.setTitle(mForum.getName());
+        adapteMenu(mToolbar.getMenu());
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_edit:
+
+                        break;
+                    case R.id.action_see_owner:
+                        mProgress = new ProgressDialog(getContext());
+                        mPresenter.getUser(mForum.getOwnerId());
+                        mProgress.setMessage(getString(R.string.loading));
+                        mProgress.show();
+                        break;
+                    case R.id.action_leave:
+
+                        break;
+
+                }
+                return true;
+            }
+        });
         mToolbar.setNavigationIcon(R.drawable.ic_action_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -257,6 +264,17 @@ public class ForumViewFragment extends Fragment implements ForumManagerPresenter
 
     }
 
+    /**
+     * Adapt the option menu for the current user
+     *
+     * @param menu menu inflated
+     */
+    private void adapteMenu(Menu menu) {
+        menu.findItem(R.id.action_edit).setVisible(Users_Repository.get().isMyForum(mForum.getKey()));
+        menu.findItem(R.id.action_leave).setVisible(Users_Repository.get().iParticipate(mForum.getKey()));
+        menu.findItem(R.id.action_see_owner).setVisible(!Users_Repository.get().isMyForum(mForum.getKey()));
+    }
+
     @Override
     public void onForumCreated(String forumKey) {
 
@@ -274,12 +292,29 @@ public class ForumViewFragment extends Fragment implements ForumManagerPresenter
 
     @Override
     public void onError() {
+        mProgress.dismiss();
 
     }
 
     @Override
     public void onDescriptionObtained(String description) {
         mTxvDescription.setText(description);
+    }
+
+    @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void onUserCreated() {
+
+    }
+
+    @Override
+    public void onUserObtained(User tryUser) {
+        mCallback.startUserProfile(tryUser.optBundle(), true);
+        mProgress.dismiss();
     }
 
 

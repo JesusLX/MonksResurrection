@@ -8,8 +8,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
+import com.limox.jesus.teambeta.Model.Chat;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
+
+import java.util.ArrayList;
 
 /**
  * Created by usuario on 12/01/17.
@@ -28,6 +31,7 @@ public class NavDrawerUtils {
         void startSettings();
         void startHelp();
 
+        void startChats(ArrayList<Chat> chats);
     }
 
     public NavDrawerUtils(Context context, DrawerLayout drawerLayout) {
@@ -54,11 +58,15 @@ public class NavDrawerUtils {
         NavListener = new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Bundle user;
                 switch (item.getItemId()){
                     case R.id.action_profile:
-                        Bundle user = new Bundle();
+                        user = new Bundle();
                         user.putString(AllConstants.Keys.SimpleBundle.ID_USER_KEY, Users_Repository.get().getCurrentUser().getId());
                         mCallback.startUserProfile(user);
+                        break;
+                    case R.id.action_chats:
+                        mCallback.startChats(Users_Repository.get().getCurrentUser().optChats(Users_Repository.get().getCurrentForum().getKey()));
                         break;
                     case R.id.action_projects:
                         mCallback.startSelectProject();

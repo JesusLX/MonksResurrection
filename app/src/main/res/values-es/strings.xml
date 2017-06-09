@@ -4,7 +4,7 @@
     <string name="action_edit">Editar</string>
     <string name="action_send_message">Enviar mensaje</string>
     <string name="action_settings">Configuración</string>
-    <string name="action_to_fixes">A arreglados</string>
+    <string name="action_to_fixes">¡Arreglado!</string>
     <string name="action_to_published">Publicar</string>
     <string name="btnCancel">Cancelar</string>
     <string name="btnOk">Vale</string>
@@ -123,4 +123,9 @@
     <string name="users_key">Clave de usuario</string>
     <string name="wrong_user_or_password">Email o contraseña incorrecto</string>
     <string name="fill_all">Rellenalo todo, pls</string>
+    <string name="connecting">Conectando...</string>
+    <string name="leave_forum">Dejar foro</string>
+    <string name="hello_blank_fragment" translatable="false"></string>
+    <string name="name">Nombre</string>
+    <string name="see_owner">Ver Creador</string>
 </resources>

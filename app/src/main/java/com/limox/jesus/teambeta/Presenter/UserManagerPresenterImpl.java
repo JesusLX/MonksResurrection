@@ -35,8 +35,6 @@ public class UserManagerPresenterImpl implements UserManagerPresenter {
         this.context = view.getContext();
     }
 
-    public UserManagerPresenterImpl() {
-    }
 
 
 

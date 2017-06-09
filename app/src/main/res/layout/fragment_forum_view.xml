@@ -17,6 +17,7 @@
     <RelativeLayout
         android:id="@+id/rlForumView"
         android:layout_width="match_parent"
+        android:background="@color/toolbarColorBg"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar">
 
@@ -32,7 +33,7 @@
         <TextView
             android:id="@+id/fv_txvName"
             android:layout_width="wrap_content"
-            android:layout_height="85dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
@@ -40,6 +41,7 @@
             android:textColor="@android:color/black"
             android:textSize="25sp"
             android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/fv_txvDescription"
@@ -92,7 +94,7 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:background="@drawable/button_background"
                 android:id="@+id/fv_btnAcc"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/fav_margin"

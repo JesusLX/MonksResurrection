@@ -114,7 +114,7 @@ public class Login_Activity extends AppCompatActivity implements UserManagerPres
                     /*User user = FirebaseContract.User.getUser(task.getResult().getUser());
                     Users_Repository.get().setCurrentUser(user);
 
-                    Preferences.setCurrentUser(user.getId(), mUserName,mPassword,Login_Activity.this);*/
+                    Preferences.setCurrentUser(user.getKey(), mUserName,mPassword,Login_Activity.this);*/
                     }
                 }
             });

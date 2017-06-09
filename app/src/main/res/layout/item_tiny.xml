@@ -10,7 +10,8 @@
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:elevation="150dp">
+        android:paddingBottom="5dp"
+        android:elevation="1dp">
 
         <RelativeLayout
             android:id="@+id/if_forumContainer"

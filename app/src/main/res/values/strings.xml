@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Team BETA</string>
+    <string translatable="false" name="app_name">Team BETA</string>
     <string name="lgn_usr_name">User name</string>
     <string name="password">Password</string>
     <string name="sign_in">Sign In</string>
@@ -8,7 +8,7 @@
     <string name="ssu_txvSignUp">Sign up with an email address</string>
     <string name="ssu_txvSignIn">You have jet a account? Sign in</string>
     <string name="next">Next</string>
-    <string name="action_to_fixes">To fixes</string>
+    <string name="action_to_fixes">To fixes!</string>
     <string name="action_to_published">To published</string>
     <string name="action_send_message">Send Message</string>
     <string name="action_edit">Edit</string>
@@ -19,7 +19,7 @@
     <string name="dat_MessageAlert_ToFixes">Are you sure of send this posts to fixes?</string>
     <string name="dat_MessageAlert_ToPublished">Are you sure of send this posts to published?</string>
     <string name="dat_MessageAlert_Delete">Are you sure of delete this posts?</string>
-    <string name="message_all_ok" translatable="false" />
+    <string translatable="false" name="message_all_ok" />
     <string name="message_error_username_tooLong">The user name is too long</string>
     <string name="message_error_username_tooShort">The user name is too short</string>
     <string name="message_error_email_wrong">Introduce a valid email address</string>
@@ -37,8 +37,8 @@
     <string name="description">Description</string>
     <string name="title">Title</string>
     <string name="text_about_application">TeamBeta is a forum application for developers and testers.</string>
-    <string name="business_web" translatable="false">https://jesuslx.ncatz.com</string>
-    <string name="business_name" translatable="false">nCatz</string>
+    <string translatable="false" name="business_web">https://jesuslx.ncatz.com</string>
+    <string translatable="false" name="business_name">nCatz</string>
     <string name="business">Business:</string>
     <string name="about_me">About me:</string>
     <string name="recover_password">Recover password</string>
@@ -93,14 +93,14 @@
     <string name="ivProfilePicture_description">Is the user profile image</string>
     <string name="btnback_description">Is a image to set click to go back at stack</string>
     <string name="create_post">Create Post</string>
-    <string name="o_separator" translatable="false">O</string>
+    <string translatable="false" name="o_separator">O</string>
     <string name="sign_up">Sign Up</string>
     <string name="userprofilebg_description">Background for the user profile picture</string>
-    <string name="empty" translatable="false" />
+    <string translatable="false" name="empty" />
     <string name="points">Puntos</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">No implementado aun</string>
+    <string translatable="false" name="hello_blank_fragment">No implementado aun</string>
 
     <string name="send">Send</string>
     <string name="message_error_must_fill">You must fill all</string>
@@ -148,10 +148,14 @@
     <string name="action_settings">Settings</string>
     <string name="fill_all">Fill all pls</string>
     <string name="name">Name</string>
-    <string name="connecting">Coneccting...</string>
+    <string name="connecting">Connecting...</string>
     <string name="leave_forum">Leave forum</string>
     <string name="see_owner">See owner</string>
     <string name="explore">Explore</string>
     <string name="news">News</string>
+    <string name="no_internet">Internet no available</string>
+    <string name="no_email_app">There are no email clients installed.</string>
+    <string name="send_email">Send mail...</string>
+    <string name="chats">Chats</string>
 
 </resources>

@@ -16,10 +16,13 @@ import com.limox.jesus.teambeta.Adapters.ArrayAdapter.PostArrayAdapter;
 import com.limox.jesus.teambeta.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.teambeta.Fragments.Home.HomeDashPosts_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
+import com.limox.jesus.teambeta.Model.Chat;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.Utils.NavDrawerUtils;
 import com.limox.jesus.teambeta.Utils.UIUtils;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.sephiroth.android.library.picasso.Picasso;
@@ -106,6 +109,13 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
     @Override
     public void startHelp() {
         startFragment(AboutMe_Fragment.newInstance(), true, AllConstants.FragmentTag.HelpTag);
+    }
+
+    @Override
+    public void startChats(ArrayList<Chat> user) {
+        Intent i = new Intent(Home_Activity.this, Chats_Activity.class);
+        i.putExtra(AllConstants.Keys.SimpleBundle.CHATS_KEYS, user);
+        startActivity(i);
     }
 
     @Override

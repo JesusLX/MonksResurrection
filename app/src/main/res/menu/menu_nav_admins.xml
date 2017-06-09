@@ -6,6 +6,10 @@
             android:icon="@drawable/ic_action_user"
             android:title="@string/profile" />
         <item
+            android:id="@+id/action_chats"
+            android:title="@string/chats"
+            android:icon="@drawable/ic_action_chat" />
+        <item
             android:id="@+id/action_projects"
             android:icon="@drawable/ic_action_forums"
             android:title="@string/projects" />

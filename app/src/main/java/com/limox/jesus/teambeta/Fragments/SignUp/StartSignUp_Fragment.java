@@ -47,7 +47,7 @@ public class StartSignUp_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View rootView = inflater.inflate(R.layout.fragment_start_sign_up, null);
+        View rootView = inflater.inflate(R.layout.fragment_start_sign_up, container, false);
 
         mTxvSignUp = (TextView) rootView.findViewById(R.id.ssu_txvSignUp);
 

@@ -24,6 +24,7 @@ import com.limox.jesus.teambeta.Presenter.ForumsListManagerPresenterImpl;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
+import com.limox.jesus.teambeta.Utils.UIUtils;
 
 import org.w3c.dom.Text;
 
@@ -71,6 +72,8 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
             mTypeList = getArguments().getIntArray(AllConstants.Keys.SimpleBundle.FORUM_LIST_ARG)[1];
             mUser = getArguments().getBundle(AllConstants.Keys.Parcelables.USER_PARCELABLE_KEY).getParcelable(AllConstants.Keys.Parcelables.USER_PARCELABLE_KEY);
         }
+        if (mUser == null)
+            mUser = Users_Repository.get().getCurrentUser();
         mAdapter = new ForumsListRecyclerAdapter(getContext(), new ArrayList<Forum>(), this, mItemStyle == Forum.TYPE_COLLAPSED ? R.layout.item_forum : R.layout.item_tiny);
         mPresenter = new ForumsListManagerPresenterImpl(this);
 
@@ -80,17 +83,21 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
 
 
     private void search() {
-        mProgressB.setVisibility(View.VISIBLE);
-        switch (mTypeList) {
-            case Forum.PARTAKER:
-                mPresenter.searchForums(mUser.getForumsWIParticipate());
-                break;
-            case Forum.ADMIN:
-                mPresenter.searchForums(mUser.getForumsAdmin());
-                break;
-            case Forum.OWN:
-                mPresenter.searchForums(mUser.getForumsOwn());
-                break;
+        if (UIUtils.isNetworkAvailable(getContext())) {
+            mProgressB.setVisibility(View.VISIBLE);
+            switch (mTypeList) {
+                case Forum.PARTAKER:
+                    mPresenter.searchForums(mUser.getForumsWIParticipate());
+                    break;
+                case Forum.ADMIN:
+                    mPresenter.searchForums(mUser.getForumsAdmin());
+                    break;
+                case Forum.OWN:
+                    mPresenter.searchForums(mUser.getForumsOwn());
+                    break;
+            }
+        } else {
+            UIUtils.snackBar(getView(), getString(R.string.no_internet));
         }
     }
 
@@ -149,7 +156,9 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
                 }
             });
             mFabAdd.setVisibility(View.VISIBLE);
-        }
+        } else
+            mFabAdd.setVisibility(View.GONE);
+
         rvForums.setAdapter(mAdapter);
         if (mItemStyle == Forum.TYPE_COLLAPSED)
             rvForums.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -195,6 +204,11 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
 
             mProgressB.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onError() {
+
     }
 
 

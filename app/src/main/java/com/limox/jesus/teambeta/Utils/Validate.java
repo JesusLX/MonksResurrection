@@ -40,15 +40,29 @@ public class Validate {
             referenceMensaje = R.string.message_error_password_tooLong;
         else if (password.length() <= AllConstants.PASSWORD_MIN_LENGTH)
             referenceMensaje = R.string.message_error_password_tooShort;
-        else if (!password.matches("^.{0,}([0-9])+.{0,}$"))
+        else if (!containsDigit(password))
             referenceMensaje = R.string.message_error_password_case;
-        else if (!password.matches("^.+[a-zA-Z]+.+$"))
+        else if (!containsChar(password))
             referenceMensaje = R.string.message_error_password_digit;
 
         return referenceMensaje;
     }
 
-    public static int validateRepeatedPassword(String password,String repeatedPassword){
+    private static boolean containsChar(String word) {
+        for (char c : word.toCharArray()) {
+            if (Character.isLetter(c)) return true;
+        }
+        return false;
+    }
+
+    private static boolean containsDigit(String word) {
+        for (char c : word.toCharArray()) {
+            if (Character.isDigit(c)) return true;
+        }
+        return false;
+    }
+
+    public static int validateRepeatedPassword(String password, String repeatedPassword) {
         int referenceMensaje = R.string.message_all_ok;
 
         if (!password.equals(repeatedPassword))
@@ -56,10 +70,11 @@ public class Validate {
 
         return referenceMensaje;
     }
-    public static int validateAccount(String userName, String password){
+
+    public static int validateAccount(String userName, String password) {
         int messageError = R.string.message_error_nonexistent;
         User tmpUser;
-        if ((tmpUser = Users_Repository.get().getUser(userName)) != null){
+        if ((tmpUser = Users_Repository.get().getUser(userName)) != null) {
             if (tmpUser.getName().equals(userName) && tmpUser.getPassword().equals(password))
                 messageError = MESSAGE_OK;
         }
