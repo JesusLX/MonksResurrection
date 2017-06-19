@@ -30,7 +30,7 @@ public class Preferences {
         SharedPreferences preferences = context.getSharedPreferences(AllConstants.Keys.Shared.SHARED_USER_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         if (preferences.contains(AllConstants.Keys.Shared.SHARED_USER_ID))
-            editor.remove(AllConstants.Keys.Shared.SHARED_USER_EMAIL);
+            editor.remove(AllConstants.Keys.Shared.SHARED_USER_ID);
         if (preferences.contains(AllConstants.Keys.Shared.SHARED_USER_EMAIL))
             editor.remove(AllConstants.Keys.Shared.SHARED_USER_EMAIL);
         if (preferences.contains(AllConstants.Keys.Shared.SHARED_USER_PSWRD))
@@ -101,5 +101,23 @@ public class Preferences {
     public static boolean getNotifications(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(AllConstants.Keys.Shared.SHARED_SETTINGS_FILE, MODE_PRIVATE);
         return preferences.contains(AllConstants.Keys.Shared.SHARED_NOTIFICATIONS);
+    }
+
+    public static void setCurrentEmail(Context context, String email) {
+        SharedPreferences preferences = context.getSharedPreferences(AllConstants.Keys.Shared.SHARED_USER_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        if (preferences.contains(AllConstants.Keys.Shared.SHARED_USER_EMAIL))
+            editor.remove(AllConstants.Keys.Shared.SHARED_USER_EMAIL);
+        editor.putString(AllConstants.Keys.Shared.SHARED_USER_EMAIL, email);
+        editor.apply();
+    }
+
+    public static void setCurrentPassword(Context context, String password) {
+        SharedPreferences preferences = context.getSharedPreferences(AllConstants.Keys.Shared.SHARED_USER_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        if (preferences.contains(AllConstants.Keys.Shared.SHARED_USER_PSWRD))
+            editor.remove(AllConstants.Keys.Shared.SHARED_USER_PSWRD);
+        editor.putString(AllConstants.Keys.Shared.SHARED_USER_PSWRD, password);
+        editor.apply();
     }
 }

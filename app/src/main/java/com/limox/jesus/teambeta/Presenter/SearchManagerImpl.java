@@ -21,9 +21,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
+ * Presenter class to manage search's actions
  * Created by Jesus on 16/05/2017.
  */
-
 public class SearchManagerImpl implements SearchManager {
 
     private View mView;

@@ -1,21 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.limox.jesus.teambeta.Fragments.Forums.CreateForumFragment">
 
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/toolbarColorBg" />
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -23,23 +16,33 @@
 
 
             <RelativeLayout
-                android:id="@+id/fv_rlLogo"
+                android:id="@+id/cf_rlLogo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/toolbarColorBg"
                 android:paddingBottom="10dp"
-                android:background="@color/toolbarColorBg">
+                android:paddingTop="@dimen/toolbarDefSize">
 
                 <ImageView
                     android:id="@+id/cf_ivLogo"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
-                    android:layout_margin="1dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
+                    android:layout_margin="1dp"
                     android:layout_marginBottom="15dp"
-                    android:background="@android:color/white"
+                    android:layout_marginTop="20dp"
+                    android:background="@android:color/transparent"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_action_add_photo" />
+
+                <ImageView
+                    android:id="@+id/cf_ivColors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/cf_ivLogo"
+                    android:layout_marginStart="40dp"
+                    android:layout_toEndOf="@+id/cf_ivLogo"
+                    android:src="@drawable/ic_action_colors" />
             </RelativeLayout>
 
 
@@ -47,7 +50,7 @@
                 android:id="@+id/cf_edtName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/fv_rlLogo"
+                android:layout_below="@+id/cf_rlLogo"
                 android:layout_centerHorizontal="true"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
@@ -71,51 +74,74 @@
                 android:inputType="textMultiLine"
                 android:maxLines="5" />
 
-            <TextView
-                android:id="@+id/cf_txvTitlename"
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/cf_tilUsersKey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cf_edtDescription"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
-                android:text="@string/users_key" />
-
-            <EditText
-                android:id="@+id/cf_edtname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cf_txvTitlename"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:drawablePadding="20dp"
-                android:drawableStart="@drawable/ic_action_key"
                 android:hint="@string/users_key"
-                android:inputType="textVisiblePassword"
-                android:lines="1" />
+                app:passwordToggleEnabled="true">
 
-            <TextView
-                android:id="@+id/cf_txvTitleAdminKey"
+                <EditText
+                    android:id="@+id/cf_edtname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="20dp"
+                    android:drawableStart="@drawable/ic_action_key"
+                    android:inputType="textPassword"
+                    android:lines="1" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/cf_tilAdminsKey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/cf_edtname"
+                android:layout_below="@+id/cf_tilUsersKey"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
-                android:text="@string/admins_key" />
-
-            <EditText
-                android:id="@+id/cf_edtAdminKey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cf_txvTitleAdminKey"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:drawablePadding="20dp"
-                android:drawableStart="@drawable/ic_action_bug"
                 android:hint="@string/admins_key"
-                android:inputType="textVisiblePassword"
-                android:lines="1" />
+                app:passwordToggleEnabled="true">
 
+                <EditText
+                    android:id="@+id/cf_edtAdminKey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="20dp"
+                    android:drawableStart="@drawable/ic_action_bug"
+                    android:inputType="textPassword"
+                    android:lines="1" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/cf_tilWeb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/forum_web"
+                android:layout_below="@+id/cf_tilAdminsKey"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp">
+
+                <EditText
+                    android:id="@+id/cf_edtWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="20dp"
+                    android:drawableStart="@drawable/ic_action_web"
+                    android:inputType="textWebEditText"
+                    android:lines="1" />
+            </android.support.design.widget.TextInputLayout>
 
         </RelativeLayout>
     </ScrollView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp" />
+
+
 </RelativeLayout>

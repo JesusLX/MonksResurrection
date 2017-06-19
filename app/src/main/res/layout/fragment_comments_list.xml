@@ -1,13 +1,55 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="com.limox.jesus.teambeta.Fragments.PostView.CommentsList_Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="5dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/rlCommentary"
+            android:layout_below="@+id/toolbar"
+            android:background="@color/postlist_bg" />
+
+        <RelativeLayout
+            android:id="@+id/rlCommentary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/white"
+            android:elevation="40dp">
+
+            <EditText
+                android:id="@+id/edtComments"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toStartOf="@+id/btnSend" />
+
+            <ImageButton
+                android:paddingEnd="10dp"
+                android:layout_centerVertical="true"
+                android:id="@+id/btnSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_action_send" />
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

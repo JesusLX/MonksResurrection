@@ -18,6 +18,7 @@ public class SignUp_Activity extends AppCompatActivity implements HomeOfFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TeamBetaApplication.setCurrentActivity("SignUp_Activity");
         setContentView(R.layout.activity_sign_up);
 
         startSignUpEmail();

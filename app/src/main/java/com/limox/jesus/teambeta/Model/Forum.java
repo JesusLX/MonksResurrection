@@ -1,8 +1,10 @@
 package com.limox.jesus.teambeta.Model;
 
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.db.APIConstants;
 
 import org.json.JSONException;
@@ -14,9 +16,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * Class to contain Forum data
  * Created by Jesus on 26/04/2017.
  */
-
 public class Forum implements Parcelable {
 
     public static final int OWN = 1;
@@ -35,6 +37,8 @@ public class Forum implements Parcelable {
     private String description;
     private Date creationDate;
     private boolean deleted;
+    private String color;
+    private String web;
 
     public Forum() {
     }
@@ -172,19 +176,7 @@ public class Forum implements Parcelable {
         return forum;
     }
 
-    public static Forum fromJSON(JSONObject jsonForum) {
-        Forum forum = new Forum();
-        forum.setKey(jsonForum.optString(APIConstants.Forums.FORUM_KEY));
-        forum.setName(jsonForum.optString(APIConstants.Forums.FORUM_NAME));
-        forum.setAdminsKey(jsonForum.optString(APIConstants.Forums.FORUM_ADM_KEY));
-        forum.setUsersKey(jsonForum.optString(APIConstants.Forums.FORUM_USR_KEY));
-        forum.setCreationDate(new Date(jsonForum.optLong(APIConstants.Forums.FORUM_CREATION_D)));
-        forum.setDeleted(jsonForum.optBoolean(APIConstants.Forums.FORUM_DELETED));
-        forum.setImgUrl(jsonForum.optString(APIConstants.Forums.FORUM_IMG_URL));
-        forum.setOwnerId(jsonForum.optString(APIConstants.Forums.FORUM_OWNER_ID));
 
-        return forum;
-    }
 
     public boolean getDeleted() {
         return deleted;
@@ -200,5 +192,52 @@ public class Forum implements Parcelable {
             return description.substring(0, maxLength - 3).concat("...");
         } else
             return getDescription();
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public String getWeb() {
+        return web;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
+    }
+
+    /**
+     * Get a bundle with this forum on it
+     *
+     * @return forum as bundle
+     */
+    public Bundle optBundle() {
+        Bundle b = new Bundle();
+        b.putParcelable(AllConstants.Keys.Parcelables.FORUM, this);
+        return b;
+    }
+
+    /**
+     * Opt forum's data from jsonForum
+     *
+     * @param jsonForum forum's data container
+     * @return obtained forum
+     */
+    public static Forum fromJSON(JSONObject jsonForum) {
+        Forum forum = new Forum();
+        forum.setKey(jsonForum.optString(APIConstants.Forums.FORUM_KEY));
+        forum.setName(jsonForum.optString(APIConstants.Forums.FORUM_NAME));
+        forum.setAdminsKey(jsonForum.optString(APIConstants.Forums.FORUM_ADM_KEY));
+        forum.setUsersKey(jsonForum.optString(APIConstants.Forums.FORUM_USR_KEY));
+        forum.setCreationDate(new Date(jsonForum.optLong(APIConstants.Forums.FORUM_CREATION_D)));
+        forum.setDeleted(jsonForum.optBoolean(APIConstants.Forums.FORUM_DELETED));
+        forum.setImgUrl(jsonForum.optString(APIConstants.Forums.FORUM_IMG_URL));
+        forum.setOwnerId(jsonForum.optString(APIConstants.Forums.FORUM_OWNER_ID));
+
+        return forum;
     }
 }

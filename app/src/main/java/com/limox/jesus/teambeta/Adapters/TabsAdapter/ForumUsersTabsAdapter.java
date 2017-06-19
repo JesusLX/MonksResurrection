@@ -12,6 +12,7 @@ import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
 /**
+ * FragmentStatePager Adapter for the forum's users lists tabs
  * Created by jesus on 24/12/16.
  */
 public class ForumUsersTabsAdapter extends FragmentStatePagerAdapter {
@@ -34,10 +35,10 @@ public class ForumUsersTabsAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         Fragment fragment = null;
         switch (position) {
-            case 1:
+            case 0:
                 fragment = UsersListFragment.newInstance(mIdUser, FirebaseContract.User.NODE_FORUMS_PARTICIPATE);
                 break;
-            case 0:
+            case 1:
                 fragment = UsersListFragment.newInstance(mIdUser, FirebaseContract.User.NODE_FORUMS_ADMIN);
                 break;
 

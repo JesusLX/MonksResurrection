@@ -8,18 +8,19 @@ import com.google.firebase.database.ValueEventListener;
 import com.limox.jesus.teambeta.Interfaces.ChatsManagerPresenter;
 import com.limox.jesus.teambeta.Model.Chat;
 import com.limox.jesus.teambeta.Model.Message;
+import com.limox.jesus.teambeta.Model.User;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
+ * Presenter class to manage Chats
  * Created by Jesus on 07/06/2017.
  */
-
 public class ChatsManagerPresenterImpl implements ChatsManagerPresenter {
     private View.ChatsManager view;
-    private ArrayList<String> lastUserFound;
+    private User lastUserFound;
 
     public ChatsManagerPresenterImpl(View.ChatsManager view) {
         this.view = view;
@@ -38,36 +39,37 @@ public class ChatsManagerPresenterImpl implements ChatsManagerPresenter {
         });
     }
 
-    private ArrayList<String> contaisUser(ArrayList<Chat> allChats, String userKey) {
+    private User containsUser(ArrayList<Chat> allChats, String userKey) {
         if (lastUserFound != null) {
-            if (lastUserFound.contains(userKey))
+            if (lastUserFound.getId().equals(userKey))
                 return lastUserFound;
         }
 
         for (Chat chat : allChats) {
             for (int i = 0; i < chat.getUsersData().size(); i++) {
-                if (chat.getUsersData().get(i).contains(userKey))
+                if (chat.getUsersData().get(i).getId().equals(userKey)) {
                     lastUserFound = chat.getUsersData().get(i);
-                return chat.getUsersData().get(i);
+                    return chat.getUsersData().get(i);
+                }
             }
         }
         return null;
     }
 
     @Override
-    public void optChats(String forumKey, final ArrayList<String> chatsKey) {
+    public void optChat(String forumKey, final ArrayList<Chat> chatsKey) {
         final ArrayList<Chat> allChats = new ArrayList<>();
         for (int i = 0; i < chatsKey.size(); i++) {
             final int finalI = i;
-            FirebaseDatabase.getInstance().getReference().child(FirebaseContract.Chats.ROOT_NODE).child(chatsKey.get(i)).child(FirebaseContract.Chats.NODE_PARTICIPANTS).addListenerForSingleValueEvent(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference().child(FirebaseContract.Chats.ROOT_NODE).child(forumKey).child(chatsKey.get(i).getKey()).child(FirebaseContract.Chats.NODE_PARTICIPANTS).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(final DataSnapshot dataSnapshot) {
-                    final Chat thisChat = new Chat(chatsKey.get(finalI));
+                    final Chat thisChat = new Chat(chatsKey.get(finalI).getKey());
                     allChats.add(finalI, thisChat);
 
                     for (DataSnapshot userKey : dataSnapshot.getChildren()) {
 
-                        final ArrayList<String> alUserData = contaisUser(allChats, userKey.toString());
+                        final User alUserData = containsUser(allChats, userKey.getValue().toString());
 
                         if (alUserData != null) {
                             thisChat.getUsersData().add(alUserData);
@@ -76,13 +78,13 @@ public class ChatsManagerPresenterImpl implements ChatsManagerPresenter {
                             }
                         } else {
                             FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).
-                                    child(userKey.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    child(userKey.getValue().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot otherDataSnapshot) {
-                                    ArrayList<String> alUserData = new ArrayList<>();
-                                    alUserData.add(otherDataSnapshot.getKey());
-                                    alUserData.add(otherDataSnapshot.child(FirebaseContract.User.NODE_NAME).toString());
-                                    alUserData.add(otherDataSnapshot.child(FirebaseContract.User.NODE_PHOTO_URL).toString());
+                                    User alUserData = new User();
+                                    alUserData.setIdUser(otherDataSnapshot.getKey());
+                                    alUserData.setName(otherDataSnapshot.child(FirebaseContract.User.NODE_NAME).getValue().toString());
+                                    alUserData.setProfilePicture(otherDataSnapshot.child(FirebaseContract.User.NODE_PHOTO_URL).getValue().toString());
                                     thisChat.getUsersData().add(alUserData);
                                     if (thisChat.getUsersData().size() == dataSnapshot.getChildrenCount()) {
                                         view.onChatReceived(thisChat);
@@ -110,16 +112,16 @@ public class ChatsManagerPresenterImpl implements ChatsManagerPresenter {
     public void optChat(String forumKey, String chatKey, final String[] usersKey, ValueEventListener userListener) {
         final Chat superUserData = new Chat();
         superUserData.setKey(chatKey);
-        for (int i = 0; i < usersKey.length; i++) {
+        for (String anUsersKey : usersKey) {
             FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).
-                    child(usersKey[i]).addListenerForSingleValueEvent(userListener != null ? userListener : new ValueEventListener() {
+                    child(anUsersKey).addListenerForSingleValueEvent(userListener != null ? userListener : new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    ArrayList<String> data = new ArrayList<>();
-                    data.add(dataSnapshot.getKey());
-                    data.add(dataSnapshot.child(FirebaseContract.User.NODE_NAME).toString());
-                    data.add(dataSnapshot.child(FirebaseContract.User.NODE_PHOTO_URL).toString());
-                    superUserData.getUsersData().add(data);
+                    User alUserData = new User();
+                    alUserData.setIdUser(dataSnapshot.getKey());
+                    alUserData.setName(dataSnapshot.child(FirebaseContract.User.NODE_NAME).getValue().toString());
+                    alUserData.setProfilePicture(dataSnapshot.child(FirebaseContract.User.NODE_PHOTO_URL).getValue().toString());
+                    superUserData.getUsersData().add(alUserData);
                     if (superUserData.getUsersData().size() == usersKey.length) {
                         view.onChatReceived(superUserData);
                     }
@@ -134,71 +136,48 @@ public class ChatsManagerPresenterImpl implements ChatsManagerPresenter {
     }
 
     @Override
-    public void optChat(final String forumKey, ArrayList<Chat> chatKey, final String[] usersKey, ValueEventListener userListener) {
+    public void optChat(final String forumKey, final ArrayList<Chat> chatKey, final String[] usersKey, ValueEventListener userListener) {
         if (chatKey.size() == 0) {
             createChats(forumKey, usersKey);
         } else {
+            boolean someFound = false;
             for (int i = 0; i < chatKey.size(); i++) {
-                if (chatKey.get(i).getUsersData().size() == usersKey.length) {
+                if (chatKey.get(i).getSoftInfo().size() == usersKey.length) {
                     int coincidences = 0;
-                    for (int j = 0; j < chatKey.get(i).getUsersData().size(); j++) {
-                        for (int k = 0; k < chatKey.get(i).getUsersData().get(j).size(); k++) {
-                            if (chatKey.get(i).getUsersData().get(j).contains(usersKey[k])) {
-                                coincidences++;
-                            }
+                    for (String anUsersKey1 : usersKey) {
+                        if (chatKey.get(i).getSoftInfo().contains(anUsersKey1)) {
+                            ++coincidences;
                         }
-                        if (coincidences == usersKey.length) {
-                            view.onChatReceived(chatKey.get(i));
+                    }
+                    if (coincidences == usersKey.length) {
+                        final Chat chat = chatKey.get(i);
+                        someFound = true;
+                        for (int j = 0; j < usersKey.length; j++) {
+                            FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(usersKey[j]).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    User alUserData = new User();
+                                    alUserData.setIdUser(dataSnapshot.getKey());
+                                    alUserData.setName(dataSnapshot.child(FirebaseContract.User.NODE_NAME).getValue().toString());
+                                    alUserData.setProfilePicture(dataSnapshot.child(FirebaseContract.User.NODE_PHOTO_URL).getValue().toString());
+                                    chat.getUsersData().add(alUserData);
+                                    if (chat.getUsersData().size() == usersKey.length) {
+                                        view.onChatReceived(chat);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                         }
+                        break;
                     }
                 }
-
-                FirebaseDatabase.getInstance().getReference().child(FirebaseContract.Chats.ROOT_NODE).
-                        child(forumKey).child(chatKey.get(i).getKey()).addListenerForSingleValueEvent(userListener != null ? userListener : new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.child(FirebaseContract.Chats.NODE_PARTICIPANTS).getChildrenCount() == usersKey.length) {
-                            boolean isthis = true;
-                            for (int j = 0; j < usersKey.length; j++) {
-                                if (!((ArrayList<String>) dataSnapshot.getValue()).contains(usersKey[j])) {
-                                    isthis = false;
-                                    break;
-                                }
-                            }
-                            if (isthis) {
-                                final Chat chat = new Chat();
-                                chat.setKey(dataSnapshot.getKey());
-                                for (int j = 0; j < usersKey.length; j++) {
-                                    FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(usersKey[j]).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            ArrayList<String> userData = new ArrayList<>();
-                                            userData.add(dataSnapshot.getKey());
-                                            userData.add(dataSnapshot.child(FirebaseContract.User.NODE_NAME).toString());
-                                            userData.add(dataSnapshot.child(FirebaseContract.User.NODE_PHOTO_URL).toString());
-                                            chat.getUsersData().add(userData);
-                                            if (userData.size() == usersKey.length) {
-                                                view.onChatReceived(chat);
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-
-                                        }
-                                    });
-                                }
-                            } else {
-                                createChats(forumKey, usersKey);
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+            }
+            if (!someFound) {
+                createChats(forumKey, usersKey);
             }
         }
     }

@@ -7,11 +7,13 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.limox.jesus.teambeta.Adapters.TabsAdapter.ProfilePostTabsAdapter;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta.Model.User;
@@ -23,7 +25,7 @@ import com.limox.jesus.teambeta.Utils.UIUtils;
 
 import it.sephiroth.android.library.picasso.Picasso;
 
-public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOffsetChangedListener,UserManagerPresenter.View{
+public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOffsetChangedListener, UserManagerPresenter.View {
 
     private OnUserProfileFragmentListener mCallback;
     private ViewPager mVpContainer;
@@ -33,14 +35,15 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
     private ProfilePostTabsAdapter mAdapter;
     private ImageView mIvwBack;
     private ImageView mIvBackground;
+    private Toolbar mToolbar;
     private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
-	private boolean mIsAvatarShown = true;
+    private boolean mIsAvatarShown = true;
 
-	private ImageView mIvProfileImage;
-	private int mMaxScrollSize;
+    private ImageView mIvProfileImage;
+    private int mMaxScrollSize;
 
     private User mUser;
-    private int idUser;
+    private String idUser;
 
     private UserManagerPresenter mPresenter;
 
@@ -59,11 +62,16 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            idUser = getArguments().getInt(AllConstants.Keys.SimpleBundle.ID_USER_KEY);
+            idUser = getArguments().getString(AllConstants.Keys.SimpleBundle.ID_USER_KEY);
+            if (idUser == null) {
+                mUser = getArguments().getParcelable(AllConstants.Keys.Parcelables.USER_PARCELABLE_KEY);
+            }
         }
         setHasOptionsMenu(true);
-        mAdapter = new ProfilePostTabsAdapter(getContext(),getChildFragmentManager(),idUser);
+        mAdapter = new ProfilePostTabsAdapter(getContext(), getChildFragmentManager(), idUser, mUser != null ? mUser.getName() : getString(R.string.sent));
         mPresenter = new UserManagerPresenterImpl(this);
+        if (mUser == null)
+            mPresenter.getUser(idUser);
     }
 
     @Override
@@ -77,7 +85,7 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View rootView = inflater.inflate(R.layout.fragment_user_profile, container,false);
+        View rootView = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
         mAppbarLayout = (AppBarLayout) rootView.findViewById(R.id.materialup_appbar);
         mIvProfileImage = (ImageView) rootView.findViewById(R.id.materialup_profile_image);
@@ -85,6 +93,7 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
         mViewPager = (ViewPager) rootView.findViewById(R.id.up_vpContainer);
         mIvwBack = (ImageView) rootView.findViewById(R.id.btnBack);
         mIvBackground = (ImageView) rootView.findViewById(R.id.ivBackground);
+        mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
         return rootView;
     }
@@ -96,6 +105,7 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
         mTabLayout.setupWithViewPager(mViewPager);
         mMaxScrollSize = mAppbarLayout.getTotalScrollRange();
         mAppbarLayout.addOnOffsetChangedListener(this);
+        mAppbarLayout.setBackgroundColor(UIUtils.parseColor(Users_Repository.get().getCurrentForum().getColor()));
 
         UIUtils.loadImage(getContext(), Users_Repository.get().getCurrentForum().getImgUrl(), mIvBackground);
         //  UIUtils.loadImage(getContext(), mUser.getProfilePicture(), mIvProfileImage);
@@ -106,6 +116,9 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
                 mCallback.backPressed();
             }
         });
+        if (mUser != null) {
+            Glide.with(getContext()).load(mUser.getProfilePicture()).into(mIvProfileImage);
+        }
     }
 
     @Override
@@ -128,7 +141,7 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
     @Override
     public void onStart() {
         super.onStart();
-   //     mPresenter.getUser(idUser);
+        //     mPresenter.getUser(idUser);
     }
 
     @Override
@@ -165,11 +178,17 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
     @Override
     public void onUserObtained(User tryUser) {
         Picasso.with(getContext()).load(tryUser.getProfilePicture()).into(mIvProfileImage);
+        mAdapter.setName(tryUser.getName());
+    }
+
+    @Override
+    public void onError(Exception exception) {
 
     }
 
     public interface OnUserProfileFragmentListener {
         void startPostView(Bundle post);
+
         void backPressed();
     }
 }

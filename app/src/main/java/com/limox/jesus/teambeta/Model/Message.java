@@ -1,9 +1,9 @@
 package com.limox.jesus.teambeta.Model;
 
 /**
+ * Class to contain Message's data
  * Created by Jesus on 04/06/2017.
  */
-
 public class Message {
 
     private String mKey;

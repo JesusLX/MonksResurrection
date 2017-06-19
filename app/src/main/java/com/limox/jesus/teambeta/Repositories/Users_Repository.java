@@ -147,7 +147,7 @@ public class Users_Repository {
 
     public boolean currentUserCanAdmin(Post post) {
         boolean itIs = false;
-        if (getCurrentUser().getForumsAdmin().contains(post.getForumKey()) || getCurrentUser().getForumsOwn().contains(post.getForumKey())) {
+        if (getCurrentUser().getForumsAdmin().contains(post.getIdForum()) || isMyForum(post.getIdForum())) {
             itIs = true;
         }
         return itIs;

@@ -32,9 +32,9 @@ import java.util.List;
 import it.sephiroth.android.library.picasso.Picasso;
 
 /**
+ * Array adapter to show the posts lists
  * Created by jesus on 11/11/16.
  */
-
 public class PostArrayAdapter extends ArrayAdapter<Post> {
 
     private OnPostViewHolderListener mCallback;
@@ -150,8 +150,8 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
             case Posts.FIXED:
                 post.setState(Posts.FIXED);
                 break;
-            case Posts.NOT_PUBLISHED:
-                post.setState(Posts.NOT_PUBLISHED);
+            case Posts.ON_REVISION:
+                post.setState(Posts.ON_REVISION);
                 break;
             case Posts.PUBLISHED:
                 post.setState(Posts.PUBLISHED);

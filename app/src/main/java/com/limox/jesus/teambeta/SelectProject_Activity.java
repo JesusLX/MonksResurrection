@@ -21,6 +21,7 @@ public class SelectProject_Activity extends AppCompatActivity implements HomeOfF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TeamBetaApplication.setCurrentActivity("SelectProject_Activity");
         setContentView(R.layout.activity_select_project);
         //startCreateForumFragment();
         startUserProfile(Users_Repository.get().getCurrentUser().optBundle(), false);
@@ -44,6 +45,11 @@ public class SelectProject_Activity extends AppCompatActivity implements HomeOfF
     @Override
     public void startCreateForumFragment() {
         startFragment(new CreateForumFragment(), true, AllConstants.FragmentTag.CreateForum);
+    }
+
+    @Override
+    public void startEditForum(Bundle forum) {
+        startFragment(CreateForumFragment.newInstance(forum), true, AllConstants.FragmentTag.CreateForum);
     }
 
     @Override
@@ -76,10 +82,9 @@ public class SelectProject_Activity extends AppCompatActivity implements HomeOfF
         startUserProfile(user, true);
     }
 
+
     @Override
-    public void startChat(String mIdUser) {
-        Intent i = new Intent(SelectProject_Activity.this, Chats_Activity.class);
-        i.putExtra(AllConstants.Keys.SimpleBundle.ID_USER_KEY, mIdUser);
-        startActivity(i);
+    public void startSettings() {
+        startActivity(new Intent(SelectProject_Activity.this, Settings_Activity.class));
     }
 }

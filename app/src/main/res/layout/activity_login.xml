@@ -86,7 +86,6 @@
         android:layout_below="@+id/lgn_btnSignIn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/fav_margin"
-        android:visibility="invisible"
         android:text="@string/lgn_FP" />
 
 

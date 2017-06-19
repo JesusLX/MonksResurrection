@@ -22,9 +22,9 @@ import com.limox.jesus.teambeta.db.FirebaseContract;
 import java.util.ArrayList;
 
 /**
+ * Presenter class to manage Post's lists
  * Created by jesus on 2/03/17.
  */
-
 public class PostsListsPresenterImpl implements PostsListPresenter {
 
     private Context context;

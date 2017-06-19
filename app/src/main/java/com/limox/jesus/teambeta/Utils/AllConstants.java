@@ -15,7 +15,7 @@ public final class AllConstants {
      */
     public class TypeLists {
         public static final String TYPELIST_KEY = "type";
-        public static final int FOR_NONPUBLISHED = Post.NOT_PUBLISHED;
+        public static final int FOR_NONPUBLISHED = Post.ON_REVISION;
         public static final int FOR_PUBLISHED = Post.PUBLISHED;
         public static final int FOR_FIXES = Post.FIXED;
         public static final int FOR_ALL = Post.ALL;
@@ -56,6 +56,8 @@ public final class AllConstants {
             public static final String POST_CREATION_DATE = "date";
             public static final String FORUMS_KEY = "fkey";
             public static final String FORUM = "forum";
+            public static final String CHAT_KEY = "chat";
+
         }
 
         /**
@@ -82,6 +84,8 @@ public final class AllConstants {
             public static final String FORUM_LIST_ARG = "listarg";
             public static final String MESSAGE_LENGTH_KEY = "message_list";
             public static final String CHATS_KEYS = "chats_list";
+            public static final String ID_POST_KEY = "id_post";
+            public static final String ID_CHAT_KEY = "chat";
         }
     }
 
@@ -107,6 +111,7 @@ public final class AllConstants {
         public static final String CreateForum = "cf";
         public static final String ProjSearchTag = "ps";
         public static final String FragmentView = "fv";
+        public static final String EditUser = "eu";
     }
 
     public class Notifications {

@@ -36,6 +36,7 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TeamBetaApplication.setCurrentActivity("Admins_Activity");
         setContentView(com.limox.jesus.teambeta.R.layout.activity_admins);
         mDrawerLayout = (DrawerLayout) findViewById(com.limox.jesus.teambeta.R.id.activity_admins);
         mCIVProfileImage = (CircleImageView) findViewById(com.limox.jesus.teambeta.R.id.cd_civUserProfile);

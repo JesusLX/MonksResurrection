@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.limox.jesus.teambeta.Adapters.TabsAdapter.HomePostTabsAdapter;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
+import com.limox.jesus.teambeta.Utils.UIUtils;
 
 import java.lang.reflect.Field;
 
@@ -101,6 +102,8 @@ public class HomeDashPosts_Fragment extends Fragment  {
 
         mTabLayout.setupWithViewPager(mViewPager);
 
+        mToolbar.setBackgroundColor(UIUtils.parseColor(Users_Repository.get().getCurrentForum().getColor()));
+        mTabLayout.setBackgroundColor(UIUtils.parseColor(Users_Repository.get().getCurrentForum().getColor()));
 
         Picasso.with(getContext()).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mCiProfilePicture);
 

@@ -5,30 +5,32 @@
     tools:context="com.limox.jesus.teambeta.Fragments.Settings.StartSettings_Fragment">
 
     <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
         android:id="@+id/toolbarl"
-        android:layout_height="wrap_content">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/toolbarColorBg">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/ss_btnBack"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/btnback_description"
-            android:src="@drawable/ic_keyboard_backspace_black_24px" />
+            android:background="@color/toolbarColorBg">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/fav_marginx2"
-            android:text="@string/settings"
-            android:textSize="@dimen/toolbar_text_size" />
-    </android.support.v7.widget.Toolbar>
+            <ImageView
+                android:id="@+id/ss_btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/btnback_description"
+                android:src="@drawable/ic_keyboard_backspace_black_24px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fav_marginx2"
+                android:text="@string/settings"
+                android:textSize="@dimen/toolbar_text_size" />
+        </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -85,26 +87,12 @@
                     android:padding="@dimen/fav_margin"
                     android:text="@string/reset_password" />
 
-                <View
-                    android:id="@+id/ss_separator3"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@id/ss_txvResetePass"
-                    android:background="@android:color/darker_gray" />
-
-                <TextView
-                    android:id="@+id/ss_txvPostLiked"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ss_separator3"
-                    android:padding="@dimen/fav_margin"
-                    android:text="@string/posts_liked" />
 
                 <View
                     android:id="@+id/ss_separator4"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@id/ss_txvPostLiked"
+                    android:layout_below="@id/ss_txvResetePass"
                     android:background="@android:color/darker_gray" />
 
             </RelativeLayout>

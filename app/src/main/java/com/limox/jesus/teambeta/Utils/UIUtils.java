@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -12,6 +13,11 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.limox.jesus.teambeta.R;
+
+import org.xdty.preference.colorpicker.ColorPickerDialog;
+import org.xdty.preference.colorpicker.ColorPickerSwatch;
 
 import java.io.FileNotFoundException;
 
@@ -68,7 +74,32 @@ public class UIUtils {
         Snackbar.make(view, s, Snackbar.LENGTH_LONG).show();
     }
 
+    public static void snackBar(View view, int s) {
+        Snackbar.make(view, s, Snackbar.LENGTH_LONG).show();
+    }
+
     public static void toast(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+    }
+
+    public static void showColorPicker(Activity context, ColorPickerSwatch.OnColorSelectedListener onColorSelectedListener, int selectedColor) {
+        int[] mColors = context.getResources().getIntArray(R.array.materialColors);
+
+        ColorPickerDialog dialog = ColorPickerDialog.newInstance(R.string.color_picker_default_title,
+                mColors,
+                selectedColor == -1 ? mColors[0] : selectedColor,
+                5, // Number of columns
+                ColorPickerDialog.SIZE_SMALL,
+                true // True or False to enable or disable the serpentine effect
+                //0, // stroke width
+                //Color.BLACK // stroke color
+        );
+        dialog.setOnColorSelectedListener(onColorSelectedListener);
+        dialog.show(context.getFragmentManager(), "colors");
+
+    }
+
+    public static int parseColor(String color) {
+        return Color.parseColor("#" + color);
     }
 }

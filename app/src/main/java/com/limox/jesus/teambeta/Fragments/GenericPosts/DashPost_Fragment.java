@@ -80,8 +80,8 @@ public class DashPost_Fragment extends Fragment implements PostsListPresenter.Vi
             case Post.FIXED:
                 mPresenter.getAllPost(Post.FIXED,idUser);
                 break;
-            case Post.NOT_PUBLISHED:
-                mPresenter.getAllPost(Post.NOT_PUBLISHED,idUser);
+            case Post.ON_REVISION:
+                mPresenter.getAllPost(Post.ON_REVISION, idUser);
                 break;
             case Post.PUBLISHED:
                 mPresenter.getAllPost(Post.PUBLISHED,idUser);

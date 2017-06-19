@@ -6,15 +6,18 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.limox.jesus.teambeta.Adapters.TabsAdapter.AdminPostTabsAdapter;
 import com.limox.jesus.teambeta.Interfaces.PostsListPresenter;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
+import com.limox.jesus.teambeta.Utils.UIUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.sephiroth.android.library.picasso.Picasso;
@@ -27,6 +30,7 @@ public class AdminsDashPosts_Fragment extends Fragment
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private AdminPostTabsAdapter mAdapter;
+    private Toolbar mToolbar;
     private OnAdminDashPostFragmentListener mCallback;
     private PostsListPresenter mPresenter;
 
@@ -60,6 +64,7 @@ public class AdminsDashPosts_Fragment extends Fragment
         mViewPager = (ViewPager) rootView.findViewById(R.id.adp_vpContainer);
         mCiProfilePicture = (CircleImageView) rootView.findViewById(R.id.adp_civProfilePicture);
         mTxvCurrentTab = (TextView) rootView.findViewById(R.id.adp_txvProfileName);
+        mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         return rootView;
     }
 
@@ -85,8 +90,10 @@ public class AdminsDashPosts_Fragment extends Fragment
         });
         mTabLayout.setupWithViewPager(mViewPager);
 
-        Picasso.with(getContext()).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mCiProfilePicture);
+        Glide.with(getContext()).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mCiProfilePicture);
 
+        mToolbar.setBackgroundColor(UIUtils.parseColor(Users_Repository.get().getCurrentForum().getColor()));
+        mTabLayout.setBackgroundColor(UIUtils.parseColor(Users_Repository.get().getCurrentForum().getColor()));
 
         mTxvCurrentTab.setText(mTabTitles[0]);
         mCiProfilePicture.setOnClickListener(new View.OnClickListener() {

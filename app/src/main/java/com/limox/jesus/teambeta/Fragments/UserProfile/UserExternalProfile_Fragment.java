@@ -1,23 +1,21 @@
 package com.limox.jesus.teambeta.Fragments.UserProfile;
 
-import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.limox.jesus.teambeta.Adapters.TabsAdapter.ProfileForumsTabsAdapter;
-import com.limox.jesus.teambeta.Adapters.TabsAdapter.ProfilePostTabsAdapter;
-import com.limox.jesus.teambeta.Interfaces.ForumsListManagerPresenter;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta.Model.User;
 import com.limox.jesus.teambeta.Presenter.UserManagerPresenterImpl;
@@ -25,21 +23,19 @@ import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.Utils.ExternalUtils;
-import com.limox.jesus.teambeta.Utils.UIUtils;
-
-import org.w3c.dom.Text;
 
 import it.sephiroth.android.library.picasso.Picasso;
 
 
 public class UserExternalProfile_Fragment extends Fragment implements UserManagerPresenter.View {
 
-    private static User mUser;
+    private User mUser;
 
     private OnUserExternalProfileFragmentListener mCallback;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private AppBarLayout mAppbarLayout;
+    private Toolbar mToolbar;
     private TextView mTxvUserName;
     private TextView mTxvEmail;
     private ProfileForumsTabsAdapter mAdapter;
@@ -66,7 +62,10 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
             if (mUser == null) {
                 mIdUser = getArguments().getString(AllConstants.Keys.SimpleBundle.ID_USER_KEY);
             } else {
-                mIdUser = mUser.getId();
+                if (Users_Repository.get().getCurrentUser().getId().equals(mUser.getId())) {
+                    mUser = Users_Repository.get().getCurrentUser();
+                } else
+                    mIdUser = mUser.getId();
             }
         }
 
@@ -74,6 +73,15 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
         setRetainInstance(true);
         mAdapter = new ProfileForumsTabsAdapter(getContext(), getChildFragmentManager(), getArguments());
         mPresenter = new UserManagerPresenterImpl(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Users_Repository.get().setCurrentForum(null);
+        if (mUser != null) {
+            fillView();
+        }
     }
 
     @Nullable
@@ -85,6 +93,7 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
         mAppbarLayout = (AppBarLayout) rootView.findViewById(R.id.materialup_appbar);
         mIvProfileImage = (ImageView) rootView.findViewById(R.id.materialup_profile_image);
         mTabLayout = (TabLayout) rootView.findViewById(R.id.up_tlTabs);
+        mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         mViewPager = (ViewPager) rootView.findViewById(R.id.up_vpContainer);
         mTxvUserName = (TextView) rootView.findViewById(R.id.txvUserName);
         mTxvEmail = (TextView) rootView.findViewById(R.id.txvEmail);
@@ -98,6 +107,18 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
         super.onViewCreated(view, savedInstanceState);
         // mPresenter.getUser(mIdUser);
         mViewPager.setAdapter(mAdapter);
+        mToolbar.inflateMenu(R.menu.menu_user_profile);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_settings:
+                        mCallback.startSettings();
+                        break;
+                }
+                return false;
+            }
+        });
         mTabLayout.setupWithViewPager(mViewPager);
         mTxvEmail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,14 +126,7 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
                 ExternalUtils.sendEmail(getContext(), mTxvEmail.getText().toString());
             }
         });
-        mIvProfileImage.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mCallback.startChat(mIdUser);
-                    }
-                }
-        );
+
         if (mUser != null) {
 
             fillView();
@@ -153,9 +167,14 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
 
     }
 
+    @Override
+    public void onError(Exception exception) {
+
+    }
+
     public interface OnUserExternalProfileFragmentListener {
 
-        void startChat(String mIdUser);
+        void startSettings();
     }
 
 

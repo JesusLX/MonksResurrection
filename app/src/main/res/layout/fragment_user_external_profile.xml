@@ -9,7 +9,7 @@
         android:id="@+id/materialup.appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/TabsLayoutTheme">
+        android:background="@color/toolbarColorBg">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,28 +23,26 @@
                 android:layout_margin="10dp"
                 android:background="@android:color/transparent"
                 android:elevation="8dp"
-                android:src="@drawable/nino"
                 app:border_color="#FFF"
                 app:border_width="2dp"
                 app:layout_scrollFlags="scroll" />
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/materialup.toolbar"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-8dp"
                 android:minHeight="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
                 app:theme="@style/ThemeOverlay.AppCompat.Light" />
 
             <TextView
                 android:id="@+id/txvUserName"
-                android:layout_width="match_parent"
-                android:text="sadfasdfasdf"
+                android:layout_width="wrap_content"
+                android:maxWidth="220dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_toEndOf="@+id/materialup.profile_image"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -62,6 +60,7 @@
             android:id="@+id/up_tlTabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/toolbarColorBgDark"
             app:tabIndicatorColor="@color/tabIndicatorColor"
             app:tabSelectedTextColor="@color/fontColorDark"
             app:tabTextColor="@color/fontColorDark" />

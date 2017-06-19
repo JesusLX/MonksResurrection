@@ -17,9 +17,9 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 /**
+ * Presenter class to manage Forum's lists
  * Created by Jesus on 27/04/2017.
  */
-
 public class ForumsListManagerPresenterImpl implements ForumsListManagerPresenter {
     ForumsListManagerPresenter.View mView;
     ValueEventListener vel;
@@ -42,6 +42,7 @@ public class ForumsListManagerPresenterImpl implements ForumsListManagerPresente
                             final Forum forum;
                             try {
                                 forum = Forum.fromJSON(response.getJSONObject(i));
+                                forum.setKey(forumKey);
                                 mView.addForum(forum);
 
                             } catch (JSONException e) {

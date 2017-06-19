@@ -10,11 +10,11 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/acp_toolbar"
+        android:elevation="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:title="@string/create_post"
         android:background="@color/toolbarColorBg"
-        >
+        android:title="@string/create_post">
 
     </android.support.v7.widget.Toolbar>
 
@@ -43,9 +43,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/crp_EdtPostTitle"
+            android:background="@android:color/transparent"
             android:hint="@string/description"
             android:inputType="textMultiLine"
-            android:background="@android:color/transparent"
             android:textColorHint="@android:color/darker_gray" />
 
         <EditText
@@ -58,7 +58,6 @@
             android:maxLength="255"
             android:textColorHighlight="@android:color/darker_gray"
             android:textColorHint="@android:color/darker_gray" />
-
 
 
     </RelativeLayout>

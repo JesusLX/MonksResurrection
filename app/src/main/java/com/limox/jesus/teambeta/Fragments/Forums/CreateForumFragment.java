@@ -1,8 +1,11 @@
 package com.limox.jesus.teambeta.Fragments.Forums;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,22 +13,27 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.android.volley.Response;
+import com.bumptech.glide.Glide;
 import com.limox.jesus.teambeta.Interfaces.ForumManagerPresenter;
 import com.limox.jesus.teambeta.Model.Forum;
 import com.limox.jesus.teambeta.Presenter.ForumManagerPresenterImpl;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
+import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.Utils.UIUtils;
 import com.limox.jesus.teambeta.db.FirebaseContract;
+import com.theartofdev.edmodo.cropper.CropImage;
 
-import java.util.Arrays;
+import org.xdty.preference.colorpicker.ColorPickerSwatch;
+
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
@@ -35,14 +43,19 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
 
     private static final int INTENT_SELECT_IMAGE = 1;
     private Toolbar mToolbar;
-    private ImageView mIvLogo;
-    private EditText mEdtName, mEdtUsersKey, mEdtAdminsKey, mEdtDescription;
-
+    private ImageView mIvLogo, mIvColors;
+    private EditText mEdtName, mEdtUsersKey, mEdtAdminsKey, mEdtDescription, mEdtWeb;
+    private RelativeLayout mRlImageContent;
+    private int selectedColorInt;
+    private String selectedColorString;
     private ForumManagerPresenter mPresenter;
 
     private boolean havImgSelected;
     private Uri imgSelected;
     private ProgressDialog loading;
+    private Forum mForum;
+
+    private boolean isNew = false;
 
     private OnFragmentInteractionListener mCallback;
 
@@ -50,9 +63,19 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
         // Required empty public constructor
     }
 
+    public static Fragment newInstance(Bundle forum) {
+        CreateForumFragment fragment = new CreateForumFragment();
+        fragment.setArguments(forum);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mForum = getArguments().getParcelable(AllConstants.Keys.Parcelables.FORUM);
+        }
+        isNew = mForum == null;
         mPresenter = new ForumManagerPresenterImpl(this);
     }
 
@@ -61,26 +84,51 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
         View rootView = inflater.inflate(R.layout.fragment_create_forum, container, false);
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         mIvLogo = (ImageView) rootView.findViewById(R.id.cf_ivLogo);
+        mIvColors = (ImageView) rootView.findViewById(R.id.cf_ivColors);
         mEdtName = (EditText) rootView.findViewById(R.id.cf_edtName);
         mEdtUsersKey = (EditText) rootView.findViewById(R.id.cf_edtname);
         mEdtAdminsKey = (EditText) rootView.findViewById(R.id.cf_edtAdminKey);
         mEdtDescription = (EditText) rootView.findViewById(R.id.cf_edtDescription);
+        mEdtWeb = (EditText) rootView.findViewById(R.id.cf_edtWeb);
+        mRlImageContent = (RelativeLayout) rootView.findViewById(R.id.cf_rlLogo);
         return rootView;
+    }
+
+    private void setColors(int colorResource) {
+        selectedColorInt = colorResource;
+        selectedColorString = String.format("%06X", (0xFFFFFF & colorResource));
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mToolbar.setTitle(R.string.create_forum);
+        setColors(((ColorDrawable) mRlImageContent.getBackground()).getColor());
+        if (!isNew) {
+            mToolbar.setTitle(R.string.edit_forum);
+            selectedColorString = mForum.getColor();
+            mRlImageContent.setBackgroundColor(UIUtils.parseColor(selectedColorString));
+            mEdtName.setText(mForum.getName());
+            mEdtDescription.setText(mForum.getDescription());
+            Glide.with(getContext()).load(mForum.getImgUrl()).into(mIvLogo);
+
+            mEdtName.setText(mForum.getName());
+            mEdtWeb.setText(mForum.getWeb());
+            havImgSelected = true;
+        } else
+            mToolbar.setTitle(R.string.create_forum);
         mToolbar.inflateMenu(R.menu.menu_create_forum);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                UIUtils.hideKeyboard(getActivity(), getView());
+                validate(mEdtName, mEdtAdminsKey, mEdtUsersKey);
+                return true;
+            }
+        });
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.action_send:
-                        validate(mEdtName, mEdtAdminsKey, mEdtUsersKey);
-                        break;
-                }
+                getActivity().onBackPressed();
             }
         });
         mToolbar.setNavigationIcon(R.drawable.ic_action_back);
@@ -90,17 +138,45 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
                 mCallback.startForumsListFragment();
             }
         });
-
+        final Fragment tmp = this;
         mIvLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_PICK,
+
+                CropImage.activity()
+                        .start(getContext(), tmp);
+                /* Intent i = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, INTENT_SELECT_IMAGE);
+                startActivityForResult(i, INTENT_SELECT_IMAGE);*/
+            }
+        });
+        mIvColors.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.showColorPicker(getActivity(), new ColorPickerSwatch.OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(int color) {
+                        int colorFrom = selectedColorInt;
+                        setColors(color);
+
+                        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, color);
+                        colorAnimation.setDuration(400); // milliseconds
+                        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator animator) {
+                                mRlImageContent.setBackgroundColor((int) animator.getAnimatedValue());
+                            }
+
+                        });
+                        colorAnimation.start();
+                    }
+                }, isNew ? -1 : UIUtils.parseColor(mForum.getColor()));
             }
         });
 
     }
+
     private void validate(final EditText forumsName, final EditText adminsKey, final EditText userskey) {
         loading = new ProgressDialog(getContext());
         loading.setMessage(getString(R.string.loading));
@@ -116,8 +192,20 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
                                 mPresenter.existsForum(forumsName.getText().toString(), new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
-                                        if (!Boolean.valueOf(response)) {
-                                            mPresenter.uploadPhoto(imgSelected, Users_Repository.get().getCurrentUser().getId(), String.valueOf(System.currentTimeMillis()));
+                                        if (isNew)
+                                            if (!Boolean.valueOf(response)) {
+                                                mPresenter.uploadPhoto(imgSelected, Users_Repository.get().getCurrentUser().getId(), String.valueOf(System.currentTimeMillis()));
+                                            } else {
+                                                loading.dismiss();
+                                                if (isAdded())
+                                                    forumsName.setError(getString(R.string.forums_name_exists));
+                                            }
+                                        else if (!Boolean.valueOf(response) || forumsName.getText().toString().equals(mForum.getName())) {
+                                            if (imgSelected != null)
+                                                mPresenter.uploadPhoto(imgSelected, Users_Repository.get().getCurrentUser().getId(), String.valueOf(System.currentTimeMillis()));
+                                            else {
+                                                onImageUploaded(null);
+                                            }
                                         } else {
                                             loading.dismiss();
                                             if (isAdded())
@@ -137,6 +225,7 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
                 }
             }).run();
         } else {
+            loading.dismiss();
             Snackbar.make(getView(), R.string.must_select_photo, Snackbar.LENGTH_LONG).show();
         }
     }
@@ -158,35 +247,45 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
         mCallback = null;
     }
 
-    @Override
-    public void onForumCreated(String forumKey) {
-        loading.cancel();
-        Users_Repository.get().getCurrentUser().getForumsOwn().add(forumKey);
-        FirebaseContract.User.addForumOwn(forumKey);
-        mCallback.startForumsListFragment();
-    }
 
     @Override
     public void onImageUploaded(Uri downloadUrl) {
-        Forum tmpforum = new Forum();
-        tmpforum.setName(mEdtName.getText().toString().trim());
-        tmpforum.setImgUrl(downloadUrl.toString());
-        tmpforum.setOwnerId(Users_Repository.get().getCurrentUser().getId());
-        tmpforum.setUsersKey(mEdtUsersKey.getText().toString().trim());
-        tmpforum.setAdminsKey(mEdtAdminsKey.getText().toString().trim());
-        tmpforum.setAdminsKey(mEdtAdminsKey.getText().toString().trim());
-        tmpforum.setDescription(mEdtDescription.getText().toString().trim());
-        tmpforum.setCreationDate(new Date());
+        if (mForum == null)
+            mForum = new Forum();
+        mForum.setName(mEdtName.getText().toString().trim());
+        if (downloadUrl != null)
+            mForum.setImgUrl(downloadUrl.toString());
+        mForum.setOwnerId(Users_Repository.get().getCurrentUser().getId());
+        mForum.setUsersKey(mEdtUsersKey.getText().toString().trim());
+        mForum.setAdminsKey(mEdtAdminsKey.getText().toString().trim());
+        mForum.setAdminsKey(mEdtAdminsKey.getText().toString().trim());
+        mForum.setDescription(mEdtDescription.getText().toString().trim());
+        mForum.setColor(selectedColorString);
+        mForum.setWeb(mEdtWeb.getText().toString());
+        mForum.setCreationDate(new Date());
         /*    if (!tmpforum.getTags().contains(mEdtName.getText().toString())) {
             tmpforum.getTags().add(mEdtName.getText().toString());
         }*/
-        mPresenter.createForum(tmpforum);
+        if (isNew)
+            mPresenter.createForum(mForum);
+        else
+            mPresenter.updateForum(mForum);
+    }
+
+    @Override
+    public void onForumCreated(String forumKey) {
+        loading.dismiss();
+        if (isNew) {
+            Users_Repository.get().getCurrentUser().getForumsOwn().add(forumKey);
+            FirebaseContract.User.addForumOwn(forumKey);
+        }
+        getActivity().onBackPressed();
     }
 
     @Override
     public void onImageFailed() {
         loading.cancel();
-        Snackbar.make(getView(), R.string.error_upload_img, Snackbar.LENGTH_LONG);
+        Snackbar.make(getView(), R.string.error_upload_img, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -195,9 +294,10 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
     }
 
     @Override
-    public void onDescriptionObtained(String description) {
+    public void onFirebaseForumObtained(Forum optForum) {
 
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
@@ -211,8 +311,20 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
                     havImgSelected = true;
                     //mIvLogo.setImageBitmap(BitmapFactory.decodeFile(picturePath));
                 }
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                CropImage.ActivityResult result = CropImage.getActivityResult(imageReturnedIntent);
+                if (resultCode == RESULT_OK) {
+                    Uri resultUri = result.getUri();
+                    imgSelected = resultUri;
+                    UIUtils.loadImage(getContext(), resultUri.toString(), mIvLogo);
+                    havImgSelected = true;
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Exception error = result.getError();
+                }
+                break;
         }
     }
+
 
     public interface OnFragmentInteractionListener {
         void startForumsListFragment();

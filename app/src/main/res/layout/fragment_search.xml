@@ -26,6 +26,9 @@
                 android:id="@+id/edtSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:maxLines="1"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
                 android:background="@android:color/transparent"
                 android:hint="@string/search_forum" />
         </Toolbar>

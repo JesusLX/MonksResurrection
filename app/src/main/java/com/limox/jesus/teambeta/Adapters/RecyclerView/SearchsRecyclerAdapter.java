@@ -12,9 +12,9 @@ import com.limox.jesus.teambeta.R;
 import java.util.ArrayList;
 
 /**
+ * Recycler Adapter to show search's results
  * Created by jesus on 11/11/16.
  */
-
 public class SearchsRecyclerAdapter extends RecyclerView.Adapter<SearchsRecyclerAdapter.PostViewHolder> {
 
 

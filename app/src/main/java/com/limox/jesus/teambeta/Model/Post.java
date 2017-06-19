@@ -1,8 +1,11 @@
 package com.limox.jesus.teambeta.Model;
 
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
+
+import com.limox.jesus.teambeta.Utils.AllConstants;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -10,18 +13,18 @@ import java.util.Comparator;
 import java.util.Date;
 
 /**
+ * Class to contain Post's data
  * Created by jesus on 10/11/16.
  */
-
-public class Post implements Parcelable{
+public class Post implements Parcelable {
     private static final int DESCRIPTION_SHORTED_LENGTH = 47;
 
     public static final Comparator<Post> LAST_FIRST = new Comparator<Post>() {
         @Override
         public int compare(Post post, Post t1) {
-            int comp =post.getCreationDate().compareTo(t1.getCreationDate());
+            int comp = post.getCreationDate().compareTo(t1.getCreationDate());
             int result = 0;
-            switch (comp){
+            switch (comp) {
                 case -1:
                     result = 1;
                     break;
@@ -32,10 +35,9 @@ public class Post implements Parcelable{
             return result;
         }
     };
-    private String mForumsKey;
+
 
     protected Post(Parcel in) {
-        mForumsKey = in.readString();
         mId = in.readString();
         mIdOwner = in.readString();
         mIdForum = in.readString();
@@ -49,7 +51,6 @@ public class Post implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mForumsKey);
         dest.writeString(mId);
         dest.writeString(mIdOwner);
         dest.writeString(mIdForum);
@@ -78,14 +79,6 @@ public class Post implements Parcelable{
         }
     };
 
-    public String getForumKey() {
-        return mForumsKey;
-    }
-
-    public void setForumsKey(String forumsKey) {
-        this.mForumsKey = forumsKey;
-    }
-
     public String getIdForum() {
         return mIdForum;
     }
@@ -94,11 +87,19 @@ public class Post implements Parcelable{
         mIdForum = idForum;
     }
 
+    public Bundle optBundle() {
+        Bundle b = new Bundle();
+        b.putParcelable(AllConstants.Keys.Parcelables.POST_PARCELABLE_KEY, this);
+        return b;
+    }
 
-    @IntDef({NOT_PUBLISHED,PUBLISHED,FIXED,ALL})
+
+    @IntDef({ON_REVISION, PUBLISHED, FIXED, ALL})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface STATE{}
-    public static final int NOT_PUBLISHED = 0;
+    public @interface STATE {
+    }
+
+    public static final int ON_REVISION = 0;
     public static final int PUBLISHED = 1;
     public static final int FIXED = 2;
     public static final int ALL = 3;
@@ -121,7 +122,6 @@ public class Post implements Parcelable{
         this.mScore = 0;
         this.mState = 0;
         this.mTitle = "";
-        this.mForumsKey = "";
         this.mDescription = "";
         this.mTags = "";
         this.mDeleted = false;
@@ -134,7 +134,7 @@ public class Post implements Parcelable{
         this.mTitle = mTitle;
         this.mDescription = mDescriptions;
         this.mTags = mTags;
-        this.mState = NOT_PUBLISHED;
+        this.mState = ON_REVISION;
         this.mDeleted = false;
         this.mCreationDate = new Date();
     }
@@ -146,7 +146,7 @@ public class Post implements Parcelable{
         this.mDescription = mDescription;
         this.mTags = mTags;
         this.mId = id;
-        this.mState = NOT_PUBLISHED;
+        this.mState = ON_REVISION;
         this.mDeleted = false;
         this.mCreationDate = new Date();
     }
@@ -169,11 +169,13 @@ public class Post implements Parcelable{
     }
 
 
-    public void setState(@STATE int state){
+    public void setState(@STATE int state) {
         this.mState = state;
     }
 
-    public @STATE int getState() {
+    public
+    @STATE
+    int getState() {
         return mState;
     }
 
@@ -204,9 +206,10 @@ public class Post implements Parcelable{
     public String getDescription() {
         return mDescription;
     }
+
     public String getDescriptionShorted() {
-        if (mDescription.length()>DESCRIPTION_SHORTED_LENGTH){
-            return mDescription.substring(0,DESCRIPTION_SHORTED_LENGTH)+"...";
+        if (mDescription.length() > DESCRIPTION_SHORTED_LENGTH) {
+            return mDescription.substring(0, DESCRIPTION_SHORTED_LENGTH) + "...";
         }
         return mDescription;
     }

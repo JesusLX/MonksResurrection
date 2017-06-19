@@ -10,13 +10,21 @@ import android.content.Context;
 public class TeamBetaApplication extends Application {
 
     private static Context context;
+    private static String mCurrentActivity;
 
-    public TeamBetaApplication(){
+    public TeamBetaApplication() {
         context = this;
     }
 
-    public static Context getContext(){
+    public static Context getContext() {
         return context;
     }
 
+    public static String getCurrentActivity() {
+        return mCurrentActivity;
+    }
+
+    public static void setCurrentActivity(String currentActivity) {
+        mCurrentActivity = currentActivity;
+    }
 }

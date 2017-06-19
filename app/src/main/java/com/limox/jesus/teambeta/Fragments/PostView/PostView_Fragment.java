@@ -2,7 +2,6 @@ package com.limox.jesus.teambeta.Fragments.PostView;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -29,6 +28,7 @@ import com.limox.jesus.teambeta.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
+import com.limox.jesus.teambeta.Utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,13 +42,11 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
     private Post mPost;
     private Toolbar mToolBar;
     private ImageView mIvUserPicture;
-    private ImageView mIvLike;
-    private ImageView mIvDislike;
     private ImageView mIvComments;
     private TextView mTxvUserName;
+    private TextView mTxvState;
     private TextView mTxvPostTitle;
     private TextView mTxvPostDescription;
-    private TextView mTxvPostScore;
     private PostViewPresenter mPresenter;
     private UserManagerPresenter mUserPresenter;
     private ChatsManagerPresenterImpl mChatsPresenter;
@@ -73,6 +71,11 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
 
     }
 
+    @Override
+    public void onError(Exception exception) {
+
+    }
+
 
     @Override
     public void onChatsReceived(HashMap<String, ArrayList<Chat>> singleChatData) {
@@ -81,13 +84,15 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
 
     @Override
     public void onChatReceived(Chat chat) {
-
+        mCallback.startChat(chat.optBundle());
     }
 
     public interface OnPostViewFragmentListener {
         void startUserProfile(Bundle user);
 
-        void showPostComments();
+        void showPostComments(String idPost);
+
+        void startChat(Bundle chat);
     }
 
     public static PostView_Fragment newInstance(Bundle post) {
@@ -117,6 +122,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         super.onCreate(savedInstanceState);
         //  setHasOptionsMenu(true);
         mPresenter = new PostViewPresenterImpl(this);
+        mPost = new Post();
         mPost = getArguments().getParcelable(AllConstants.Keys.Parcelables.POST_PARCELABLE_KEY);
         mPost.setCreationDate(new Date(getArguments().getLong(AllConstants.Keys.Parcelables.POST_CREATION_DATE)));
         mUserPresenter = new UserManagerPresenterImpl(this);
@@ -142,13 +148,11 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         View rootView = inflater.inflate(R.layout.fragment_post_view, container, false);
         mToolBar = (Toolbar) rootView.findViewById(R.id.pv_tbTitleBar);
         mIvUserPicture = (ImageView) rootView.findViewById(R.id.pv_ivProfilePicture);
-        mIvLike = (ImageView) rootView.findViewById(R.id.pv_ivlike);
-        mIvDislike = (ImageView) rootView.findViewById(R.id.pv_ivdislike);
         mIvComments = (ImageView) rootView.findViewById(R.id.pv_ivComments);
         mTxvUserName = (TextView) rootView.findViewById(R.id.pv_txvUserName);
         mTxvPostTitle = (TextView) rootView.findViewById(R.id.pv_txvPostTitle);
+        mTxvState = (TextView) rootView.findViewById(R.id.pv_txvState);
         mTxvPostDescription = (TextView) rootView.findViewById(R.id.pv_txvPostDescription);
-        mTxvPostScore = (TextView) rootView.findViewById(R.id.pv_txvPostScore);
         return rootView;
     }
 
@@ -162,22 +166,26 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         mIvComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCallback.showPostComments();
+                mCallback.showPostComments(mPost.getIdPost());
             }
         });
-        if (Users_Repository.get().getCurrentUser().getPostsLiked().contains(mPost.getIdPost())) {
-            mIvLike.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+        switch (mPost.getState()) {
+
+            case Post.ALL:
+
+                break;
+            case Post.FIXED:
+                mTxvState.setText(R.string.fixed);
+                break;
+            case Post.ON_REVISION:
+                mTxvState.setText(R.string.revision);
+                break;
+            case Post.PUBLISHED:
+                mTxvState.setText(R.string.published);
+                break;
         }
-        mIvLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!Users_Repository.get().getCurrentUser().getPostsLiked().contains(mPost.getIdPost())) {
-                    mPresenter.likePost(mPost.getIdPost(), mPost);
-                    mIvLike.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-                    mTxvPostScore.setText(String.valueOf(Integer.parseInt(mTxvPostScore.getText().toString()) + 1));
-                }
-            }
-        });
+        if (Users_Repository.get().getCurrentForum() != null)
+            mToolBar.setBackgroundColor(UIUtils.parseColor(Users_Repository.get().getCurrentForum().getColor()));
 
     }
 
@@ -207,12 +215,22 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
      * @param menu menu inflated
      */
     private void adapteMenu(Menu menu) {
-        menu.findItem(R.id.action_pv_SendMessage).setVisible(true);
-        menu.findItem(R.id.action_pv_Edit).setVisible(Users_Repository.get().currentUserCanAdmin(mPost) || Users_Repository.get().currentUserIsOwner(mPost));
-        menu.findItem(R.id.action_pv_ToFixes).setVisible(!mPost.isFixed());
-        menu.findItem(R.id.action_pv_ToPublished).setVisible(!mPost.isPublicate());
-        menu.findItem(R.id.action_pv_Delete).setVisible(Users_Repository.get().currentUserIsOwner(mPost));
-        menu.findItem(R.id.action_pv_SendMessage).setVisible(!Users_Repository.get().currentUserIsOwner(mPost));
+        if (Users_Repository.get().getCurrentForum() != null) {
+
+            menu.findItem(R.id.action_pv_SendMessage).setVisible(true);
+            menu.findItem(R.id.action_pv_Edit).setVisible(/*Users_Repository.get().currentUserCanAdmin(mPost)*/false);
+            menu.findItem(R.id.action_pv_ToFixes).setVisible(Users_Repository.get().currentUserCanAdmin(mPost) && !mPost.isFixed());
+            menu.findItem(R.id.action_pv_ToPublished).setVisible(Users_Repository.get().currentUserCanAdmin(mPost) && !mPost.isPublicate());
+            menu.findItem(R.id.action_pv_Delete).setVisible(Users_Repository.get().currentUserIsOwner(mPost));
+            menu.findItem(R.id.action_pv_SendMessage).setVisible(!Users_Repository.get().currentUserIsOwner(mPost));
+        } else {
+            menu.findItem(R.id.action_pv_SendMessage).setVisible(false);
+            menu.findItem(R.id.action_pv_Edit).setVisible(false);
+            menu.findItem(R.id.action_pv_ToFixes).setVisible(false);
+            menu.findItem(R.id.action_pv_ToPublished).setVisible(false);
+            menu.findItem(R.id.action_pv_Delete).setVisible(false);
+            menu.findItem(R.id.action_pv_SendMessage).setVisible(false);
+        }
     }
 
 
@@ -223,26 +241,28 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         this.mListenerOnMenuClick = new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_pv_ToFixes:
-                        // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
-                        createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToFixes, TO_FIXED).show();
-                        break;
-                    case R.id.action_pv_ToPublished:
-                        // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
-                        createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToPublished, TO_PUBLISHED).show();
-                        break;
-                    case R.id.action_pv_SendMessage:
-                        mChatsPresenter.optChat(Users_Repository.get().getCurrentForum().getKey(), Users_Repository.get().getCurrentUser().optChats(Users_Repository.get().getCurrentForum().getKey()), new String[]{Users_Repository.get().getCurrentUser().getId(), mPost.getIdUser()}, null);
-                        break;
+                if (Users_Repository.get().getCurrentForum() != null)
+
+                    switch (item.getItemId()) {
+                        case R.id.action_pv_ToFixes:
+                            // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
+                            createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToFixes, TO_FIXED).show();
+                            break;
+                        case R.id.action_pv_ToPublished:
+                            // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
+                            createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToPublished, TO_PUBLISHED).show();
+                            break;
+                        case R.id.action_pv_SendMessage:
+                            mChatsPresenter.optChat(Users_Repository.get().getCurrentForum().getKey(), Users_Repository.get().getCurrentUser().optChats(Users_Repository.get().getCurrentForum().getKey()), new String[]{Users_Repository.get().getCurrentUser().getId(), mPost.getIdUser()}, null);
+                            break;
             /*case R.id.action_Edit:
                 // Todo Aqui meter para editar
                 break;*/
-                    case R.id.action_pv_Delete:
-                        // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
-                        createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_Delete, DELETE).show();
-                        break;
-                }
+                        case R.id.action_pv_Delete:
+                            // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
+                            createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_Delete, DELETE).show();
+                            break;
+                    }
                 return true;
 
             }
@@ -275,7 +295,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (typeAction) {
                                     case TO_NOT_PUBLISHED:
-                                        mPresenter.changePostOfList(mPost, Post.NOT_PUBLISHED);
+                                        mPresenter.changePostOfList(mPost, Post.ON_REVISION);
                                         break;
                                     case TO_PUBLISHED:
                                         mPresenter.changePostOfList(mPost, Post.PUBLISHED);

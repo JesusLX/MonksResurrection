@@ -12,15 +12,17 @@ import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 
 /**
+ * FragmentStatePager Adapter for the user's profile in the forum
  * Created by jesus on 24/12/16.
  */
 public class ProfilePostTabsAdapter extends FragmentStatePagerAdapter {
     String[] mTabNames;
     FragmentManager mSuppFM;
-    int mIdUser;
-    public ProfilePostTabsAdapter(Context context, FragmentManager supportFragmentManager, int idUser) {
+    String mIdUser;
+
+    public ProfilePostTabsAdapter(Context context, FragmentManager supportFragmentManager, String idUser, String userName) {
         super(supportFragmentManager);
-        mTabNames = context.getResources().getStringArray(R.array.profile_post_tabs);
+        mTabNames = new String[]{userName}/*context.getResources().getStringArray(R.array.profile_post_tabs)*/;
         mIdUser = idUser;
     }
 
@@ -33,10 +35,10 @@ public class ProfilePostTabsAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         Fragment fragment = null;
         Bundle args = new Bundle();
-        args.putInt(AllConstants.Keys.SimpleBundle.ID_USER_KEY, mIdUser);
+        args.putString(AllConstants.Keys.SimpleBundle.ID_USER_KEY, mIdUser);
         switch (position){
             case 0:
-                args.putInt(AllConstants.TypeLists.TYPELIST_KEY,AllConstants.TypeLists.FOR_ALL);
+                args.putInt(AllConstants.TypeLists.TYPELIST_KEY, AllConstants.TypeLists.FOR_NONPUBLISHED);
 
                 fragment = DashPost_Fragment.newInstance(args);
                 break;
@@ -55,5 +57,10 @@ public class ProfilePostTabsAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         super.getPageTitle(position);
         return mTabNames[position];
+    }
+
+    public void setName(String name) {
+        mTabNames[0] = name;
+        notifyDataSetChanged();
     }
 }

@@ -11,6 +11,7 @@ import com.limox.jesus.teambeta.Model.Forum;
 import com.limox.jesus.teambeta.R;
 
 /**
+ * FragmentStatePager Adapter for the user's profile at the forums section views
  * Created by jesus on 24/12/16.
  */
 public class ProfileForumsTabsAdapter extends FragmentStatePagerAdapter {
@@ -20,7 +21,7 @@ public class ProfileForumsTabsAdapter extends FragmentStatePagerAdapter {
 
     public ProfileForumsTabsAdapter(Context context, FragmentManager supportFragmentManager, Bundle user) {
         super(supportFragmentManager);
-        mTabNames = new String[]{context.getString(R.string.own), context.getString(R.string.admin), context.getString(R.string.forums)};
+        mTabNames = new String[]{context.getString(R.string.own), context.getString(R.string.admin), context.getString(R.string.partaker)};
         mUser = user;
     }
 

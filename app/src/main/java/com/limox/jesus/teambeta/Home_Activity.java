@@ -39,6 +39,7 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TeamBetaApplication.setCurrentActivity("Home_Activity");
         setContentView(com.limox.jesus.teambeta.R.layout.activity_home);
 
         init();

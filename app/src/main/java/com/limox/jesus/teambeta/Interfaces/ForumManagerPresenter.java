@@ -14,11 +14,13 @@ import com.limox.jesus.teambeta.Model.Forum;
 public interface ForumManagerPresenter {
     void createForum(Forum forum);
 
-    void getDescription(Forum forum);
+    void getForumFirebaseData(Forum forum);
 
     void uploadPhoto(Uri file, String folderName, String fileName);
 
     void existsForum(String forumsName, Response.Listener<String> valueEventListener);
+
+    void updateForum(Forum mForum);
 
     interface View {
         void onForumCreated(String forumKey);
@@ -33,7 +35,8 @@ public interface ForumManagerPresenter {
 
         void onError();
 
-        void onDescriptionObtained(String description);
+        void onFirebaseForumObtained(Forum optForum);
+
     }
 
 }

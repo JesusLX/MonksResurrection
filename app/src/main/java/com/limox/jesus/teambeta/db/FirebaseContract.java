@@ -28,6 +28,12 @@ import java.util.HashMap;
  */
 
 public class FirebaseContract {
+    public class COMMENTS {
+        public static final String ROOT_NODE = "comments";
+        public static final String NODE_DATE = "creationDate";
+    }
+
+
     public interface FirebaseUserCallback {
         void onUserObtained(String idUser);
 
@@ -55,15 +61,13 @@ public class FirebaseContract {
         public static void postUser(String id, com.limox.jesus.teambeta.Model.User user, OnSuccessListener successListener) {
             FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(id).setValue(user).addOnSuccessListener(successListener);
         }
+
         public static com.limox.jesus.teambeta.Model.User getUser(DataSnapshot user) {
 
             //com.limox.jesus.teambeta.Model.User tmp = user.getValue(com.limox.jesus.teambeta.Model.User.class);
-            //com.limox.jesus.teambeta.Model.User.fromJSON(user.getValue().toString());
-            com.limox.jesus.teambeta.Model.User tmp = com.limox.jesus.teambeta.Model.User.fromJSON(user.toString());
+            com.limox.jesus.teambeta.Model.User tmp = com.limox.jesus.teambeta.Model.User.fromJSON(user);
             tmp.setIdUser(user.getKey());
-            //tmp.setIdUser(user.getKey());
-          /*  tmp.setEmail(user.getEmail());
-            FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).get*/
+            //FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).get*/
             return tmp;
         }
 
@@ -198,6 +202,8 @@ public class FirebaseContract {
     public static class Forums {
         public static final String ROOT_NODE = "forum";
         public static final String NODE_DESCRIPTION = "description";
+        public static final String NODE_COLOR = "color";
+        public static final String NODE_WEB = "web";
 
         public static void optForum(final String idForum, ValueEventListener valueEventListener) {
             FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(idForum).addValueEventListener(valueEventListener);
@@ -217,6 +223,8 @@ public class FirebaseContract {
         public static final String NODE_PARTICIPANTS = "participants";
         public static final String NODE_USER_NAME = "userName";
         public static final String NODE_USER_IMG = "userImgUrl";
+        public static final String NODE_MESSAGES = "messages";
+        public static final String NODE_CREATION_DATE = "date";
 
 
         public static void createChat(final String forumKey, String[] participantsKeys) {

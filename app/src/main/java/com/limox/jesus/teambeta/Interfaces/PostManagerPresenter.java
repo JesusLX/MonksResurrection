@@ -2,6 +2,7 @@ package com.limox.jesus.teambeta.Interfaces;
 
 import android.content.Context;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.limox.jesus.teambeta.Model.Post;
 
 /**
@@ -10,7 +11,7 @@ import com.limox.jesus.teambeta.Model.Post;
 
 public interface PostManagerPresenter {
 
-    void uploadPost(Post post);
+    String uploadPost(Post post);
 
     interface View{
         Context getContext();

@@ -121,6 +121,11 @@ public class UsersListFragment extends Fragment implements UserManagerPresenter.
     }
 
     @Override
+    public void onError(Exception exception) {
+
+    }
+
+    @Override
     public void onUserClicked(Bundle user) {
         mCallback.onUserClicked(user);
     }

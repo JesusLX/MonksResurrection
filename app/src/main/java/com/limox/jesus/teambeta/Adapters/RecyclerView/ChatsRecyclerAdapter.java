@@ -1,5 +1,6 @@
 package com.limox.jesus.teambeta.Adapters.RecyclerView;
 
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,9 @@ import com.limox.jesus.teambeta.R;
 import java.util.ArrayList;
 
 /**
+ * Recycler adapter to show chat's lists
  * Created by jesus on 11/11/16.
  */
-
 public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdapter.PostViewHolder> {
 
 
@@ -25,7 +26,7 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
 
 
     public interface OnChatsViewHolderListener {
-        void onChatPressed(Chat chat);
+        void onChatPressed(Bundle chat);
 
     }
 
@@ -56,7 +57,7 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
         holder.mLlContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onChatPressed(mChats.get(holder.getAdapterPosition()));
+                mCallback.onChatPressed(mChats.get(holder.getAdapterPosition()).optBundle());
             }
         });
     }

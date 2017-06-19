@@ -10,6 +10,7 @@ import com.limox.jesus.teambeta.Fragments.Chats.MessagesList_Fragment;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 
 /**
+ * FragmentStatePager Adapter for the admins tabs
  * Created by jesus on 6/01/17.
  */
 public class AdminPostTabsAdapter extends FragmentStatePagerAdapter {
@@ -34,10 +35,7 @@ public class AdminPostTabsAdapter extends FragmentStatePagerAdapter {
                 args.putInt(AllConstants.TypeLists.TYPELIST_KEY,AllConstants.TypeLists.FOR_PUBLISHED);
                 dpf = DashPost_Fragment.newInstance(args);
                 break;
-            case 2:
 
-                dpf = new MessagesList_Fragment();
-                break;
         }
 
         if (dpf != null) {

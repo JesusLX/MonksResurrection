@@ -2,6 +2,7 @@ package com.limox.jesus.teambeta.Interfaces;
 
 import android.content.Context;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.limox.jesus.teambeta.Model.User;
 
 /**
@@ -9,6 +10,8 @@ import com.limox.jesus.teambeta.Model.User;
  */
 
 public interface UserManagerPresenter {
+    void updateUser(String userPhoto, String userName, String userEmail, OnSuccessListener<Void> successListener);
+
     void getAllUsersOfForum(String forumId, String mListName);
 
     void addUser(User user);
@@ -18,6 +21,10 @@ public interface UserManagerPresenter {
     void getUser(String mUserName, String mPassword);
 
     void aggregateForum(String forumKey, boolean admin, final ManagerView managerView);
+
+    void updateFirebaseEmail(String userKey, String email);
+
+    void updateFirebaseName(String userKey, String name);
 
     //void getUser(String idUser);
 
@@ -29,6 +36,10 @@ public interface UserManagerPresenter {
         void onUserCreated();
 
         void onUserObtained(User tryUser);
+
+        void onError(Exception exception);
+
+
     }
 
     public interface ManagerView {

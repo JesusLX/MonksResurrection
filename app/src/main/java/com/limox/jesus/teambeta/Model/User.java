@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.db.DatabaseContract;
 import com.limox.jesus.teambeta.db.FirebaseContract;
@@ -14,8 +16,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
+ * Class to contain User's data
  * Created by jesus on 8/11/16.
  */
 public class User implements Parcelable {
@@ -196,7 +200,6 @@ public class User implements Parcelable {
     }
 
 
-
     public ArrayList<String> getPostsLiked() {
         if (mPostsLiked == null)
             mPostsLiked = new ArrayList<>();
@@ -240,6 +243,8 @@ public class User implements Parcelable {
 
     @Override
     public boolean equals(Object o) {
+        if (o instanceof String)
+            return this.getId().equals(o);
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -249,25 +254,54 @@ public class User implements Parcelable {
 
     }
 
-    public static User fromJSON(String request) {
+    /**
+     * Get a user from DataSnapshot data with JSON format
+     *
+     * @param request User's data as DataSnapshot
+     * @return A User
+     */
+    public static User fromJSON(DataSnapshot request) {
         User tmp = new User();
+        GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {
+        };
+        if (request.getValue() != null) {
+            if (request.child(FirebaseContract.User.NODE_PHOTO_URL).getValue() != null)
+                tmp.setProfilePicture(request.child(FirebaseContract.User.NODE_PHOTO_URL).getValue().toString());
 
-        try {
-            JSONObject usr = new JSONObject(request);
-            tmp.setProfilePicture(usr.optString(FirebaseContract.User.NODE_PHOTO_URL));
-            JSONArray fa = new JSONArray(usr.optJSONArray(FirebaseContract.User.NODE_FORUMS_ADMIN));
-            for (int i = 0; i < fa.length(); i++) {
-
-            }
-            // tmp.setForumsOwn(usr.optString(FirebaseContract.User.NODE_PHOTO_URL));
-            tmp.setProfilePicture(usr.optString(FirebaseContract.User.NODE_PHOTO_URL));
-            tmp.setProfilePicture(usr.optString(FirebaseContract.User.NODE_PHOTO_URL));
-            tmp.setProfilePicture(usr.optString(FirebaseContract.User.NODE_PHOTO_URL));
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+            tmp.setPostsLiked((ArrayList<String>) request.child(FirebaseContract.User.NODE_LIKED_POSTS).getValue(t));
+            tmp.setForumsOwn((ArrayList<String>) request.child(FirebaseContract.User.NODE_FORUMS_OWN).getValue(t));
+            tmp.setForumsAdmin((ArrayList<String>) request.child(FirebaseContract.User.NODE_FORUMS_ADMIN).getValue(t));
+            tmp.setForumsWIParticipate((ArrayList<String>) request.child(FirebaseContract.User.NODE_FORUMS_PARTICIPATE).getValue(t));
+        /*for (DataSnapshot favs : request.child(FirebaseContract.User.NODE_FORUMS_ADMIN).getChildren()) {
+            tmp.getPostsLiked().add(favs.getValue().toString());
         }
+        for (DataSnapshot part : request.child(FirebaseContract.User.NODE_FORUMS_PARTICIPATE).getChildren()) {
+            tmp.getPostsLiked().add(part.getValue().toString());
+        }
+        for (DataSnapshot own : request.child(FirebaseContract.User.NODE_FORUMS_OWN).getChildren()) {
+            tmp.getPostsLiked().add(own.getValue().toString());
+        }
+        for (DataSnapshot admin : request.child(FirebaseContract.User.NODE_FORUMS_ADMIN).getValue()) {
+            tmp.getPostsLiked().add(admin.getValue().toString());
+        }*/
 
+            tmp.setBlocked(Boolean.parseBoolean(request.child(FirebaseContract.User.NODE_BLOCKED).getValue() == null ? "false" : request.child(FirebaseContract.User.NODE_BLOCKED).getValue().toString()));
+            tmp.setEmail(request.child(FirebaseContract.User.NODE_EMAIL).getValue().toString());
+            tmp.setName(request.child(FirebaseContract.User.NODE_NAME).getValue().toString());
+            HashMap<String, ArrayList<Chat>> mChat = new HashMap<>();
+            for (DataSnapshot chats : request.child(FirebaseContract.User.NODE_CHATS).getChildren()) {
+                mChat.put(chats.getKey(), new ArrayList<Chat>());
+                for (DataSnapshot chat : chats.getChildren()) {
+                    Chat cht = new Chat();
+                    cht.setKey(chat.getKey());
+                    cht.setSoftInfo((ArrayList<String>) chat.getValue(t));
+                    mChat.get(chats.getKey()).add(cht);
+                }
+            }
+
+            tmp.setChats(mChat);
+
+        }
         return tmp;
     }
 

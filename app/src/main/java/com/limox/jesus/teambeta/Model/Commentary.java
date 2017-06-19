@@ -3,43 +3,44 @@ package com.limox.jesus.teambeta.Model;
 import java.util.Date;
 
 /**
+ * Class to contain commentary data
  * Created by jesus on 10/11/16.
  */
-
 public class Commentary {
-    private int mKey;
-    private int mUserImgProf;
-    private int mKeyPost;
-    private int mKeyUser;
+    private String mKey;
+    private String mUserImgProf;
+    private String mKeyPost;
+    private String mKeyUser;
     private boolean mDeleted;
-    private Date mCreationDate;
+    private long mCreationDate;
     private String mContent;
+    private String userName;
 
     public Commentary() {
 
     }
 
-    public int getKey() {
+    public String getKey() {
         return mKey;
     }
 
-    public void setKey(int key) {
+    public void setKey(String key) {
         mKey = key;
     }
 
-    public int getKeyPost() {
+    public String getKeyPost() {
         return mKeyPost;
     }
 
-    public void setKeyPost(int keyPost) {
+    public void setKeyPost(String keyPost) {
         mKeyPost = keyPost;
     }
 
-    public int getKeyUser() {
+    public String getKeyUser() {
         return mKeyUser;
     }
 
-    public void setKeyUser(int keyUser) {
+    public void setKeyUser(String keyUser) {
         mKeyUser = keyUser;
     }
 
@@ -51,11 +52,11 @@ public class Commentary {
         mDeleted = deleted;
     }
 
-    public Date getCreationDate() {
+    public long getCreationDate() {
         return mCreationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(long creationDate) {
         mCreationDate = creationDate;
     }
 
@@ -67,11 +68,19 @@ public class Commentary {
         mContent = content;
     }
 
-    public int getUserImgProf() {
+    public String getUserImgProf() {
         return mUserImgProf;
     }
 
-    public void setUserImgProf(int userImgProf) {
+    public void setUserImgProf(String userImgProf) {
         mUserImgProf = userImgProf;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

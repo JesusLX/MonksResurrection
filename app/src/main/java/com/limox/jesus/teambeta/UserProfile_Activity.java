@@ -18,6 +18,7 @@ public class UserProfile_Activity extends AppCompatActivity implements HomeOfFra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TeamBetaApplication.setCurrentActivity("UserProfile_Activity");
         setContentView(com.limox.jesus.teambeta.R.layout.activity_user_profile);
         if (savedInstanceState == null)
             startUserProfile(getIntent().getExtras());

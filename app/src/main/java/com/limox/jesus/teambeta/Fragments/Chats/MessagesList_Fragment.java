@@ -10,27 +10,31 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.appindexing.Action;
 import com.google.firebase.appindexing.FirebaseAppIndex;
@@ -45,53 +49,82 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.limox.jesus.teambeta.Interfaces.ChatsManagerPresenter;
+import com.limox.jesus.teambeta.Model.Chat;
 import com.limox.jesus.teambeta.Model.Message;
+import com.limox.jesus.teambeta.Model.PushNotification;
+import com.limox.jesus.teambeta.Presenter.ChatsManagerPresenterImpl;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
+import com.limox.jesus.teambeta.Utils.RestClient;
+import com.limox.jesus.teambeta.db.FirebaseContract;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
-
-public class MessagesList_Fragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
+public class MessagesList_Fragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener, ChatsManagerPresenter.View.ChatsManager {
 
     private static final String TAG = "MESSAGE_FRAGMENT";
-    private Button mSendButton;
+    private ImageButton mSendButton;
+    private Chat mChat;
+    private Toolbar mToolbar;
     private RecyclerView mMessageRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
-    private ProgressBar mProgressBar;
     private EditText mMessageEditText;
     private ImageView mAddMessageImageView;
-    public static final String MESSAGES_CHILD = "messages";
     private static final int REQUEST_INVITE = 1;
     private static final int REQUEST_IMAGE = 2;
-    private static final String LOADING_IMAGE_URL = "https://www.google.com/images/spin-32.gif";
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 165;
-    public static final String ANONYMOUS = "anonymous";
     private static final String MESSAGE_SENT_EVENT = "message_sent";
     private String mUserKey;
-    private String mPhotoUrl;
+    private String forumKey;
     private SharedPreferences mSharedPreferences;
-    private static final String MESSAGE_URL = "https://team-beta-f34f4.firebaseio.com/message/";
     // Firebase instance variables
     private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseRecyclerAdapter<Message, MessageViewHolder>
             mFirebaseAdapter;
+    private String chatKey;
+
+    private String getMessageUrl() {
+        return "chats/" + forumKey + "/" + chatKey + "/" + FirebaseContract.Chats.NODE_MESSAGES;
+    }
+
+    private String getFullMessagesUrl() {
+        return "https://team-beta-f34f4.firebaseio.com/" + getMessageUrl();
+    }
 
     public MessagesList_Fragment() {
         // Required empty public constructor
     }
 
+    public static Fragment newInstance(Bundle chat) {
+        MessagesList_Fragment fragment = new MessagesList_Fragment();
+        fragment.setArguments(chat);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ChatsManagerPresenterImpl mPresenter = new ChatsManagerPresenterImpl(this);
+        if (getArguments() != null) {
+            mChat = getArguments().getParcelable(AllConstants.Keys.Parcelables.CHAT_KEY);
+            forumKey = getArguments().getString(AllConstants.Keys.SimpleBundle.ID_FORUM_KEY);
+            if (mChat == null) {
+                chatKey = getArguments().getString(AllConstants.Keys.SimpleBundle.ID_CHAT_KEY);
+                mPresenter.optChat(forumKey, chatKey, new String[]{Users_Repository.get().getCurrentUser().getId(), getArguments().getString(AllConstants.Keys.SimpleBundle.ID_USER_KEY)}, null);
+            } else {
+                chatKey = mChat.getKey();
+                if (Users_Repository.get().getCurrentForum() != null)
+                    forumKey = Users_Repository.get().getCurrentForum().getKey();
+            }
+        }
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         // Set default username is anonymous.
-        mUserKey = ANONYMOUS;
+        mUserKey = Users_Repository.get().getCurrentUser().getId();
     }
 
     @Override
@@ -99,8 +132,8 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_chat, container, false);
+        mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         // Initialize ProgressBar and RecyclerView.
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
         mMessageRecyclerView = (RecyclerView) rootView.findViewById(R.id.messageRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(getContext());
         mLinearLayoutManager.setStackFromEnd(true);
@@ -108,70 +141,80 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
 
         // New child entries
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Message,
-                MessageViewHolder>(
-                Message.class,
-                R.layout.item_message,
-                MessageViewHolder.class,
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD)) {
+        if (mChat != null)
+            mFirebaseAdapter = new FirebaseRecyclerAdapter<Message,
+                    MessageViewHolder>(
+                    Message.class,
+                    R.layout.item_message,
+                    MessageViewHolder.class,
+                    mFirebaseDatabaseReference.child(getMessageUrl()).orderByChild(FirebaseContract.Chats.NODE_CREATION_DATE)) {
 
-            @Override
-            protected Message parseSnapshot(DataSnapshot snapshot) {
-                Message friendlyMessage = super.parseSnapshot(snapshot);
-                if (friendlyMessage != null) {
-                    friendlyMessage.setKey(snapshot.getKey());
-                }
-                return friendlyMessage;
-            }
-
-            @Override
-            protected void populateViewHolder(final MessageViewHolder viewHolder,
-                                              Message friendlyMessage, int position) {
-                mProgressBar.setVisibility(ProgressBar.INVISIBLE);
-                if (friendlyMessage.getText() != null) {
-                    viewHolder.messageTextView.setText(friendlyMessage.getText());
-                    viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
-                } else {
-                    String imageUrl = friendlyMessage.getPhotoUrl();
-                    if (imageUrl.startsWith("gs://")) {
-                        StorageReference storageReference = FirebaseStorage.getInstance()
-                                .getReferenceFromUrl(imageUrl);
-                        storageReference.getDownloadUrl().addOnCompleteListener(
-                                new OnCompleteListener<Uri>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Uri> task) {
-                                        if (task.isSuccessful()) {
-                                            String downloadUrl = task.getResult().toString();
-                                            Glide.with(viewHolder.messageImageView.getContext())
-                                                    .load(downloadUrl)
-                                                    .into(viewHolder.messageImageView);
-                                        } else {
-                                            Log.w("MESSAGE_LIST", "Getting download url was not successful.",
-                                                    task.getException());
-                                        }
-                                    }
-                                });
-                    } else {
-                        Glide.with(viewHolder.messageImageView.getContext())
-                                .load(friendlyMessage.getDate())
-                                .into(viewHolder.messageImageView);
+                @Override
+                protected Message parseSnapshot(DataSnapshot snapshot) {
+                    Message friendlyMessage = super.parseSnapshot(snapshot);
+                    if (friendlyMessage != null) {
+                        friendlyMessage.setKey(snapshot.getKey());
                     }
-                    viewHolder.messageImageView.setVisibility(ImageView.VISIBLE);
-                    viewHolder.messageTextView.setVisibility(TextView.GONE);
+                    return friendlyMessage;
                 }
 
-                if (friendlyMessage.getText() != null) {
+                @Override
+                protected void populateViewHolder(final MessageViewHolder viewHolder,
+                                                  Message friendlyMessage, int position) {
+                    if (friendlyMessage.getUserKey().equals(Users_Repository.get().getCurrentUser().getId())) {
+                        viewHolder.messageContainer.setGravity(Gravity.START);
+                        viewHolder.messageTextView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+                        viewHolder.messageTextView.setBackgroundResource(R.drawable.my_msg_background);
+                    } else {
+                        viewHolder.messageContainer.setGravity(Gravity.END);
+                        viewHolder.messageTextView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
+                        viewHolder.messageTextView.setBackgroundResource(R.drawable.your_msg_background);
+                    }
+                    if (friendlyMessage.getText() != null) {
+                        viewHolder.messageTextView.setText(friendlyMessage.getText());
+                        viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
+                    } else {
+                        String imageUrl = friendlyMessage.getPhotoUrl();
+                        if (imageUrl != null)
+                            if (imageUrl.startsWith("gs://")) {
+                                StorageReference storageReference = FirebaseStorage.getInstance()
+                                        .getReferenceFromUrl(imageUrl);
+                                storageReference.getDownloadUrl().addOnCompleteListener(
+                                        new OnCompleteListener<Uri>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Uri> task) {
+                                                if (task.isSuccessful()) {
+                                                    String downloadUrl = task.getResult().toString();
+                                                    Glide.with(viewHolder.messageImageView.getContext())
+                                                            .load(downloadUrl)
+                                                            .into(viewHolder.messageImageView);
+                                                } else {
+                                                    Log.w("MESSAGE_LIST", "Getting download url was not successful.",
+                                                            task.getException());
+                                                }
+                                            }
+                                        });
+                            } else {
+                                Glide.with(viewHolder.messageImageView.getContext())
+                                        .load(friendlyMessage.getPhotoUrl())
+                                        .into(viewHolder.messageImageView);
+                            }
+                        viewHolder.messageImageView.setVisibility(ImageView.VISIBLE);
+                        viewHolder.messageTextView.setVisibility(TextView.GONE);
+                    }
+
+                    if (friendlyMessage.getText() != null) {
+                        // write this message to the on-device index
+                        FirebaseAppIndex.getInstance()
+                                .update(getMessageIndexable(friendlyMessage));
+                    }
                     // write this message to the on-device index
-                    FirebaseAppIndex.getInstance()
-                            .update(getMessageIndexable(friendlyMessage));
-                }
-                // write this message to the on-device index
-                FirebaseAppIndex.getInstance().update(getMessageIndexable(friendlyMessage));
+                    FirebaseAppIndex.getInstance().update(getMessageIndexable(friendlyMessage));
 
-                // log a view action on it
-                FirebaseUserActions.getInstance().end(getMessageViewAction(friendlyMessage));
-            }
-        };
+                    // log a view action on it
+                    FirebaseUserActions.getInstance().end(getMessageViewAction(friendlyMessage));
+                }
+            };
 
         mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -197,7 +240,7 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
         mMessageEditText = (EditText) rootView.findViewById(R.id.messageEditText);
 
 
-        mSendButton = (Button) rootView.findViewById(R.id.sendButton);
+        mSendButton = (ImageButton) rootView.findViewById(R.id.sendButton);
 
 
         mAddMessageImageView = (ImageView) rootView.findViewById(R.id.addMessageImageView);
@@ -208,6 +251,13 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mToolbar.setNavigationIcon(R.drawable.ic_action_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
         mMessageEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mSharedPreferences
                 .getInt(AllConstants.Keys.SimpleBundle.MESSAGE_LENGTH_KEY, DEFAULT_MSG_LENGTH_LIMIT))});
         mMessageEditText.addTextChangedListener(new TextWatcher() {
@@ -231,13 +281,23 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Message friendlyMessage = new
+                final Message friendlyMessage = new
                         Message(mMessageEditText.getText().toString(),
                         mUserKey,
-                        mPhotoUrl,
+                        "",
                         new Date().getTime() /* no image */);
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD)
-                        .push().setValue(friendlyMessage);
+                mFirebaseDatabaseReference.child(getMessageUrl())
+                        .push().setValue(friendlyMessage).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        PushNotification notification = new PushNotification();
+                        notification.setChatMessage(friendlyMessage, Users_Repository.get().getCurrentUser().getName(), forumKey, chatKey);
+                        notification.setFromUser(Users_Repository.get().getCurrentUser().getId());
+                        notification.setToUser(mChat.optOtherUserKey(Users_Repository.get().getCurrentUser().getId()));
+                        notification.setType(PushNotification.TYPE_NEW_MESSAGE);
+                        notification.pushNotification(mChat.optOtherUserKey(Users_Repository.get().getCurrentUser().getId()));
+                    }
+                });
                 mMessageEditText.setText("");
             }
         });
@@ -250,6 +310,10 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
                 startActivityForResult(intent, REQUEST_IMAGE);
             }
         });
+        if (mChat != null) {
+            mSendButton.setEnabled(false);
+            mToolbar.setTitle(mChat.optName());
+        }
     }
 
     @Override
@@ -263,9 +327,9 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
                     final Uri uri = data.getData();
                     Log.d(TAG, "Uri: " + uri.toString());
 
-                    Message tempMessage = new Message(null, mUserKey, mPhotoUrl,
+                    Message tempMessage = new Message(null, mUserKey, uri.toString(),
                             new Date().getTime());
-                    mFirebaseDatabaseReference.child(MESSAGES_CHILD).push()
+                    mFirebaseDatabaseReference.child(getMessageUrl()).push()
                             .setValue(tempMessage, new DatabaseReference.CompletionListener() {
                                 @Override
                                 public void onComplete(DatabaseError databaseError,
@@ -293,16 +357,16 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
     private Indexable getMessageIndexable(Message friendlyMessage) {
         PersonBuilder sender = Indexables.personBuilder()
                 .setIsSelf(mUserKey.equals(friendlyMessage.getText()))
-                .setName(friendlyMessage.getText())
-                .setUrl(MESSAGE_URL.concat(friendlyMessage.getKey() + "/sender"));
+                .setName(friendlyMessage.getUserKey())
+                .setUrl(getFullMessagesUrl().concat(friendlyMessage.getKey()));
 
         PersonBuilder recipient = Indexables.personBuilder()
                 .setName(mUserKey)
-                .setUrl(MESSAGE_URL.concat(friendlyMessage.getKey() + "/recipient"));
+                .setUrl(getFullMessagesUrl().concat(friendlyMessage.getKey()));
 
         Indexable messageToIndex = Indexables.messageBuilder()
-                .setName(friendlyMessage.getText())
-                .setUrl(MESSAGE_URL.concat(friendlyMessage.getKey()))
+                .setName(friendlyMessage.getUserKey())
+                .setUrl(getFullMessagesUrl().concat(friendlyMessage.getKey()))
                 .setSender(sender)
                 .setRecipient(recipient)
                 .build();
@@ -312,7 +376,7 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
 
     private Action getMessageViewAction(Message friendlyMessage) {
         return new Action.Builder(Action.Builder.VIEW_ACTION)
-                .setObject(friendlyMessage.getText(), MESSAGE_URL.concat(friendlyMessage.getKey()))
+                .setObject(friendlyMessage.getUserKey(), getFullMessagesUrl().concat(friendlyMessage.getKey()))
                 .setMetadata(new Action.Metadata.Builder().setUpload(false))
                 .build();
     }
@@ -323,11 +387,9 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if (task.isSuccessful()) {
-                            Message friendlyMessage =
-                                    new Message(mUserKey, mPhotoUrl,
-                                            task.getResult().getMetadata().getDownloadUrl()
-                                                    .toString(), new Date().getTime());
-                            mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key)
+                            Message friendlyMessage = new Message("", mUserKey,
+                                    task.getResult().getMetadata().getDownloadUrl().toString(), new Date().getTime());
+                            mFirebaseDatabaseReference.child(getMessageUrl()).child(key)
                                     .setValue(friendlyMessage);
                         } else {
                             Log.w(TAG, "Image upload task was not successful.",
@@ -342,14 +404,28 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
 
     }
 
+    @Override
+    public void onChatsReceived(HashMap<String, ArrayList<Chat>> singleChatData) {
+    }
+
+    @Override
+    public void onChatReceived(Chat chat) {
+        mChat = chat;
+        mSendButton.setEnabled(true);
+        mToolbar.setTitle(mChat.optName());
+    }
+
+
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         public TextView messageTextView;
         public ImageView messageImageView;
+        public LinearLayout messageContainer;
 
         public MessageViewHolder(View v) {
             super(v);
             messageTextView = (TextView) itemView.findViewById(R.id.messageTextView);
             messageImageView = (ImageView) itemView.findViewById(R.id.messageImageView);
+            messageContainer = (LinearLayout) itemView.findViewById(R.id.messageContainer);
         }
     }
 }

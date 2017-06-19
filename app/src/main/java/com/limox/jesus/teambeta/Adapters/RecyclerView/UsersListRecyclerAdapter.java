@@ -17,6 +17,7 @@ import com.limox.jesus.teambeta.Utils.UIUtils;
 import java.util.ArrayList;
 
 /**
+ * Recycler Adapter to show User's lists
  * Created by Jesus on 26/04/2017.
  */
 public class UsersListRecyclerAdapter extends RecyclerView.Adapter<UsersListRecyclerAdapter.UsersHolder> {

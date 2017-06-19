@@ -9,9 +9,9 @@ import com.limox.jesus.teambeta.Repositories.PostsStorage;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
 /**
+ * Presenter class to manage Post's view actions
  * Created by jesus on 30/12/16.
  */
-
 public class PostViewPresenterImpl implements PostViewPresenter{
 
     private PostViewPresenter.View mView;

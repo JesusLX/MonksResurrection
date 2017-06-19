@@ -18,23 +18,21 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.limox.jesus.teambeta.Interfaces.ForumManagerPresenter;
 import com.limox.jesus.teambeta.Model.Forum;
+import com.limox.jesus.teambeta.Utils.AeSimpleSHA1;
 import com.limox.jesus.teambeta.Utils.UIUtils;
 import com.limox.jesus.teambeta.db.APIConstants;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * Presenter class to manage Forums
  * Created by Jesus on 27/04/2017.
  */
-
 public class ForumManagerPresenterImpl implements ForumManagerPresenter {
 
     ForumManagerPresenter.View mView;
@@ -51,12 +49,14 @@ public class ForumManagerPresenterImpl implements ForumManagerPresenter {
                 push();
         forum.setKey(databaseReference.getKey());
         databaseReference.child(FirebaseContract.Forums.NODE_DESCRIPTION).setValue(forum.getDescription());
+        databaseReference.child(FirebaseContract.Forums.NODE_COLOR).setValue(forum.getColor());
+        databaseReference.child(FirebaseContract.Forums.NODE_WEB).setValue(forum.getWeb());
 
         HashMap<String, String> params = new HashMap<>();
         params.put(APIConstants.Forums.FORUM_KEY, forum.getKey());
         params.put(APIConstants.Forums.FORUM_NAME, forum.getName());
-        params.put(APIConstants.Forums.FORUM_ADM_KEY, forum.getAdminsKey());
-        params.put(APIConstants.Forums.FORUM_USR_KEY, forum.getUsersKey());
+        params.put(APIConstants.Forums.FORUM_ADM_KEY, AeSimpleSHA1.SHA1(forum.getAdminsKey()));
+        params.put(APIConstants.Forums.FORUM_USR_KEY, AeSimpleSHA1.SHA1(forum.getUsersKey()));
         params.put(APIConstants.Forums.FORUM_CREATION_D, String.valueOf(forum.getCreationDate().getTime()));
         params.put(APIConstants.Forums.FORUM_DELETED, String.valueOf(forum.getDeleted() ? 1 : 0));
         params.put(APIConstants.Forums.FORUM_IMG_URL, forum.getImgUrl());
@@ -81,16 +81,54 @@ public class ForumManagerPresenterImpl implements ForumManagerPresenter {
     }
 
     @Override
-    public void getDescription(final Forum forum) {
+    public void updateForum(final Forum forum) {
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().
+                child(FirebaseContract.Forums.ROOT_NODE).
+                child(forum.getKey());
+        databaseReference.child(FirebaseContract.Forums.NODE_DESCRIPTION).setValue(forum.getDescription());
+        databaseReference.child(FirebaseContract.Forums.NODE_COLOR).setValue(forum.getColor());
+        databaseReference.child(FirebaseContract.Forums.NODE_WEB).setValue(forum.getWeb());
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put(APIConstants.Forums.FORUM_KEY, forum.getKey());
+        params.put(APIConstants.Forums.FORUM_NAME, forum.getName());
+        params.put(APIConstants.Forums.FORUM_ADM_KEY, AeSimpleSHA1.SHA1(forum.getAdminsKey()));
+        params.put(APIConstants.Forums.FORUM_USR_KEY, AeSimpleSHA1.SHA1(forum.getUsersKey()));
+        params.put(APIConstants.Forums.FORUM_IMG_URL, forum.getImgUrl());
+
+        APIConstants.Forums.updateForum(mView.getContext(), forum.getKey(), params, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                mView.onForumCreated(databaseReference.getKey());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                mView.onError();
+
+            }
+        });
+    }
+
+    @Override
+    public void getForumFirebaseData(final Forum forum) {
         if (forum != null) {
             FirebaseDatabase.getInstance().getReference().
                     child(FirebaseContract.Forums.ROOT_NODE).
                     child(forum.getKey()).
-                    child(FirebaseContract.Forums.NODE_DESCRIPTION).
                     addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            mView.onDescriptionObtained(dataSnapshot.getValue().toString());
+                            if (dataSnapshot.child(FirebaseContract.Forums.NODE_DESCRIPTION).getValue()
+                                    != null)
+                                forum.setDescription(dataSnapshot.child(FirebaseContract.Forums.NODE_DESCRIPTION).getValue().toString());
+                            if (dataSnapshot.child(FirebaseContract.Forums.NODE_COLOR).getValue() != null)
+                                forum.setColor(dataSnapshot.child(FirebaseContract.Forums.NODE_COLOR).getValue().toString());
+                            if (dataSnapshot.child(FirebaseContract.Forums.NODE_WEB).getValue() != null)
+                                forum.setWeb(dataSnapshot.child(FirebaseContract.Forums.NODE_WEB).getValue().toString());
+                            mView.onFirebaseForumObtained(forum);
                         }
 
                         @Override
@@ -101,6 +139,7 @@ public class ForumManagerPresenterImpl implements ForumManagerPresenter {
         }
 
     }
+
     @Override
     public void uploadPhoto(Uri file, String folderName, String fileName) {
 
@@ -141,4 +180,6 @@ public class ForumManagerPresenterImpl implements ForumManagerPresenter {
             }
         });
     }
+
+
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.limox.jesus.teambeta.R;
+import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.Preferences;
+import com.limox.jesus.teambeta.Utils.UIUtils;
 
 
 public class StartSettings_Fragment extends Fragment {
@@ -25,12 +28,12 @@ public class StartSettings_Fragment extends Fragment {
 
     private TextView txvEdtProfile;
     private TextView txvResetPassord;
-    private TextView txvPostsLiked;
     private TextView txvNotifications;
     private TextView txvLanguage;
     private TextView txvMonskHelperCenter;
     private TextView txvReportProblem;
     private TextView txvLogOut;
+    private Toolbar mToolbar;
     private Switch sNotifications;
 
 
@@ -42,18 +45,18 @@ public class StartSettings_Fragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_start_settings, container, false);
         ivwBack = (ImageView) rootView.findViewById(R.id.ss_btnBack);
 
         txvEdtProfile = (TextView) rootView.findViewById(R.id.ss_txvEdtProf);
         txvResetPassord = (TextView) rootView.findViewById(R.id.ss_txvResetePass);
-        txvPostsLiked = (TextView) rootView.findViewById(R.id.ss_txvPostLiked);
         txvNotifications = (TextView) rootView.findViewById(R.id.ss_txvNotifications);
         txvMonskHelperCenter = (TextView) rootView.findViewById(R.id.ss_txvMonkHelper);
         txvReportProblem = (TextView) rootView.findViewById(R.id.ss_txvReportProblem);
         txvLogOut = (TextView) rootView.findViewById(R.id.ss_txvLogOut);
         sNotifications = (Switch) rootView.findViewById(R.id.ss_sNotifications);
+        mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         return rootView;
     }
 
@@ -66,7 +69,6 @@ public class StartSettings_Fragment extends Fragment {
         ivwBack.setOnClickListener(mOnClickListener);
         txvEdtProfile.setOnClickListener(mOnClickListener);
         txvResetPassord.setOnClickListener(mOnClickListener);
-        txvPostsLiked.setOnClickListener(mOnClickListener);
         txvNotifications.setOnClickListener(mOnClickListener);
         txvMonskHelperCenter.setOnClickListener(mOnClickListener);
         txvReportProblem.setOnClickListener(mOnClickListener);
@@ -81,6 +83,9 @@ public class StartSettings_Fragment extends Fragment {
                     Preferences.removeNotifications(getContext());
             }
         });
+        if (Users_Repository.get().getCurrentForum() != null)
+            mToolbar.setBackgroundColor(UIUtils.parseColor(Users_Repository.get().getCurrentForum().getColor()));
+
 
     }
 
@@ -93,10 +98,7 @@ public class StartSettings_Fragment extends Fragment {
                         mCallback.startEditProfileFragment();
                         break;
                     case R.id.ss_txvResetePass:
-                        mCallback.startResetPasswordFragment();
-                        break;
-                    case R.id.ss_txvPostLiked:
-                        mCallback.startPostsLikedFragment();
+                        mCallback.startChangePasswordFragment();
                         break;
                     case R.id.ss_txvNotifications:
                         mCallback.startNotificationsFragment();
@@ -140,18 +142,19 @@ public class StartSettings_Fragment extends Fragment {
     public interface OnStartSettingsListener {
 
         void startEditProfileFragment();
-        void startResetPasswordFragment();
+
+        void startChangePasswordFragment();
+
         void startPostsLikedFragment();
 
         void startNotificationsFragment();
 
         void startMonksHelpCenter();
+
         void startReportProblemFragmentDialog();
 
         void logOut();
     }
-
-
 
 
 }

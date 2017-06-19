@@ -3,22 +3,31 @@ package com.limox.jesus.teambeta.Presenter;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta.Model.User;
+import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
+
 /**
+ * Presenter class to communicate the users manager views with the class who manage the users
  * Created by jesus on 2/03/17.
  */
-
 public class UserManagerPresenterImpl implements UserManagerPresenter {
 
     private UserManagerPresenter.View view;
@@ -34,9 +43,6 @@ public class UserManagerPresenterImpl implements UserManagerPresenter {
         this.view = view;
         this.context = view.getContext();
     }
-
-
-
 
     @Override
     public void getUser(String idUser) {
@@ -63,6 +69,16 @@ public class UserManagerPresenterImpl implements UserManagerPresenter {
     }
 
     @Override
+    public void updateFirebaseEmail(String userKey, String email) {
+        FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(userKey).child(FirebaseContract.User.NODE_EMAIL).setValue(email);
+    }
+
+    @Override
+    public void updateFirebaseName(String userKey, String name) {
+        FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(userKey).child(FirebaseContract.User.NODE_NAME).setValue(name);
+    }
+
+    @Override
     public void aggregateForum(String forumKey, final boolean admin, final ManagerView managerView) {
         (admin ? FirebaseContract.User.addForumAdmin(forumKey) : FirebaseContract.User.addForumParticipate(forumKey)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -75,6 +91,49 @@ public class UserManagerPresenterImpl implements UserManagerPresenter {
                 managerView.onError();
             }
         });
+    }
+
+    @Override
+    public void updateUser(String userPhoto, String userName, String userEmail, OnSuccessListener<Void> successListener) {
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (userPhoto != null) {
+            FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(Users_Repository.get().getCurrentUser().getId()).child(FirebaseContract.User.NODE_PHOTO_URL).setValue(userPhoto).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    view.onError(e);
+                }
+            }).addOnSuccessListener(successListener);
+        }
+        if (userName != null) {
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(userName).build();
+            fUser.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "User profile updated.");
+                            }
+                        }
+                    }).addOnSuccessListener(successListener);
+        }
+        if (userEmail != null) {
+
+            fUser.updateEmail(userEmail)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "User email address updated.");
+                            } else {
+                                view.onError(task.getException());
+                            }
+                        }
+                    }).addOnSuccessListener(successListener);
+        }
+
+
     }
 
     @Override

@@ -67,8 +67,8 @@
     <string name="help">Ayuda</string>
     <string name="ivProfilePicture_description">Es la imagen de perfil</string>
     <string name="language">Idiomas</string>
-    <string name="log_out">Cerra cuenta</string>
-    <string name="log_out_of">Cerrar cuenta de</string>
+    <string name="log_out">Cerra sesión</string>
+    <string name="log_out_of">Cerrar sesión de</string>
     <string name="monks_help_center">"Centro de ayuda de TeamBETA "</string>
     <string name="posts_liked">Publicaciones que te han gustado</string>
     <string name="profile">Perfil</string>
@@ -125,7 +125,31 @@
     <string name="fill_all">Rellenalo todo, pls</string>
     <string name="connecting">Conectando...</string>
     <string name="leave_forum">Dejar foro</string>
-    <string name="hello_blank_fragment" translatable="false"></string>
     <string name="name">Nombre</string>
     <string name="see_owner">Ver Creador</string>
+    <string name="chats">Chats</string>
+    <string name="explore">Explora</string>
+    <string name="news">Noticias</string>
+    <string name="no_email_app">No hay ningún cliente de email instalado</string>
+    <string name="no_internet">No hay internet</string>
+    <string name="send_email">Enviar email...</string>
+    <string name="comments">Comentarios</string>
+    <string name="edit_forum">Editar foro</string>
+    <string name="enter_pass_to_continue">Introduce tu contraseña para continuar</string>
+    <string name="fixed">Arreglado</string>
+    <string name="forum">Foro</string>
+    <string name="forum_web">Web</string>
+    <string name="old_password">Anterior contraseña</string>
+    <string name="partaker">Participante</string>
+    <string name="published">Publicado</string>
+    <string name="revision">En revisión</string>
+    <string name="sent">Enviados</string>
+    <string name="wrong_password">Contraseña incorrecta</string>
+    <string name="text_new_password">Nueva contraseña</string>
+    <string name="bugs">Bugs</string>
+    <string name="fixes">Arreglados</string>
+    <string name="email_sent">"Email enviado a "</string>
+    <string name="still_no_chats">Aún no hay chats</string>
+    <string name="wring_key">Clave erronea</string>
+    <string name="change_password">Cambiar contraseña</string>
 </resources>

@@ -4,9 +4,25 @@
     android:layout_height="match_parent"
     tools:context="com.limox.jesus.teambeta.Fragments.Chats.ChatsList_Fragment">
 
+    <Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/toolbarColorBg" />
+
+    <TextView
+        android:id="@+id/txvNoChats"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/still_no_chats"
+        android:textSize="20sp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvChats"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar" />
 
 </RelativeLayout>

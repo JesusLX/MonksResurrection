@@ -13,6 +13,8 @@ public class CreatePost_Activity extends AppCompatActivity implements HomeOfFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TeamBetaApplication.setCurrentActivity("CreatePost_Activity");
+
         setContentView(com.limox.jesus.teambeta.R.layout.activity_create_post);
 
         if (savedInstanceState == null){

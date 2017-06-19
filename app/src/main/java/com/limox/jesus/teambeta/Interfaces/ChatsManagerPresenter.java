@@ -17,7 +17,7 @@ public interface ChatsManagerPresenter {
 
     void createChats(String forumKey, String[] participantsKeys);
 
-    void optChats(String forumKey, ArrayList<String> chatsKey);
+    void optChat(String forumKey, ArrayList<Chat> chatsKey);
 
     void optChat(String forumKey, String chatKey, String[] usersKey, ValueEventListener userListener);
 

@@ -5,8 +5,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.limox.jesus.teambeta.Fragments.UserProfile.ChangePassword_Fragment;
 import com.limox.jesus.teambeta.Fragments.Settings.StartSettings_Fragment;
+import com.limox.jesus.teambeta.Fragments.UserProfile.EditUser_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
+import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.Utils.Preferences;
 
@@ -15,6 +18,7 @@ public class Settings_Activity extends AppCompatActivity implements HomeOfFragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TeamBetaApplication.setCurrentActivity("Settings_Activity");
         setContentView(R.layout.activity_settings);
 
         if (savedInstanceState == null){
@@ -38,12 +42,12 @@ public class Settings_Activity extends AppCompatActivity implements HomeOfFragme
 
     @Override
     public void startEditProfileFragment() {
-
+        startFragment(EditUser_Fragment.newInstance(Users_Repository.get().getCurrentUser().optBundle()), false, AllConstants.FragmentTag.EditUser);
     }
 
     @Override
-    public void startResetPasswordFragment() {
-
+    public void startChangePasswordFragment() {
+        startFragment(ChangePassword_Fragment.newInstance(Users_Repository.get().getCurrentUser().optBundle()), false, AllConstants.FragmentTag.EditUser);
     }
 
     @Override

@@ -24,6 +24,8 @@ import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.Utils.UIUtils;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class SearchFragment extends Fragment implements SearchManager.View, SearchsRecyclerAdapter.OnTagsViewHolderListener, ForumsListRecyclerAdapter.ForumsListRecyclerAdapterListener {
@@ -74,6 +76,7 @@ public class SearchFragment extends Fragment implements SearchManager.View, Sear
         rvTags.setLayoutManager(new LinearLayoutManager(getContext()));
         rvForums.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rvForums.setAdapter(mForumsAdapter);
+
         edtSearchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -81,12 +84,10 @@ public class SearchFragment extends Fragment implements SearchManager.View, Sear
                         actionId == EditorInfo.IME_ACTION_DONE ||
                         event.getAction() == KeyEvent.ACTION_DOWN &&
                                 event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                    if (!event.isShiftPressed()) {
-                        // the user is done typing.
-                        mPresenter.searchCoincidences(v.getText().toString());
-                        UIUtils.hideKeyboard(getActivity(), v);
-                        return true; // consume.
-                    }
+                    // the user is done typing.
+                    mPresenter.searchCoincidences(v.getText().toString());
+                    UIUtils.hideKeyboard(getActivity(), v);
+                    return true; // consume.
                 }
                 return false; // pass on to other listeners.
             }

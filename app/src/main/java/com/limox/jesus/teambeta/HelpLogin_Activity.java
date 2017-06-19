@@ -15,6 +15,7 @@ public class HelpLogin_Activity extends AppCompatActivity implements HomeOfFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TeamBetaApplication.setCurrentActivity("HelpLogin_Activity");
         setContentView(com.limox.jesus.teambeta.R.layout.activity_help_login);
         if (savedInstanceState == null){
             startHelpLogin();

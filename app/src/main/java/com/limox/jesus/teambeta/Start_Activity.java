@@ -25,6 +25,7 @@ public class Start_Activity extends AppCompatActivity implements UserManagerPres
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TeamBetaApplication.setCurrentActivity("Start_Activity");
         setContentView(com.limox.jesus.teambeta.R.layout.activity_start);
         mPresenter = new UserManagerPresenterImpl(this);
         if (!Preferences.loginCurrentUser(getContext(), new FirebaseContract.FirebaseUserCallback() {
@@ -94,6 +95,11 @@ public class Start_Activity extends AppCompatActivity implements UserManagerPres
             startLogin();
         }
         finish();
+    }
+
+    @Override
+    public void onError(Exception exception) {
+
     }
 
     private void startHome() {

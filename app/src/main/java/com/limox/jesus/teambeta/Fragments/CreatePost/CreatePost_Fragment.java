@@ -14,12 +14,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.limox.jesus.teambeta.Interfaces.PostManagerPresenter;
 import com.limox.jesus.teambeta.Model.Post;
 import com.limox.jesus.teambeta.Notifications.Notifications;
 import com.limox.jesus.teambeta.Presenter.PostManagerPresenterImpl;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
+import com.limox.jesus.teambeta.Utils.UIUtils;
 
 
 public class CreatePost_Fragment extends Fragment implements PostManagerPresenter.View {
@@ -56,6 +58,7 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
         mEdtTags = (EditText) rootView.findViewById(com.limox.jesus.teambeta.R.id.crp_EdtPostTags);
         mToolbar = (Toolbar) rootView.findViewById(com.limox.jesus.teambeta.R.id.acp_toolbar);
         mRlContainer = (RelativeLayout) rootView.findViewById(com.limox.jesus.teambeta.R.id.activity_create_post);
+
         return rootView;
     }
 
@@ -71,6 +74,7 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
                 switch (item.getItemId()) {
 
                     case R.id.action_send:
+                        UIUtils.hideKeyboard(getActivity(), getView());
                         sendPost();
                         break;
 
@@ -84,7 +88,7 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
                 getActivity().onBackPressed();
             }
         });
-
+        mToolbar.setBackgroundColor(UIUtils.parseColor(Users_Repository.get().getCurrentForum().getColor()));
 
     }
 
@@ -124,10 +128,10 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
 
     private void sendPost() {
         if (validate()){
-            mPresenter.uploadPost(new Post(Users_Repository.get().getCurrentUser().getId(), Users_Repository.get().getCurrentForum().getKey(), mTitle, mDescriptions, mTags));
-            //PostsStorage.get().createPost(mTitle,mDescriptions,mTags);
-            Notifications.SentPublicationPostSent(getContext());
-            getActivity().onBackPressed();
+            Post tmp = new Post(Users_Repository.get().getCurrentUser().getId(), Users_Repository.get().getCurrentForum().getKey(), mTitle, mDescriptions, mTags);
+            tmp.setIdPost(mPresenter.uploadPost(tmp));
+            Notifications.SentPublicationPostSent(getContext(), tmp.optBundle());
+            getActivity().finish();
         }else
             Snackbar.make(getView(), R.string.message_error_must_fill,Snackbar.LENGTH_LONG).show();
 

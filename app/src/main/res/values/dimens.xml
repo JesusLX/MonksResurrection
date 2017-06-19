@@ -17,4 +17,5 @@
     <dimen name="option_size">20sp</dimen>
     <dimen name="header_heigth">192dp</dimen>
     <dimen name="image_prf">96dp</dimen>
+    <dimen name="toolbarDefSize">56dp</dimen>
 </resources>

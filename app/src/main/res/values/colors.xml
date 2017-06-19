@@ -24,7 +24,43 @@
     <color name="tabUnSelectColor" >#535353</color>
     <color name="textHint">#848484</color>
     <color name="inputLayoutBg">#d2caca</color>
-    <color name="toolbarColorBg">#ffae00</color>
-
+    <color name="toolbarColorBgDark">#FFC107</color>
+    <color name="toolbarColorBg">#FFC107</color>
+    <color name="materialColor01">#FFC107</color>
+    <color name="materialColor02">#FF8A80</color>
+    <color name="materialColor03">#FF80AB</color>
+    <color name="materialColor04">#EA80FC</color>
+    <color name="materialColor05">#B39DDB</color>
+    <color name="materialColor06">#9FA8DA</color>
+    <color name="materialColor07">#42A5F5</color>
+    <color name="materialColor08">#03A9F4</color>
+    <color name="materialColor09">#4CAF50</color>
+    <color name="materialColor10">#8BC34A</color>
+    <color name="materialColor11">#CDDC39</color>
+    <color name="materialColor12">#FFEB3B</color>
+    <color name="materialColor13">#FF9800</color>
+    <color name="materialColor14">#FF7043</color>
+    <color name="materialColor15">#BCAAA4</color>
+    <color name="materialColor16">#9E9E9E</color>
+    <color name="materialColor17">#90A4AE</color>
+    <integer-array name="materialColors">
+        <item>@color/materialColor01</item>
+        <item>@color/materialColor02</item>
+        <item>@color/materialColor03</item>
+        <item>@color/materialColor04</item>
+        <item>@color/materialColor05</item>
+        <item>@color/materialColor06</item>
+        <item>@color/materialColor07</item>
+        <item>@color/materialColor08</item>
+        <item>@color/materialColor09</item>
+        <item>@color/materialColor10</item>
+        <item>@color/materialColor11</item>
+        <item>@color/materialColor12</item>
+        <item>@color/materialColor13</item>
+        <item>@color/materialColor14</item>
+        <item>@color/materialColor15</item>
+        <item>@color/materialColor16</item>
+        <item>@color/materialColor17</item>
+    </integer-array>
 
 </resources>
