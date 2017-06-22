@@ -1,6 +1,8 @@
 package com.limox.jesus.teambeta.Presenter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -16,11 +18,19 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta.Model.User;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
+import com.limox.jesus.teambeta.Utils.Preferences;
+import com.limox.jesus.teambeta.Utils.UIUtils;
 import com.limox.jesus.teambeta.db.FirebaseContract;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
@@ -79,6 +89,27 @@ public class UserManagerPresenterImpl implements UserManagerPresenter {
     }
 
     @Override
+    public void uploadPhoto(String iduser, Uri foto, OnSuccessListener<UploadTask.TaskSnapshot> successListener, OnFailureListener failureListener) {
+
+
+        StorageReference storageRef = FirebaseStorage.getInstance().
+                getReferenceFromUrl("gs://" + FirebaseContract.Storage.NAME);
+        StorageReference imagesRef = storageRef.child(FirebaseContract.Storage.Images.ROOT_NAME + "/" + FirebaseContract.Storage.Images.PROFILES + "/" + iduser);
+        try {
+            Bitmap image = UIUtils.decodeUri(view.getContext(), foto, 200);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
+
+            UploadTask uploadTask = imagesRef.putBytes(data);
+            uploadTask.addOnFailureListener(failureListener).addOnSuccessListener(successListener);
+        } catch (FileNotFoundException e) {
+            view.onError(e);
+        }
+    }
+
+
+    @Override
     public void aggregateForum(String forumKey, final boolean admin, final ManagerView managerView) {
         (admin ? FirebaseContract.User.addForumAdmin(forumKey) : FirebaseContract.User.addForumParticipate(forumKey)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -94,16 +125,17 @@ public class UserManagerPresenterImpl implements UserManagerPresenter {
     }
 
     @Override
-    public void updateUser(String userPhoto, String userName, String userEmail, OnSuccessListener<Void> successListener) {
+    public void updateUser(final String idUSer, final Uri userPhoto, final String userName, final String userEmail, final OnSuccessListener<Void> successListener, final OnSuccessListener<UploadTask.TaskSnapshot> successPhotoListener) {
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (userPhoto != null) {
-            FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(Users_Repository.get().getCurrentUser().getId()).child(FirebaseContract.User.NODE_PHOTO_URL).setValue(userPhoto).addOnFailureListener(new OnFailureListener() {
+            uploadPhoto(idUSer, userPhoto, successPhotoListener, new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     view.onError(e);
                 }
-            }).addOnSuccessListener(successListener);
+            });
+
         }
         if (userName != null) {
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
@@ -114,6 +146,10 @@ public class UserManagerPresenterImpl implements UserManagerPresenter {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Log.d(TAG, "User profile updated.");
+                                Users_Repository.get().getCurrentUser().setName(userName);
+                                updateFirebaseName(idUSer, userName);
+                            } else {
+                                view.onError(task.getException());
                             }
                         }
                     }).addOnSuccessListener(successListener);
@@ -126,6 +162,9 @@ public class UserManagerPresenterImpl implements UserManagerPresenter {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Log.d(TAG, "User email address updated.");
+                                Users_Repository.get().getCurrentUser().setEmail(userEmail);
+                                updateFirebaseEmail(idUSer, userEmail);
+                                Preferences.setCurrentEmail(view.getContext(), userEmail);
                             } else {
                                 view.onError(task.getException());
                             }

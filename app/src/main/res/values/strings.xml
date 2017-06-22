@@ -40,7 +40,7 @@
     <string name="business_web" translatable="false">https://jesuslx.ncatz.com</string>
     <string name="business_name" translatable="false">nCatz</string>
     <string name="business">Business:</string>
-    <string name="about_me">About me:</string>
+    <string name="about_us">About TeamBETA</string>
     <string name="recover_password">Recover password</string>
     <string name="recover_account">Recover account</string>
     <string name="title_user_name">User name:</string>
@@ -174,5 +174,12 @@
     <string name="wring_key">Wrong key, sorry</string>
     <string name="still_no_chats">There are still no chats</string>
     <string name="change_password">Change password</string>
+    <string name="email_subject">Using TeamBeta</string>
+    <string name="problem_report">Poblem Report</string>
+    <string name="version">Version 1.1.1</string>
+    <string name="dev">Developer JesusLX</string>
+    <string name="licenses">Licenses:</string>
+    <string name="third_party_libraries">Third-party libraries</string>
+    <string name="upload_error">Upload error</string>
 
 </resources>

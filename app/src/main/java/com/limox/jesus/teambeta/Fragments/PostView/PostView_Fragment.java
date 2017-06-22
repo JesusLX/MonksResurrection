@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.limox.jesus.teambeta.Interfaces.ChatsManagerPresenter;
 import com.limox.jesus.teambeta.Interfaces.PostViewPresenter;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
@@ -34,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import it.sephiroth.android.library.picasso.Picasso;
 
 public class PostView_Fragment extends Fragment implements PostViewPresenter.View, UserManagerPresenter.View, ChatsManagerPresenter.View.ChatsManager {
 
@@ -67,7 +67,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
     @Override
     public void onUserObtained(User tryUser) {
         mUser = tryUser;
-        fillWidgets();
+        fillWidgetsUser();
 
     }
 
@@ -187,6 +187,10 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         if (Users_Repository.get().getCurrentForum() != null)
             mToolBar.setBackgroundColor(UIUtils.parseColor(Users_Repository.get().getCurrentForum().getColor()));
 
+        if (mPost != null) {
+            mTxvPostTitle.setText(mPost.getTitle());
+            mTxvPostDescription.setText(mPost.getDescription());
+        }
     }
 
     @Override
@@ -201,12 +205,13 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         //inflater.inflate(R.menu.menu_post_view,menu);
     }
 
-    private void fillWidgets() {
-        Picasso.with(getContext()).load(mUser.getProfilePicture()).into(mIvUserPicture);
+    private void fillWidgetsUser() {
+        if (isAdded()) {
+            Glide.with(getContext()).load(mUser.getProfilePicture()).into(mIvUserPicture);
 
-        mTxvUserName.setText(mUser.getName());
-        mTxvPostTitle.setText(mPost.getTitle());
-        mTxvPostDescription.setText(mPost.getDescription());
+            mTxvUserName.setText(mUser.getName());
+        }
+
     }
 
     /**
@@ -221,7 +226,7 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
             menu.findItem(R.id.action_pv_Edit).setVisible(/*Users_Repository.get().currentUserCanAdmin(mPost)*/false);
             menu.findItem(R.id.action_pv_ToFixes).setVisible(Users_Repository.get().currentUserCanAdmin(mPost) && !mPost.isFixed());
             menu.findItem(R.id.action_pv_ToPublished).setVisible(Users_Repository.get().currentUserCanAdmin(mPost) && !mPost.isPublicate());
-            menu.findItem(R.id.action_pv_Delete).setVisible(Users_Repository.get().currentUserIsOwner(mPost));
+            menu.findItem(R.id.action_pv_Delete).setVisible(Users_Repository.get().currentUserIsOwner(mPost) || Users_Repository.get().currentUserCanAdmin(mPost) && !mPost.isPublicate());
             menu.findItem(R.id.action_pv_SendMessage).setVisible(!Users_Repository.get().currentUserIsOwner(mPost));
         } else {
             menu.findItem(R.id.action_pv_SendMessage).setVisible(false);
@@ -241,32 +246,36 @@ public class PostView_Fragment extends Fragment implements PostViewPresenter.Vie
         this.mListenerOnMenuClick = new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (Users_Repository.get().getCurrentForum() != null)
-
-                    switch (item.getItemId()) {
-                        case R.id.action_pv_ToFixes:
-                            // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
-                            createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToFixes, TO_FIXED).show();
-                            break;
-                        case R.id.action_pv_ToPublished:
-                            // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
-                            createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToPublished, TO_PUBLISHED).show();
-                            break;
-                        case R.id.action_pv_SendMessage:
-                            mChatsPresenter.optChat(Users_Repository.get().getCurrentForum().getKey(), Users_Repository.get().getCurrentUser().optChats(Users_Repository.get().getCurrentForum().getKey()), new String[]{Users_Repository.get().getCurrentUser().getId(), mPost.getIdUser()}, null);
-                            break;
+                if (Users_Repository.get().getCurrentForum() != null) {
+                    if (UIUtils.isNetworkAvailable(getContext())) {
+                        switch (item.getItemId()) {
+                            case R.id.action_pv_ToFixes:
+                                // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
+                                createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToFixes, TO_FIXED).show();
+                                break;
+                            case R.id.action_pv_ToPublished:
+                                // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
+                                createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_ToPublished, TO_PUBLISHED).show();
+                                break;
+                            case R.id.action_pv_SendMessage:
+                                mChatsPresenter.optChat(Users_Repository.get().getCurrentForum().getKey(), Users_Repository.get().getCurrentUser().optChats(Users_Repository.get().getCurrentForum().getKey()), new String[]{Users_Repository.get().getCurrentUser().getId(), mPost.getIdUser()}, null);
+                                break;
             /*case R.id.action_Edit:
                 // Todo Aqui meter para editar
                 break;*/
-                        case R.id.action_pv_Delete:
-                            // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
-                            createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_Delete, DELETE).show();
-                            break;
+                            case R.id.action_pv_Delete:
+                                // Crea un cuadro de dialogo que pregunta si quiere hacer la acción y segun el ultimo parametro que le pases hace una acción u otra al darle al okay
+                                createSimpleDialog(mPost.getIdPost(), R.string.dat_MessageAlert_Delete, DELETE).show();
+                                break;
+                        }
+                    } else {
+                        UIUtils.toast(getContext(), getString(R.string.connection_error));
                     }
+                }
                 return true;
-
             }
         };
+
     }
 
     /**

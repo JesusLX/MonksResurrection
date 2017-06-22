@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.limox.jesus.teambeta.Model.User;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 
-import it.sephiroth.android.library.picasso.Picasso;
 
 public class HelpLoginFinal_Fragment extends Fragment {
 
@@ -56,7 +56,7 @@ public class HelpLoginFinal_Fragment extends Fragment {
     {
         mEmail = getArguments().getString("email");
         mUser = Users_Repository.get().getUserByEmail(mEmail);
-        Picasso.with(getContext()).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mIvImageProfile);
+        Glide.with(getContext()).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mIvImageProfile);
 
         mTxvUserName.setText(mUser.getName());
         mTxvUserPassword.setText(mUser.getPassword());

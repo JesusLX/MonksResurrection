@@ -24,8 +24,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -52,12 +50,11 @@ import com.google.firebase.storage.UploadTask;
 import com.limox.jesus.teambeta.Interfaces.ChatsManagerPresenter;
 import com.limox.jesus.teambeta.Model.Chat;
 import com.limox.jesus.teambeta.Model.Message;
-import com.limox.jesus.teambeta.Model.PushNotification;
+import com.limox.jesus.teambeta.Notifications.PushNotification;
 import com.limox.jesus.teambeta.Presenter.ChatsManagerPresenterImpl;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
-import com.limox.jesus.teambeta.Utils.RestClient;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
 import java.util.ArrayList;
@@ -127,21 +124,8 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
         mUserKey = Users_Repository.get().getCurrentUser().getId();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_chat, container, false);
-        mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        // Initialize ProgressBar and RecyclerView.
-        mMessageRecyclerView = (RecyclerView) rootView.findViewById(R.id.messageRecyclerView);
-        mLinearLayoutManager = new LinearLayoutManager(getContext());
-        mLinearLayoutManager.setStackFromEnd(true);
-        mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
-
-        // New child entries
-        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        if (mChat != null)
+    private void initAdapter() {
+        if (mChat != null) {
             mFirebaseAdapter = new FirebaseRecyclerAdapter<Message,
                     MessageViewHolder>(
                     Message.class,
@@ -216,26 +200,42 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
                 }
             };
 
-        mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                int friendlyMessageCount = mFirebaseAdapter.getItemCount();
-                int lastVisiblePosition =
-                        mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
-                // If the recycler view is initially being loaded or the
-                // user is at the bottom of the list, scroll to the bottom
-                // of the list to show the newly added message.
-                if (lastVisiblePosition == -1 ||
-                        (positionStart >= (friendlyMessageCount - 1) &&
-                                lastVisiblePosition == (positionStart - 1))) {
-                    mMessageRecyclerView.scrollToPosition(positionStart);
+            mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                @Override
+                public void onItemRangeInserted(int positionStart, int itemCount) {
+                    super.onItemRangeInserted(positionStart, itemCount);
+                    int friendlyMessageCount = mFirebaseAdapter.getItemCount();
+                    int lastVisiblePosition =
+                            mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
+                    // If the recycler view is initially being loaded or the
+                    // user is at the bottom of the list, scroll to the bottom
+                    // of the list to show the newly added message.
+                    if (lastVisiblePosition == -1 ||
+                            (positionStart >= (friendlyMessageCount - 1) &&
+                                    lastVisiblePosition == (positionStart - 1))) {
+                        mMessageRecyclerView.scrollToPosition(positionStart);
+                    }
                 }
-            }
-        });
+            });
+            mMessageRecyclerView.setAdapter(mFirebaseAdapter);
+        }
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_chat, container, false);
+        mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        // Initialize ProgressBar and RecyclerView.
+        mMessageRecyclerView = (RecyclerView) rootView.findViewById(R.id.messageRecyclerView);
+        mLinearLayoutManager = new LinearLayoutManager(getContext());
+        mLinearLayoutManager.setStackFromEnd(true);
+        mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+        // New child entries
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mMessageRecyclerView.setAdapter(mFirebaseAdapter);
 
         mMessageEditText = (EditText) rootView.findViewById(R.id.messageEditText);
 
@@ -292,10 +292,10 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
                     public void onSuccess(Void aVoid) {
                         PushNotification notification = new PushNotification();
                         notification.setChatMessage(friendlyMessage, Users_Repository.get().getCurrentUser().getName(), forumKey, chatKey);
-                        notification.setFromUser(Users_Repository.get().getCurrentUser().getId());
-                        notification.setToUser(mChat.optOtherUserKey(Users_Repository.get().getCurrentUser().getId()));
+                        notification.setFromUser(Users_Repository.get().getCurrentUser().getToken());
+                        notification.setToUser(mChat.optOtherUserToken(Users_Repository.get().getCurrentUser().getId()));
                         notification.setType(PushNotification.TYPE_NEW_MESSAGE);
-                        notification.pushNotification(mChat.optOtherUserKey(Users_Repository.get().getCurrentUser().getId()));
+                        notification.pushNotification(mChat.optOtherUserToken(Users_Repository.get().getCurrentUser().getId()));
                     }
                 });
                 mMessageEditText.setText("");
@@ -314,6 +314,7 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
             mSendButton.setEnabled(false);
             mToolbar.setTitle(mChat.optName());
         }
+        initAdapter();
     }
 
     @Override
@@ -413,6 +414,8 @@ public class MessagesList_Fragment extends Fragment implements GoogleApiClient.O
         mChat = chat;
         mSendButton.setEnabled(true);
         mToolbar.setTitle(mChat.optName());
+        initAdapter();
+
     }
 
 

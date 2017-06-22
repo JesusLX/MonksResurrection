@@ -55,6 +55,13 @@ public class CommentsList_Fragment extends Fragment implements CommentaryManager
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter = null;
+        mAdapter = null;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -83,17 +90,21 @@ public class CommentsList_Fragment extends Fragment implements CommentaryManager
         mIvBtnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Commentary commentary = new Commentary();
-                commentary.setCreationDate(new Date().getTime());
-                commentary.setKeyPost(mPostKey);
-                commentary.setUserName(Users_Repository.get().getCurrentUser().getName());
-                commentary.setUserImgProf(Users_Repository.get().getCurrentUser().getProfilePicture());
-                commentary.setKeyUser(Users_Repository.get().getCurrentUser().getId());
-                commentary.setContent(mEdtCommentary.getText().toString());
-                mPresenter.sendComment(Users_Repository.get().getCurrentForum().getKey(), mPostKey, commentary);
-                mAdapter.add(commentary);
-                mEdtCommentary.getText().clear();
-                UIUtils.hideKeyboard(getActivity(), v);
+                if (UIUtils.isNetworkAvailable(getContext())) {
+                    Commentary commentary = new Commentary();
+                    commentary.setCreationDate(new Date().getTime());
+                    commentary.setKeyPost(mPostKey);
+                    commentary.setUserName(Users_Repository.get().getCurrentUser().getName());
+                    commentary.setUserImgProf(Users_Repository.get().getCurrentUser().getProfilePicture());
+                    commentary.setKeyUser(Users_Repository.get().getCurrentUser().getId());
+                    commentary.setContent(mEdtCommentary.getText().toString());
+                    mPresenter.sendComment(Users_Repository.get().getCurrentForum().getKey(), mPostKey, commentary);
+                    mAdapter.add(commentary);
+                    mEdtCommentary.getText().clear();
+                    UIUtils.hideKeyboard(getActivity(), v);
+                } else {
+                    UIUtils.toast(getContext(), getString(R.string.connection_error));
+                }
             }
         });
     }
@@ -131,7 +142,8 @@ public class CommentsList_Fragment extends Fragment implements CommentaryManager
 
     @Override
     public void onCommentsObtained(ArrayList<Commentary> comments) {
-        mAdapter.addAll(comments);
+        if (mAdapter != null)
+            mAdapter.addAll(comments);
     }
 
     @Override

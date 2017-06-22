@@ -1,6 +1,8 @@
-package com.limox.jesus.teambeta.Model;
+package com.limox.jesus.teambeta.Notifications;
 
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.limox.jesus.teambeta.Model.Message;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.RestClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -154,8 +156,7 @@ public class PushNotification {
         if (message != null) {
             try {
                 JSONObject messageJSON = new JSONObject(message);
-                PushNotification.MessageNotif messageNotif = gson.fromJson(messageJSON.toString(), PushNotification.MessageNotif.class);
-                pushNotification.message = messageNotif;
+                pushNotification.message = gson.fromJson(messageJSON.toString(), MessageNotif.class);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -176,6 +177,7 @@ public class PushNotification {
                 e.printStackTrace();
             }
             StringEntity entity = new StringEntity(root.toString());
+
             RestClient.post(FCM_URL, FCM_APIKEY, entity, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -198,7 +200,6 @@ public class PushNotification {
             jsonArray = new JSONObject(jsonString);
             //jsonObject = new JSONObject(jsonString);
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return jsonArray;

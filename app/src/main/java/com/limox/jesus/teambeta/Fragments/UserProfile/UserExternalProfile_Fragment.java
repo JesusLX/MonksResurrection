@@ -15,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.limox.jesus.teambeta.Adapters.TabsAdapter.ProfileForumsTabsAdapter;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta.Model.User;
@@ -24,7 +27,6 @@ import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.Utils.ExternalUtils;
 
-import it.sephiroth.android.library.picasso.Picasso;
 
 
 public class UserExternalProfile_Fragment extends Fragment implements UserManagerPresenter.View {
@@ -34,7 +36,6 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
     private OnUserExternalProfileFragmentListener mCallback;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private AppBarLayout mAppbarLayout;
     private Toolbar mToolbar;
     private TextView mTxvUserName;
     private TextView mTxvEmail;
@@ -90,7 +91,6 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_user_external_profile, container, false);
 
-        mAppbarLayout = (AppBarLayout) rootView.findViewById(R.id.materialup_appbar);
         mIvProfileImage = (ImageView) rootView.findViewById(R.id.materialup_profile_image);
         mTabLayout = (TabLayout) rootView.findViewById(R.id.up_tlTabs);
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
@@ -123,13 +123,20 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
         mTxvEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ExternalUtils.sendEmail(getContext(), mTxvEmail.getText().toString());
+                ExternalUtils.sendEmail(getContext(), mTxvEmail.getText().toString(), getString(R.string.email_subject));
             }
         });
 
         if (mUser != null) {
 
             fillView();
+
+        }
+        if (Users_Repository.get().getCurrentUser() != null) {
+            if (Users_Repository.get().getCurrentUser().getToken() == null) {
+                String userToken = FirebaseInstanceId.getInstance().getToken();
+                Users_Repository.get().setNewUserToken(userToken);
+            }
         }
         //  UIUtils.loadImage(getContext(), mUser.getProfilePicture(), mIvProfileImage)
     }
@@ -179,7 +186,8 @@ public class UserExternalProfile_Fragment extends Fragment implements UserManage
 
 
     private void fillView() {
-        Picasso.with(getContext()).load(mUser.getProfilePicture()).into(mIvProfileImage);
+        //Picasso.with(getContext()).load(mUser.getProfilePicture()).into(mIvProfileImage);
+        Glide.with(getContext()).load(mUser.getProfilePicture()).into(mIvProfileImage);
         mTxvUserName.setText(mUser.getName());
         mTxvEmail.setText(mUser.getEmail());
     }

@@ -23,7 +23,6 @@ import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.Utils.UIUtils;
 
-import it.sephiroth.android.library.picasso.Picasso;
 
 public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOffsetChangedListener, UserManagerPresenter.View {
 
@@ -177,7 +176,7 @@ public class UserProfile_Fragment extends Fragment implements AppBarLayout.OnOff
 
     @Override
     public void onUserObtained(User tryUser) {
-        Picasso.with(getContext()).load(tryUser.getProfilePicture()).into(mIvProfileImage);
+        Glide.with(getContext()).load(tryUser.getProfilePicture()).into(mIvProfileImage);
         mAdapter.setName(tryUser.getName());
     }
 

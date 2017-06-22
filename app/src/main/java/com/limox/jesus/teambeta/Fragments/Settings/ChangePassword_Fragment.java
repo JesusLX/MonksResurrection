@@ -1,4 +1,4 @@
-package com.limox.jesus.teambeta.Fragments.UserProfile;
+package com.limox.jesus.teambeta.Fragments.Settings;
 
 
 import android.app.ProgressDialog;

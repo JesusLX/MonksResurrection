@@ -1,8 +1,7 @@
-package com.limox.jesus.teambeta.Fragments.UserProfile;
+package com.limox.jesus.teambeta.Fragments.Settings;
 
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -21,23 +20,20 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.UploadTask;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
 import com.limox.jesus.teambeta.Model.User;
 import com.limox.jesus.teambeta.Presenter.UserManagerPresenterImpl;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
-import com.limox.jesus.teambeta.Utils.AeSimpleSHA1;
 import com.limox.jesus.teambeta.Utils.AllConstants;
-import com.limox.jesus.teambeta.Utils.Preferences;
 import com.limox.jesus.teambeta.Utils.UIUtils;
 import com.limox.jesus.teambeta.Utils.Validate;
 import com.limox.jesus.teambeta.db.FirebaseContract;
@@ -136,13 +132,13 @@ public class EditUser_Fragment extends Fragment implements UserManagerPresenter.
 
     private void validate() {
         boolean cancontinue = true;
-        String photo = null;
+        Uri photo = null;
         String name = null;
         String email = null;
         final int[] nChanges = {0};
         if (imgSelected != null)
             if (!mUser.getProfilePicture().equals(imgSelected.toString())) {
-                photo = imgSelected.toString();
+                photo = imgSelected;
                 nChanges[0]++;
             }
         if (!mUser.getName().equals(mEdtUserName.getText().toString())) {
@@ -170,7 +166,7 @@ public class EditUser_Fragment extends Fragment implements UserManagerPresenter.
         }
     }
 
-    private void showPasswordDialog(final String photo, final String name, final String email, final int[] nChanges) {
+    private void showPasswordDialog(final Uri photo, final String name, final String email, final int[] nChanges) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.edit_profile);
         builder.setMessage(getString(R.string.enter_pass_to_continue));
@@ -192,23 +188,22 @@ public class EditUser_Fragment extends Fragment implements UserManagerPresenter.
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                mPresenter.updateUser(photo, name, email, new OnSuccessListener() {
+                                mPresenter.updateUser(Users_Repository.get().getCurrentUser().getId(), photo, name, email, new OnSuccessListener<Void>() {
                                     @Override
-                                    public void onSuccess(Object o) {
+                                    public void onSuccess(Void o) {
                                         nChanges[0]--;
                                         if (nChanges[0] == 0) {
-                                            if (photo != null) {
-                                                Users_Repository.get().getCurrentUser().setProfilePicture(photo);
-                                            }
-                                            if (name != null) {
-                                                Users_Repository.get().getCurrentUser().setName(name);
-                                                mPresenter.updateFirebaseName(mUser.getId(), name);
-                                            }
-                                            if (email != null) {
-                                                Users_Repository.get().getCurrentUser().setEmail(email);
-                                                mPresenter.updateFirebaseEmail(mUser.getId(), email);
-                                                Preferences.setCurrentEmail(getContext(), email);
-                                            }
+                                            loading.dismiss();
+                                            getActivity().onBackPressed();
+                                        }
+                                    }
+                                }, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                                        nChanges[0]--;
+                                        FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(Users_Repository.get().getCurrentUser().getId()).child(FirebaseContract.User.NODE_PHOTO_URL).setValue(taskSnapshot.getDownloadUrl().toString());
+                                        Users_Repository.get().getCurrentUser().setProfilePicture(taskSnapshot.getDownloadUrl().toString());
+                                        if (nChanges[0] <= 0) {
                                             loading.dismiss();
                                             getActivity().onBackPressed();
                                         }

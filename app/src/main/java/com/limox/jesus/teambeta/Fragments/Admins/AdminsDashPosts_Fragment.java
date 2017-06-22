@@ -20,7 +20,6 @@ import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.UIUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import it.sephiroth.android.library.picasso.Picasso;
 
 public class AdminsDashPosts_Fragment extends Fragment
 {

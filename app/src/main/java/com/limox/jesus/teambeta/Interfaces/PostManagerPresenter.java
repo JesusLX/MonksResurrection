@@ -11,7 +11,7 @@ import com.limox.jesus.teambeta.Model.Post;
 
 public interface PostManagerPresenter {
 
-    String uploadPost(Post post);
+    String uploadPost(Post post, OnSuccessListener successListener);
 
     interface View{
         Context getContext();

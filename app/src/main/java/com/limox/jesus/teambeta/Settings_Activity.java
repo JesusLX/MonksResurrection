@@ -1,16 +1,19 @@
 package com.limox.jesus.teambeta;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.limox.jesus.teambeta.Fragments.UserProfile.ChangePassword_Fragment;
+import com.limox.jesus.teambeta.Fragments.Settings.About_Fragment;
+import com.limox.jesus.teambeta.Fragments.Settings.ChangePassword_Fragment;
 import com.limox.jesus.teambeta.Fragments.Settings.StartSettings_Fragment;
-import com.limox.jesus.teambeta.Fragments.UserProfile.EditUser_Fragment;
+import com.limox.jesus.teambeta.Fragments.Settings.EditUser_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
+import com.limox.jesus.teambeta.Utils.ExternalUtils;
 import com.limox.jesus.teambeta.Utils.Preferences;
 
 public class Settings_Activity extends AppCompatActivity implements HomeOfFragments, StartSettings_Fragment.OnStartSettingsListener{
@@ -27,7 +30,7 @@ public class Settings_Activity extends AppCompatActivity implements HomeOfFragme
     }
 
     public void startStartSettingsFragment(){
-        startFragment(new StartSettings_Fragment(),false, AllConstants.FragmentTag.SettingsTag);
+        startFragment(new StartSettings_Fragment(), true, AllConstants.FragmentTag.SettingsTag);
     }
 
     @Override
@@ -60,16 +63,14 @@ public class Settings_Activity extends AppCompatActivity implements HomeOfFragme
 
     }
 
-
-
     @Override
-    public void startMonksHelpCenter() {
-
+    public void startTeamBetasHelpCenter() {
+        ExternalUtils.openBrowser(Settings_Activity.this, AllConstants.HELP_WEB);
     }
 
     @Override
     public void startReportProblemFragmentDialog() {
-
+        ExternalUtils.sendEmail(Settings_Activity.this, AllConstants.REPORT_EMAIL, getString(R.string.problem_report));
     }
 
     @Override
@@ -82,5 +83,19 @@ public class Settings_Activity extends AppCompatActivity implements HomeOfFragme
         finish();
         startActivity(i);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            super.onBackPressed();
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    public void startAboutUs() {
+        startFragment(new About_Fragment(), false, AllConstants.FragmentTag.About);
     }
 }

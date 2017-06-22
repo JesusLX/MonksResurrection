@@ -187,7 +187,7 @@
                     android:background="@color/colorSeparator" />
 
                 <TextView
-                    android:id="@+id/ss_txvMonkHelper"
+                    android:id="@+id/ss_txvTBHelper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ss_separator8"
@@ -198,7 +198,7 @@
                     android:id="@+id/ss_separator9"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@id/ss_txvMonkHelper"
+                    android:layout_below="@id/ss_txvTBHelper"
                     android:background="@android:color/darker_gray" />
 
                 <TextView
@@ -226,20 +226,19 @@
                 android:layout_marginStart="@dimen/marginStart">
 
                 <TextView
-                    android:id="@+id/ss_txvOther"
+                    android:id="@+id/ss_txvAboutUs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/fav_bottom_margin"
                     android:layout_marginStart="@dimen/fav_margin"
                     android:layout_marginTop="@dimen/fav_margin"
-                    android:text=""
-                    android:textSize="@dimen/fav_titleSize" />
+                    android:text="@string/about_us" />
 
                 <View
                     android:id="@+id/ss_separator11"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_below="@id/ss_txvOther"
+                    android:layout_below="@id/ss_txvAboutUs"
                     android:background="@color/colorSeparator" />
 
                 <TextView

@@ -1,0 +1,116 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/toolbarColorBg"
+    android:fitsSystemWindows="true"
+    tools:context="com.limox.jesus.teambeta.Fragments.Settings.About_Fragment">
+
+    <Toolbar
+        android:id="@+id/txvAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:title="@string/about_us" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/txvAbout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fav_margin"
+                android:background="@color/collapsed_post_bg"
+                android:elevation="10dp"
+                android:padding="@dimen/fav_margin">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:id="@+id/isologo"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@android:color/transparent"
+                        android:elevation="10dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/isologo" />
+
+                    <TextView
+                        android:id="@+id/appname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/isologo"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="@dimen/fav_margin"
+                        android:text="@string/app_name"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/appname"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="5dp"
+                        android:text="@string/version" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fav_margin"
+                android:background="@color/collapsed_post_bg"
+                android:elevation="10dp"
+                android:padding="@dimen/fav_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/Licenses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/fav_margin"
+                        android:text="@string/third_party_libraries"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/fav_margin"
+                        android:text="
+    com.theartofdev.edmodo:android-image-cropper\n
+    org.xdty.preference:color-picker\n
+    com.android.support:design\n
+    com.android.support:cardview-v7\n
+    com.android.support:recyclerview-v7\n
+    de.hdodenhof:circleimageview\n
+    com.github.bumptech.glide:glide\n
+    com.android.volley:volley\n
+    com.roughike:bottom-bar\n
+    cz.msebera.android:httpclient\n
+    com.google.code.gson:gson\n
+    com.loopj.android:android-async-http\n
+    com.android.support.constraint:constraint-layout\n
+    Firebase.+
+" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

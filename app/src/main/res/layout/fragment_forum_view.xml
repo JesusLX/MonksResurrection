@@ -86,6 +86,7 @@
             android:id="@+id/llButtons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/rlImageContainer"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/toolbar"
             android:gravity="end"

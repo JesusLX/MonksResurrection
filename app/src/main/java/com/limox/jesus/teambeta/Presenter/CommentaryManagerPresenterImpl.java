@@ -28,77 +28,84 @@ public class CommentaryManagerPresenterImpl implements CommentaryManagerPresente
 
     @Override
     public void getComments(String forumKey, String postKey) {
-        if (UIUtils.isNetworkAvailable(mView.getContext())) {
-            final ArrayList<User> users = new ArrayList<>();
-            FirebaseDatabase.getInstance().getReference().child(FirebaseContract.Forums.ROOT_NODE)
-                    .child(forumKey)
-                    .child(FirebaseContract.Posts.ROOT_NODE)
-                    .child(postKey).child(FirebaseContract.COMMENTS.ROOT_NODE).orderByChild(FirebaseContract.COMMENTS.NODE_DATE).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(final DataSnapshot dataSnapshot) {
-                    final ArrayList<Commentary> comments = new ArrayList<>();
-                    for (DataSnapshot comm :
-                            dataSnapshot.getChildren()) {
-                        final Commentary c = comm.getValue(Commentary.class);
-                        c.setKey(comm.getKey());
-                        if (users.contains(c.getKeyUser())) {
-                            User tmp = users.get(users.indexOf(c));
-                            c.setUserName(tmp.getName());
-                            c.setUserImgProf(tmp.getProfilePicture());
-                            comments.add(c);
-                        } else {
-                            FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(c.getKeyUser()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot userDataSnapshot) {
-                                    User user = new User();
-                                    user.setIdUser(userDataSnapshot.getKey());
-                                    user.setName(userDataSnapshot.child(FirebaseContract.User.NODE_NAME).getValue().toString());
-                                    user.setProfilePicture(userDataSnapshot.child(FirebaseContract.User.NODE_PHOTO_URL).getValue().toString());
-                                    c.setKeyUser(user.getId());
-                                    c.setUserName(user.getName());
-                                    c.setUserImgProf(user.getProfilePicture());
-                                    users.add(user);
-                                    comments.add(c);
-                                    if (comments.size() == dataSnapshot.getChildrenCount())
-                                        mView.onCommentsObtained(comments);
-                                }
+        if (mView != null)
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
+            if (UIUtils.isNetworkAvailable(mView.getContext())) {
+                final ArrayList<User> users = new ArrayList<>();
+                FirebaseDatabase.getInstance().getReference().child(FirebaseContract.Forums.ROOT_NODE)
+                        .child(forumKey)
+                        .child(FirebaseContract.Posts.ROOT_NODE)
+                        .child(postKey).child(FirebaseContract.COMMENTS.ROOT_NODE).orderByChild(FirebaseContract.COMMENTS.NODE_DATE).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(final DataSnapshot dataSnapshot) {
+                        final ArrayList<Commentary> comments = new ArrayList<>();
+                        for (DataSnapshot comm :
+                                dataSnapshot.getChildren()) {
+                            final Commentary c = comm.getValue(Commentary.class);
+                            c.setKey(comm.getKey());
+                            if (users.contains(c.getKeyUser())) {
+                                User tmp = users.get(users.indexOf(c));
+                                c.setUserName(tmp.getName());
+                                c.setUserImgProf(tmp.getProfilePicture());
+                                comments.add(c);
+                            } else {
+                                FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(c.getKeyUser()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot userDataSnapshot) {
+                                        User user = new User();
+                                        user.setIdUser(userDataSnapshot.getKey());
+                                        user.setName(userDataSnapshot.child(FirebaseContract.User.NODE_NAME).getValue().toString());
+                                        user.setProfilePicture(userDataSnapshot.child(FirebaseContract.User.NODE_PHOTO_URL).getValue().toString());
+                                        c.setKeyUser(user.getId());
+                                        c.setUserName(user.getName());
+                                        c.setUserImgProf(user.getProfilePicture());
+                                        users.add(user);
+                                        comments.add(c);
+                                        if (comments.size() == dataSnapshot.getChildrenCount())
+                                            if (mView != null)
+                                                mView.onCommentsObtained(comments);
+                                    }
 
-                                }
-                            });
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
                         }
+                        if (comments.size() == dataSnapshot.getChildrenCount())
+                            if (mView != null)
+                                mView.onCommentsObtained(comments);
                     }
-                    if (comments.size() == dataSnapshot.getChildrenCount())
-                        mView.onCommentsObtained(comments);
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        if (mView != null)
+                            UIUtils.snackBar(mView.getView(), R.string.connection_error);
+                    }
+                });
+            } else {
+                if (mView != null)
                     UIUtils.snackBar(mView.getView(), R.string.connection_error);
-                }
-            });
-        } else {
-            UIUtils.snackBar(mView.getView(), R.string.connection_error);
-        }
+            }
     }
 
     @Override
     public void sendComment(String forumKey, String postKey, Commentary commentary) {
-        if (UIUtils.isNetworkAvailable(mView.getContext())) {
-            String key = FirebaseDatabase.getInstance().getReference().child(FirebaseContract.Forums.ROOT_NODE)
-                    .child(forumKey)
-                    .child(FirebaseContract.Posts.ROOT_NODE)
-                    .child(postKey).child(FirebaseContract.COMMENTS.ROOT_NODE).push().getKey();
+        if (mView != null)
+            if (UIUtils.isNetworkAvailable(mView.getContext())) {
+                String key = FirebaseDatabase.getInstance().getReference().child(FirebaseContract.Forums.ROOT_NODE)
+                        .child(forumKey)
+                        .child(FirebaseContract.Posts.ROOT_NODE)
+                        .child(postKey).child(FirebaseContract.COMMENTS.ROOT_NODE).push().getKey();
 
-            FirebaseDatabase.getInstance().getReference().child(FirebaseContract.Forums.ROOT_NODE)
-                    .child(forumKey)
-                    .child(FirebaseContract.Posts.ROOT_NODE)
-                    .child(postKey).child(FirebaseContract.COMMENTS.ROOT_NODE)
-                    .child(key).setValue(commentary);
-        } else {
-            UIUtils.snackBar(mView.getView(), R.string.connection_error);
-        }
+                FirebaseDatabase.getInstance().getReference().child(FirebaseContract.Forums.ROOT_NODE)
+                        .child(forumKey)
+                        .child(FirebaseContract.Posts.ROOT_NODE)
+                        .child(postKey).child(FirebaseContract.COMMENTS.ROOT_NODE)
+                        .child(key).setValue(commentary);
+            } else {
+                UIUtils.snackBar(mView.getView(), R.string.connection_error);
+            }
     }
 }

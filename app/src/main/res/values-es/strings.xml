@@ -38,7 +38,7 @@
     <string name="title">Titulo</string>
     <string name="text_about_application">TeamBeta es una aplicación de foros para los desarroyadores y testers.</string>
     <string name="business">Empresa:</string>
-    <string name="about_me">Acerca de:</string>
+    <string name="about_us">Sobre TeamBETA</string>
     <string name="message_error_email_not_registered">Ese correo no está registrado</string>
     <string name="recover_account">Recuperar cuenta</string>
     <string name="recover_password">Recuperar contraseña</string>
@@ -152,4 +152,11 @@
     <string name="still_no_chats">Aún no hay chats</string>
     <string name="wring_key">Clave erronea</string>
     <string name="change_password">Cambiar contraseña</string>
+    <string name="email_subject">Desde TeamBETA</string>
+    <string name="problem_report">Denuncia de Error</string>
+    <string name="dev">Desarrollador JesusLX</string>
+    <string name="licenses">Licencias</string>
+    <string name="third_party_libraries">Librerias de terceros</string>
+    <string name="version">Versión 1.1.1</string>
+    <string name="upload_error">Error de subida</string>
 </resources>

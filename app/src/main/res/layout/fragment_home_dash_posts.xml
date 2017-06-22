@@ -27,8 +27,7 @@
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/hdp_civProfilePicture"
                     android:layout_width="35dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/monje" />
+                    android:layout_height="match_parent" />
 
                 <TextView
                     android:id="@+id/hdp_txvProfileName"

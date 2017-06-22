@@ -1,8 +1,11 @@
 package com.limox.jesus.teambeta.Interfaces;
 
 import android.content.Context;
+import android.net.Uri;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.UploadTask;
 import com.limox.jesus.teambeta.Model.User;
 
 /**
@@ -10,7 +13,8 @@ import com.limox.jesus.teambeta.Model.User;
  */
 
 public interface UserManagerPresenter {
-    void updateUser(String userPhoto, String userName, String userEmail, OnSuccessListener<Void> successListener);
+
+    void updateUser(String idUSer, Uri userPhoto, String userName, String userEmail, OnSuccessListener<Void> successListener, OnSuccessListener<UploadTask.TaskSnapshot> successPhotoListener);
 
     void getAllUsersOfForum(String forumId, String mListName);
 
@@ -20,11 +24,14 @@ public interface UserManagerPresenter {
 
     void getUser(String mUserName, String mPassword);
 
+    void uploadPhoto(String iduser, Uri foto, OnSuccessListener<UploadTask.TaskSnapshot> successListener, OnFailureListener failureListener);
+
     void aggregateForum(String forumKey, boolean admin, final ManagerView managerView);
 
     void updateFirebaseEmail(String userKey, String email);
 
     void updateFirebaseName(String userKey, String name);
+
 
     //void getUser(String idUser);
 

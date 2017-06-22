@@ -36,7 +36,7 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
     private RelativeLayout mRlContainer;
     private OnCreatePostFragmentListener mCallback;
     private Toolbar.OnMenuItemClickListener mMenuItemListener;
-    private PostManagerPresenter mPresenter;
+    private PostManagerPresenterImpl mPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,12 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
         getSupportActionBar().setTitle(getString(com.limox.jesus.teambeta.R.string.create_post));
         getSupportActionBar().setHomeAsUpIndicator(com.limox.jesus.teambeta.R.drawable.ic_action_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter = null;
     }
 
     @Override
@@ -71,13 +77,15 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-
-                    case R.id.action_send:
-                        UIUtils.hideKeyboard(getActivity(), getView());
-                        sendPost();
-                        break;
-
+                UIUtils.hideKeyboard(getActivity(), getView());
+                if (UIUtils.isNetworkAvailable(getContext())) {
+                    switch (item.getItemId()) {
+                        case R.id.action_send:
+                            sendPost();
+                            break;
+                    }
+                } else {
+                    UIUtils.toast(getContext(), getString(R.string.connection_error));
                 }
                 return true;
             }
@@ -112,11 +120,12 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
     public interface OnCreatePostFragmentListener {
 
     }
+
     private boolean validate() {
         boolean allRigth = false;
 
         mTitle = mEdtTitle.getText().toString();
-        mDescriptions= mEdtDescription.getText().toString();
+        mDescriptions = mEdtDescription.getText().toString();
         mTags = mEdtTags.getText().toString();
 
         if (!TextUtils.isEmpty(mTitle) && !TextUtils.isEmpty(mDescriptions) && !TextUtils.isEmpty(mTags))
@@ -125,23 +134,29 @@ public class CreatePost_Fragment extends Fragment implements PostManagerPresente
     }
 
 
-
     private void sendPost() {
-        if (validate()){
-            Post tmp = new Post(Users_Repository.get().getCurrentUser().getId(), Users_Repository.get().getCurrentForum().getKey(), mTitle, mDescriptions, mTags);
-            tmp.setIdPost(mPresenter.uploadPost(tmp));
-            Notifications.SentPublicationPostSent(getContext(), tmp.optBundle());
-            getActivity().finish();
-        }else
-            Snackbar.make(getView(), R.string.message_error_must_fill,Snackbar.LENGTH_LONG).show();
+        if (validate()) {
+            final Post tmp = new Post(Users_Repository.get().getCurrentUser().getId(), Users_Repository.get().getCurrentForum().getKey(), mTitle, mDescriptions, mTags);
+            tmp.setIdPost(mPresenter.uploadPost(tmp, new OnSuccessListener() {
+                @Override
+                public void onSuccess(Object o) {
+                    if (isAdded()) {
+                        Notifications.SentPublicationPostSent(getContext(), tmp.optBundle());
+                        getActivity().finish();
+                    }
+                }
+            }));
+
+        } else
+            UIUtils.snackBar(getView(), R.string.message_error_must_fill);
 
     }
 
-    private void initMenuItemListener(){
+    private void initMenuItemListener() {
         mMenuItemListener = new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.action_send:
                         sendPost();
                         break;

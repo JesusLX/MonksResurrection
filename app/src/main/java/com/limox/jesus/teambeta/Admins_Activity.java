@@ -11,20 +11,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.limox.jesus.teambeta.Adapters.ArrayAdapter.PostArrayAdapter;
-import com.limox.jesus.teambeta.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.teambeta.Fragments.Admins.AdminsDashPosts_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
 import com.limox.jesus.teambeta.Model.Chat;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
+import com.limox.jesus.teambeta.Utils.ExternalUtils;
 import com.limox.jesus.teambeta.Utils.NavDrawerUtils;
 import com.limox.jesus.teambeta.Utils.UIUtils;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import it.sephiroth.android.library.picasso.Picasso;
 
 public class Admins_Activity extends AppCompatActivity implements HomeOfFragments, NavDrawerUtils.OnNavDrawerListener, AdminsDashPosts_Fragment.OnAdminDashPostFragmentListener, PostArrayAdapter.OnPostViewHolderListener {
     Fragment mCurrentFragment;
@@ -51,7 +51,7 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
         mNavView.inflateMenu(navUtils.getMenu());
         mNavView.setNavigationItemSelectedListener(navUtils.getNavListener());
 
-        Picasso.with(Admins_Activity.this).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mCIVProfileImage);
+        Glide.with(Admins_Activity.this).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mCIVProfileImage);
         mCIVProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,7 +110,7 @@ public class Admins_Activity extends AppCompatActivity implements HomeOfFragment
 
     @Override
     public void startHelp() {
-        startFragment(AboutMe_Fragment.newInstance(), true, AllConstants.FragmentTag.HelpTag);
+        ExternalUtils.openBrowser(Admins_Activity.this, AllConstants.HELP_WEB);
     }
 
     @Override

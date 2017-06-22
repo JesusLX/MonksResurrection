@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.limox.jesus.teambeta.Adapters.TabsAdapter.ForumUsersTabsAdapter;
 import com.limox.jesus.teambeta.Interfaces.ForumManagerPresenter;
 import com.limox.jesus.teambeta.Interfaces.UserManagerPresenter;
@@ -36,6 +37,7 @@ import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AeSimpleSHA1;
 import com.limox.jesus.teambeta.Utils.AllConstants;
+import com.limox.jesus.teambeta.Utils.ExternalUtils;
 import com.limox.jesus.teambeta.Utils.UIUtils;
 
 
@@ -79,6 +81,13 @@ public class ForumViewFragment extends Fragment implements ForumManagerPresenter
         }
         mAdapter = new ForumUsersTabsAdapter(getContext(), getChildFragmentManager(), mForum.getKey());
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter = null;
+        mForumPresenter = null;
     }
 
     @Override
@@ -167,6 +176,7 @@ public class ForumViewFragment extends Fragment implements ForumManagerPresenter
         });
 
         UIUtils.loadImage(getContext(), mForum.getImgUrl(), mIvLogo);
+//        Glide.with(getContext()).load(mForum.getImgUrl()).into(mIvLogo);
         mTxvName.setText(mForum.getName());
 
         mBtnAccessLikeUser.setOnClickListener(new View.OnClickListener() {
@@ -194,10 +204,7 @@ public class ForumViewFragment extends Fragment implements ForumManagerPresenter
             @Override
             public void onClick(View v) {
                 String url = mTxvWeb.getText().toString();
-                if (!url.startsWith("http://") && !url.startsWith("https://"))
-                    url = "http://" + url;
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(browserIntent);
+                ExternalUtils.openBrowser(getContext(), url);
             }
         });
         adaptButtons();
@@ -319,18 +326,19 @@ public class ForumViewFragment extends Fragment implements ForumManagerPresenter
 
     @Override
     public void onFirebaseForumObtained(Forum optForum) {
-        mTxvDescription.setText(optForum.getDescription());
-        mForum.setColor(optForum.getColor());
-        if (mForum.getColor() != null) {
-            mRlHeader.setBackgroundColor(Color.parseColor("#" + mForum.getColor()));
+        if (isAdded()) {
+            mTxvDescription.setText(optForum.getDescription());
+            mForum.setColor(optForum.getColor());
+            if (mForum.getColor() != null) {
+                mRlHeader.setBackgroundColor(Color.parseColor("#" + mForum.getColor()));
+            }
+
+            mTxvWeb.setText(optForum.getWeb());
+            mBtnAccess.setEnabled(true);
+            mBtnAccessLikeAdmin.setEnabled(true);
+            mBtnAccessLikeUser.setEnabled(true);
         }
-
-        mTxvWeb.setText(optForum.getWeb());
-        mBtnAccess.setEnabled(true);
-        mBtnAccessLikeAdmin.setEnabled(true);
-        mBtnAccessLikeUser.setEnabled(true);
     }
-
 
     @Override
     public void showMessage(String message) {

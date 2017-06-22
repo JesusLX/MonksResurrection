@@ -66,7 +66,8 @@ public class ForumManagerPresenterImpl implements ForumManagerPresenter {
 
             @Override
             public void onResponse(JSONObject response) {
-                mView.onForumCreated(databaseReference.getKey());
+                if (mView != null)
+                    mView.onForumCreated(databaseReference.getKey());
             }
         }, new Response.ErrorListener() {
             @Override
@@ -74,7 +75,8 @@ public class ForumManagerPresenterImpl implements ForumManagerPresenter {
                 error.printStackTrace();
                 FirebaseDatabase.getInstance().getReference().
                         child(FirebaseContract.Forums.ROOT_NODE).child(forum.getKey()).removeValue();
-                mView.onError();
+                if (mView != null)
+                    mView.onError();
 
             }
         });
@@ -96,20 +98,23 @@ public class ForumManagerPresenterImpl implements ForumManagerPresenter {
         params.put(APIConstants.Forums.FORUM_USR_KEY, AeSimpleSHA1.SHA1(forum.getUsersKey()));
         params.put(APIConstants.Forums.FORUM_IMG_URL, forum.getImgUrl());
 
-        APIConstants.Forums.updateForum(mView.getContext(), forum.getKey(), params, new Response.Listener<JSONObject>() {
+        if (mView != null)
+            APIConstants.Forums.updateForum(mView.getContext(), forum.getKey(), params, new Response.Listener<JSONObject>() {
 
-            @Override
-            public void onResponse(JSONObject response) {
-                mView.onForumCreated(databaseReference.getKey());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                mView.onError();
+                @Override
+                public void onResponse(JSONObject response) {
+                    if (mView != null)
+                        mView.onForumCreated(databaseReference.getKey());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                    if (mView != null)
+                        mView.onError();
 
-            }
-        });
+                }
+            });
     }
 
     @Override
@@ -128,7 +133,8 @@ public class ForumManagerPresenterImpl implements ForumManagerPresenter {
                                 forum.setColor(dataSnapshot.child(FirebaseContract.Forums.NODE_COLOR).getValue().toString());
                             if (dataSnapshot.child(FirebaseContract.Forums.NODE_WEB).getValue() != null)
                                 forum.setWeb(dataSnapshot.child(FirebaseContract.Forums.NODE_WEB).getValue().toString());
-                            mView.onFirebaseForumObtained(forum);
+                            if (mView != null)
+                                mView.onFirebaseForumObtained(forum);
                         }
 
                         @Override
@@ -147,36 +153,42 @@ public class ForumManagerPresenterImpl implements ForumManagerPresenter {
         StorageReference storageRef = FirebaseStorage.getInstance().
                 getReferenceFromUrl("gs://" + FirebaseContract.Storage.NAME);
         StorageReference imagesRef = storageRef.child(FirebaseContract.Storage.Images.ROOT_NAME + "/" + folderName + "/" + fileName);
-        try {
-            Bitmap image = UIUtils.decodeUri(mView.getContext(), file, 200);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] data = baos.toByteArray();
+        if (mView != null)
+            try {
+                Bitmap image = UIUtils.decodeUri(mView.getContext(), file, 200);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] data = baos.toByteArray();
 
-            UploadTask uploadTask = imagesRef.putBytes(data);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
+                UploadTask uploadTask = imagesRef.putBytes(data);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        if (mView != null)
+                            mView.onImageFailed();
+
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        if (mView != null)
+                            mView.onImageUploaded(taskSnapshot.getDownloadUrl());
+                    }
+                });
+            } catch (FileNotFoundException e) {
+                if (mView != null)
                     mView.onImageFailed();
-                    return;
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    mView.onImageUploaded(taskSnapshot.getDownloadUrl());
-                }
-            });
-        } catch (FileNotFoundException e) {
-            mView.onImageFailed();
-        }
+            }
     }
 
     @Override
     public void existsForum(String forumsName, Response.Listener<String> valueEventListener) {
-        APIConstants.Forums.existsForum(mView.getContext(), forumsName, valueEventListener, new Response.ErrorListener() {
+        if (mView != null)
+            APIConstants.Forums.existsForum(mView.getContext(), forumsName, valueEventListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mView.onError();
+                if (mView != null)
+                    mView.onError();
             }
         });
     }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.limox.jesus.teambeta.Adapters.TabsAdapter.HomePostTabsAdapter;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
@@ -23,7 +24,6 @@ import com.limox.jesus.teambeta.Utils.UIUtils;
 import java.lang.reflect.Field;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import it.sephiroth.android.library.picasso.Picasso;
 
 public class HomeDashPosts_Fragment extends Fragment  {
 
@@ -105,7 +105,7 @@ public class HomeDashPosts_Fragment extends Fragment  {
         mToolbar.setBackgroundColor(UIUtils.parseColor(Users_Repository.get().getCurrentForum().getColor()));
         mTabLayout.setBackgroundColor(UIUtils.parseColor(Users_Repository.get().getCurrentForum().getColor()));
 
-        Picasso.with(getContext()).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mCiProfilePicture);
+        Glide.with(getContext()).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mCiProfilePicture);
 
         mTxvCurrentTab.setText(mAdapter.getPageTitle(0));
 

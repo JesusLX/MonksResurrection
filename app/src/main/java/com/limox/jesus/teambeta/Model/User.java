@@ -36,6 +36,7 @@ public class User implements Parcelable {
     private ArrayList<String> mForumsAdmin;
     private ArrayList<String> forumsWIParticipate;
     private HashMap<String, ArrayList<Chat>> chats;
+    private String token;
 
 
     public User(String idUser, String nick, String email, String password, String profilePicture, boolean profileBlocked, boolean userDeleted) {
@@ -321,5 +322,13 @@ public class User implements Parcelable {
 
     public void setChats(HashMap<String, ArrayList<Chat>> chats) {
         this.chats = chats;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
     }
 }

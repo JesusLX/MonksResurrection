@@ -1,9 +1,11 @@
 package com.limox.jesus.teambeta.Repositories;
 
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.limox.jesus.teambeta.Model.Forum;
 import com.limox.jesus.teambeta.Model.Post;
 import com.limox.jesus.teambeta.Model.User;
+import com.limox.jesus.teambeta.db.FirebaseContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,5 +162,12 @@ public class Users_Repository {
 
     public boolean iParticipate(String key) {
         return getCurrentUser().getForumsAdmin().contains(key) || getCurrentUser().getForumsWIParticipate().contains(key);
+    }
+
+    public void setNewUserToken(String token) {
+        if (getCurrentUser() != null) {
+            FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(getCurrentUser().getId()).child(FirebaseContract.User.NODE_TOKEN).setValue(token);
+            getCurrentUser().setToken(token);
+        }
     }
 }

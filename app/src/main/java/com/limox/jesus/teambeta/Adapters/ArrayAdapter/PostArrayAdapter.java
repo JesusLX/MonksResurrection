@@ -1,35 +1,31 @@
 package com.limox.jesus.teambeta.Adapters.ArrayAdapter;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.limox.jesus.teambeta.Model.Post;
-import com.limox.jesus.teambeta.Provider.TeamBetaContract;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Utils.AllConstants;
 import com.limox.jesus.teambeta.db.FirebaseContract;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import it.sephiroth.android.library.picasso.Picasso;
+
 
 /**
  * Array adapter to show the posts lists
@@ -65,7 +61,8 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
         FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).child(getItem(position).getIdUser()).child(FirebaseContract.User.NODE_PHOTO_URL).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Picasso.with(getContext()).load((String) dataSnapshot.getValue()).into(finalHolder2.mIvProfile_item);
+                if (finalHolder2.mIvProfile_item != null)
+                    Picasso.with(getContext()).load((String) dataSnapshot.getValue()).into(finalHolder2.mIvProfile_item);
             }
 
             @Override

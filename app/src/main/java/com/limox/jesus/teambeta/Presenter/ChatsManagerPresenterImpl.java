@@ -74,7 +74,8 @@ public class ChatsManagerPresenterImpl implements ChatsManagerPresenter {
                         if (alUserData != null) {
                             thisChat.getUsersData().add(alUserData);
                             if (thisChat.getUsersData().size() == dataSnapshot.getChildrenCount()) {
-                                view.onChatReceived(thisChat);
+                                if (view != null)
+                                    view.onChatReceived(thisChat);
                             }
                         } else {
                             FirebaseDatabase.getInstance().getReference().child(FirebaseContract.User.ROOT_NODE).
@@ -85,9 +86,11 @@ public class ChatsManagerPresenterImpl implements ChatsManagerPresenter {
                                     alUserData.setIdUser(otherDataSnapshot.getKey());
                                     alUserData.setName(otherDataSnapshot.child(FirebaseContract.User.NODE_NAME).getValue().toString());
                                     alUserData.setProfilePicture(otherDataSnapshot.child(FirebaseContract.User.NODE_PHOTO_URL).getValue().toString());
+                                    alUserData.setToken(otherDataSnapshot.child(FirebaseContract.User.NODE_TOKEN).getValue() != null ? otherDataSnapshot.child(FirebaseContract.User.NODE_TOKEN).getValue().toString() : "");
                                     thisChat.getUsersData().add(alUserData);
                                     if (thisChat.getUsersData().size() == dataSnapshot.getChildrenCount()) {
-                                        view.onChatReceived(thisChat);
+                                        if (view != null)
+                                            view.onChatReceived(thisChat);
                                     }
                                 }
 
@@ -123,7 +126,8 @@ public class ChatsManagerPresenterImpl implements ChatsManagerPresenter {
                     alUserData.setProfilePicture(dataSnapshot.child(FirebaseContract.User.NODE_PHOTO_URL).getValue().toString());
                     superUserData.getUsersData().add(alUserData);
                     if (superUserData.getUsersData().size() == usersKey.length) {
-                        view.onChatReceived(superUserData);
+                        if (view != null)
+                            view.onChatReceived(superUserData);
                     }
                 }
 
@@ -162,7 +166,8 @@ public class ChatsManagerPresenterImpl implements ChatsManagerPresenter {
                                     alUserData.setProfilePicture(dataSnapshot.child(FirebaseContract.User.NODE_PHOTO_URL).getValue().toString());
                                     chat.getUsersData().add(alUserData);
                                     if (chat.getUsersData().size() == usersKey.length) {
-                                        view.onChatReceived(chat);
+                                        if (view != null)
+                                            view.onChatReceived(chat);
                                     }
                                 }
 

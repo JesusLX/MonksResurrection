@@ -26,8 +26,7 @@
                     android:id="@+id/adp_civProfilePicture"
                     android:layout_width="35dp"
                     android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/monje" />
+                    android:background="@android:color/transparent" />
 
                 <TextView
                     android:id="@+id/adp_txvProfileName"

@@ -12,20 +12,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.limox.jesus.teambeta.Adapters.ArrayAdapter.PostArrayAdapter;
-import com.limox.jesus.teambeta.Fragments.AboutMe.AboutMe_Fragment;
 import com.limox.jesus.teambeta.Fragments.Home.HomeDashPosts_Fragment;
 import com.limox.jesus.teambeta.Interfaces.HomeOfFragments;
 import com.limox.jesus.teambeta.Model.Chat;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.Utils.AllConstants;
+import com.limox.jesus.teambeta.Utils.ExternalUtils;
 import com.limox.jesus.teambeta.Utils.NavDrawerUtils;
 import com.limox.jesus.teambeta.Utils.UIUtils;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import it.sephiroth.android.library.picasso.Picasso;
 
 public class Home_Activity extends AppCompatActivity implements HomeOfFragments, PostArrayAdapter.OnPostViewHolderListener, HomeDashPosts_Fragment.OnHomeDashPostFragmentListener, NavDrawerUtils.OnNavDrawerListener {
 
@@ -49,7 +49,7 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
 
         UIUtils.loadImage(Home_Activity.this, Users_Repository.get().getCurrentForum().getImgUrl(), ivHeader);
 
-        Picasso.with(Home_Activity.this).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mCIVProfileImage);
+        Glide.with(Home_Activity.this).load(Users_Repository.get().getCurrentUser().getProfilePicture()).into(mCIVProfileImage);
 
         mCIVProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +109,7 @@ public class Home_Activity extends AppCompatActivity implements HomeOfFragments,
 
     @Override
     public void startHelp() {
-        startFragment(AboutMe_Fragment.newInstance(), true, AllConstants.FragmentTag.HelpTag);
+        ExternalUtils.openBrowser(Home_Activity.this, AllConstants.HELP_WEB);
     }
 
     @Override

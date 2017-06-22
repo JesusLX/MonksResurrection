@@ -120,4 +120,13 @@ public class Chat implements Parcelable {
         }
         return null;
     }
+
+    public String optOtherUserToken(String ignoredId) {
+        for (User tmp :
+                getUsersData()) {
+            if (!tmp.getId().equals(ignoredId))
+                return tmp.getToken();
+        }
+        return null;
+    }
 }

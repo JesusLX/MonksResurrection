@@ -10,6 +10,10 @@ import com.limox.jesus.teambeta.Model.Post;
 
 public final class AllConstants {
 
+    public static final String REPORT_EMAIL = "jpmx96@gmail.com";
+    public static final String HELP_WEB = "https://jesuslx.ncatz.com/teambeta";
+    public static final String WEB = "https://jesuslx.ncatz.com/teambeta";
+
     /**
      * Keys of type lists
      */
@@ -46,7 +50,7 @@ public final class AllConstants {
         /**
          * Keys used on Parcelables actions
          */
-        public class Parcelables{
+        public class Parcelables {
             public static final String USER_PARCELABLE_KEY = "user";
             public static final String POST_PARCELABLE_KEY = "posts";
             public static final String ARRAYLIST_POST_PARCELABLE_KEY = "arraPosts";
@@ -63,7 +67,7 @@ public final class AllConstants {
         /**
          * Keys uses on shared actions
          */
-        public class Shared{
+        public class Shared {
             public static final String SHARED_USER_FILE = "usr_file";
             public static final String SHARED_SETTINGS_FILE = "sett_file";
             public static final String SHARED_USER_EMAIL = "current_usr_email";
@@ -107,11 +111,12 @@ public final class AllConstants {
         public static final String UserProfileTag = "up";
         public static final String CommentsViewTag = "cv";
         public static final String CreatePostTag = "cp";
-        public static final String ProjListTag ="plt";
+        public static final String ProjListTag = "plt";
         public static final String CreateForum = "cf";
         public static final String ProjSearchTag = "ps";
         public static final String FragmentView = "fv";
         public static final String EditUser = "eu";
+        public static final String About = "ab";
     }
 
     public class Notifications {

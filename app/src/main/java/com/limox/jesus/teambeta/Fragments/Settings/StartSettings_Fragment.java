@@ -29,10 +29,10 @@ public class StartSettings_Fragment extends Fragment {
     private TextView txvEdtProfile;
     private TextView txvResetPassord;
     private TextView txvNotifications;
-    private TextView txvLanguage;
-    private TextView txvMonskHelperCenter;
+    private TextView txvTBHelperCenter;
     private TextView txvReportProblem;
     private TextView txvLogOut;
+    private TextView txvAboutUs;
     private Toolbar mToolbar;
     private Switch sNotifications;
 
@@ -52,8 +52,9 @@ public class StartSettings_Fragment extends Fragment {
         txvEdtProfile = (TextView) rootView.findViewById(R.id.ss_txvEdtProf);
         txvResetPassord = (TextView) rootView.findViewById(R.id.ss_txvResetePass);
         txvNotifications = (TextView) rootView.findViewById(R.id.ss_txvNotifications);
-        txvMonskHelperCenter = (TextView) rootView.findViewById(R.id.ss_txvMonkHelper);
+        txvTBHelperCenter = (TextView) rootView.findViewById(R.id.ss_txvTBHelper);
         txvReportProblem = (TextView) rootView.findViewById(R.id.ss_txvReportProblem);
+        txvAboutUs = (TextView) rootView.findViewById(R.id.ss_txvAboutUs);
         txvLogOut = (TextView) rootView.findViewById(R.id.ss_txvLogOut);
         sNotifications = (Switch) rootView.findViewById(R.id.ss_sNotifications);
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
@@ -70,8 +71,9 @@ public class StartSettings_Fragment extends Fragment {
         txvEdtProfile.setOnClickListener(mOnClickListener);
         txvResetPassord.setOnClickListener(mOnClickListener);
         txvNotifications.setOnClickListener(mOnClickListener);
-        txvMonskHelperCenter.setOnClickListener(mOnClickListener);
+        txvTBHelperCenter.setOnClickListener(mOnClickListener);
         txvReportProblem.setOnClickListener(mOnClickListener);
+        txvAboutUs.setOnClickListener(mOnClickListener);
         txvLogOut.setOnClickListener(mOnClickListener);
         sNotifications.setChecked(Preferences.getNotifications(getContext()));
         sNotifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -103,11 +105,14 @@ public class StartSettings_Fragment extends Fragment {
                     case R.id.ss_txvNotifications:
                         mCallback.startNotificationsFragment();
                         break;
-                    case R.id.ss_txvMonkHelper:
-                        mCallback.startMonksHelpCenter();
+                    case R.id.ss_txvTBHelper:
+                        mCallback.startTeamBetasHelpCenter();
                         break;
                     case R.id.ss_txvReportProblem:
                         mCallback.startReportProblemFragmentDialog();
+                        break;
+                    case R.id.ss_txvAboutUs:
+                        mCallback.startAboutUs();
                         break;
                     case R.id.ss_txvLogOut:
                         mCallback.logOut();
@@ -149,11 +154,13 @@ public class StartSettings_Fragment extends Fragment {
 
         void startNotificationsFragment();
 
-        void startMonksHelpCenter();
+        void startTeamBetasHelpCenter();
 
         void startReportProblemFragmentDialog();
 
         void logOut();
+
+        void startAboutUs();
     }
 
 

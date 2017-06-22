@@ -1,6 +1,7 @@
 package com.limox.jesus.teambeta.db;
 
 import android.app.Activity;
+import android.app.VoiceInteractor;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -56,9 +57,10 @@ public class FirebaseContract {
         public static final String NODE_FORUMS_PARTICIPATE = "forumsWIParticipate";
         public static final String NODE_FORUMS_ADMIN = "forumsAdmin";
         public static final String NODE_LIKED_POSTS = "likedPosts";
+        public static final String NODE_TOKEN = "token";
 
 
-        public static void postUser(String id, com.limox.jesus.teambeta.Model.User user, OnSuccessListener successListener) {
+        public static void postUser(String id, com.limox.jesus.teambeta.Model.User user, OnSuccessListener<Void> successListener) {
             FirebaseDatabase.getInstance().getReference().child(ROOT_NODE).child(id).setValue(user).addOnSuccessListener(successListener);
         }
 
@@ -120,6 +122,7 @@ public class FirebaseContract {
         }
 
         public static Task<Void> addForumOwn(String forumKey) {
+
             return FirebaseDatabase.getInstance().getReference().
                     child(ROOT_NODE).child(Users_Repository.get().getCurrentUser().getId()).child(NODE_FORUMS_OWN).setValue(Users_Repository.get().getCurrentUser().getForumsOwn());
         }
@@ -196,6 +199,7 @@ public class FirebaseContract {
 
         public class Images {
             public static final String ROOT_NAME = "images";
+            public static final String PROFILES = "profiles";
         }
     }
 

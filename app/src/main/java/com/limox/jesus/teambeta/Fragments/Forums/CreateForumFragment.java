@@ -80,6 +80,12 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter = null;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_create_forum, container, false);
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
@@ -178,56 +184,61 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
     }
 
     private void validate(final EditText forumsName, final EditText adminsKey, final EditText userskey) {
-        loading = new ProgressDialog(getContext());
-        loading.setMessage(getString(R.string.loading));
-        loading.setCancelable(false);
-        loading.show();
-        if (havImgSelected) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    if (!userskey.getText().toString().isEmpty()) {
-                        if (!adminsKey.getText().toString().isEmpty()) {
-                            if (!forumsName.getText().toString().isEmpty()) {
-                                mPresenter.existsForum(forumsName.getText().toString(), new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        if (isNew)
-                                            if (!Boolean.valueOf(response)) {
-                                                mPresenter.uploadPhoto(imgSelected, Users_Repository.get().getCurrentUser().getId(), String.valueOf(System.currentTimeMillis()));
+        if (UIUtils.isNetworkAvailable(getContext())) {
+            loading = new ProgressDialog(getContext());
+            loading.setMessage(getString(R.string.loading));
+            loading.setCancelable(false);
+            loading.show();
+            if (havImgSelected) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!userskey.getText().toString().isEmpty()) {
+                            if (!adminsKey.getText().toString().isEmpty()) {
+                                if (!forumsName.getText().toString().isEmpty()) {
+                                    mPresenter.existsForum(forumsName.getText().toString(), new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            if (isNew)
+                                                if (!Boolean.valueOf(response)) {
+                                                    mPresenter.uploadPhoto(imgSelected, Users_Repository.get().getCurrentUser().getId(), String.valueOf(System.currentTimeMillis()));
+                                                } else {
+                                                    loading.dismiss();
+                                                    if (isAdded())
+                                                        forumsName.setError(getString(R.string.forums_name_exists));
+                                                }
+                                            else if (!Boolean.valueOf(response) || forumsName.getText().toString().equals(mForum.getName())) {
+                                                if (imgSelected != null)
+                                                    mPresenter.uploadPhoto(imgSelected, Users_Repository.get().getCurrentUser().getId(), String.valueOf(System.currentTimeMillis()));
+                                                else {
+                                                    onImageUploaded(null);
+                                                }
                                             } else {
                                                 loading.dismiss();
                                                 if (isAdded())
                                                     forumsName.setError(getString(R.string.forums_name_exists));
                                             }
-                                        else if (!Boolean.valueOf(response) || forumsName.getText().toString().equals(mForum.getName())) {
-                                            if (imgSelected != null)
-                                                mPresenter.uploadPhoto(imgSelected, Users_Repository.get().getCurrentUser().getId(), String.valueOf(System.currentTimeMillis()));
-                                            else {
-                                                onImageUploaded(null);
-                                            }
-                                        } else {
-                                            loading.dismiss();
-                                            if (isAdded())
-                                                forumsName.setError(getString(R.string.forums_name_exists));
                                         }
-                                    }
-                                });
+                                    });
+                                }
+                            } else {
+                                loading.dismiss();
+                                adminsKey.setError(getString(R.string.message_error_must_fill));
                             }
                         } else {
                             loading.dismiss();
-                            adminsKey.setError(getString(R.string.message_error_must_fill));
+                            userskey.setError(getString(R.string.message_error_must_fill));
                         }
-                    } else {
-                        loading.dismiss();
-                        userskey.setError(getString(R.string.message_error_must_fill));
                     }
-                }
-            }).run();
+                }).run();
+            } else {
+                loading.dismiss();
+                Snackbar.make(getView(), R.string.must_select_photo, Snackbar.LENGTH_LONG).show();
+            }
         } else {
-            loading.dismiss();
-            Snackbar.make(getView(), R.string.must_select_photo, Snackbar.LENGTH_LONG).show();
+            UIUtils.toast(getContext(), getString(R.string.connection_error));
         }
+
     }
 
     @Override
@@ -250,42 +261,46 @@ public class CreateForumFragment extends Fragment implements ForumManagerPresent
 
     @Override
     public void onImageUploaded(Uri downloadUrl) {
-        if (mForum == null)
-            mForum = new Forum();
-        mForum.setName(mEdtName.getText().toString().trim());
-        if (downloadUrl != null)
-            mForum.setImgUrl(downloadUrl.toString());
-        mForum.setOwnerId(Users_Repository.get().getCurrentUser().getId());
-        mForum.setUsersKey(mEdtUsersKey.getText().toString().trim());
-        mForum.setAdminsKey(mEdtAdminsKey.getText().toString().trim());
-        mForum.setAdminsKey(mEdtAdminsKey.getText().toString().trim());
-        mForum.setDescription(mEdtDescription.getText().toString().trim());
-        mForum.setColor(selectedColorString);
-        mForum.setWeb(mEdtWeb.getText().toString());
-        mForum.setCreationDate(new Date());
+        if (isAdded()) {
+            if (mForum == null)
+                mForum = new Forum();
+            mForum.setName(mEdtName.getText().toString().trim());
+            if (downloadUrl != null)
+                mForum.setImgUrl(downloadUrl.toString());
+            mForum.setOwnerId(Users_Repository.get().getCurrentUser().getId());
+            mForum.setUsersKey(mEdtUsersKey.getText().toString().trim());
+            mForum.setAdminsKey(mEdtAdminsKey.getText().toString().trim());
+            mForum.setAdminsKey(mEdtAdminsKey.getText().toString().trim());
+            mForum.setDescription(mEdtDescription.getText().toString().trim());
+            mForum.setColor(selectedColorString);
+            mForum.setWeb(mEdtWeb.getText().toString());
+            mForum.setCreationDate(new Date());
         /*    if (!tmpforum.getTags().contains(mEdtName.getText().toString())) {
             tmpforum.getTags().add(mEdtName.getText().toString());
         }*/
-        if (isNew)
-            mPresenter.createForum(mForum);
-        else
-            mPresenter.updateForum(mForum);
+            if (isNew)
+                mPresenter.createForum(mForum);
+            else
+                mPresenter.updateForum(mForum);
+        }
     }
 
     @Override
     public void onForumCreated(String forumKey) {
-        loading.dismiss();
-        if (isNew) {
-            Users_Repository.get().getCurrentUser().getForumsOwn().add(forumKey);
-            FirebaseContract.User.addForumOwn(forumKey);
+        if (isAdded()) {
+            loading.dismiss();
+            if (isNew) {
+                Users_Repository.get().getCurrentUser().getForumsOwn().add(forumKey);
+                FirebaseContract.User.addForumOwn(forumKey);
+            }
+            getActivity().onBackPressed();
         }
-        getActivity().onBackPressed();
     }
 
     @Override
     public void onImageFailed() {
         loading.cancel();
-        Snackbar.make(getView(), R.string.error_upload_img, Snackbar.LENGTH_LONG).show();
+        UIUtils.snackBar(getView(), R.string.error_upload_img);
     }
 
     @Override

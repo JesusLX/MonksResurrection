@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.limox.jesus.teambeta.Chats_Activity;
-import com.limox.jesus.teambeta.Model.PushNotification;
+import com.limox.jesus.teambeta.Notifications.PushNotification;
 import com.limox.jesus.teambeta.R;
 import com.limox.jesus.teambeta.Repositories.Users_Repository;
 import com.limox.jesus.teambeta.TeamBetaApplication;
@@ -36,8 +36,7 @@ public class MessagesService extends FirebaseMessagingService {
         String currentActivity = TeamBetaApplication.getCurrentActivity();
         Map<String, String> data = remoteMessage.getData();
         PushNotification pushNotification = PushNotification.parseReceivedNotif(data);
-        Toast.makeText(TeamBetaApplication.getContext(), "NOTIIIII", Toast.LENGTH_LONG).show();
-        if (Users_Repository.get().getCurrentUser().getId().equals(pushNotification.getToUser())) {
+        if (Users_Repository.get().getCurrentUser().getToken().equals(pushNotification.getToUser())) {
             String title = "",
                     message = "";
             Intent intent = new Intent(this, Chats_Activity.class);
@@ -53,12 +52,12 @@ public class MessagesService extends FirebaseMessagingService {
                     break;
 
             }
-            if (!(currentActivity.startsWith("MessagesList_Fragment_" + remoteMessage.getFrom())) &&
-                    (Users_Repository.get().getCurrentUser() != null && Users_Repository.get().getCurrentUser().getId().equals(pushNotification.getToUser()))) {
+            if (!(currentActivity.startsWith("MessagesList_Fragment_" + pushNotification.getMessage().getChatKey())) &&
+                    (Users_Repository.get().getCurrentUser() != null && Users_Repository.get().getCurrentUser().getToken().equals(pushNotification.getToUser()))) {
 
                 // if (true){
                 intent.putExtra("to", pushNotification.getToUser());
-                intent.putExtra(AllConstants.Keys.SimpleBundle.ID_USER_KEY, pushNotification.getFromUser());
+                intent.putExtra(AllConstants.Keys.SimpleBundle.ID_USER_KEY, pushNotification.getMessage().getIdUser());
                 intent.putExtra(AllConstants.Keys.SimpleBundle.ID_CHAT_KEY, pushNotification.getMessage().getChatKey());
                 intent.putExtra(AllConstants.Keys.SimpleBundle.ID_FORUM_KEY, pushNotification.getMessage().getForumKey());
 

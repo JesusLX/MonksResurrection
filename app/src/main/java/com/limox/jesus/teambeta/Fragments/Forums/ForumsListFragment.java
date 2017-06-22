@@ -97,7 +97,7 @@ public class ForumsListFragment extends Fragment implements ForumsListManagerPre
                     break;
             }
         } else {
-            UIUtils.snackBar(getView(), getString(R.string.no_internet));
+            UIUtils.toast(getContext(), getString(R.string.no_internet));
         }
     }
 

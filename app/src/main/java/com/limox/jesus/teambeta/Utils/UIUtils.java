@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.limox.jesus.teambeta.R;
 
 import org.xdty.preference.colorpicker.ColorPickerDialog;
@@ -21,7 +22,6 @@ import org.xdty.preference.colorpicker.ColorPickerSwatch;
 
 import java.io.FileNotFoundException;
 
-import it.sephiroth.android.library.picasso.Picasso;
 
 /**
  * Created by Jesus on 27/04/2017.
@@ -45,7 +45,7 @@ public class UIUtils {
     }
 
     public static void loadImage(Context context, String imgUrl, ImageView ivImage) {
-        Picasso.with(context).load(imgUrl).into(ivImage);
+        Glide.with(context).load(imgUrl).into(ivImage);
     }
 
     public static Bitmap decodeUri(Context c, Uri uri, final int requiredSize)
@@ -71,11 +71,13 @@ public class UIUtils {
     }
 
     public static void snackBar(View view, String s) {
-        Snackbar.make(view, s, Snackbar.LENGTH_LONG).show();
+        if (view != null)
+            Snackbar.make(view, s, Snackbar.LENGTH_LONG).show();
     }
 
     public static void snackBar(View view, int s) {
-        Snackbar.make(view, s, Snackbar.LENGTH_LONG).show();
+        if (view != null)
+            Snackbar.make(view, s, Snackbar.LENGTH_LONG).show();
     }
 
     public static void toast(Context context, String message) {
